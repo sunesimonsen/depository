@@ -147,4 +147,50 @@ describe("Store", () => {
       expect(spy, "was not called");
     });
   });
+
+  describe("unsubscribe", () => {
+    it("unsubscribes a subscription", () => {
+      const store = new Store({
+        global: {
+          numbers: [1, 2, 3],
+          sum: 6,
+        },
+      });
+
+      const spy = sinon.spy();
+
+      const subscription = store.subscribe(["global", "numbers"], spy);
+
+      store.dispatch({
+        name: "append-4",
+        path: ["global"],
+        apply: ({ numbers, sum }) => ({
+          numbers: [...numbers, 4],
+          sum: sum + 4,
+        }),
+      });
+
+      store.unsubscribe(subscription);
+
+      store.dispatch({
+        name: "increment-by-1",
+        path: ["global"],
+        apply: ({ numbers, sum }) => ({
+          numbers: numbers.map((v) => v + 1),
+          sum: sum + numbers.length,
+        }),
+      });
+
+      expect(store.data, "to equal", {
+        global: {
+          numbers: [2, 3, 4, 5],
+          sum: 14,
+        },
+      });
+
+      expect(spy, "to have calls satisfying", () => {
+        spy([1, 2, 3, 4], expect.it("to be a", Store));
+      });
+    });
+  });
 });
