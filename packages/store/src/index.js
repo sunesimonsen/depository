@@ -22,13 +22,19 @@ class Store {
   }
 
   subscribe(path, listener) {
-    const subscription = { path, listener };
-    this.subscriptions.push(subscription);
-    return subscription;
-  }
+    const subscription = {
+      path,
+      listener,
+      unsubscribe: () => {
+        this.subscriptions = this.subscriptions.filter(
+          (s) => s != subscription
+        );
+      },
+    };
 
-  unsubscribe(subscription) {
-    this.subscriptions = this.subscriptions.filter((s) => s != subscription);
+    this.subscriptions.push(subscription);
+
+    return subscription;
   }
 }
 

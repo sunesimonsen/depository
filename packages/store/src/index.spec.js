@@ -170,7 +170,7 @@ describe("Store", () => {
         }),
       });
 
-      store.unsubscribe(subscription);
+      subscription.unsubscribe();
 
       store.dispatch({
         name: "increment-by-1",
