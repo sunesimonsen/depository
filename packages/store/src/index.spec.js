@@ -1,4 +1,5 @@
-const expect = require("unexpected");
+const expect = require("unexpected").clone().use(require("unexpected-sinon"));
+const sinon = require("sinon");
 const Store = require(".");
 
 describe("Store", () => {
@@ -82,6 +83,68 @@ describe("Store", () => {
           });
         });
       });
+    });
+  });
+
+  describe("subscribe", () => {
+    let store, spy;
+
+    beforeEach(() => {
+      store = new Store({
+        global: {
+          numbers: [1, 2, 3],
+          sum: 6,
+        },
+      });
+
+      spy = sinon.spy();
+    });
+
+    it("subscribes to the given path", () => {
+      store.subscribe(["global", "numbers"], spy);
+
+      store.dispatch({
+        name: "append-4",
+        path: ["global"],
+        apply: ({ numbers, sum }) => ({
+          numbers: [...numbers, 4],
+          sum: sum + 4,
+        }),
+      });
+
+      expect(store.data, "to equal", {
+        global: {
+          numbers: [1, 2, 3, 4],
+          sum: 10,
+        },
+      });
+
+      expect(spy, "to have calls satisfying", () => {
+        spy([1, 2, 3, 4], expect.it("to be a", Store));
+      });
+    });
+
+    it("doesn't fire if the subscribe path is not affected", () => {
+      store.subscribe(["global", "numbers"], spy);
+
+      const average = (numbers) =>
+        numbers.reduce((a, b) => a + b, 0) / numbers.length;
+
+      store.dispatch({
+        name: "append-average",
+        path: ["global", "average"],
+        apply: (_, store) => average(store.get(["global", "numbers"])),
+      });
+
+      expect(store.data, "to equal", {
+        global: {
+          numbers: [1, 2, 3],
+          sum: 6,
+          average: 2,
+        },
+      });
+
+      expect(spy, "was not called");
     });
   });
 });
