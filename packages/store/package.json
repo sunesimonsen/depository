@@ -1,0 +1,30 @@
+{
+  "name": "@depository/store",
+  "version": "3.8.0",
+  "description": "The foundation store for @depository",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "state",
+    "immutable"
+  ],
+  "author": "Sune Simonsen",
+  "license": "MIT",
+  "bugs": "https://github.com/sunesimonsen/transformation/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunesimonsen/transformation"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "mocha": "8.2.1",
+    "unexpected": "11.8.1"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
