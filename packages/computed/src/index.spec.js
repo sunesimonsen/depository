@@ -58,6 +58,44 @@ describe("computed", () => {
 
       expect(sumOfNumbers.value, "to equal", 6);
     });
+
+    it("doesn't fire if the subscribe path is not affected", () => {
+      sumOfNumbers.subscribe(spy);
+
+      store.dispatch({
+        path: ["global", "other"],
+        apply: (_) => "New stuff",
+      });
+
+      expect(store.data, "to equal", {
+        global: { numbers: [1, 2, 3], other: "New stuff" },
+      });
+
+      clock.tick(0);
+
+      expect(sumOfNumbers.value, "to equal", 6);
+
+      expect(spy, "was not called");
+    });
+
+    it("doesn't fire if the value didn't change", () => {
+      sumOfNumbers.subscribe(spy);
+
+      store.dispatch({
+        path: ["global", "numbers"],
+        apply: (numbers) => numbers.slice().reverse(),
+      });
+
+      expect(store.data, "to equal", {
+        global: { numbers: [3, 2, 1] },
+      });
+
+      clock.tick(0);
+
+      expect(sumOfNumbers.value, "to equal", 6);
+
+      expect(spy, "was not called");
+    });
   });
 
   describe("when unsubscribed", () => {

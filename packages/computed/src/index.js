@@ -14,9 +14,11 @@ class Computed {
     this.subscriptions
       .filter(({ immediate }) => !immediate)
       .forEach((subscription) => {
-        console.log(this.inputValues);
-        this.value = this.apply(this.inputValues, this.store);
-        subscription.listener(this.value, this.store);
+        const newValue = this.apply(this.inputValues, this.store);
+        if (this.value !== newValue) {
+          this.value = newValue;
+          subscription.listener(this.value, this.store);
+        }
       });
   }
 
@@ -24,9 +26,11 @@ class Computed {
     this.subscriptions
       .filter(({ immediate }) => immediate)
       .forEach((subscription) => {
-        console.log(this.inputValues);
-        this.value = this.apply(this.inputValues, this.store);
-        subscription.listener(this.value, this.store);
+        const newValue = this.apply(this.inputValues, this.store);
+        if (this.value !== newValue) {
+          this.value = newValue;
+          subscription.listener(this.value, this.store);
+        }
       });
   }
 
@@ -48,16 +52,20 @@ class Computed {
       if (input instanceof Computed) {
         subscription = input.subscribe(
           (value) => {
-            this.inputValues[name] = value;
-            this.stateUpdated();
+            if (this.inputValues[name] !== value) {
+              this.inputValues[name] = value;
+              this.stateUpdated();
+            }
           },
           { immediate: true }
         );
         this.inputValues[name] = input.value;
       } else {
         subscription = this.store.subscribe(input, (value) => {
-          this.inputValues[name] = value;
-          this.stateUpdated();
+          if (this.inputValues[name] !== value) {
+            this.inputValues[name] = value;
+            this.stateUpdated();
+          }
         });
         this.inputValues[name] = this.store.get(input);
       }
