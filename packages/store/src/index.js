@@ -6,19 +6,32 @@ class Store {
   constructor(data = {}) {
     this.data = data;
     this.subscriptions = [];
+
+    this.dispatch = (action) => {
+      const { path = [], apply } = action;
+      this.data = updateIn(this.data, path, (value) => apply(value, this));
+      this.subscriptions.forEach((subscription) => {
+        if (isPathAffected(subscription.path, path)) {
+          subscription.listener(this.get(subscription.path), this);
+        }
+      });
+      return action;
+    };
+  }
+
+  use(middleware) {
+    const next = this.dispatch;
+
+    this.dispatch = (action) =>
+      middleware({
+        store: this,
+        next,
+        action: action.path ? action : { path: [], ...action },
+      });
   }
 
   get(path) {
     return getIn(this.data, path);
-  }
-
-  dispatch({ path = [], apply }) {
-    this.data = updateIn(this.data, path, (value) => apply(value, this));
-    this.subscriptions.forEach((subscription) => {
-      if (isPathAffected(subscription.path, path)) {
-        subscription.listener(this.get(subscription.path), this);
-      }
-    });
   }
 
   subscribe(path, listener) {

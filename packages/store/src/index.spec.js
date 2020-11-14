@@ -186,4 +186,48 @@ describe("Store", () => {
       });
     });
   });
+
+  describe("use", () => {
+    it("adds the given middleware to the dispatch chain", () => {
+      const store = new Store({
+        global: { testing: "The state" },
+      });
+
+      store.use(({ store, next, action }) => {
+        const transformedAction = {
+          path: ["global", ...action.path],
+          apply: (data, store) => ({
+            ...action.apply(data, store),
+          }),
+        };
+
+        return next(transformedAction);
+      });
+
+      store.use(({ store, next, action }) => {
+        const transformedAction = {
+          path: action.path,
+          apply: (data, store) => ({
+            extra: "stuff",
+            ...action.apply(data, store),
+          }),
+        };
+
+        return next(transformedAction);
+      });
+
+      store.dispatch({
+        apply: ({ testing }) => ({
+          testing: testing.toUpperCase(),
+        }),
+      });
+
+      expect(store.data, "to equal", {
+        global: {
+          extra: "stuff",
+          testing: "THE STATE",
+        },
+      });
+    });
+  });
 });
