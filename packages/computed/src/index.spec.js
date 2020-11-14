@@ -35,7 +35,6 @@ describe("computed", () => {
     sumOfNumbers.subscribe(spy);
 
     store.dispatch({
-      name: "append-4",
       path: ["global", "numbers"],
       apply: (numbers) => [...numbers, 4],
     });
@@ -68,7 +67,6 @@ describe("computed", () => {
       subscription.unsubscribe();
 
       store.dispatch({
-        name: "append-4",
         path: ["global", "numbers"],
         apply: (numbers) => [...numbers, 4],
       });
@@ -90,7 +88,6 @@ describe("computed", () => {
       expect(averageOfNumbers.value, "to equal", 2);
 
       store.dispatch({
-        name: "append-4",
         path: ["global", "numbers"],
         apply: (numbers) => [...numbers, 4],
       });
@@ -117,7 +114,6 @@ describe("computed", () => {
         subscription.unsubscribe();
 
         store.dispatch({
-          name: "append-4",
           path: ["global", "numbers"],
           apply: (numbers) => [...numbers, 4],
         });

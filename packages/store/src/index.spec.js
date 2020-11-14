@@ -32,7 +32,6 @@ describe("Store", () => {
         });
 
         store.dispatch({
-          name: "upper-case",
           apply: (data) => ({
             global: {
               testing: data.global.testing.toUpperCase(),
@@ -53,7 +52,6 @@ describe("Store", () => {
         });
 
         store.dispatch({
-          name: "upper-case",
           path: ["global", "testing"],
           apply: (data) => data.toUpperCase(),
         });
@@ -70,7 +68,6 @@ describe("Store", () => {
           });
 
           store.dispatch({
-            name: "add-string",
             path: ["global", "new path"],
             apply: (data) => "This is new",
           });
@@ -104,7 +101,6 @@ describe("Store", () => {
       store.subscribe(["global", "numbers"], spy);
 
       store.dispatch({
-        name: "append-4",
         path: ["global"],
         apply: ({ numbers, sum }) => ({
           numbers: [...numbers, 4],
@@ -131,7 +127,6 @@ describe("Store", () => {
         numbers.reduce((a, b) => a + b, 0) / numbers.length;
 
       store.dispatch({
-        name: "append-average",
         path: ["global", "average"],
         apply: (_, store) => average(store.get(["global", "numbers"])),
       });
@@ -162,7 +157,6 @@ describe("Store", () => {
       const subscription = store.subscribe(["global", "numbers"], spy);
 
       store.dispatch({
-        name: "append-4",
         path: ["global"],
         apply: ({ numbers, sum }) => ({
           numbers: [...numbers, 4],
@@ -173,7 +167,6 @@ describe("Store", () => {
       subscription.unsubscribe();
 
       store.dispatch({
-        name: "increment-by-1",
         path: ["global"],
         apply: ({ numbers, sum }) => ({
           numbers: numbers.map((v) => v + 1),
