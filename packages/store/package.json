@@ -12,10 +12,10 @@
   ],
   "author": "Sune Simonsen",
   "license": "MIT",
-  "bugs": "https://github.com/sunesimonsen/transformation/issues",
+  "bugs": "https://github.com/sunesimonsen/depository/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sunesimonsen/transformation"
+    "url": "https://github.com/sunesimonsen/depository"
   },
   "publishConfig": {
     "access": "public"
