@@ -1,0 +1,33 @@
+{
+  "name": "@depository/computed",
+  "version": "3.8.0",
+  "description": "Computed values on top of a @depository store",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "state",
+    "immutable",
+    "computed"
+  ],
+  "author": "Sune Simonsen",
+  "license": "MIT",
+  "bugs": "https://github.com/sunesimonsen/depository/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunesimonsen/depository"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "mocha": "8.2.1",
+    "sinon": "^9.2.1",
+    "unexpected": "11.8.1",
+    "unexpected-sinon": "^10.11.2"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
