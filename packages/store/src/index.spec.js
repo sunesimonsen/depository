@@ -83,6 +83,68 @@ describe("Store", () => {
     });
   });
 
+  describe("set", () => {
+    it("sets the value at the given path", () => {
+      const store = new Store({
+        global: { testing: "Hello world" },
+      });
+
+      store.set(["global", "testing"], "Hello beautiful world");
+
+      expect(store.data, "to equal", {
+        global: { testing: "Hello beautiful world" },
+      });
+    });
+
+    describe("when the given path doesn't exist", () => {
+      it("creates the path", () => {
+        const store = new Store({
+          global: { testing: "The state" },
+        });
+
+        store.set(["global", "new path"], "This is new");
+
+        expect(store.data, "to equal", {
+          global: {
+            testing: "The state",
+            "new path": "This is new",
+          },
+        });
+      });
+    });
+  });
+
+  describe("update", () => {
+    it("updates the value at the given path", () => {
+      const store = new Store({
+        global: { testing: "Hello world" },
+      });
+
+      store.update(["global", "testing"], (v) => v.toUpperCase());
+
+      expect(store.data, "to equal", {
+        global: { testing: "HELLO WORLD" },
+      });
+    });
+
+    describe("when the given path doesn't exist", () => {
+      it("creates the path", () => {
+        const store = new Store({
+          global: { testing: "The state" },
+        });
+
+        store.update(["global", "new path"], () => "This is new");
+
+        expect(store.data, "to equal", {
+          global: {
+            testing: "The state",
+            "new path": "This is new",
+          },
+        });
+      });
+    });
+  });
+
   describe("subscribe", () => {
     let store, spy;
 
@@ -100,13 +162,10 @@ describe("Store", () => {
     it("subscribes to the given path", () => {
       store.subscribe(["global", "numbers"], spy);
 
-      store.dispatch({
-        path: ["global"],
-        apply: ({ numbers, sum }) => ({
-          numbers: [...numbers, 4],
-          sum: sum + 4,
-        }),
-      });
+      store.update(["global"], ({ numbers, sum }) => ({
+        numbers: [...numbers, 4],
+        sum: sum + 4,
+      }));
 
       expect(store.data, "to equal", {
         global: {
@@ -126,10 +185,9 @@ describe("Store", () => {
       const average = (numbers) =>
         numbers.reduce((a, b) => a + b, 0) / numbers.length;
 
-      store.dispatch({
-        path: ["global", "average"],
-        apply: (_, store) => average(store.get(["global", "numbers"])),
-      });
+      store.update(["global", "average"], (_, store) =>
+        average(store.get(["global", "numbers"]))
+      );
 
       expect(store.data, "to equal", {
         global: {
@@ -156,23 +214,17 @@ describe("Store", () => {
 
       const subscription = store.subscribe(["global", "numbers"], spy);
 
-      store.dispatch({
-        path: ["global"],
-        apply: ({ numbers, sum }) => ({
-          numbers: [...numbers, 4],
-          sum: sum + 4,
-        }),
-      });
+      store.update(["global"], ({ numbers, sum }) => ({
+        numbers: [...numbers, 4],
+        sum: sum + 4,
+      }));
 
       subscription.unsubscribe();
 
-      store.dispatch({
-        path: ["global"],
-        apply: ({ numbers, sum }) => ({
-          numbers: numbers.map((v) => v + 1),
-          sum: sum + numbers.length,
-        }),
-      });
+      store.update(["global"], ({ numbers, sum }) => ({
+        numbers: numbers.map((v) => v + 1),
+        sum: sum + numbers.length,
+      }));
 
       expect(store.data, "to equal", {
         global: {
@@ -216,11 +268,9 @@ describe("Store", () => {
         return next(transformedAction);
       });
 
-      store.dispatch({
-        apply: ({ testing }) => ({
-          testing: testing.toUpperCase(),
-        }),
-      });
+      store.update(({ testing }) => ({
+        testing: testing.toUpperCase(),
+      }));
 
       expect(store.data, "to equal", {
         global: {

@@ -34,6 +34,24 @@ class Store {
     return getIn(this.data, path);
   }
 
+  set(path, value) {
+    this.dispatch({ name: "set", path, apply: () => value });
+  }
+
+  update(...args) {
+    let apply, path;
+
+    if (args.length === 1) {
+      path = [];
+      apply = args[0];
+    } else {
+      path = args[0];
+      apply = args[1];
+    }
+
+    this.dispatch({ name: "update", path, apply });
+  }
+
   subscribe(path, listener) {
     const subscription = {
       path,

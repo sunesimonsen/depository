@@ -34,10 +34,7 @@ describe("computed", () => {
   it("returns a subscribable computed value", () => {
     sumOfNumbers.subscribe(spy);
 
-    store.dispatch({
-      path: ["global", "numbers"],
-      apply: (numbers) => [...numbers, 4],
-    });
+    store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
     expect(store.data, "to equal", {
       global: { numbers: [1, 2, 3, 4] },
@@ -62,10 +59,7 @@ describe("computed", () => {
     it("doesn't fire if the subscribe path is not affected", () => {
       sumOfNumbers.subscribe(spy);
 
-      store.dispatch({
-        path: ["global", "other"],
-        apply: (_) => "New stuff",
-      });
+      store.set(["global", "other"], "New stuff");
 
       expect(store.data, "to equal", {
         global: { numbers: [1, 2, 3], other: "New stuff" },
@@ -81,10 +75,9 @@ describe("computed", () => {
     it("doesn't fire if the value didn't change", () => {
       sumOfNumbers.subscribe(spy);
 
-      store.dispatch({
-        path: ["global", "numbers"],
-        apply: (numbers) => numbers.slice().reverse(),
-      });
+      store.update(["global", "numbers"], (numbers) =>
+        numbers.slice().reverse()
+      );
 
       expect(store.data, "to equal", {
         global: { numbers: [3, 2, 1] },
@@ -104,10 +97,7 @@ describe("computed", () => {
 
       subscription.unsubscribe();
 
-      store.dispatch({
-        path: ["global", "numbers"],
-        apply: (numbers) => [...numbers, 4],
-      });
+      store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
       expect(store.data, "to equal", {
         global: { numbers: [1, 2, 3, 4] },
@@ -125,10 +115,7 @@ describe("computed", () => {
 
       expect(averageOfNumbers.value, "to equal", 2);
 
-      store.dispatch({
-        path: ["global", "numbers"],
-        apply: (numbers) => [...numbers, 4],
-      });
+      store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
       expect(store.data, "to equal", {
         global: { numbers: [1, 2, 3, 4] },
@@ -151,10 +138,7 @@ describe("computed", () => {
 
         subscription.unsubscribe();
 
-        store.dispatch({
-          path: ["global", "numbers"],
-          apply: (numbers) => [...numbers, 4],
-        });
+        store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
         expect(store.data, "to equal", {
           global: { numbers: [1, 2, 3, 4] },
