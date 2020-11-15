@@ -239,13 +239,13 @@ describe("Store", () => {
     });
   });
 
-  describe("use", () => {
+  describe("useMiddleware", () => {
     it("adds the given middleware to the dispatch chain", () => {
       const store = new Store({
         global: { testing: "The state" },
       });
 
-      store.use(({ store, next, action }) => {
+      store.useMiddleware(({ store, next, action }) => {
         const transformedAction = {
           path: ["global", ...action.path],
           apply: (data, store) => ({
@@ -256,7 +256,7 @@ describe("Store", () => {
         return next(transformedAction);
       });
 
-      store.use(({ store, next, action }) => {
+      store.useMiddleware(({ store, next, action }) => {
         const transformedAction = {
           path: action.path,
           apply: (data, store) => ({

@@ -19,7 +19,7 @@ class Store {
     };
   }
 
-  use(middleware) {
+  useMiddleware(middleware) {
     const next = this.dispatch;
 
     this.dispatch = (action) =>
