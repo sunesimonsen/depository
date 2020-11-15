@@ -301,43 +301,115 @@ describe("Store", () => {
 
   describe("useMiddleware", () => {
     it("adds the given middleware to the dispatch chain", () => {
+      const logger = sinon.spy();
+
       const store = new Store({
         global: { testing: "The state" },
       });
 
       store.useMiddleware(({ store, next, action }) => {
-        const transformedAction = {
-          path: ["global", ...action.path],
-          apply: (data, store) => ({
-            ...action.apply(data, store),
-          }),
-        };
+        logger("dispatch", action);
 
-        return next(transformedAction);
+        return next(action);
       });
 
       store.useMiddleware(({ store, next, action }) => {
         const transformedAction = {
-          path: action.path,
-          apply: (data, store) => ({
-            extra: "stuff",
-            ...action.apply(data, store),
-          }),
+          extra: "stuff",
+          ...action,
         };
 
         return next(transformedAction);
       });
 
-      store.update(({ testing }) => ({
-        testing: testing.toUpperCase(),
-      }));
+      store.update(["global", "testing"], (testing) => testing.toUpperCase());
 
       expect(store.data, "to equal", {
-        global: {
-          extra: "stuff",
-          testing: "THE STATE",
-        },
+        global: { testing: "THE STATE" },
       });
+
+      expect(logger, "to have calls satisfying", () => {
+        logger("dispatch", {
+          extra: "stuff",
+          name: "update",
+          path: ["global", "testing"],
+          scoped: true,
+        });
+      });
+    });
+  });
+
+  describe("scoped", () => {
+    it("returns a scoped store", () => {
+      const store = new Store({
+        global: { testing: "Hello world" },
+      }).scoped("global");
+
+      store.update("testing", (v) => v.toUpperCase());
+
+      expect(store.get("testing"), "to equal", "HELLO WORLD");
+    });
+
+    it("supports subscribe", () => {
+      const spy = sinon.spy();
+
+      const store = new Store({
+        global: { testing: "Hello world" },
+      }).scoped("global");
+
+      store.subscribe("testing", spy);
+
+      store.set("testing", "Hello beautiful world");
+
+      expect(store.get("testing"), "to equal", "Hello beautiful world");
+
+      expect(spy, "to have calls satisfying", () => {
+        spy("Hello beautiful world", expect.it("to be a", Store));
+      });
+    });
+
+    it("supports get", () => {
+      const store = new Store({
+        global: { testing: "Hello world" },
+      }).scoped("global");
+
+      store.update("testing", (v) => v.toUpperCase());
+
+      expect(store.get("testing"), "to equal", "HELLO WORLD");
+    });
+
+    it("supports set", () => {
+      const store = new Store({
+        global: { testing: "Hello world" },
+      }).scoped("global");
+
+      store.set("testing", "Hello beautiful world");
+
+      expect(store.get("testing"), "to equal", "Hello beautiful world");
+    });
+
+    it("supports update", () => {
+      const store = new Store({
+        global: { testing: "Hello world" },
+      }).scoped("global");
+
+      store.update("testing", (v) => v.toUpperCase());
+
+      expect(store.get("testing"), "to equal", "HELLO WORLD");
+    });
+
+    it("supports dispatch", () => {});
+
+    it("supports scoping a scoped store", () => {
+      const store = new Store({
+        level1: { level2: { level3: "Hello world" } },
+      })
+        .scoped("level1")
+        .scoped("level2");
+
+      store.update("level3", (v) => v.toUpperCase());
+
+      expect(store.get("level3"), "to equal", "HELLO WORLD");
     });
   });
 });

@@ -1,41 +1,46 @@
 const updateIn = require("./updateIn");
 const isPathAffected = require("./isPathAffected");
 const getIn = require("./getIn");
-
-const normalizePath = (path) => {
-  if (!path) return [];
-  if (typeof path === "string") return [path];
-  return path;
-};
+const normalizePath = require("./normalizePath");
 
 class Store {
   constructor(data = {}) {
     this.data = data;
     this.subscriptions = [];
+    this.scope = [];
+  }
 
-    this.dispatch = (action) => {
-      const path = normalizePath(action.path);
-      const apply = action.apply;
+  scopePath(path) {
+    if (this.scope.length > 0) {
+      return [...this.scope, ...normalizePath(path)];
+    } else {
+      return normalizePath(path);
+    }
+  }
 
-      this.data = updateIn(this.data, path, (value) => apply(value, this));
-      this.subscriptions.forEach((subscription) => {
-        if (isPathAffected(subscription.path, path)) {
-          subscription.listener(this.get(subscription.path), this);
-        }
-      });
+  scopeAction(action) {
+    if (action.scoped) {
       return action;
+    }
+
+    return {
+      ...action,
+      scoped: true,
+      path: this.scopePath(action.path),
     };
   }
 
   useMiddleware(middleware) {
-    const next = this.dispatch;
+    const next = this.dispatch.bind(this);
 
     this.dispatch = (action) =>
       middleware({
         store: this,
         next,
-        action: { path: normalizePath(action.path), ...action },
+        action: this.scopeAction(action),
       });
+
+    return this;
   }
 
   use(plugin) {
@@ -43,16 +48,30 @@ class Store {
     return this;
   }
 
+  dispatch(action) {
+    const { path, apply } = this.scopeAction(action);
+
+    this.data = updateIn(this.data, path, (value) => apply(value, this));
+    this.subscriptions.forEach((subscription) => {
+      if (isPathAffected(subscription.path, path)) {
+        subscription.listener(getIn(this.data, subscription.path), this);
+      }
+    });
+    return action;
+  }
+
   get(path) {
-    return getIn(this.data, normalizePath(path));
+    return getIn(this.data, this.scopePath(path));
   }
 
   set(path, value) {
     this.dispatch({
       name: "set",
-      path: normalizePath(path),
+      path,
       apply: () => value,
     });
+
+    return this;
   }
 
   update(...args) {
@@ -66,7 +85,9 @@ class Store {
       apply = args[1];
     }
 
-    this.dispatch({ name: "update", path: normalizePath(path), apply });
+    this.dispatch({ name: "update", path, apply });
+
+    return this;
   }
 
   subscribe(...args) {
@@ -81,7 +102,7 @@ class Store {
     }
 
     const subscription = {
-      path: normalizePath(path),
+      path: this.scopePath(path),
       listener,
       unsubscribe: () => {
         this.subscriptions = this.subscriptions.filter(
@@ -93,6 +114,13 @@ class Store {
     this.subscriptions.push(subscription);
 
     return subscription;
+  }
+
+  scoped(scope) {
+    const scopedStore = Object.create(this);
+    scopedStore.wat = true;
+    scopedStore.scope = [...scopedStore.scope, ...normalizePath(scope)];
+    return scopedStore;
   }
 }
 
