@@ -239,6 +239,20 @@ describe("Store", () => {
     });
   });
 
+  describe("use", () => {
+    it("passes the store for modification by a plugin", () => {
+      const testPlugin = (store) => (store.test = "We added this!");
+
+      const store = new Store({
+        global: { testing: "The state" },
+      });
+
+      store.use(testPlugin);
+
+      expect(store.test, "to equal", "We added this!");
+    });
+  });
+
   describe("useMiddleware", () => {
     it("adds the given middleware to the dispatch chain", () => {
       const store = new Store({

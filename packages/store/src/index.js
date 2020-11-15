@@ -30,6 +30,11 @@ class Store {
       });
   }
 
+  use(plugin) {
+    plugin(this);
+    return this;
+  }
+
   get(path) {
     return getIn(this.data, path);
   }
