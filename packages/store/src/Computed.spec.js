@@ -1,9 +1,8 @@
 const expect = require("unexpected").clone().use(require("unexpected-sinon"));
 const sinon = require("sinon");
-const Store = require("@depository/store");
-const computed = require(".");
+const Store = require("./Store");
 
-describe("withComputed", () => {
+describe("store.computed", () => {
   let clock, spy, store, sumOfNumbers, averageOfNumbers;
   beforeEach(() => {
     clock = sinon.useFakeTimers();
@@ -12,8 +11,6 @@ describe("withComputed", () => {
     store = new Store({
       global: { numbers: [1, 2, 3] },
     });
-
-    store.use(computed);
 
     sumOfNumbers = store.computed({
       inputs: { numbers: ["global", "numbers"] },
@@ -159,8 +156,7 @@ describe("withComputed", () => {
         global: { math: { numbers: [1, 2, 3] } },
       })
         .scoped("global")
-        .scoped("math")
-        .use(computed);
+        .scoped("math");
 
       const reversedNumbers = store.computed({
         inputs: {

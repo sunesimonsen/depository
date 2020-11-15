@@ -107,8 +107,4 @@ class Computed {
   }
 }
 
-const computed = (store) => {
-  store.computed = (options) => new Computed({ store, ...options });
-};
-
-module.exports = computed;
+module.exports = Computed;
