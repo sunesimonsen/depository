@@ -57,7 +57,17 @@ class Store {
     this.dispatch({ name: "update", path, apply });
   }
 
-  subscribe(path, listener) {
+  subscribe(...args) {
+    let path, listener;
+
+    if (args.length === 1) {
+      path = [];
+      listener = args[0];
+    } else {
+      path = args[0];
+      listener = args[1];
+    }
+
     const subscription = {
       path,
       listener,

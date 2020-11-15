@@ -159,23 +159,55 @@ describe("Store", () => {
       spy = sinon.spy();
     });
 
-    it("subscribes to the given path", () => {
-      store.subscribe(["global", "numbers"], spy);
+    describe("when only given a listener", () => {
+      it("subscribes to changes of the entire store", () => {
+        store.subscribe(spy);
 
-      store.update(["global"], ({ numbers, sum }) => ({
-        numbers: [...numbers, 4],
-        sum: sum + 4,
-      }));
+        store.update(["global"], ({ numbers, sum }) => ({
+          numbers: [...numbers, 4],
+          sum: sum + 4,
+        }));
 
-      expect(store.data, "to equal", {
-        global: {
-          numbers: [1, 2, 3, 4],
-          sum: 10,
-        },
+        expect(store.data, "to equal", {
+          global: {
+            numbers: [1, 2, 3, 4],
+            sum: 10,
+          },
+        });
+
+        expect(spy, "to have calls satisfying", () => {
+          spy(
+            {
+              global: {
+                numbers: [1, 2, 3, 4],
+                sum: 10,
+              },
+            },
+            expect.it("to be a", Store)
+          );
+        });
       });
+    });
 
-      expect(spy, "to have calls satisfying", () => {
-        spy([1, 2, 3, 4], expect.it("to be a", Store));
+    describe("when given a path and a listener", () => {
+      it("subscribes to the given path", () => {
+        store.subscribe(["global", "numbers"], spy);
+
+        store.update(["global"], ({ numbers, sum }) => ({
+          numbers: [...numbers, 4],
+          sum: sum + 4,
+        }));
+
+        expect(store.data, "to equal", {
+          global: {
+            numbers: [1, 2, 3, 4],
+            sum: 10,
+          },
+        });
+
+        expect(spy, "to have calls satisfying", () => {
+          spy([1, 2, 3, 4], expect.it("to be a", Store));
+        });
       });
     });
 
