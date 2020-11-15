@@ -1,9 +1,9 @@
 const expect = require("unexpected").clone().use(require("unexpected-sinon"));
 const sinon = require("sinon");
 const Store = require("@depository/store");
-const Computed = require(".");
+const computed = require(".");
 
-describe("computed", () => {
+describe("withComputed", () => {
   let clock, spy, store, sumOfNumbers, averageOfNumbers;
   beforeEach(() => {
     clock = sinon.useFakeTimers();
@@ -13,14 +13,14 @@ describe("computed", () => {
       global: { numbers: [1, 2, 3] },
     });
 
-    sumOfNumbers = new Computed({
-      store,
+    store.use(computed);
+
+    sumOfNumbers = store.computed({
       inputs: { numbers: ["global", "numbers"] },
       apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
     });
 
-    averageOfNumbers = new Computed({
-      store,
+    averageOfNumbers = store.computed({
       inputs: { numbers: ["global", "numbers"], sum: sumOfNumbers },
       apply: ({ numbers, sum }) =>
         numbers.length === 0 ? NaN : sum / numbers.length,
