@@ -96,6 +96,20 @@ describe("Store", () => {
       });
     });
 
+    describe("when the path is just a string", () => {
+      it("use the path as the first segment", () => {
+        const store = new Store({
+          global: { testing: "Hello world" },
+        });
+
+        store.set("global", "Hello beautiful world");
+
+        expect(store.data, "to equal", {
+          global: "Hello beautiful world",
+        });
+      });
+    });
+
     describe("when the given path doesn't exist", () => {
       it("creates the path", () => {
         const store = new Store({

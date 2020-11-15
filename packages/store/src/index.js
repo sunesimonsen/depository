@@ -2,13 +2,21 @@ const updateIn = require("./updateIn");
 const isPathAffected = require("./isPathAffected");
 const getIn = require("./getIn");
 
+const normalizePath = (path) => {
+  if (!path) return [];
+  if (typeof path === "string") return [path];
+  return path;
+};
+
 class Store {
   constructor(data = {}) {
     this.data = data;
     this.subscriptions = [];
 
     this.dispatch = (action) => {
-      const { path = [], apply } = action;
+      const path = normalizePath(action.path);
+      const apply = action.apply;
+
       this.data = updateIn(this.data, path, (value) => apply(value, this));
       this.subscriptions.forEach((subscription) => {
         if (isPathAffected(subscription.path, path)) {
@@ -26,7 +34,7 @@ class Store {
       middleware({
         store: this,
         next,
-        action: action.path ? action : { path: [], ...action },
+        action: { path: normalizePath(action.path), ...action },
       });
   }
 
@@ -36,11 +44,15 @@ class Store {
   }
 
   get(path) {
-    return getIn(this.data, path);
+    return getIn(this.data, normalizePath(path));
   }
 
   set(path, value) {
-    this.dispatch({ name: "set", path, apply: () => value });
+    this.dispatch({
+      name: "set",
+      path: normalizePath(path),
+      apply: () => value,
+    });
   }
 
   update(...args) {
@@ -54,7 +66,7 @@ class Store {
       apply = args[1];
     }
 
-    this.dispatch({ name: "update", path, apply });
+    this.dispatch({ name: "update", path: normalizePath(path), apply });
   }
 
   subscribe(...args) {
@@ -69,7 +81,7 @@ class Store {
     }
 
     const subscription = {
-      path,
+      path: normalizePath(path),
       listener,
       unsubscribe: () => {
         this.subscriptions = this.subscriptions.filter(
