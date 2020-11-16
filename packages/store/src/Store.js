@@ -58,11 +58,11 @@ class Store {
   }
 
   dispatch(action) {
-    const { payload, path, apply } = this.scopeAction(action);
+    const { path, apply } = this.scopeAction(action);
 
-    apply(this.scoped(path), payload);
+    apply(this.scoped(path), action);
 
-    return this;
+    return action;
   }
 
   get(path) {

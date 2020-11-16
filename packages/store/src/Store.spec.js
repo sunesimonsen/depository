@@ -70,7 +70,7 @@ describe("store", () => {
           store.dispatch({
             path: ["global", "new path"],
             payload: "This is new",
-            apply: (store, payload) => {
+            apply: (store, { payload }) => {
               store.set(payload);
             },
           });
