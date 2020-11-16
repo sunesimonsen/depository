@@ -185,3 +185,26 @@ describe("store.computed", () => {
     });
   });
 });
+
+describe("store.computed.waitFor", () => {
+  it("returns a promise for when the given condition is true value of the computed", async () => {
+    const store = new Store({
+      global: { numbers: [1, 2, 3] },
+    });
+
+    const sumOfNumbers = store.computed({
+      inputs: { numbers: ["global", "numbers"] },
+      apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
+    });
+
+    setTimeout(() => {
+      store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+    }, 1);
+
+    await sumOfNumbers.waitFor((n) => n === 10);
+
+    expect(store.data, "to equal", {
+      global: { numbers: [1, 2, 3, 4] },
+    });
+  });
+});

@@ -105,6 +105,22 @@ class Computed {
 
     return subscription;
   }
+
+  waitFor(predicate) {
+    return new Promise((resolve) => {
+      const subscription = this.subscribe((value) => {
+        if (predicate(value)) {
+          subscription.unsubscribe();
+          resolve(value);
+        }
+      });
+
+      if (predicate(this.value)) {
+        subscription.unsubscribe();
+        resolve(this.value);
+      }
+    });
+  }
 }
 
 module.exports = Computed;
