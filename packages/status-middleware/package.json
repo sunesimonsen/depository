@@ -1,0 +1,38 @@
+{
+  "name": "@depository/status-middleware",
+  "version": "0.0.1",
+  "description": "Status middleware for @depository",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "async",
+    "promise",
+    "middleware",
+    "depository",
+    "loading"
+  ],
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
+  "license": "MIT",
+  "bugs": "https://github.com/sunesimonsen/depository/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunesimonsen/depository"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@depository/promise-middleware": "0.0.1",
+    "@depository/store": "0.0.1",
+    "mocha": "8.2.1",
+    "unexpected": "11.8.1"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "is-promise": "^4.0.0"
+  }
+}
