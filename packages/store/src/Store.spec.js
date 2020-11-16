@@ -326,7 +326,7 @@ describe("store", () => {
       });
 
       store.dispatch({
-        name: "upper-case",
+        type: "upper-case",
         path: ["global", "testing"],
         apply: (store) => {
           store.update((v) => v.toUpperCase());
@@ -339,8 +339,8 @@ describe("store", () => {
 
       expect(logger, "to have calls satisfying", () => {
         logger("dispatch", {
+          type: "upper-case",
           extra: "stuff",
-          name: "upper-case",
           path: ["global", "testing"],
         });
       });
