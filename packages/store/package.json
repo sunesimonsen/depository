@@ -1,6 +1,6 @@
 {
   "name": "@depository/store",
-  "version": "3.8.0",
+  "version": "0.0.1",
   "description": "The foundation store for @depository",
   "main": "./src/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "state",
     "immutable"
   ],
-  "author": "Sune Simonsen",
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
   "license": "MIT",
   "bugs": "https://github.com/sunesimonsen/depository/issues",
   "repository": {
