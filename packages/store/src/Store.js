@@ -149,6 +149,32 @@ class Store {
   computed(options) {
     return new Computed({ store: this, ...options });
   }
+
+  waitFor(...args) {
+    let path, predicate;
+
+    if (args.length === 1) {
+      path = [];
+      predicate = args[0];
+    } else {
+      path = args[0];
+      predicate = args[1];
+    }
+
+    return new Promise((resolve) => {
+      const initialValue = this.get(path);
+      if (predicate(initialValue)) {
+        resolve(initialValue);
+      }
+
+      const subscription = this.subscribe(path, (value) => {
+        if (predicate(value)) {
+          subscription.unsubscribe();
+          resolve(value);
+        }
+      });
+    });
+  }
 }
 
 module.exports = Store;

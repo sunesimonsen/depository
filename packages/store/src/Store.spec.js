@@ -420,4 +420,39 @@ describe("store", () => {
       expect(store.get("level3"), "to equal", "HELLO WORLD");
     });
   });
+
+  describe("waitFor", () => {
+    describe("when only given a predicate", () => {
+      it("returns a promise for when the given condition is true for the entire store", async () => {
+        const store = new Store({
+          global: { status: "loading" },
+        });
+
+        setTimeout(() => {
+          store.set(["global", "status"], "ready");
+        }, 1);
+
+        await store.waitFor((data) => data.global.status === "ready");
+      });
+    });
+
+    describe("when given a path", () => {
+      it("returns a promise for when the given condition is true for that path", async () => {
+        const store = new Store({
+          global: { status: "loading" },
+        });
+
+        setTimeout(() => {
+          store.set(["global", "status"], "ready");
+        }, 1);
+
+        const value = await store.waitFor(
+          ["global", "status"],
+          (status) => status === "ready"
+        );
+
+        expect(value, "to equal", "ready");
+      });
+    });
+  });
 });
