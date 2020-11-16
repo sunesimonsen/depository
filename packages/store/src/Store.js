@@ -6,9 +6,17 @@ const Computed = require("./Computed");
 
 class Store {
   constructor(data = {}) {
-    this.data = data;
+    this._data = data;
     this.subscriptions = [];
     this.scope = [];
+  }
+
+  _setData = (data) => {
+    this._data = data;
+  };
+
+  get data() {
+    return this._data;
   }
 
   scopePath(path) {
@@ -38,7 +46,7 @@ class Store {
       middleware({
         store: this,
         next,
-        action: this.scopeAction(action),
+        action,
       });
 
     return this;
@@ -50,27 +58,29 @@ class Store {
   }
 
   dispatch(action) {
-    const { path, apply } = this.scopeAction(action);
+    const { payload, path, apply } = this.scopeAction(action);
 
-    this.data = updateIn(this.data, path, (value) => apply(value, this));
-    this.subscriptions.forEach((subscription) => {
-      if (isPathAffected(subscription.path, path)) {
-        subscription.listener(getIn(this.data, subscription.path), this);
-      }
-    });
-    return action;
+    apply(this.scoped(path), payload);
+
+    return this;
   }
 
   get(path) {
     return getIn(this.data, this.scopePath(path));
   }
 
-  set(path, value) {
-    this.dispatch({
-      name: "set",
-      path,
-      apply: () => value,
-    });
+  set(...args) {
+    let path, value;
+
+    if (args.length === 1) {
+      path = [];
+      value = args[0];
+    } else {
+      path = args[0];
+      value = args[1];
+    }
+
+    this.update(path, () => value);
 
     return this;
   }
@@ -86,7 +96,14 @@ class Store {
       apply = args[1];
     }
 
-    this.dispatch({ name: "update", path, apply });
+    path = this.scopePath(path);
+
+    this._setData(updateIn(this.data, path, (value) => apply(value, this)));
+    this.subscriptions.forEach((subscription) => {
+      if (isPathAffected(subscription.path, path)) {
+        subscription.listener(getIn(this.data, subscription.path), this);
+      }
+    });
 
     return this;
   }
@@ -118,9 +135,14 @@ class Store {
   }
 
   scoped(scope) {
+    const scopePath = normalizePath(scope);
+
+    if (scopePath.length === 0) {
+      return this;
+    }
+
     const scopedStore = Object.create(this);
-    scopedStore.wat = true;
-    scopedStore.scope = [...scopedStore.scope, ...normalizePath(scope)];
+    scopedStore.scope = [...scopedStore.scope, ...scopePath];
     return scopedStore;
   }
 

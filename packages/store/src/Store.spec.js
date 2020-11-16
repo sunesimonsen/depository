@@ -32,11 +32,9 @@ describe("store", () => {
         });
 
         store.dispatch({
-          apply: (data) => ({
-            global: {
-              testing: data.global.testing.toUpperCase(),
-            },
-          }),
+          apply: (store) => {
+            store.update(["global", "testing"], (v) => v.toUpperCase());
+          },
         });
 
         expect(store.data, "to equal", {
@@ -53,7 +51,9 @@ describe("store", () => {
 
         store.dispatch({
           path: ["global", "testing"],
-          apply: (data) => data.toUpperCase(),
+          apply: (store) => {
+            store.update((data) => data.toUpperCase());
+          },
         });
 
         expect(store.data, "to equal", {
@@ -69,7 +69,10 @@ describe("store", () => {
 
           store.dispatch({
             path: ["global", "new path"],
-            apply: (data) => "This is new",
+            payload: "This is new",
+            apply: (store, payload) => {
+              store.set(payload);
+            },
           });
 
           expect(store.data, "to equal", {
@@ -322,7 +325,13 @@ describe("store", () => {
         return next(transformedAction);
       });
 
-      store.update(["global", "testing"], (testing) => testing.toUpperCase());
+      store.dispatch({
+        name: "upper-case",
+        path: ["global", "testing"],
+        apply: (store) => {
+          store.update((v) => v.toUpperCase());
+        },
+      });
 
       expect(store.data, "to equal", {
         global: { testing: "THE STATE" },
@@ -331,7 +340,7 @@ describe("store", () => {
       expect(logger, "to have calls satisfying", () => {
         logger("dispatch", {
           extra: "stuff",
-          name: "update",
+          name: "upper-case",
           path: ["global", "testing"],
         });
       });
