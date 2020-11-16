@@ -333,7 +333,6 @@ describe("store", () => {
           extra: "stuff",
           name: "update",
           path: ["global", "testing"],
-          scoped: true,
         });
       });
     });
