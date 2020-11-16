@@ -1,0 +1,33 @@
+{
+  "name": "@depository/promise-middleware",
+  "version": "0.0.1",
+  "description": "Promise middleware for @depository",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "async",
+    "promise",
+    "middleware",
+    "depository"
+  ],
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
+  "license": "MIT",
+  "bugs": "https://github.com/sunesimonsen/depository/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunesimonsen/depository"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@depository/store": "0.0.1",
+    "mocha": "8.2.1",
+    "unexpected": "11.8.1"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
