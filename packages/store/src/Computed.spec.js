@@ -149,41 +149,6 @@ describe("cache.computed", () => {
       });
     });
   });
-
-  describe("when the cache is scoped", () => {
-    it("honours the scope", () => {
-      cache = new Cache({
-        global: { math: { numbers: [1, 2, 3] } },
-      })
-        .scoped("global")
-        .scoped("math");
-
-      const reversedNumbers = cache.computed({
-        inputs: {
-          numbers: "numbers",
-        },
-        apply: ({ numbers }) => numbers.slice().reverse(),
-      });
-
-      const subscription = reversedNumbers.subscribe(spy);
-
-      expect(reversedNumbers.value, "to equal", [3, 2, 1]);
-
-      cache.update("numbers", (numbers) => [...numbers, 4]);
-
-      expect(cache.data, "to equal", {
-        global: { math: { numbers: [1, 2, 3, 4] } },
-      });
-
-      clock.tick(0);
-
-      expect(reversedNumbers.value, "to equal", [4, 3, 2, 1]);
-
-      expect(spy, "to have calls satisfying", () => {
-        spy([4, 3, 2, 1], expect.it("to be a", Cache));
-      });
-    });
-  });
 });
 
 describe("cache.computed.waitFor", () => {

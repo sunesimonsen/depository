@@ -1,7 +1,6 @@
 const updateIn = require("./updateIn");
 const isPathAffected = require("./isPathAffected");
 const getIn = require("./getIn");
-const normalizePath = require("./normalizePath");
 const Computed = require("./Computed");
 const Cache = require("./Cache");
 
@@ -9,27 +8,6 @@ class Store {
   constructor(data) {
     this.cache = new Cache(data);
     this.subscriptions = [];
-    this.scope = [];
-  }
-
-  scopePath(path) {
-    if (this.scope.length > 0) {
-      return [...this.scope, ...normalizePath(path)];
-    } else {
-      return normalizePath(path);
-    }
-  }
-
-  scopeAction(action) {
-    if (action.scoped) {
-      return action;
-    }
-
-    return {
-      ...action,
-      scoped: true,
-      path: this.scopePath(action.path),
-    };
   }
 
   useMiddleware(middleware) {
@@ -51,15 +29,9 @@ class Store {
   }
 
   dispatch(action) {
-    action.apply(this.cache.scoped(action.path), action);
+    action.apply(this.cache, action);
 
     return action;
-  }
-
-  scoped(scope) {
-    const scopedStore = Object.create(this);
-    scopedStore.cache = this.cache.scoped(scope);
-    return scopedStore;
   }
 
   set(...args) {

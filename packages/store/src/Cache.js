@@ -8,7 +8,6 @@ class Cache {
   constructor(data = {}) {
     this._data = data;
     this.subscriptions = [];
-    this.scope = [];
   }
 
   _setData = (data) => {
@@ -19,16 +18,8 @@ class Cache {
     return this._data;
   }
 
-  scopePath(path = []) {
-    if (this.scope.length > 0) {
-      return [...this.scope, ...normalizePath(path)];
-    } else {
-      return normalizePath(path);
-    }
-  }
-
   get(path) {
-    return getIn(this.data, this.scopePath(path));
+    return getIn(this.data, normalizePath(path));
   }
 
   set(...args) {
@@ -58,7 +49,7 @@ class Cache {
       apply = args[1];
     }
 
-    path = this.scopePath(path);
+    path = normalizePath(path);
 
     this._setData(updateIn(this.data, path, (value) => apply(value, this)));
     this.subscriptions.forEach((subscription) => {
@@ -82,7 +73,7 @@ class Cache {
     }
 
     const subscription = {
-      path: this.scopePath(path),
+      path: normalizePath(path),
       listener,
       unsubscribe: () => {
         this.subscriptions = this.subscriptions.filter(
@@ -94,22 +85,6 @@ class Cache {
     this.subscriptions.push(subscription);
 
     return subscription;
-  }
-
-  scoped(scope) {
-    if (!scope) {
-      return this;
-    }
-
-    const scopePath = normalizePath(scope);
-
-    if (scopePath.length === 0) {
-      return this;
-    }
-
-    const scopedStore = Object.create(this);
-    scopedStore.scope = [...scopedStore.scope, ...scopePath];
-    return scopedStore;
   }
 
   computed(options) {

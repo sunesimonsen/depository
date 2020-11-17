@@ -43,48 +43,6 @@ describe("Store", () => {
         });
       });
     });
-
-    describe("when the action contain a path", () => {
-      it("executes the given action against store at the given path", () => {
-        const store = new Store({
-          global: { testing: "The state" },
-        });
-
-        store.dispatch({
-          path: ["global", "testing"],
-          apply: (cache) => {
-            cache.update((data) => data.toUpperCase());
-          },
-        });
-
-        expect(store.get(), "to equal", {
-          global: { testing: "THE STATE" },
-        });
-      });
-
-      describe("when the given path doesn't exist", () => {
-        it("creates the path", () => {
-          const store = new Store({
-            global: { testing: "The state" },
-          });
-
-          store.dispatch({
-            path: ["global", "new path"],
-            payload: "This is new",
-            apply: (cache, { payload }) => {
-              cache.set(payload);
-            },
-          });
-
-          expect(store.get(), "to equal", {
-            global: {
-              testing: "The state",
-              "new path": "This is new",
-            },
-          });
-        });
-      });
-    });
   });
 
   describe("subscribe", () => {
@@ -252,9 +210,8 @@ describe("Store", () => {
 
       store.dispatch({
         type: "upper-case",
-        path: ["global", "testing"],
         apply: (cache) => {
-          cache.update((v) => v.toUpperCase());
+          cache.update(["global", "testing"], (v) => v.toUpperCase());
         },
       });
 
@@ -266,83 +223,8 @@ describe("Store", () => {
         logger("dispatch", {
           type: "upper-case",
           extra: "stuff",
-          path: ["global", "testing"],
         });
       });
-    });
-  });
-
-  describe("scoped", () => {
-    it("returns a scoped store", () => {
-      const store = new Store({
-        global: { testing: "Hello world" },
-      }).scoped("global");
-
-      store.update("testing", (v) => v.toUpperCase());
-
-      expect(store.get("testing"), "to equal", "HELLO WORLD");
-    });
-
-    it("supports subscribe", () => {
-      const spy = sinon.spy();
-
-      const store = new Store({
-        global: { testing: "Hello world" },
-      }).scoped("global");
-
-      store.subscribe("testing", spy);
-
-      store.set("testing", "Hello beautiful world");
-
-      expect(store.get("testing"), "to equal", "Hello beautiful world");
-
-      expect(spy, "to have calls satisfying", () => {
-        spy("Hello beautiful world", expect.it("to be a", Cache));
-      });
-    });
-
-    it("supports get", () => {
-      const store = new Store({
-        global: { testing: "Hello world" },
-      }).scoped("global");
-
-      store.update("testing", (v) => v.toUpperCase());
-
-      expect(store.get("testing"), "to equal", "HELLO WORLD");
-    });
-
-    it("supports set", () => {
-      const store = new Store({
-        global: { testing: "Hello world" },
-      }).scoped("global");
-
-      store.set("testing", "Hello beautiful world");
-
-      expect(store.get("testing"), "to equal", "Hello beautiful world");
-    });
-
-    it("supports update", () => {
-      const store = new Store({
-        global: { testing: "Hello world" },
-      }).scoped("global");
-
-      store.update("testing", (v) => v.toUpperCase());
-
-      expect(store.get("testing"), "to equal", "HELLO WORLD");
-    });
-
-    it("supports dispatch", () => {});
-
-    it("supports scoping a scoped store", () => {
-      const store = new Store({
-        level1: { level2: { level3: "Hello world" } },
-      })
-        .scoped("level1")
-        .scoped("level2");
-
-      store.update("level3", (v) => v.toUpperCase());
-
-      expect(store.get("level3"), "to equal", "HELLO WORLD");
     });
   });
 
