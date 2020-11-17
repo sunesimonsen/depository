@@ -56,8 +56,10 @@ class Store {
     return action;
   }
 
-  get(path) {
-    return this.cache.get(path);
+  scoped(scope) {
+    const scopedStore = Object.create(this);
+    scopedStore.cache = this.cache.scoped(scope);
+    return scopedStore;
   }
 
   set(...args) {
@@ -70,14 +72,12 @@ class Store {
     return this;
   }
 
-  subscribe(...args) {
-    return this.cache.subscribe(...args);
+  get(...args) {
+    return this.cache.get(...args);
   }
 
-  scoped(scope) {
-    const scopedStore = Object.create(this);
-    scopedStore.cache = this.cache.scoped(scope);
-    return scopedStore;
+  subscribe(...args) {
+    return this.cache.subscribe(...args);
   }
 
   computed(...args) {

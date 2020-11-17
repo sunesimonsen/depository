@@ -87,82 +87,6 @@ describe("Store", () => {
     });
   });
 
-  describe("set", () => {
-    it("sets the value at the given path", () => {
-      const store = new Store({
-        global: { testing: "Hello world" },
-      });
-
-      store.set(["global", "testing"], "Hello beautiful world");
-
-      expect(store.get(), "to equal", {
-        global: { testing: "Hello beautiful world" },
-      });
-    });
-
-    describe("when the path is just a string", () => {
-      it("use the path as the first segment", () => {
-        const store = new Store({
-          global: { testing: "Hello world" },
-        });
-
-        store.set("global", "Hello beautiful world");
-
-        expect(store.get(), "to equal", {
-          global: "Hello beautiful world",
-        });
-      });
-    });
-
-    describe("when the given path doesn't exist", () => {
-      it("creates the path", () => {
-        const store = new Store({
-          global: { testing: "The state" },
-        });
-
-        store.set(["global", "new path"], "This is new");
-
-        expect(store.get(), "to equal", {
-          global: {
-            testing: "The state",
-            "new path": "This is new",
-          },
-        });
-      });
-    });
-  });
-
-  describe("update", () => {
-    it("updates the value at the given path", () => {
-      const store = new Store({
-        global: { testing: "Hello world" },
-      });
-
-      store.update(["global", "testing"], (v) => v.toUpperCase());
-
-      expect(store.get(), "to equal", {
-        global: { testing: "HELLO WORLD" },
-      });
-    });
-
-    describe("when the given path doesn't exist", () => {
-      it("creates the path", () => {
-        const store = new Store({
-          global: { testing: "The state" },
-        });
-
-        store.update(["global", "new path"], () => "This is new");
-
-        expect(store.get(), "to equal", {
-          global: {
-            testing: "The state",
-            "new path": "This is new",
-          },
-        });
-      });
-    });
-  });
-
   describe("subscribe", () => {
     let store, spy;
 
@@ -456,4 +380,19 @@ describe("Store", () => {
       });
     });
   });
+
+  ["computed", "get", "set", "subscribe", "update", "waitFor"].forEach(
+    (method) => {
+      it(`forwards ${method} to the cache`, () => {
+        const store = new Store();
+
+        sinon.stub(store.cache, method);
+        const args = ["some", "arguments"];
+        store[method](...args);
+        expect(store.cache[method], "to have calls satisfying", () => {
+          store.cache[method](...args);
+        });
+      });
+    }
+  );
 });
