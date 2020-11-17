@@ -1,23 +1,23 @@
 const expect = require("unexpected").clone().use(require("unexpected-sinon"));
 const sinon = require("sinon");
-const Store = require("./Store");
+const Cache = require("./Cache");
 
-describe("store.computed", () => {
-  let clock, spy, store, sumOfNumbers, averageOfNumbers;
+describe("cache.computed", () => {
+  let clock, spy, cache, sumOfNumbers, averageOfNumbers;
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     spy = sinon.spy();
 
-    store = new Store({
+    cache = new Cache({
       global: { numbers: [1, 2, 3] },
     });
 
-    sumOfNumbers = store.computed({
+    sumOfNumbers = cache.computed({
       inputs: { numbers: ["global", "numbers"] },
       apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
     });
 
-    averageOfNumbers = store.computed({
+    averageOfNumbers = cache.computed({
       inputs: { numbers: ["global", "numbers"], sum: sumOfNumbers },
       apply: ({ numbers, sum }) =>
         numbers.length === 0 ? NaN : sum / numbers.length,
@@ -31,9 +31,9 @@ describe("store.computed", () => {
   it("returns a subscribable computed value", () => {
     sumOfNumbers.subscribe(spy);
 
-    store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+    cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
-    expect(store.data, "to equal", {
+    expect(cache.get(), "to equal", {
       global: { numbers: [1, 2, 3, 4] },
     });
 
@@ -42,7 +42,7 @@ describe("store.computed", () => {
     expect(sumOfNumbers.value, "to equal", 10);
 
     expect(spy, "to have calls satisfying", () => {
-      spy(10, expect.it("to be a", Store));
+      spy(10, expect.it("to be a", Cache));
     });
   });
 
@@ -56,9 +56,9 @@ describe("store.computed", () => {
     it("doesn't fire if the subscribe path is not affected", () => {
       sumOfNumbers.subscribe(spy);
 
-      store.set(["global", "other"], "New stuff");
+      cache.set(["global", "other"], "New stuff");
 
-      expect(store.data, "to equal", {
+      expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3], other: "New stuff" },
       });
 
@@ -72,11 +72,11 @@ describe("store.computed", () => {
     it("doesn't fire if the value didn't change", () => {
       sumOfNumbers.subscribe(spy);
 
-      store.update(["global", "numbers"], (numbers) =>
+      cache.update(["global", "numbers"], (numbers) =>
         numbers.slice().reverse()
       );
 
-      expect(store.data, "to equal", {
+      expect(cache.get(), "to equal", {
         global: { numbers: [3, 2, 1] },
       });
 
@@ -94,9 +94,9 @@ describe("store.computed", () => {
 
       subscription.unsubscribe();
 
-      store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+      cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
-      expect(store.data, "to equal", {
+      expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3, 4] },
       });
 
@@ -106,15 +106,15 @@ describe("store.computed", () => {
     });
   });
 
-  describe("when combining computed inputs and store paths", () => {
+  describe("when combining computed inputs and cache paths", () => {
     it("re-calculates the value when one of the inputs changes", () => {
       averageOfNumbers.subscribe(spy);
 
       expect(averageOfNumbers.value, "to equal", 2);
 
-      store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+      cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
-      expect(store.data, "to equal", {
+      expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3, 4] },
       });
 
@@ -123,7 +123,7 @@ describe("store.computed", () => {
       expect(averageOfNumbers.value, "to equal", 2.5);
 
       expect(spy, "to have calls satisfying", () => {
-        spy(2.5, expect.it("to be a", Store));
+        spy(2.5, expect.it("to be a", Cache));
       });
     });
 
@@ -135,9 +135,9 @@ describe("store.computed", () => {
 
         subscription.unsubscribe();
 
-        store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+        cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
 
-        expect(store.data, "to equal", {
+        expect(cache.get(), "to equal", {
           global: { numbers: [1, 2, 3, 4] },
         });
 
@@ -150,15 +150,15 @@ describe("store.computed", () => {
     });
   });
 
-  describe("when the store is scoped", () => {
+  describe("when the cache is scoped", () => {
     it("honours the scope", () => {
-      store = new Store({
+      cache = new Cache({
         global: { math: { numbers: [1, 2, 3] } },
       })
         .scoped("global")
         .scoped("math");
 
-      const reversedNumbers = store.computed({
+      const reversedNumbers = cache.computed({
         inputs: {
           numbers: "numbers",
         },
@@ -169,9 +169,9 @@ describe("store.computed", () => {
 
       expect(reversedNumbers.value, "to equal", [3, 2, 1]);
 
-      store.update("numbers", (numbers) => [...numbers, 4]);
+      cache.update("numbers", (numbers) => [...numbers, 4]);
 
-      expect(store.data, "to equal", {
+      expect(cache.data, "to equal", {
         global: { math: { numbers: [1, 2, 3, 4] } },
       });
 
@@ -180,30 +180,30 @@ describe("store.computed", () => {
       expect(reversedNumbers.value, "to equal", [4, 3, 2, 1]);
 
       expect(spy, "to have calls satisfying", () => {
-        spy([4, 3, 2, 1], expect.it("to be a", Store));
+        spy([4, 3, 2, 1], expect.it("to be a", Cache));
       });
     });
   });
 });
 
-describe("store.computed.waitFor", () => {
+describe("cache.computed.waitFor", () => {
   it("returns a promise for when the given condition is true value of the computed", async () => {
-    const store = new Store({
+    const cache = new Cache({
       global: { numbers: [1, 2, 3] },
     });
 
-    const sumOfNumbers = store.computed({
+    const sumOfNumbers = cache.computed({
       inputs: { numbers: ["global", "numbers"] },
       apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
     });
 
     setTimeout(() => {
-      store.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+      cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
     }, 1);
 
     await sumOfNumbers.waitFor((n) => n === 10);
 
-    expect(store.data, "to equal", {
+    expect(cache.get(), "to equal", {
       global: { numbers: [1, 2, 3, 4] },
     });
   });

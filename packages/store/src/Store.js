@@ -3,20 +3,13 @@ const isPathAffected = require("./isPathAffected");
 const getIn = require("./getIn");
 const normalizePath = require("./normalizePath");
 const Computed = require("./Computed");
+const Cache = require("./Cache");
 
 class Store {
-  constructor(data = {}) {
-    this._data = data;
+  constructor(data) {
+    this.cache = new Cache(data);
     this.subscriptions = [];
     this.scope = [];
-  }
-
-  _setData = (data) => {
-    this._data = data;
-  };
-
-  get data() {
-    return this._data;
   }
 
   scopePath(path) {
@@ -58,122 +51,41 @@ class Store {
   }
 
   dispatch(action) {
-    const { path, apply } = this.scopeAction(action);
-
-    apply(this.scoped(path), action);
+    action.apply(this.cache.scoped(action.path), action);
 
     return action;
   }
 
   get(path) {
-    return getIn(this.data, this.scopePath(path));
+    return this.cache.get(path);
   }
 
   set(...args) {
-    let path, value;
-
-    if (args.length === 1) {
-      path = [];
-      value = args[0];
-    } else {
-      path = args[0];
-      value = args[1];
-    }
-
-    this.update(path, () => value);
-
+    this.cache.set(...args);
     return this;
   }
 
   update(...args) {
-    let apply, path;
-
-    if (args.length === 1) {
-      path = [];
-      apply = args[0];
-    } else {
-      path = args[0];
-      apply = args[1];
-    }
-
-    path = this.scopePath(path);
-
-    this._setData(updateIn(this.data, path, (value) => apply(value, this)));
-    this.subscriptions.forEach((subscription) => {
-      if (isPathAffected(subscription.path, path)) {
-        subscription.listener(getIn(this.data, subscription.path), this);
-      }
-    });
-
+    this.cache.update(...args);
     return this;
   }
 
   subscribe(...args) {
-    let path, listener;
-
-    if (args.length === 1) {
-      path = [];
-      listener = args[0];
-    } else {
-      path = args[0];
-      listener = args[1];
-    }
-
-    const subscription = {
-      path: this.scopePath(path),
-      listener,
-      unsubscribe: () => {
-        this.subscriptions = this.subscriptions.filter(
-          (s) => s != subscription
-        );
-      },
-    };
-
-    this.subscriptions.push(subscription);
-
-    return subscription;
+    return this.cache.subscribe(...args);
   }
 
   scoped(scope) {
-    const scopePath = normalizePath(scope);
-
-    if (scopePath.length === 0) {
-      return this;
-    }
-
     const scopedStore = Object.create(this);
-    scopedStore.scope = [...scopedStore.scope, ...scopePath];
+    scopedStore.cache = this.cache.scoped(scope);
     return scopedStore;
   }
 
-  computed(options) {
-    return new Computed({ store: this, ...options });
+  computed(...args) {
+    return this.cache.computed(...args);
   }
 
   waitFor(...args) {
-    let path, predicate;
-
-    if (args.length === 1) {
-      path = [];
-      predicate = args[0];
-    } else {
-      path = args[0];
-      predicate = args[1];
-    }
-
-    return new Promise((resolve) => {
-      const initialValue = this.get(path);
-      if (predicate(initialValue)) {
-        resolve(initialValue);
-      }
-
-      const subscription = this.subscribe(path, (value) => {
-        if (predicate(value)) {
-          subscription.unsubscribe();
-          resolve(value);
-        }
-      });
-    });
+    return this.cache.waitFor(...args);
   }
 }
 

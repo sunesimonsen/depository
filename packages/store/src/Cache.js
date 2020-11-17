@@ -19,7 +19,7 @@ class Cache {
     return this._data;
   }
 
-  scopePath(path) {
+  scopePath(path = []) {
     if (this.scope.length > 0) {
       return [...this.scope, ...normalizePath(path)];
     } else {
@@ -97,6 +97,10 @@ class Cache {
   }
 
   scoped(scope) {
+    if (!scope) {
+      return this;
+    }
+
     const scopePath = normalizePath(scope);
 
     if (scopePath.length === 0) {
@@ -106,6 +110,10 @@ class Cache {
     const scopedStore = Object.create(this);
     scopedStore.scope = [...scopedStore.scope, ...scopePath];
     return scopedStore;
+  }
+
+  computed(options) {
+    return new Computed({ cache: this, ...options });
   }
 
   waitFor(...args) {

@@ -1,13 +1,14 @@
 const expect = require("unexpected").clone().use(require("unexpected-sinon"));
 const sinon = require("sinon");
 const Store = require("./Store");
+const Cache = require("./Cache");
 
-describe("store", () => {
+describe("Store", () => {
   describe("constructor", () => {
     describe("when given no arguments", () => {
       it("creates an empty store", () => {
         const store = new Store();
-        expect(store.data, "to equal", {});
+        expect(store.get(), "to equal", {});
       });
     });
 
@@ -17,7 +18,7 @@ describe("store", () => {
           global: { testing: "The state" },
         });
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: { testing: "The state" },
         });
       });
@@ -32,12 +33,12 @@ describe("store", () => {
         });
 
         store.dispatch({
-          apply: (store) => {
-            store.update(["global", "testing"], (v) => v.toUpperCase());
+          apply: (cache) => {
+            cache.update(["global", "testing"], (v) => v.toUpperCase());
           },
         });
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: { testing: "THE STATE" },
         });
       });
@@ -51,12 +52,12 @@ describe("store", () => {
 
         store.dispatch({
           path: ["global", "testing"],
-          apply: (store) => {
-            store.update((data) => data.toUpperCase());
+          apply: (cache) => {
+            cache.update((data) => data.toUpperCase());
           },
         });
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: { testing: "THE STATE" },
         });
       });
@@ -70,12 +71,12 @@ describe("store", () => {
           store.dispatch({
             path: ["global", "new path"],
             payload: "This is new",
-            apply: (store, { payload }) => {
-              store.set(payload);
+            apply: (cache, { payload }) => {
+              cache.set(payload);
             },
           });
 
-          expect(store.data, "to equal", {
+          expect(store.get(), "to equal", {
             global: {
               testing: "The state",
               "new path": "This is new",
@@ -94,7 +95,7 @@ describe("store", () => {
 
       store.set(["global", "testing"], "Hello beautiful world");
 
-      expect(store.data, "to equal", {
+      expect(store.get(), "to equal", {
         global: { testing: "Hello beautiful world" },
       });
     });
@@ -107,7 +108,7 @@ describe("store", () => {
 
         store.set("global", "Hello beautiful world");
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: "Hello beautiful world",
         });
       });
@@ -121,7 +122,7 @@ describe("store", () => {
 
         store.set(["global", "new path"], "This is new");
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: {
             testing: "The state",
             "new path": "This is new",
@@ -139,7 +140,7 @@ describe("store", () => {
 
       store.update(["global", "testing"], (v) => v.toUpperCase());
 
-      expect(store.data, "to equal", {
+      expect(store.get(), "to equal", {
         global: { testing: "HELLO WORLD" },
       });
     });
@@ -152,7 +153,7 @@ describe("store", () => {
 
         store.update(["global", "new path"], () => "This is new");
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: {
             testing: "The state",
             "new path": "This is new",
@@ -185,7 +186,7 @@ describe("store", () => {
           sum: sum + 4,
         }));
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: {
             numbers: [1, 2, 3, 4],
             sum: 10,
@@ -200,7 +201,7 @@ describe("store", () => {
                 sum: 10,
               },
             },
-            expect.it("to be a", Store)
+            expect.it("to be a", Cache)
           );
         });
       });
@@ -215,7 +216,7 @@ describe("store", () => {
           sum: sum + 4,
         }));
 
-        expect(store.data, "to equal", {
+        expect(store.get(), "to equal", {
           global: {
             numbers: [1, 2, 3, 4],
             sum: 10,
@@ -223,7 +224,7 @@ describe("store", () => {
         });
 
         expect(spy, "to have calls satisfying", () => {
-          spy([1, 2, 3, 4], expect.it("to be a", Store));
+          spy([1, 2, 3, 4], expect.it("to be a", Cache));
         });
       });
     });
@@ -238,7 +239,7 @@ describe("store", () => {
         average(store.get(["global", "numbers"]))
       );
 
-      expect(store.data, "to equal", {
+      expect(store.get(), "to equal", {
         global: {
           numbers: [1, 2, 3],
           sum: 6,
@@ -275,7 +276,7 @@ describe("store", () => {
         sum: sum + numbers.length,
       }));
 
-      expect(store.data, "to equal", {
+      expect(store.get(), "to equal", {
         global: {
           numbers: [2, 3, 4, 5],
           sum: 14,
@@ -283,7 +284,7 @@ describe("store", () => {
       });
 
       expect(spy, "to have calls satisfying", () => {
-        spy([1, 2, 3, 4], expect.it("to be a", Store));
+        spy([1, 2, 3, 4], expect.it("to be a", Cache));
       });
     });
   });
@@ -328,12 +329,12 @@ describe("store", () => {
       store.dispatch({
         type: "upper-case",
         path: ["global", "testing"],
-        apply: (store) => {
-          store.update((v) => v.toUpperCase());
+        apply: (cache) => {
+          cache.update((v) => v.toUpperCase());
         },
       });
 
-      expect(store.data, "to equal", {
+      expect(store.get(), "to equal", {
         global: { testing: "THE STATE" },
       });
 
@@ -372,7 +373,7 @@ describe("store", () => {
       expect(store.get("testing"), "to equal", "Hello beautiful world");
 
       expect(spy, "to have calls satisfying", () => {
-        spy("Hello beautiful world", expect.it("to be a", Store));
+        spy("Hello beautiful world", expect.it("to be a", Cache));
       });
     });
 

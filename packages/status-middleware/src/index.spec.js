@@ -12,7 +12,7 @@ const fakeApi = {
   },
 };
 
-describe("promise-middleware", () => {
+describe("status-middleware", () => {
   let store;
   beforeEach(() => {
     store = new Store();
@@ -31,13 +31,13 @@ describe("promise-middleware", () => {
       },
     });
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       statuses: { "test-value": "loading" },
     });
 
     await dispatchPromise;
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       response: "From fake API",
       statuses: { "test-value": "ready" },
     });
@@ -52,13 +52,13 @@ describe("promise-middleware", () => {
       },
     });
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       statuses: { "test-value": "loading" },
     });
 
     await dispatchPromise;
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       response: "From fake API",
       statuses: { "test-value": "ready" },
     });
@@ -73,13 +73,13 @@ describe("promise-middleware", () => {
       },
     });
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       statuses: { "test-value": "loading" },
     });
 
     await dispatchPromise;
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       statuses: { "test-value": "failed" },
       response: Error("Dead end!"),
     });

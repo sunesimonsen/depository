@@ -27,7 +27,7 @@ describe("promise-middleware", () => {
       },
     });
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       response: "From fake API",
     });
   });
@@ -40,7 +40,7 @@ describe("promise-middleware", () => {
       },
     });
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       response: "From fake API",
     });
   });
@@ -53,7 +53,7 @@ describe("promise-middleware", () => {
       },
     });
 
-    expect(store.data, "to equal", {
+    expect(store.get(), "to equal", {
       response: new Error("Dead end!"),
     });
   });

@@ -1,6 +1,6 @@
 class Computed {
-  constructor({ store, inputs, apply }) {
-    this.store = store;
+  constructor({ cache, inputs, apply }) {
+    this.cache = cache;
     this.inputs = inputs;
     this.apply = apply;
     this.subscriptions = [];
@@ -14,10 +14,10 @@ class Computed {
     this.subscriptions
       .filter(({ immediate }) => !immediate)
       .forEach((subscription) => {
-        const newValue = this.apply(this.inputValues, this.store);
+        const newValue = this.apply(this.inputValues, this.cache);
         if (this.value !== newValue) {
           this.value = newValue;
-          subscription.listener(this.value, this.store);
+          subscription.listener(this.value, this.cache);
         }
       });
   }
@@ -26,10 +26,10 @@ class Computed {
     this.subscriptions
       .filter(({ immediate }) => immediate)
       .forEach((subscription) => {
-        const newValue = this.apply(this.inputValues, this.store);
+        const newValue = this.apply(this.inputValues, this.cache);
         if (this.value !== newValue) {
           this.value = newValue;
-          subscription.listener(this.value, this.store);
+          subscription.listener(this.value, this.cache);
         }
       });
   }
@@ -61,19 +61,19 @@ class Computed {
         );
         this.inputValues[name] = input.value;
       } else {
-        subscription = this.store.subscribe(input, (value) => {
+        subscription = this.cache.subscribe(input, (value) => {
           if (this.inputValues[name] !== value) {
             this.inputValues[name] = value;
             this.stateUpdated();
           }
         });
-        this.inputValues[name] = this.store.get(input);
+        this.inputValues[name] = this.cache.get(input);
       }
 
       this.inputSubscriptions.push(subscription);
     });
 
-    this.value = this.apply(this.inputValues, this.store);
+    this.value = this.apply(this.inputValues, this.cache);
   }
 
   unsubscribeInputs() {
