@@ -2,7 +2,7 @@ const expect = require("unexpected").clone().use(require("unexpected-sinon"));
 const sinon = require("sinon");
 const Cache = require("./Cache");
 
-describe("Cache", () => {
+describe("cache", () => {
   describe("constructor", () => {
     describe("when given no arguments", () => {
       it("creates an empty cache", () => {

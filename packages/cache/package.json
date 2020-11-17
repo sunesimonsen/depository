@@ -1,14 +1,14 @@
 {
-  "name": "@depository/store",
+  "name": "@depository/cache",
   "version": "0.0.1",
-  "description": "The foundation store for @depository",
+  "description": "A reactive cache for @depository",
   "main": "./src/index.js",
   "scripts": {
     "test": "mocha **/*.spec.js"
   },
   "keywords": [
-    "state",
-    "immutable"
+    "cache",
+    "state"
   ],
   "author": "Sune Simonsen <sune@we-knowhow.dk>",
   "license": "MIT",
@@ -19,9 +19,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@depository/cache": "0.0.1"
   },
   "devDependencies": {
     "mocha": "8.2.1",

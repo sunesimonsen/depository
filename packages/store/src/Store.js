@@ -1,8 +1,4 @@
-const updateIn = require("./updateIn");
-const isPathAffected = require("./isPathAffected");
-const getIn = require("./getIn");
-const Computed = require("./Computed");
-const Cache = require("./Cache");
+const Cache = require("@depository/cache");
 
 class Store {
   constructor(data) {
