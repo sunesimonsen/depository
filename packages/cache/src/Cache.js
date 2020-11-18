@@ -3,11 +3,31 @@ const isPathAffected = require("./isPathAffected");
 const getIn = require("./getIn");
 const normalizePath = require("./normalizePath");
 const Computed = require("./Computed");
+const PathObserver = require("./PathObserver");
+
+let observableIds = 0;
 
 class Cache {
   constructor(data = {}) {
     this._data = data;
-    this.subscriptions = [];
+    this.pathObservers = new Set();
+    this.computedObservers = new Set();
+  }
+
+  addObserver(observer) {
+    if (observer instanceof Computed) {
+      this.computedObservers.add(observer);
+    } else {
+      this.pathObservers.add(observer);
+    }
+  }
+
+  removeObserver(observer) {
+    if (observer instanceof Computed) {
+      this.computedObservers.delete(observer);
+    } else {
+      this.pathObservers.delete(observer);
+    }
   }
 
   _setData = (data) => {
@@ -52,68 +72,56 @@ class Cache {
     path = normalizePath(path);
 
     this._setData(updateIn(this.data, path, (value) => apply(value, this)));
-    this.subscriptions.forEach((subscription) => {
-      if (isPathAffected(subscription.path, path)) {
-        subscription.listener(getIn(this.data, subscription.path), this);
+    this.pathObservers.forEach((pathObserver) => {
+      if (!pathObserver.isDirty && isPathAffected(pathObserver.path, path)) {
+        pathObserver.isDirty = true;
       }
     });
 
     return this;
   }
 
-  subscribe(...args) {
-    let path, listener;
+  notify() {
+    const computedObservers = Array.from(this.computedObservers).sort(
+      (a, b) => a.id < b.id
+    );
 
-    if (args.length === 1) {
-      path = [];
-      listener = args[0];
-    } else {
-      path = args[0];
-      listener = args[1];
-    }
+    const updateValue = (observer) => observer.updateValue();
+    const isDirty = (observer) => observer.isDirty;
 
-    const subscription = {
-      path: normalizePath(path),
-      listener,
-      unsubscribe: () => {
-        this.subscriptions = this.subscriptions.filter(
-          (s) => s != subscription
-        );
-      },
-    };
+    const dirtyPathObservers = Array.from(this.pathObservers).filter(isDirty);
 
-    this.subscriptions.push(subscription);
+    dirtyPathObservers.forEach(updateValue);
+    computedObservers.forEach(updateValue);
 
-    return subscription;
+    const dirtyComputedObservers = computedObservers.filter(isDirty);
+
+    const dirtyObservers = [...dirtyPathObservers, ...dirtyComputedObservers];
+
+    dirtyObservers.forEach((observer) => {
+      observer.isDirty = false;
+      observer.notify(observer.value);
+    });
   }
 
-  computed(options) {
-    return new Computed({ cache: this, ...options });
+  observe(path) {
+    return new PathObserver({ cache: this, path: normalizePath(path) });
   }
 
-  waitFor(...args) {
-    let path, predicate;
+  computed({ inputs, apply }) {
+    const inputObservables = {};
 
-    if (args.length === 1) {
-      path = [];
-      predicate = args[0];
-    } else {
-      path = args[0];
-      predicate = args[1];
-    }
+    Object.entries(inputs).forEach(([key, value]) => {
+      inputObservables[key] = Array.isArray(value)
+        ? this.observe(value)
+        : value;
+    });
 
-    return new Promise((resolve) => {
-      const initialValue = this.get(path);
-      if (predicate(initialValue)) {
-        resolve(initialValue);
-      }
-
-      const subscription = this.subscribe(path, (value) => {
-        if (predicate(value)) {
-          subscription.unsubscribe();
-          resolve(value);
-        }
-      });
+    return new Computed({
+      cache: this,
+      id: observableIds++,
+      inputs: inputObservables,
+      apply,
     });
   }
 }

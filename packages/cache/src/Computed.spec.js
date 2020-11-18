@@ -3,9 +3,8 @@ const sinon = require("sinon");
 const Cache = require("./Cache");
 
 describe("cache.computed", () => {
-  let clock, spy, cache, sumOfNumbers, averageOfNumbers;
+  let spy, cache, sumOfNumbers, averageOfNumbers;
   beforeEach(() => {
-    clock = sinon.useFakeTimers();
     spy = sinon.spy();
 
     cache = new Cache({
@@ -24,10 +23,6 @@ describe("cache.computed", () => {
     });
   });
 
-  afterEach(() => {
-    clock.restore();
-  });
-
   it("returns a subscribable computed value", () => {
     sumOfNumbers.subscribe(spy);
 
@@ -37,12 +32,12 @@ describe("cache.computed", () => {
       global: { numbers: [1, 2, 3, 4] },
     });
 
-    clock.tick(0);
+    cache.notify();
 
     expect(sumOfNumbers.value, "to equal", 10);
 
     expect(spy, "to have calls satisfying", () => {
-      spy(10, expect.it("to be a", Cache));
+      spy(10);
     });
   });
 
@@ -62,8 +57,6 @@ describe("cache.computed", () => {
         global: { numbers: [1, 2, 3], other: "New stuff" },
       });
 
-      clock.tick(0);
-
       expect(sumOfNumbers.value, "to equal", 6);
 
       expect(spy, "was not called");
@@ -79,8 +72,6 @@ describe("cache.computed", () => {
       expect(cache.get(), "to equal", {
         global: { numbers: [3, 2, 1] },
       });
-
-      clock.tick(0);
 
       expect(sumOfNumbers.value, "to equal", 6);
 
@@ -118,12 +109,12 @@ describe("cache.computed", () => {
         global: { numbers: [1, 2, 3, 4] },
       });
 
-      clock.tick(0);
+      cache.notify();
 
       expect(averageOfNumbers.value, "to equal", 2.5);
 
       expect(spy, "to have calls satisfying", () => {
-        spy(2.5, expect.it("to be a", Cache));
+        spy(2.5);
       });
     });
 
@@ -141,35 +132,34 @@ describe("cache.computed", () => {
           global: { numbers: [1, 2, 3, 4] },
         });
 
-        clock.tick(0);
-
         expect(averageOfNumbers.value, "to equal", 2);
 
         expect(spy, "was not called");
       });
     });
   });
-});
 
-describe("cache.computed.waitFor", () => {
-  it("returns a promise for when the given condition is true value of the computed", async () => {
-    const cache = new Cache({
-      global: { numbers: [1, 2, 3] },
-    });
+  describe("waitFor", () => {
+    it("returns a promise for when the given condition is true value of the computed", async () => {
+      const cache = new Cache({
+        global: { numbers: [1, 2, 3] },
+      });
 
-    const sumOfNumbers = cache.computed({
-      inputs: { numbers: ["global", "numbers"] },
-      apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
-    });
+      const sumOfNumbers = cache.computed({
+        inputs: { numbers: ["global", "numbers"] },
+        apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
+      });
 
-    setTimeout(() => {
-      cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
-    }, 1);
+      setTimeout(() => {
+        cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+        cache.notify();
+      }, 1);
 
-    await sumOfNumbers.waitFor((n) => n === 10);
+      await sumOfNumbers.waitFor((n) => n === 10);
 
-    expect(cache.get(), "to equal", {
-      global: { numbers: [1, 2, 3, 4] },
+      expect(cache.get(), "to equal", {
+        global: { numbers: [1, 2, 3, 4] },
+      });
     });
   });
 });

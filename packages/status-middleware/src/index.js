@@ -17,14 +17,14 @@ const statusMiddleware = (...args) => async ({ store, next, action }) => {
     });
   }
 
-  store.set(["statuses", action.status], "loading");
+  store.cache.set(["statuses", action.status], "loading");
 
   payload.then(
     () => {
-      store.set(["statuses", action.status], "ready");
+      store.cache.set(["statuses", action.status], "ready");
     },
     (error) => {
-      store.set(["statuses", action.status], "failed");
+      store.cache.set(["statuses", action.status], "failed");
     }
   );
 

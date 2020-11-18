@@ -100,7 +100,7 @@ describe("cache", () => {
     });
   });
 
-  describe("subscribe", () => {
+  describe("observe", () => {
     let cache, spy;
 
     beforeEach(() => {
@@ -114,60 +114,57 @@ describe("cache", () => {
       spy = sinon.spy();
     });
 
-    describe("when only given a listener", () => {
-      it("subscribes to changes of the entire cache", () => {
-        cache.subscribe(spy);
+    it("observers the entire cache when given no path", () => {
+      cache.observe().subscribe(spy);
 
-        cache.update(["global"], ({ numbers, sum }) => ({
-          numbers: [...numbers, 4],
-          sum: sum + 4,
-        }));
+      cache.update(["global"], ({ numbers, sum }) => ({
+        numbers: [...numbers, 4],
+        sum: sum + 4,
+      }));
 
-        expect(cache.get(), "to equal", {
+      expect(cache.get(), "to equal", {
+        global: {
+          numbers: [1, 2, 3, 4],
+          sum: 10,
+        },
+      });
+
+      cache.notify();
+
+      expect(spy, "to have calls satisfying", () => {
+        spy({
           global: {
             numbers: [1, 2, 3, 4],
             sum: 10,
           },
         });
-
-        expect(spy, "to have calls satisfying", () => {
-          spy(
-            {
-              global: {
-                numbers: [1, 2, 3, 4],
-                sum: 10,
-              },
-            },
-            expect.it("to be a", Cache)
-          );
-        });
       });
     });
 
-    describe("when given a path and a listener", () => {
-      it("subscribes to the given path", () => {
-        cache.subscribe(["global", "numbers"], spy);
+    it("observes the given path", () => {
+      cache.observe(["global", "numbers"]).subscribe(spy);
 
-        cache.update(["global"], ({ numbers, sum }) => ({
-          numbers: [...numbers, 4],
-          sum: sum + 4,
-        }));
+      cache.update(["global"], ({ numbers, sum }) => ({
+        numbers: [...numbers, 4],
+        sum: sum + 4,
+      }));
 
-        expect(cache.get(), "to equal", {
-          global: {
-            numbers: [1, 2, 3, 4],
-            sum: 10,
-          },
-        });
+      expect(cache.get(), "to equal", {
+        global: {
+          numbers: [1, 2, 3, 4],
+          sum: 10,
+        },
+      });
 
-        expect(spy, "to have calls satisfying", () => {
-          spy([1, 2, 3, 4], expect.it("to be a", Cache));
-        });
+      cache.notify();
+
+      expect(spy, "to have calls satisfying", () => {
+        spy([1, 2, 3, 4]);
       });
     });
 
-    it("doesn't fire if the subscribe path is not affected", () => {
-      cache.subscribe(["global", "numbers"], spy);
+    it("subscriptions doesn't fire if the observed path is not affected", () => {
+      cache.observe(["global", "numbers"]).subscribe(spy);
 
       const average = (numbers) =>
         numbers.reduce((a, b) => a + b, 0) / numbers.length;
@@ -184,6 +181,8 @@ describe("cache", () => {
         },
       });
 
+      cache.notify();
+
       expect(spy, "was not called");
     });
   });
@@ -199,12 +198,14 @@ describe("cache", () => {
 
       const spy = sinon.spy();
 
-      const subscription = cache.subscribe(["global", "numbers"], spy);
+      const subscription = cache.observe(["global", "numbers"]).subscribe(spy);
 
       cache.update(["global"], ({ numbers, sum }) => ({
         numbers: [...numbers, 4],
         sum: sum + 4,
       }));
+
+      cache.notify();
 
       subscription.unsubscribe();
 
@@ -220,8 +221,10 @@ describe("cache", () => {
         },
       });
 
+      cache.notify();
+
       expect(spy, "to have calls satisfying", () => {
-        spy([1, 2, 3, 4], expect.it("to be a", Cache));
+        spy([1, 2, 3, 4]);
       });
     });
   });
@@ -233,30 +236,14 @@ describe("cache", () => {
           global: { status: "loading" },
         });
 
-        setTimeout(() => {
-          cache.set(["global", "status"], "ready");
-        }, 1);
-
-        await cache.waitFor((data) => data.global.status === "ready");
-      });
-    });
-
-    describe("when given a path", () => {
-      it("returns a promise for when the given condition is true for that path", async () => {
-        const cache = new Cache({
-          global: { status: "loading" },
-        });
+        const pathObserver = cache.observe(["global", "status"]);
 
         setTimeout(() => {
           cache.set(["global", "status"], "ready");
+          cache.notify();
         }, 1);
 
-        const value = await cache.waitFor(
-          ["global", "status"],
-          (status) => status === "ready"
-        );
-
-        expect(value, "to equal", "ready");
+        await pathObserver.waitFor((status) => status === "ready");
       });
     });
   });

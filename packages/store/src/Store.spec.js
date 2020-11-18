@@ -35,138 +35,57 @@ describe("store", () => {
         store.dispatch({
           apply: (cache) => {
             cache.update(["global", "testing"], (v) => v.toUpperCase());
+            cache.set(["global", "extra"], "Fresh out of the gate");
           },
         });
 
         expect(store.get(), "to equal", {
-          global: { testing: "THE STATE" },
-        });
-      });
-    });
-  });
-
-  describe("subscribe", () => {
-    let store, spy;
-
-    beforeEach(() => {
-      store = new Store({
-        global: {
-          numbers: [1, 2, 3],
-          sum: 6,
-        },
-      });
-
-      spy = sinon.spy();
-    });
-
-    describe("when only given a listener", () => {
-      it("subscribes to changes of the entire store", () => {
-        store.subscribe(spy);
-
-        store.update(["global"], ({ numbers, sum }) => ({
-          numbers: [...numbers, 4],
-          sum: sum + 4,
-        }));
-
-        expect(store.get(), "to equal", {
-          global: {
-            numbers: [1, 2, 3, 4],
-            sum: 10,
-          },
-        });
-
-        expect(spy, "to have calls satisfying", () => {
-          spy(
-            {
-              global: {
-                numbers: [1, 2, 3, 4],
-                sum: 10,
-              },
-            },
-            expect.it("to be a", Cache)
-          );
+          global: { testing: "THE STATE", extra: "Fresh out of the gate" },
         });
       });
     });
 
-    describe("when given a path and a listener", () => {
-      it("subscribes to the given path", () => {
-        store.subscribe(["global", "numbers"], spy);
-
-        store.update(["global"], ({ numbers, sum }) => ({
-          numbers: [...numbers, 4],
-          sum: sum + 4,
-        }));
-
-        expect(store.get(), "to equal", {
-          global: {
-            numbers: [1, 2, 3, 4],
-            sum: 10,
-          },
-        });
-
-        expect(spy, "to have calls satisfying", () => {
-          spy([1, 2, 3, 4], expect.it("to be a", Cache));
-        });
-      });
-    });
-
-    it("doesn't fire if the subscribe path is not affected", () => {
-      store.subscribe(["global", "numbers"], spy);
-
-      const average = (numbers) =>
-        numbers.reduce((a, b) => a + b, 0) / numbers.length;
-
-      store.update(["global", "average"], (_, store) =>
-        average(store.get(["global", "numbers"]))
-      );
-
-      expect(store.get(), "to equal", {
-        global: {
-          numbers: [1, 2, 3],
-          sum: 6,
-          average: 2,
-        },
-      });
-
-      expect(spy, "was not called");
-    });
-  });
-
-  describe("unsubscribe", () => {
-    it("unsubscribes a subscription", () => {
+    it("notify observers", () => {
       const store = new Store({
-        global: {
-          numbers: [1, 2, 3],
-          sum: 6,
-        },
+        a: 0,
+        b: 0,
+        c: 42,
       });
 
-      const spy = sinon.spy();
+      const bSpy = sinon.spy().named("b");
+      const b = store.observe("b");
+      b.subscribe(bSpy);
 
-      const subscription = store.subscribe(["global", "numbers"], spy);
+      const cSpy = sinon.spy().named("c");
+      store.observe("c").subscribe(cSpy);
 
-      store.update(["global"], ({ numbers, sum }) => ({
-        numbers: [...numbers, 4],
-        sum: sum + 4,
-      }));
+      const computedSpy = sinon.spy().named("multipy");
+      const multipy = store.computed({
+        inputs: {
+          a: ["a"],
+          b,
+        },
+        apply: ({ a, b }) => a * b,
+      });
 
-      subscription.unsubscribe();
+      multipy.subscribe(computedSpy);
 
-      store.update(["global"], ({ numbers, sum }) => ({
-        numbers: numbers.map((v) => v + 1),
-        sum: sum + numbers.length,
-      }));
+      store.dispatch({
+        apply: (cache) => {
+          cache.set("a", 2);
+          cache.set("b", 4);
+        },
+      });
 
       expect(store.get(), "to equal", {
-        global: {
-          numbers: [2, 3, 4, 5],
-          sum: 14,
-        },
+        a: 2,
+        b: 4,
+        c: 42,
       });
 
-      expect(spy, "to have calls satisfying", () => {
-        spy([1, 2, 3, 4], expect.it("to be a", Cache));
+      expect([bSpy, cSpy, computedSpy], "to have calls satisfying", () => {
+        bSpy(4);
+        computedSpy(8);
       });
     });
   });
@@ -228,53 +147,16 @@ describe("store", () => {
     });
   });
 
-  describe("waitFor", () => {
-    describe("when only given a predicate", () => {
-      it("returns a promise for when the given condition is true for the entire store", async () => {
-        const store = new Store({
-          global: { status: "loading" },
-        });
+  ["computed", "get", "observe"].forEach((method) => {
+    it(`forwards ${method} to the cache`, () => {
+      const store = new Store();
 
-        setTimeout(() => {
-          store.set(["global", "status"], "ready");
-        }, 1);
-
-        await store.waitFor((data) => data.global.status === "ready");
-      });
-    });
-
-    describe("when given a path", () => {
-      it("returns a promise for when the given condition is true for that path", async () => {
-        const store = new Store({
-          global: { status: "loading" },
-        });
-
-        setTimeout(() => {
-          store.set(["global", "status"], "ready");
-        }, 1);
-
-        const value = await store.waitFor(
-          ["global", "status"],
-          (status) => status === "ready"
-        );
-
-        expect(value, "to equal", "ready");
+      sinon.stub(store.cache, method);
+      const args = ["some", "arguments"];
+      store[method](...args);
+      expect(store.cache[method], "to have calls satisfying", () => {
+        store.cache[method](...args);
       });
     });
   });
-
-  ["computed", "get", "set", "subscribe", "update", "waitFor"].forEach(
-    (method) => {
-      it(`forwards ${method} to the cache`, () => {
-        const store = new Store();
-
-        sinon.stub(store.cache, method);
-        const args = ["some", "arguments"];
-        store[method](...args);
-        expect(store.cache[method], "to have calls satisfying", () => {
-          store.cache[method](...args);
-        });
-      });
-    }
-  );
 });

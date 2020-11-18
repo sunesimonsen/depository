@@ -3,7 +3,6 @@ const Cache = require("@depository/cache");
 class Store {
   constructor(data) {
     this.cache = new Cache(data);
-    this.subscriptions = [];
   }
 
   useMiddleware(middleware) {
@@ -26,26 +25,17 @@ class Store {
 
   dispatch(action) {
     action.apply(this.cache, action);
+    this.cache.notify();
 
     return action;
-  }
-
-  set(...args) {
-    this.cache.set(...args);
-    return this;
-  }
-
-  update(...args) {
-    this.cache.update(...args);
-    return this;
   }
 
   get(...args) {
     return this.cache.get(...args);
   }
 
-  subscribe(...args) {
-    return this.cache.subscribe(...args);
+  observe(...args) {
+    return this.cache.observe(...args);
   }
 
   computed(...args) {
