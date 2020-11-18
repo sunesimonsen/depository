@@ -24,6 +24,37 @@ describe("cache", () => {
     });
   });
 
+  describe("get", () => {
+    const cache = new Cache({
+      global: { numbers: [1, 2, 3] },
+    });
+
+    const numbers = ["global", "numbers"];
+
+    const sumOfNumbers = {
+      inputs: { numbers },
+      apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
+    };
+
+    const averageOfNumbers = {
+      inputs: { numbers, sum: sumOfNumbers },
+      apply: ({ numbers, sum }) =>
+        numbers.length === 0 ? NaN : sum / numbers.length,
+    };
+
+    describe("when given a path", () => {
+      it("retrieves the value from the cache", () => {
+        expect(cache.get(numbers), "to equal", [1, 2, 3]);
+      });
+    });
+
+    describe("when given a computed", () => {
+      it("retrieves the computed value from the cache", () => {
+        expect(cache.get(averageOfNumbers), "to equal", 2);
+      });
+    });
+  });
+
   describe("set", () => {
     it("sets the value at the given path", () => {
       const cache = new Cache({

@@ -57,8 +57,19 @@ class Cache {
     return this._data;
   }
 
-  get(path) {
-    return getIn(this.data, normalizePath(path));
+  get(pathOrComputed) {
+    if (isComputedDefinition(pathOrComputed)) {
+      const { inputs, apply } = pathOrComputed;
+
+      const inputValues = {};
+      Object.entries(inputs).forEach(([key, value]) => {
+        inputValues[key] = this.get(value);
+      });
+
+      return apply(inputValues);
+    } else {
+      return getIn(this.data, normalizePath(pathOrComputed));
+    }
   }
 
   set(...args) {
