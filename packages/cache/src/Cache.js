@@ -4,8 +4,27 @@ const getIn = require("./getIn");
 const normalizePath = require("./normalizePath");
 const Computed = require("./Computed");
 const PathObserver = require("./PathObserver");
+const { pathEqual } = require("./equal");
 
 let observableIds = 0;
+
+const isObject = (value) => value && typeof value === "object";
+
+const isComputedDefinition = (definition) => {
+  if (!isObject(definition)) return false;
+
+  const { inputs, apply } = definition;
+
+  if (typeof apply !== "function") {
+    return false;
+  }
+
+  if (!isObject(inputs)) {
+    return false;
+  }
+
+  return true;
+};
 
 class Cache {
   constructor(data = {}) {
@@ -104,25 +123,38 @@ class Cache {
     });
   }
 
-  observe(path) {
-    return new PathObserver({ cache: this, path: normalizePath(path) });
-  }
+  observe(pathOrComputed) {
+    let observer;
+    if (isComputedDefinition(pathOrComputed)) {
+      const { inputs, apply } = pathOrComputed;
+      observer = Array.from(this.computedObservers).find(
+        (o) => o.apply === apply && o.inputs === inputs
+      );
+      if (observer) return observer;
 
-  computed({ inputs, apply }) {
-    const inputObservables = {};
+      const inputObservables = {};
 
-    Object.entries(inputs).forEach(([key, value]) => {
-      inputObservables[key] = Array.isArray(value)
-        ? this.observe(value)
-        : value;
-    });
+      Object.entries(inputs).forEach(([key, value]) => {
+        inputObservables[key] = this.observe(value);
+      });
 
-    return new Computed({
-      cache: this,
-      id: observableIds++,
-      inputs: inputObservables,
-      apply,
-    });
+      return new Computed({
+        cache: this,
+        id: observableIds++,
+        inputs,
+        inputObservables,
+        apply,
+      });
+    } else {
+      const path = normalizePath(pathOrComputed);
+      const pathObservers = Array.from(this.pathObservers);
+      observer = pathObservers.find((o) => o.path === path);
+      if (observer) return observer;
+      observer = pathObservers.find((o) => pathEqual(o.path, path));
+      if (observer) return observer;
+
+      return new PathObserver({ cache: this, path });
+    }
   }
 }
 

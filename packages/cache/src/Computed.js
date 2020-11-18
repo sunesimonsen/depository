@@ -1,11 +1,12 @@
 const Subscribable = require("./Subscribable");
 
 class Computed extends Subscribable {
-  constructor({ cache, id, inputs, apply }) {
+  constructor({ cache, id, inputs, inputObservables, apply }) {
     super();
     this.id = id;
     this.cache = cache;
     this.inputs = inputs;
+    this.inputObservables = inputObservables;
     this.apply = apply;
     this.inputValues = [];
     this.isDirty = true;
@@ -15,7 +16,7 @@ class Computed extends Subscribable {
 
   updateValue() {
     this.inputValues = {};
-    Object.entries(this.inputs).forEach(([name, observer]) => {
+    Object.entries(this.inputObservables).forEach(([name, observer]) => {
       this.inputValues[name] = observer.value;
       this.isDirty = this.isDirty || observer.isDirty;
     });
@@ -28,12 +29,16 @@ class Computed extends Subscribable {
   }
 
   onActivate() {
-    Object.values(this.inputs).forEach((input) => input.addDependent(this));
+    Object.values(this.inputObservables).forEach((input) =>
+      input.addDependent(this)
+    );
     this.cache.addObserver(this);
   }
 
   onDeactivate() {
-    Object.values(this.inputs).forEach((input) => input.removeDependent(this));
+    Object.values(this.inputObservables).forEach((input) =>
+      input.removeDependent(this)
+    );
     this.cache.removeObserver(this);
   }
 }

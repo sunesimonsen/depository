@@ -60,11 +60,8 @@ describe("store", () => {
       store.observe("c").subscribe(cSpy);
 
       const computedSpy = sinon.spy().named("multipy");
-      const multipy = store.computed({
-        inputs: {
-          a: ["a"],
-          b,
-        },
+      const multipy = store.observe({
+        inputs: { a: "a", b: "b" },
         apply: ({ a, b }) => a * b,
       });
 
@@ -147,7 +144,7 @@ describe("store", () => {
     });
   });
 
-  ["computed", "get", "observe"].forEach((method) => {
+  ["get", "observe"].forEach((method) => {
     it(`forwards ${method} to the cache`, () => {
       const store = new Store();
 
