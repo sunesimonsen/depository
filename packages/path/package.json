@@ -1,0 +1,31 @@
+{
+  "name": "@depository/path",
+  "version": "0.0.1",
+  "description": "Paths for updateing and retrieving data from nested structures",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "query",
+    "native"
+  ],
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
+  "license": "MIT",
+  "bugs": "https://github.com/sunesimonsen/depository/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunesimonsen/depository"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "mocha": "8.2.1",
+    "unexpected": "11.8.1",
+    "unexpected-snapshot": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
