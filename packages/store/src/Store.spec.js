@@ -34,8 +34,8 @@ describe("store", () => {
 
         store.dispatch({
           apply: (cache) => {
-            cache.update(["global", "testing"], (v) => v.toUpperCase());
-            cache.set(["global", "extra"], "Fresh out of the gate");
+            cache.update("global.testing", (v) => v.toUpperCase());
+            cache.set("global.extra", "Fresh out of the gate");
           },
         });
 
@@ -127,7 +127,7 @@ describe("store", () => {
       store.dispatch({
         type: "upper-case",
         apply: (cache) => {
-          cache.update(["global", "testing"], (v) => v.toUpperCase());
+          cache.update("global.testing", (v) => v.toUpperCase());
         },
       });
 

@@ -29,7 +29,7 @@ describe("cache", () => {
       global: { numbers: [1, 2, 3] },
     });
 
-    const numbers = ["global", "numbers"];
+    const numbers = "global.numbers";
 
     const sumOfNumbers = {
       inputs: { numbers },
@@ -61,7 +61,7 @@ describe("cache", () => {
         global: { testing: "Hello world" },
       });
 
-      cache.set(["global", "testing"], "Hello beautiful world");
+      cache.set("global.testing", "Hello beautiful world");
 
       expect(cache.get(), "to equal", {
         global: { testing: "Hello beautiful world" },
@@ -88,7 +88,7 @@ describe("cache", () => {
           global: { testing: "The state" },
         });
 
-        cache.set(["global", "new path"], "This is new");
+        cache.set("global.new path", "This is new");
 
         expect(cache.get(), "to equal", {
           global: {
@@ -106,7 +106,7 @@ describe("cache", () => {
         global: { testing: "Hello world" },
       });
 
-      cache.update(["global", "testing"], (v) => v.toUpperCase());
+      cache.update("global.testing", (v) => v.toUpperCase());
 
       expect(cache.get(), "to equal", {
         global: { testing: "HELLO WORLD" },
@@ -119,7 +119,7 @@ describe("cache", () => {
           global: { testing: "The state" },
         });
 
-        cache.update(["global", "new path"], () => "This is new");
+        cache.update("global.new path", () => "This is new");
 
         expect(cache.get(), "to equal", {
           global: {
@@ -148,7 +148,7 @@ describe("cache", () => {
     it("observers the entire cache when given no path", () => {
       cache.observe().subscribe(spy);
 
-      cache.update(["global"], ({ numbers, sum }) => ({
+      cache.update("global", ({ numbers, sum }) => ({
         numbers: [...numbers, 4],
         sum: sum + 4,
       }));
@@ -173,9 +173,9 @@ describe("cache", () => {
     });
 
     it("observes the given path", () => {
-      cache.observe(["global", "numbers"]).subscribe(spy);
+      cache.observe("global.numbers").subscribe(spy);
 
-      cache.update(["global"], ({ numbers, sum }) => ({
+      cache.update("global", ({ numbers, sum }) => ({
         numbers: [...numbers, 4],
         sum: sum + 4,
       }));
@@ -195,12 +195,12 @@ describe("cache", () => {
     });
 
     it("subscriptions doesn't fire if the observed path is not affected", () => {
-      cache.observe(["global", "numbers"]).subscribe(spy);
+      cache.observe("global.numbers").subscribe(spy);
 
       const average = (numbers) =>
         numbers.reduce((a, b) => a + b, 0) / numbers.length;
 
-      cache.update(["global", "average"], (_, cache) =>
+      cache.update("global.average", (_, cache) =>
         average(cache.get(["global", "numbers"]))
       );
 
@@ -229,9 +229,9 @@ describe("cache", () => {
 
       const spy = sinon.spy();
 
-      const subscription = cache.observe(["global", "numbers"]).subscribe(spy);
+      const subscription = cache.observe("global.numbers").subscribe(spy);
 
-      cache.update(["global"], ({ numbers, sum }) => ({
+      cache.update("global", ({ numbers, sum }) => ({
         numbers: [...numbers, 4],
         sum: sum + 4,
       }));
@@ -240,7 +240,7 @@ describe("cache", () => {
 
       subscription.unsubscribe();
 
-      cache.update(["global"], ({ numbers, sum }) => ({
+      cache.update("global", ({ numbers, sum }) => ({
         numbers: numbers.map((v) => v + 1),
         sum: sum + numbers.length,
       }));
@@ -267,10 +267,10 @@ describe("cache", () => {
           global: { status: "loading" },
         });
 
-        const pathObserver = cache.observe(["global", "status"]);
+        const pathObserver = cache.observe("global.status");
 
         setTimeout(() => {
-          cache.set(["global", "status"], "ready");
+          cache.set("global.status", "ready");
           cache.notify();
         }, 1);
 

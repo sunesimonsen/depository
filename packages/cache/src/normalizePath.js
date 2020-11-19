@@ -1,6 +1,6 @@
 const normalizePath = (path) => {
   if (!path) return [];
-  if (typeof path === "string") return [path];
+  if (typeof path === "string") return path.split(".");
   return path;
 };
 

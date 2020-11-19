@@ -2,7 +2,7 @@ const expect = require("unexpected").clone().use(require("unexpected-sinon"));
 const sinon = require("sinon");
 const Cache = require("./Cache");
 
-const numbers = ["global", "numbers"];
+const numbers = "global.numbers";
 
 const sumOfNumbers = {
   inputs: { numbers },
@@ -31,7 +31,7 @@ describe("cache.computed", () => {
   it("returns a subscribable computed value", () => {
     sum.subscribe(spy);
 
-    cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+    cache.update("global.numbers", (numbers) => [...numbers, 4]);
 
     expect(cache.get(), "to equal", {
       global: { numbers: [1, 2, 3, 4] },
@@ -48,9 +48,9 @@ describe("cache.computed", () => {
 
   describe("when observing the same path that is already subscribed", () => {
     it("returns the active observer", () => {
-      const a = cache.observe(["some", "thing"]);
+      const a = cache.observe("some.thing");
       a.subscribe(spy);
-      const b = cache.observe(["some", "thing"]);
+      const b = cache.observe("some.thing");
 
       expect(a, "to be", b);
     });
@@ -81,7 +81,7 @@ describe("cache.computed", () => {
     it("doesn't fire if the subscribe path is not affected", () => {
       sum.subscribe(spy);
 
-      cache.set(["global", "other"], "New stuff");
+      cache.set("global.other", "New stuff");
 
       expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3], other: "New stuff" },
@@ -95,9 +95,7 @@ describe("cache.computed", () => {
     it("doesn't fire if the value didn't change", () => {
       sum.subscribe(spy);
 
-      cache.update(["global", "numbers"], (numbers) =>
-        numbers.slice().reverse()
-      );
+      cache.update("global.numbers", (numbers) => numbers.slice().reverse());
 
       expect(cache.get(), "to equal", {
         global: { numbers: [3, 2, 1] },
@@ -115,7 +113,7 @@ describe("cache.computed", () => {
 
       subscription.unsubscribe();
 
-      cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+      cache.update("global.numbers", (numbers) => [...numbers, 4]);
 
       expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3, 4] },
@@ -133,7 +131,7 @@ describe("cache.computed", () => {
 
       expect(average.value, "to equal", 2);
 
-      cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+      cache.update("global.numbers", (numbers) => [...numbers, 4]);
 
       expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3, 4] },
@@ -156,7 +154,7 @@ describe("cache.computed", () => {
 
         subscription.unsubscribe();
 
-        cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+        cache.update("global.numbers", (numbers) => [...numbers, 4]);
 
         expect(cache.get(), "to equal", {
           global: { numbers: [1, 2, 3, 4] },
@@ -172,7 +170,7 @@ describe("cache.computed", () => {
   describe("waitFor", () => {
     it("returns a promise for when the given condition is true value of the computed", async () => {
       setTimeout(() => {
-        cache.update(["global", "numbers"], (numbers) => [...numbers, 4]);
+        cache.update("global.numbers", (numbers) => [...numbers, 4]);
         cache.notify();
       }, 1);
 
