@@ -22,16 +22,20 @@ const parsePath = (path) => {
           return new WildcardCollector();
         }
 
-        if (segment.match(/^\w+$/)) {
+        if (segment.match(/^[^\(\)\[\]\{\}.*]+$/)) {
           return new Field(segment);
         }
 
-        const alternationMatch = segment.match(/^\((\w+(\|\w+)+)\)$/);
+        const alternationMatch = segment.match(
+          /^\(([^\(\)\[\]\{\}.*]+(\|[^\(\)\[\]\{\}.*]+)+)\)$/
+        );
         if (alternationMatch) {
           return new Alternation(alternationMatch[1].split("|"));
         }
 
-        const collectorMatch = segment.match(/^\{(\w+(,\w+)+)\}$/);
+        const collectorMatch = segment.match(
+          /^\{([^\(\)\[\]\{\}.*]+(,[^\(\)\[\]\{\}.*]+)+)\}$/
+        );
         if (collectorMatch) {
           return new Collector(collectorMatch[1].split(","));
         }

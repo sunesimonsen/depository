@@ -1,10 +1,13 @@
-const updateIn = require("./updateIn");
-const isPathAffected = require("./isPathAffected");
-const getIn = require("./getIn");
-const normalizePath = require("./normalizePath");
 const Computed = require("./Computed");
 const PathObserver = require("./PathObserver");
-const { pathEqual } = require("./equal");
+
+const {
+  getIn,
+  isPathsEqual,
+  isPathsIntersecting,
+  parsePath,
+  updateIn,
+} = require("@depository/path");
 
 let observableIds = 0;
 
@@ -68,7 +71,7 @@ class Cache {
 
       return apply(inputValues);
     } else {
-      return getIn(this.data, normalizePath(pathOrComputed));
+      return getIn(this.data, pathOrComputed);
     }
   }
 
@@ -76,7 +79,6 @@ class Cache {
     let path, value;
 
     if (args.length === 1) {
-      path = [];
       value = args[0];
     } else {
       path = args[0];
@@ -92,18 +94,18 @@ class Cache {
     let apply, path;
 
     if (args.length === 1) {
-      path = [];
       apply = args[0];
     } else {
       path = args[0];
       apply = args[1];
     }
 
-    path = normalizePath(path);
-
     this._setData(updateIn(this.data, path, (value) => apply(value, this)));
     this.pathObservers.forEach((pathObserver) => {
-      if (!pathObserver.isDirty && isPathAffected(pathObserver.path, path)) {
+      if (
+        !pathObserver.isDirty &&
+        isPathsIntersecting(pathObserver.path, path)
+      ) {
         pathObserver.isDirty = true;
       }
     });
@@ -157,11 +159,9 @@ class Cache {
         apply,
       });
     } else {
-      const path = normalizePath(pathOrComputed);
+      const path = parsePath(pathOrComputed);
       const pathObservers = Array.from(this.pathObservers);
-      observer = pathObservers.find((o) => o.path === path);
-      if (observer) return observer;
-      observer = pathObservers.find((o) => pathEqual(o.path, path));
+      observer = pathObservers.find((o) => isPathsEqual(o.path, path));
       if (observer) return observer;
 
       return new PathObserver({ cache: this, path });

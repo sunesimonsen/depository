@@ -20,6 +20,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@depository/path": "0.0.1"
+  },
   "devDependencies": {
     "mocha": "8.2.1",
     "sinon": "^9.2.1",

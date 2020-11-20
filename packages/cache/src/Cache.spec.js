@@ -26,7 +26,26 @@ describe("cache", () => {
 
   describe("get", () => {
     const cache = new Cache({
-      global: { numbers: [1, 2, 3] },
+      global: {
+        numbers: [1, 2, 3],
+        one: 1,
+        two: 2,
+        three: 3,
+        entities: {
+          todo: {
+            42: {
+              title: "Something to remember",
+              text: "Lorem ipsum",
+              meta: "meta",
+            },
+            666: {
+              title: "Another",
+              text: "also this",
+              extra: "something extra",
+            },
+          },
+        },
+      },
     });
 
     const numbers = "global.numbers";
@@ -138,7 +157,8 @@ describe("cache", () => {
       cache = new Cache({
         global: {
           numbers: [1, 2, 3],
-          sum: 6,
+          otherNumbers: [],
+          sum: 1 + 2 + 3,
         },
       });
 
@@ -173,24 +193,32 @@ describe("cache", () => {
     });
 
     it("observes the given path", () => {
-      cache.observe("global.numbers").subscribe(spy);
+      cache.observe("global.{numbers,otherNumbers}").subscribe(spy);
 
-      cache.update("global", ({ numbers, sum }) => ({
+      cache.update("global", ({ numbers, otherNumbers, sum }) => ({
         numbers: [...numbers, 4],
+        otherNumbers,
         sum: sum + 4,
+      }));
+
+      cache.update("global", ({ numbers, otherNumbers, sum }) => ({
+        numbers,
+        otherNumbers: [...otherNumbers, 5],
+        sum: sum + 5,
       }));
 
       expect(cache.get(), "to equal", {
         global: {
           numbers: [1, 2, 3, 4],
-          sum: 10,
+          otherNumbers: [5],
+          sum: 1 + 2 + 3 + 4 + 5,
         },
       });
 
       cache.notify();
 
       expect(spy, "to have calls satisfying", () => {
-        spy([1, 2, 3, 4]);
+        spy({ numbers: [1, 2, 3, 4], otherNumbers: [5] });
       });
     });
 
@@ -201,7 +229,7 @@ describe("cache", () => {
         numbers.reduce((a, b) => a + b, 0) / numbers.length;
 
       cache.update("global.average", (_, cache) =>
-        average(cache.get(["global", "numbers"]))
+        average(cache.get("global.numbers"))
       );
 
       expect(cache.get(), "to equal", {
@@ -209,6 +237,7 @@ describe("cache", () => {
           numbers: [1, 2, 3],
           sum: 6,
           average: 2,
+          otherNumbers: [],
         },
       });
 
