@@ -5,6 +5,10 @@ const updateSegmentsIn = (data, segments, apply) => {
     return apply(data);
   }
 
+  if (!data || typeof data !== "object") {
+    return;
+  }
+
   const segment = segments[0];
 
   switch (segment.type) {
