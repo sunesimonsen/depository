@@ -1,6 +1,6 @@
 {
   "name": "@depository/store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The foundation store for @depository",
   "main": "./src/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@depository/cache": "0.0.1"
+    "@depository/cache": "^0.0.2"
   },
   "devDependencies": {
     "mocha": "8.2.1",

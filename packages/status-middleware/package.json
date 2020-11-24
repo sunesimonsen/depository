@@ -1,6 +1,6 @@
 {
   "name": "@depository/status-middleware",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Status middleware for @depository",
   "main": "./src/index.js",
   "scripts": {
@@ -24,8 +24,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/promise-middleware": "0.0.1",
-    "@depository/store": "0.0.1",
+    "@depository/promise-middleware": "^0.0.2",
+    "@depository/store": "^0.0.2",
     "mocha": "8.2.1",
     "unexpected": "11.8.1"
   },
