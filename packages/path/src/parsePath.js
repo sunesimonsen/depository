@@ -27,14 +27,14 @@ export const parsePath = (path) => {
         }
 
         const alternationMatch = segment.match(
-          /^\(([^()[\]{}.*]+(\|[^()[\]{}.*]+)+)\)$/
+          /^\(([^()[\]{}.*|,]+(\|[^()[\]{}.*|,]+)*)\)$/
         );
         if (alternationMatch) {
           return new Alternation(alternationMatch[1].split("|"));
         }
 
         const collectorMatch = segment.match(
-          /^\{([^()[\]{}.*]+(,[^()[\]{}.*]+)+)\}$/
+          /^\{([^()[\]{}.*|,]+(,[^()[\]{}.*|,]+)*)\}$/
         );
         if (collectorMatch) {
           return new Collector(collectorMatch[1].split(","));

@@ -92,24 +92,51 @@ describe("parsePath", () => {
         })
       `
     );
+    expect(
+      parsePath("foo.{bar}.baz"),
+      "to inspect as snapshot",
+      expect.unindent`
+        Path({
+          type: 'path',
+          segments: [
+            Field({ type: 'field', name: 'foo' }),
+            Collector({ type: 'collector', names: [ 'bar' ] }),
+            Field({ type: 'field', name: 'baz' })
+          ]
+        })
+      `
+    );
+    expect(
+      parsePath("foo.(bar).baz"),
+      "to inspect as snapshot",
+      expect.unindent`
+        Path({
+          type: 'path',
+          segments: [
+            Field({ type: 'field', name: 'foo' }),
+            Alternation({ type: 'alternation', names: [ 'bar' ] }),
+            Field({ type: 'field', name: 'baz' })
+          ]
+        })
+      `
+    );
   });
 
-  it("rejects invalid paths", () => {
-    const invalidPaths = [
-      "foo.f().qux",
-      "foo.fooo).qux",
-      "foo.fooo].qux",
-      "foo.fooo}.qux",
-      "foo.{fooo}.qux",
-      "foo.{()}.qux",
-      "foo.[].qux",
-      "foo...qux",
-      "foo.(sdf,dsf).qux",
-      "foo.{sdf|dsf}.qux",
-    ];
+  const invalidPaths = [
+    "foo.f().qux",
+    "foo.fooo).qux",
+    "foo.fooo].qux",
+    "foo.fooo}.qux",
+    "foo.{()}.qux",
+    "foo.[].qux",
+    "foo...qux",
+    "foo.(sdf,dsf).qux",
+    "foo.{sdf|dsf}.qux",
+  ];
 
-    invalidPaths.forEach((path) => {
-      expect(() => parsePath(path), "to throw");
+  invalidPaths.forEach((invalidPath) => {
+    it(`rejects invalid path: ${invalidPath}`, () => {
+      expect(() => parsePath(invalidPath), "to throw");
     });
   });
 });
