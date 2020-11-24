@@ -144,7 +144,7 @@ describe("store", () => {
     });
   });
 
-  ["get", "observe"].forEach((method) => {
+  ["get", "has", "observe"].forEach((method) => {
     it(`forwards ${method} to the cache`, () => {
       const store = new Store();
 

@@ -3,6 +3,7 @@ const PathObserver = require("./PathObserver");
 
 const {
   getIn,
+  contains,
   isPathsEqual,
   isPathsIntersecting,
   parsePath,
@@ -73,6 +74,10 @@ class Cache {
     } else {
       return getIn(this.data, pathOrComputed);
     }
+  }
+
+  has(path) {
+    return contains(this.data, path);
   }
 
   set(...args) {

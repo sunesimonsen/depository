@@ -59,10 +59,11 @@ describe("getIn", () => {
 
   describe("on a path containing alternations", () => {
     it("returns a list of all of the matches", () => {
-      expect(getIn(data, "entities.todo.(42|666).title"), "to equal snapshot", [
-        "Something to remember",
-        "Another",
-      ]);
+      expect(
+        getIn(data, "entities.todo.(42|666|nothing).title"),
+        "to equal snapshot",
+        ["Something to remember", "Another"]
+      );
     });
 
     it("can be combined with collectors", () => {
@@ -90,7 +91,7 @@ describe("getIn", () => {
   describe("on a path containing a collector", () => {
     it("returns all of the fields of the collector", () => {
       expect(
-        getIn(data, "entities.todo.{666,42}.{title,text}"),
+        getIn(data, "entities.todo.{666,42,nothing}.{title,text}"),
         "to equal snapshot",
         {
           42: { title: "Something to remember", text: "Lorem ipsum" },
@@ -103,7 +104,7 @@ describe("getIn", () => {
   describe("on a path containing a wildcard collector", () => {
     it("returns all of the fields of the collector", () => {
       expect(
-        getIn(data, "entities.todo.{*}.{title,text}"),
+        getIn(data, "entities.todo.{*}.{title,text,maybe}"),
         "to equal snapshot",
         {
           42: { title: "Something to remember", text: "Lorem ipsum" },

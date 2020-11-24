@@ -34,6 +34,10 @@ class Store {
     return this.cache.get(...args);
   }
 
+  has(...args) {
+    return this.cache.has(...args);
+  }
+
   observe(...args) {
     return this.cache.observe(...args);
   }

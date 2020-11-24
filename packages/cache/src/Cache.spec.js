@@ -74,6 +74,44 @@ describe("cache", () => {
     });
   });
 
+  describe("has", () => {
+    const cache = new Cache({
+      global: {
+        numbers: [1, 2, 3],
+      },
+    });
+
+    describe("when given a simple path", () => {
+      it("returns true if the path matches the tree", () => {
+        expect(cache.has("global.numbers"), "to be true");
+      });
+
+      it("returns false if the path does not match the tree", () => {
+        expect(cache.has("numbers"), "to be false");
+      });
+    });
+
+    describe("when given path with alternations", () => {
+      it("returns true if the path matches the tree", () => {
+        expect(cache.has("global.(numbers|nothing)"), "to be true");
+      });
+
+      it("returns false if the path does not match the tree", () => {
+        expect(cache.has("global.(notthis|nothing)"), "to be false");
+      });
+    });
+
+    describe("when given path with wildcards", () => {
+      it("returns true if the path matches the tree", () => {
+        expect(cache.has("global.*"), "to be true");
+      });
+
+      it("returns false if the path does not match the tree", () => {
+        expect(cache.has("global.nothing.*"), "to be false");
+      });
+    });
+  });
+
   describe("set", () => {
     it("sets the value at the given path", () => {
       const cache = new Cache({

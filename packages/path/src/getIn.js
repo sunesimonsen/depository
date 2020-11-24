@@ -7,6 +7,10 @@ const getIn = (data, segments) => {
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i];
 
+    if (!current || typeof current !== "object") {
+      return undefined;
+    }
+
     switch (segment.type) {
       case "field":
         if (segment.name in current) {
