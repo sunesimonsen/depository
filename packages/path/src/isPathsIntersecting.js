@@ -1,4 +1,4 @@
-import { parsePath } from "./parsePath";
+import { parsePath } from "./parsePath.js";
 
 const isSegmentsIntersecting = (aSegments, bSegments) => {
   const minLength = Math.min(aSegments.length, bSegments.length);

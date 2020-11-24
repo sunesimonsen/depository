@@ -1,4 +1,4 @@
-import { parsePath } from "./parsePath";
+import { parsePath } from "./parsePath.js";
 
 const isSegmentsEqual = (aSegments, bSegments) => {
   if (aSegments === bSegments) return true;

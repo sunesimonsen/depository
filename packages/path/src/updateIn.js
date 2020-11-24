@@ -1,4 +1,4 @@
-import { parsePath } from "./parsePath";
+import { parsePath } from "./parsePath.js";
 
 const updateSegmentsIn = (data, segments, apply) => {
   if (segments.length === 0) {

@@ -1,4 +1,4 @@
-import { Subscribable } from "./Subscribable";
+import { Subscribable } from "./Subscribable.js";
 
 export class Computed extends Subscribable {
   constructor({ cache, id, compute, inputs, inputObservables }) {

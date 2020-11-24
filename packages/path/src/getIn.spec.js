@@ -1,6 +1,6 @@
 import unexpected from "unexpected";
 import unexpectedSnapshot from "unexpected-snapshot";
-import { getIn } from "./getIn";
+import { getIn } from "./getIn.js";
 
 const expect = unexpected.clone().use(unexpectedSnapshot);
 

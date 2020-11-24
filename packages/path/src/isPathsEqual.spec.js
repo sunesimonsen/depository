@@ -1,5 +1,5 @@
 import expect from "unexpected";
-import { isPathsEqual } from "./isPathsEqual";
+import { isPathsEqual } from "./isPathsEqual.js";
 
 describe("isPathsEqual", () => {
   [

@@ -1,5 +1,5 @@
 import expect from "unexpected";
-import { promiseMiddleware } from "./index";
+import { promiseMiddleware } from "./index.js";
 import { Store } from "@depository/store";
 
 const fakeApi = {

@@ -1,4 +1,4 @@
-import { Subscribable } from "./Subscribable";
+import { Subscribable } from "./Subscribable.js";
 
 export class PathObserver extends Subscribable {
   constructor({ cache, path }) {
