@@ -1,7 +1,8 @@
-const expect = require("unexpected")
-  .clone()
-  .use(require("unexpected-snapshot"));
-const getIn = require("./getIn");
+import unexpected from "unexpected";
+import unexpectedSnapshot from "unexpected-snapshot";
+import { getIn } from "./getIn";
+
+const expect = unexpected.clone().use(unexpectedSnapshot);
 
 describe("getIn", () => {
   const data = {

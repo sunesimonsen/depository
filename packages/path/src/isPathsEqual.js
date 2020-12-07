@@ -1,10 +1,11 @@
-const parsePath = require("./parsePath");
+import { parsePath } from "./parsePath";
 
-const isPathsEqual = (aSegments, bSegments) => {
+const isSegmentsEqual = (aSegments, bSegments) => {
   if (aSegments === bSegments) return true;
   if (aSegments.length !== bSegments.length) return false;
 
   for (let i = 0; i < aSegments.length; i++) {
+    let bNames;
     const a = aSegments[i];
     const b = bSegments[i];
 
@@ -21,9 +22,9 @@ const isPathsEqual = (aSegments, bSegments) => {
       case "alternation":
         if (a.names.length !== b.names.length) return false;
 
-        const bNames = new Set(b.names);
-        for (let j = 0; j < a.names.length; j++) {
-          if (!bNames.has(a.names[j])) return false;
+        bNames = new Set(b.names);
+        if (a.names.some((name) => !bNames.has(name))) {
+          return false;
         }
         break;
     }
@@ -32,5 +33,5 @@ const isPathsEqual = (aSegments, bSegments) => {
   return true;
 };
 
-module.exports = (aPath, bPath) =>
-  isPathsEqual(parsePath(aPath).segments, parsePath(bPath).segments);
+export const isPathsEqual = (aPath, bPath) =>
+  isSegmentsEqual(parsePath(aPath).segments, parsePath(bPath).segments);

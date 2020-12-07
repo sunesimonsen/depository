@@ -1,6 +1,6 @@
-const parsePath = require("./parsePath");
+import { parsePath } from "./parsePath";
 
-const getIn = (data, segments) => {
+const getSegmentsIn = (data, segments) => {
   if (segments.length === 0) return data;
 
   let current = data;
@@ -22,23 +22,23 @@ const getIn = (data, segments) => {
 
       case "wildcard":
         return Object.keys(current)
-          .map((key) => getIn(current[key], segments.slice(i + 1)))
+          .map((key) => getSegmentsIn(current[key], segments.slice(i + 1)))
           .filter((v) => typeof v !== "undefined");
 
       case "alternation":
         return segment.names
-          .map((key) => getIn(current[key], segments.slice(i + 1)))
+          .map((key) => getSegmentsIn(current[key], segments.slice(i + 1)))
           .filter((v) => typeof v !== "undefined");
 
       case "collector":
         return segment.names.reduce((result, key) => {
-          result[key] = getIn(current[key], segments.slice(i + 1));
+          result[key] = getSegmentsIn(current[key], segments.slice(i + 1));
           return result;
         }, {});
 
       case "wildcardCollector":
         return Object.keys(current).reduce((result, key) => {
-          result[key] = getIn(current[key], segments.slice(i + 1));
+          result[key] = getSegmentsIn(current[key], segments.slice(i + 1));
           return result;
         }, {});
     }
@@ -47,4 +47,5 @@ const getIn = (data, segments) => {
   return current;
 };
 
-module.exports = (data, path) => getIn(data, parsePath(path).segments);
+export const getIn = (data, path) =>
+  getSegmentsIn(data, parsePath(path).segments);

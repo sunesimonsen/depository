@@ -1,4 +1,8 @@
-const promiseMiddleware = (...args) => async ({ store, next, action }) => {
+export const promiseMiddleware = (...args) => async ({
+  store,
+  next,
+  action,
+}) => {
   let payload = action.payload;
 
   if (!payload) {
@@ -24,5 +28,3 @@ const promiseMiddleware = (...args) => async ({ store, next, action }) => {
     });
   }
 };
-
-module.exports = promiseMiddleware;

@@ -1,6 +1,10 @@
-const isPromise = require("is-promise");
+import isPromise from "is-promise";
 
-const statusMiddleware = (...args) => async ({ store, next, action }) => {
+export const statusMiddleware = (...args) => async ({
+  store,
+  next,
+  action,
+}) => {
   if (!action.payload || !action.status) {
     return next(action);
   }
@@ -25,6 +29,7 @@ const statusMiddleware = (...args) => async ({ store, next, action }) => {
     },
     (error) => {
       store.cache.set(`statuses.${action.status}`, "failed");
+      throw error;
     }
   );
 
@@ -33,5 +38,3 @@ const statusMiddleware = (...args) => async ({ store, next, action }) => {
     payload,
   });
 };
-
-module.exports = statusMiddleware;

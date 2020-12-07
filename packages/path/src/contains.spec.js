@@ -1,5 +1,5 @@
-const expect = require("unexpected");
-const contains = require("./contains");
+import expect from "unexpected";
+import { contains } from "./contains";
 
 describe("contains", () => {
   const data = {

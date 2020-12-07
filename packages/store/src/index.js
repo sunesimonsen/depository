@@ -1,1 +1,1 @@
-module.exports = require("./Store");
+export { Store } from "./Store";

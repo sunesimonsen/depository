@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "A reactive cache for @depository",
   "main": "./src/index.js",
+  "module": "./src/index.js",
+  "sideEffects": false,
   "scripts": {
     "test": "mocha **/*.spec.js"
   },
@@ -24,6 +26,7 @@
     "@depository/path": "^0.1.0"
   },
   "devDependencies": {
+    "esm": "^3.2.25",
     "mocha": "8.2.1",
     "sinon": "^9.2.1",
     "unexpected": "11.8.1",

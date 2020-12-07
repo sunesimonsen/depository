@@ -1,6 +1,6 @@
-const Subscribable = require("./Subscribable");
+import { Subscribable } from "./Subscribable";
 
-class PathObserver extends Subscribable {
+export class PathObserver extends Subscribable {
   constructor({ cache, path }) {
     super();
     this.path = path;
@@ -21,5 +21,3 @@ class PathObserver extends Subscribable {
     this.cache.removeObserver(this);
   }
 }
-
-module.exports = PathObserver;

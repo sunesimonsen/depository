@@ -1,6 +1,6 @@
-const Subscribable = require("./Subscribable");
+import { Subscribable } from "./Subscribable";
 
-class Computed extends Subscribable {
+export class Computed extends Subscribable {
   constructor({ cache, id, inputs, inputObservables, apply }) {
     super();
     this.id = id;
@@ -42,5 +42,3 @@ class Computed extends Subscribable {
     this.cache.removeObserver(this);
   }
 }
-
-module.exports = Computed;

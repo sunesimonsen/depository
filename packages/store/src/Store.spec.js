@@ -1,7 +1,9 @@
-const expect = require("unexpected").clone().use(require("unexpected-sinon"));
-const sinon = require("sinon");
-const Store = require("./Store");
-const Cache = require("@depository/cache");
+import unexpected from "unexpected";
+import unexpectedSinon from "unexpected-sinon";
+import sinon from "sinon";
+import { Store } from "./Store";
+
+const expect = unexpected.clone().use(unexpectedSinon);
 
 describe("store", () => {
   describe("constructor", () => {

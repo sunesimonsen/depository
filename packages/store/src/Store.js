@@ -1,6 +1,6 @@
-const Cache = require("@depository/cache");
+import { Cache } from "@depository/cache";
 
-class Store {
+export class Store {
   constructor(data) {
     this.cache = new Cache(data);
   }
@@ -50,5 +50,3 @@ class Store {
     return this.cache.waitFor(...args);
   }
 }
-
-module.exports = Store;

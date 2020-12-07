@@ -1,6 +1,6 @@
-const parsePath = require("./parsePath");
+import { parsePath } from "./parsePath";
 
-const isPathsIntersecting = (aSegments, bSegments) => {
+const isSegmentsIntersecting = (aSegments, bSegments) => {
   const minLength = Math.min(aSegments.length, bSegments.length);
 
   for (let i = 0; i < minLength; i++) {
@@ -51,5 +51,5 @@ const isPathsIntersecting = (aSegments, bSegments) => {
   return true;
 };
 
-module.exports = (aPath, bPath) =>
-  isPathsIntersecting(parsePath(aPath).segments, parsePath(bPath).segments);
+export const isPathsIntersecting = (aPath, bPath) =>
+  isSegmentsIntersecting(parsePath(aPath).segments, parsePath(bPath).segments);

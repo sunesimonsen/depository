@@ -1,4 +1,4 @@
-class Subscription {
+export class Subscription {
   constructor({ listener, subscribable }) {
     this.subscribable = subscribable;
     this.listener = listener;
@@ -12,5 +12,3 @@ class Subscription {
     this.subscribable.unsubscribe(this);
   }
 }
-
-module.exports = Subscription;

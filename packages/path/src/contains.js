@@ -1,6 +1,6 @@
-const parsePath = require("./parsePath");
+import { parsePath } from "./parsePath";
 
-const contains = (data, segments) => {
+const containSegments = (data, segments) => {
   if (segments.length === 0) return typeof data !== "undefined";
 
   let current = data;
@@ -22,12 +22,12 @@ const contains = (data, segments) => {
 
       case "wildcard":
         return Object.keys(current).some((key) =>
-          contains(current[key], segments.slice(i + 1))
+          containSegments(current[key], segments.slice(i + 1))
         );
 
       case "alternation":
         return segment.names.some((key) =>
-          contains(current[key], segments.slice(i + 1))
+          containSegments(current[key], segments.slice(i + 1))
         );
 
       default:
@@ -38,4 +38,5 @@ const contains = (data, segments) => {
   return true;
 };
 
-module.exports = (data, path) => contains(data, parsePath(path).segments);
+export const contains = (data, path) =>
+  containSegments(data, parsePath(path).segments);
