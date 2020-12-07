@@ -1,6 +1,6 @@
-const Subscription = require("./Subscription");
+import { Subscription } from "./Subscription";
 
-class Subscribable {
+export class Subscribable {
   constructor() {
     this.subscriptions = [];
     this.dependents = [];
@@ -42,7 +42,7 @@ class Subscribable {
   }
 
   unsubscribe(subscription) {
-    this.subscriptions = this.subscriptions.filter((s) => s != subscription);
+    this.subscriptions = this.subscriptions.filter((s) => s !== subscription);
 
     if (this.subscriptions.length === 0 && this.dependents.length === 0) {
       this.onDeactivate();
@@ -71,5 +71,3 @@ class Subscribable {
     });
   }
 }
-
-module.exports = Subscribable;

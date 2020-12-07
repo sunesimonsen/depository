@@ -1,6 +1,9 @@
-const expect = require("unexpected").clone().use(require("unexpected-sinon"));
-const sinon = require("sinon");
-const Cache = require("./Cache");
+import unexpected from "unexpected";
+import unexpectedSinon from "unexpected-sinon";
+import sinon from "sinon";
+import { Cache } from "./Cache";
+
+const expect = unexpected.clone().use(unexpectedSinon);
 
 describe("cache", () => {
   describe("constructor", () => {

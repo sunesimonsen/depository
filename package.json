@@ -11,6 +11,7 @@
     "url": "https://github.com/sunesimonsen/depository"
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "test": "lerna run test",
     "format": "prettier --write '**/*.{js,md,json}'",
     "lint": "eslint . && prettier --check '**/*.{js,md,json}'",
@@ -26,6 +27,8 @@
     "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^4.0.0",
     "lerna": "^3.19.0",
     "markdown-toc": "^1.2.0",

@@ -1,6 +1,6 @@
-const parsePath = require("./parsePath");
+import { parsePath } from "./parsePath";
 
-const updateIn = (data, segments, apply) => {
+const updateSegmentsIn = (data, segments, apply) => {
   if (segments.length === 0) {
     return apply(data);
   }
@@ -11,7 +11,7 @@ const updateIn = (data, segments, apply) => {
     case "field":
       return {
         ...data,
-        [segment.name]: updateIn(
+        [segment.name]: updateSegmentsIn(
           data[segment.name] || {},
           segments.slice(1),
           apply
@@ -21,7 +21,7 @@ const updateIn = (data, segments, apply) => {
     case "alternation":
       return segment.names.reduce(
         (result, key) => {
-          result[key] = updateIn(data[key], segments.slice(1), apply);
+          result[key] = updateSegmentsIn(data[key], segments.slice(1), apply);
           return result;
         },
         { ...data }
@@ -29,7 +29,7 @@ const updateIn = (data, segments, apply) => {
 
     case "wildcard":
       return Object.keys(data).reduce((result, key) => {
-        result[key] = updateIn(data[key], segments.slice(1), apply);
+        result[key] = updateSegmentsIn(data[key], segments.slice(1), apply);
         return result;
       }, {});
 
@@ -38,5 +38,5 @@ const updateIn = (data, segments, apply) => {
   }
 };
 
-module.exports = (data, path, apply) =>
-  updateIn(data, parsePath(path).segments, apply);
+export const updateIn = (data, path, apply) =>
+  updateSegmentsIn(data, parsePath(path).segments, apply);

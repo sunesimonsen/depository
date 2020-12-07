@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "Paths for updateing and retrieving data from nested structures",
   "main": "./src/index.js",
+  "module": "./src/index.js",
+  "sideEffects": false,
   "scripts": {
     "test": "mocha **/*.spec.js"
   },
@@ -21,6 +23,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "esm": "^3.2.25",
     "mocha": "8.2.1",
     "unexpected": "11.8.1",
     "unexpected-snapshot": "^1.0.2"

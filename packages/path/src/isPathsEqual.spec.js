@@ -1,5 +1,5 @@
-const expect = require("unexpected");
-const isPathsEqual = require("./isPathsEqual");
+import expect from "unexpected";
+import { isPathsEqual } from "./isPathsEqual";
 
 describe("isPathsEqual", () => {
   [

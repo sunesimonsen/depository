@@ -1,10 +1,10 @@
-const expect = require("unexpected")
-  .clone()
-  .use(require("unexpected-snapshot"));
+import unexpected from "unexpected";
+import unexpectedSnapshot from "unexpected-snapshot";
+import { parsePath } from "./parsePath";
+
+const expect = unexpected.clone().use(unexpectedSnapshot);
 
 expect.output.preferredWidth = 80;
-
-const parsePath = require("./parsePath");
 
 describe("parsePath", () => {
   it("parses valid paths", () => {

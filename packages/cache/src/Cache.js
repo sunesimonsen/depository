@@ -1,14 +1,14 @@
-const Computed = require("./Computed");
-const PathObserver = require("./PathObserver");
+import { Computed } from "./Computed";
+import { PathObserver } from "./PathObserver";
 
-const {
+import {
   getIn,
   contains,
   isPathsEqual,
   isPathsIntersecting,
   parsePath,
   updateIn,
-} = require("@depository/path");
+} from "@depository/path";
 
 let observableIds = 0;
 
@@ -30,11 +30,13 @@ const isComputedDefinition = (definition) => {
   return true;
 };
 
-class Cache {
+export class Cache {
   constructor(data = {}) {
     this._data = data;
     this.pathObservers = new Set();
     this.computedObservers = new Set();
+
+    this._setData = this._setData.bind(this);
   }
 
   addObserver(observer) {
@@ -53,9 +55,9 @@ class Cache {
     }
   }
 
-  _setData = (data) => {
+  _setData(data) {
     this._data = data;
-  };
+  }
 
   get data() {
     return this._data;
@@ -120,7 +122,7 @@ class Cache {
 
   notify() {
     const computedObservers = Array.from(this.computedObservers).sort(
-      (a, b) => a.id < b.id
+      (a, b) => a.id - b.id
     );
 
     const updateValue = (observer) => observer.updateValue();
@@ -173,5 +175,3 @@ class Cache {
     }
   }
 }
-
-module.exports = Cache;

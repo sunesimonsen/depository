@@ -1,5 +1,5 @@
-const expect = require("unexpected");
-const isPathsIntersecting = require("./isPathsIntersecting");
+import expect from "unexpected";
+import { isPathsIntersecting } from "./isPathsIntersecting";
 
 describe("isPathsIntersecting", () => {
   [

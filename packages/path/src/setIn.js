@@ -1,5 +1,3 @@
-const updateIn = require("./updateIn");
+import { updateIn } from "./updateIn";
 
-const setIn = (data, path, value) => updateIn(data, path, (_) => value);
-
-module.exports = setIn;
+export const setIn = (data, path, value) => updateIn(data, path, (_) => value);

@@ -1,11 +1,11 @@
-const Path = require("./Path");
-const Alternation = require("./Alternation");
-const Collector = require("./Collector");
-const Wildcard = require("./Wildcard");
-const WildcardCollector = require("./WildcardCollector");
-const Field = require("./Field");
+import { Path } from "./Path";
+import { Alternation } from "./Alternation";
+import { Collector } from "./Collector";
+import { Wildcard } from "./Wildcard";
+import { WildcardCollector } from "./WildcardCollector";
+import { Field } from "./Field";
 
-const parsePath = (path) => {
+export const parsePath = (path) => {
   if (path instanceof Path) return path;
   if (!path) return new Path([]);
 
@@ -22,19 +22,19 @@ const parsePath = (path) => {
           return new WildcardCollector();
         }
 
-        if (segment.match(/^[^\(\)\[\]\{\}.*]+$/)) {
+        if (segment.match(/^[^()[\]{}.*]+$/)) {
           return new Field(segment);
         }
 
         const alternationMatch = segment.match(
-          /^\(([^\(\)\[\]\{\}.*]+(\|[^\(\)\[\]\{\}.*]+)+)\)$/
+          /^\(([^()[\]{}.*]+(\|[^()[\]{}.*]+)+)\)$/
         );
         if (alternationMatch) {
           return new Alternation(alternationMatch[1].split("|"));
         }
 
         const collectorMatch = segment.match(
-          /^\{([^\(\)\[\]\{\}.*]+(,[^\(\)\[\]\{\}.*]+)+)\}$/
+          /^\{([^()[\]{}.*]+(,[^()[\]{}.*]+)+)\}$/
         );
         if (collectorMatch) {
           return new Collector(collectorMatch[1].split(","));
@@ -44,5 +44,3 @@ const parsePath = (path) => {
       })
   );
 };
-
-module.exports = parsePath;

@@ -1,7 +1,7 @@
-const expect = require("unexpected");
-const statusMiddleware = require("./index");
-const promiseMiddleware = require("@depository/promise-middleware");
-const Store = require("@depository/store");
+import expect from "unexpected";
+import { statusMiddleware } from "./index";
+import { promiseMiddleware } from "@depository/promise-middleware";
+import { Store } from "@depository/store";
 
 const fakeApi = {
   async getTestValue() {
