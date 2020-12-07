@@ -122,7 +122,7 @@ export class Cache {
 
   notify() {
     const computedObservers = Array.from(this.computedObservers).sort(
-      (a, b) => a.id < b.id
+      (a, b) => a.id - b.id
     );
 
     const updateValue = (observer) => observer.updateValue();
