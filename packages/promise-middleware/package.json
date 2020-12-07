@@ -1,6 +1,6 @@
 {
   "name": "@depository/promise-middleware",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Promise middleware for @depository",
   "main": "./src/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/store": "^0.0.2",
+    "@depository/store": "^0.1.0",
     "mocha": "8.2.1",
     "unexpected": "11.8.1"
   },
