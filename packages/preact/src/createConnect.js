@@ -1,18 +1,26 @@
 import { StoreContext } from "./StoreContext";
 
-export const createWithStore = ({ h, Component }) => (
+export const createConnect = ({ h, Component }) => (
   ChildComponent,
-  bindings
+  functionbindings
 ) => {
-  class WithStore extends Component {
+  class Connected extends Component {
     constructor(props) {
       super(props);
 
+      const bindings =
+        typeof functionbindings === "function"
+          ? functionbindings(props)
+          : functionbindings;
+
       const store = props.store;
+
       this.state = {
         dispatch: store.dispatch.bind(store),
       };
+
       this.observers = {};
+
       Object.keys(bindings).forEach((name) => {
         const observer = store.observe(bindings[name]);
         this.observers[name] = observer;
@@ -49,6 +57,6 @@ export const createWithStore = ({ h, Component }) => (
 
   return ({ children, ...other }) =>
     h(StoreContext.Consumer, null, (store) =>
-      h(WithStore, { store, ...other }, children)
+      h(Connected, { store, ...other }, children)
     );
 };

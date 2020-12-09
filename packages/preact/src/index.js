@@ -1,1 +1,1 @@
-export { withStore, StoreProvider } from "./withStore";
+export { connect, StoreProvider } from "./connect";
