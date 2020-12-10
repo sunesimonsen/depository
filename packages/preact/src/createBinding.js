@@ -1,9 +1,9 @@
-import { StoreContext } from "./StoreContext";
-
-export const createConnect = ({ h, Component }) => (
+export const createBinding = ({ h, Component, createContext }) => (
   ChildComponent,
   functionbindings
 ) => {
+  const StoreContext = createContext(`depository`);
+
   class Connected extends Component {
     constructor(props) {
       super(props);
@@ -55,8 +55,12 @@ export const createConnect = ({ h, Component }) => (
     }
   }
 
-  return ({ children, ...other }) =>
+  const connect = ({ children, ...other }) =>
     h(StoreContext.Consumer, null, (store) =>
       h(Connected, { store, ...other }, children)
     );
+
+  const StoreProvider = StoreContext.Provider;
+
+  return { connect, StoreProvider };
 };
