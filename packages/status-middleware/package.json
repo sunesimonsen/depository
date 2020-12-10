@@ -1,6 +1,6 @@
 {
   "name": "@depository/status-middleware",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Status middleware for @depository",
   "main": "./src/index.js",
   "module": "./src/index.js",
@@ -28,8 +28,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/promise-middleware": "^0.4.0",
-    "@depository/store": "^0.4.0",
+    "@depository/promise-middleware": "^0.5.0",
+    "@depository/store": "^0.5.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "esm": "^3.2.25",
