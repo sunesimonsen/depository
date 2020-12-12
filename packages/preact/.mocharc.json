@@ -1,3 +1,3 @@
 {
-  "require": ["esm"]
+  "require": ["esm", "mocha-dominate"]
 }
