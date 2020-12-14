@@ -16,7 +16,7 @@ const updateSegmentsIn = (data, segments, apply) => {
       return {
         ...data,
         [segment.name]: updateSegmentsIn(
-          data[segment.name] || {},
+          segment.name in data ? data[segment.name] : {},
           segments.slice(1),
           apply
         ),

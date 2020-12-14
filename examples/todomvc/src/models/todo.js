@@ -16,7 +16,7 @@ export const allTodos = {
     filter: visibilityFilter,
     todos: "entities.todo.*.{*}",
   },
-  apply: ({ filter, todos }) =>
+  compute: ({ filter, todos }) =>
     (todos || []).filter(createVisibilityFilter(filter)).sort((a, b) => {
       if (a.createdAt < b.createdAt) return -1;
       if (a.createdAt > b.createdAt) return 1;
@@ -26,46 +26,74 @@ export const allTodos = {
 
 export const todoById = (id) => `entities.todo.${id}`;
 
-export const todoCount = {
-  inputs: {
-    completed: "entities.todo.*.completed",
-  },
-  apply: ({ completed }) => completed.filter(Boolean).length,
-};
-
 export const activeTodoCount = {
   inputs: {
     completed: "entities.todo.*.completed",
   },
-  apply: ({ completed }) => completed.filter((c) => !c).length,
+  compute: ({ completed }) => completed.filter((c) => !c).length,
 };
 
-export const hasCompletedTodos = {
-  inputs: {
-    completed: "entities.todo.*.completed",
+let ids = 0;
+
+export const createTodo = ({ id = ids++, text, createdAt = new Date() }) => ({
+  payload: {
+    id: String(id),
+    text,
+    completed: false,
+    createdAt,
+    editing: false,
   },
-  apply: ({ completed }) => completed.some(Boolean),
-};
-
-export const createTodo = ({ id, text, createdAt = new Date() }) => ({
-  payload: { id, text, completed: false, createdAt },
   apply: (cache, { payload }) => {
     cache.set(`entities.todo.${payload.id}`, payload);
   },
 });
 
-export const completeTodo = ({ id }) => ({
-  payload: { id },
+export const updateTodo = ({ id, ...values }) => ({
+  payload: { ...values, id, editing: false },
   apply: (cache, { payload }) => {
-    if (cache.has(`entities.todo.${payload.id}`)) {
-      cache.set(`entities.todo.${payload.id}.completed`, true);
-    }
+    cache.update(`entities.todo.${payload.id}`, (todo) => ({
+      ...todo,
+      ...payload,
+    }));
   },
 });
 
-export const completeAllTodos = () => ({
+export const toggleTodo = ({ id }) => ({
+  payload: { id },
+  apply: (cache, { payload }) => {
+    cache.update(
+      `entities.todo.${payload.id}.completed`,
+      (completed) => !completed
+    );
+  },
+});
+
+export const startEditingTodo = ({ id }) => ({
+  payload: { id },
+  apply: (cache, { payload }) => {
+    cache.set(`entities.todo.${payload.id}.editing`, true);
+  },
+});
+
+export const stopEditingTodo = ({ id }) => ({
+  payload: { id },
+  apply: (cache, { payload }) => {
+    cache.set(`entities.todo.${payload.id}.editing`, false);
+  },
+});
+
+export const toggleAllTodos = () => ({
   apply: (cache) => {
-    cache.set(`entities.todo.*.completed`, true);
+    const count = cache.get(activeTodoCount);
+
+    cache.set(`entities.todo.*.completed`, count !== 0);
+  },
+});
+
+export const removeTodo = ({ id }) => ({
+  payload: { id },
+  apply: (cache, { payload }) => {
+    cache.remove(`entities.todo.${payload.id}`);
   },
 });
 

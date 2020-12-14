@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "dependencies": {
-    "@depository/store": "0.1.0"
+    "@depository/store": "0.5.0"
   },
   "devDependencies": {
     "esm": "^3.2.25",
