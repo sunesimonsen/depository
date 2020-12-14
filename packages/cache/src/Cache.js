@@ -120,6 +120,10 @@ export class Cache {
     return this;
   }
 
+  remove(path) {
+    return this.set(path, undefined);
+  }
+
   notify() {
     const computedObservers = Array.from(this.computedObservers).sort(
       (a, b) => a.id - b.id

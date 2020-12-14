@@ -191,6 +191,27 @@ describe("cache", () => {
     });
   });
 
+  describe("remove", () => {
+    it("removes the matching paths from the store", () => {
+      const cache = new Cache({
+        hereToStay: "Don't delete this",
+        nested: {
+          nested: {
+            value: 42,
+          },
+          primitiveValue: true,
+        },
+      });
+
+      cache.remove("nested.(nested|primitiveValue)");
+
+      expect(cache.get(), "to equal", {
+        hereToStay: "Don't delete this",
+        nested: {},
+      });
+    });
+  });
+
   describe("observe", () => {
     let cache, spy;
 
