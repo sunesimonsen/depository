@@ -5,6 +5,9 @@
   "main": "./src/index.js",
   "module": "./src/index.js",
   "sideEffects": false,
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
   "keywords": [
     "query",
     "native"
