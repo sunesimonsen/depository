@@ -20,7 +20,7 @@ const sum = {
     a: "a",
     b: "b",
   },
-  apply: ({ a, b }) => a + b,
+  compute: ({ a, b }) => a + b,
 };
 
 const increment = () => ({
