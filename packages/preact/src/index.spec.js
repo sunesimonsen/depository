@@ -50,6 +50,7 @@ const TestableConnected = connect(Testable, {
 
 describe("preact", () => {
   let container, store;
+
   beforeEach(() => {
     container = document.createElement("div");
 
