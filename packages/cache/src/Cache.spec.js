@@ -55,12 +55,12 @@ describe("cache", () => {
 
     const sumOfNumbers = {
       inputs: { numbers },
-      apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
+      compute: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
     };
 
     const averageOfNumbers = {
       inputs: { numbers, sum: sumOfNumbers },
-      apply: ({ numbers, sum }) =>
+      compute: ({ numbers, sum }) =>
         numbers.length === 0 ? NaN : sum / numbers.length,
     };
 

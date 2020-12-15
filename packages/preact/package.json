@@ -5,6 +5,9 @@
   "main": "./src/index.js",
   "module": "./src/index.js",
   "sideEffects": false,
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
   "keywords": [
     "query",
     "native"
@@ -25,7 +28,7 @@
     "htm": "^3.0.4",
     "jsdom": "^16.4.0",
     "mocha": "8.2.1",
-    "mocha-dominate": "^0.1.1",
+    "mocha-dominate": "^1.0.0",
     "preact": "^10.5.7",
     "serve": "^11.3.2",
     "simulate-events": "^1.0.0",

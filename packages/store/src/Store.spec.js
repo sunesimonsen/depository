@@ -64,7 +64,7 @@ describe("store", () => {
       const computedSpy = sinon.spy().named("multipy");
       const multipy = store.observe({
         inputs: { a: "a", b: "b" },
-        apply: ({ a, b }) => a * b,
+        compute: ({ a, b }) => a * b,
       });
 
       multipy.subscribe(computedSpy);

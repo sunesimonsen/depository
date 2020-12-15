@@ -17,9 +17,9 @@ const isObject = (value) => value && typeof value === "object";
 const isComputedDefinition = (definition) => {
   if (!isObject(definition)) return false;
 
-  const { inputs, apply } = definition;
+  const { inputs, compute } = definition;
 
-  if (typeof apply !== "function") {
+  if (typeof compute !== "function") {
     return false;
   }
 
@@ -65,14 +65,14 @@ export class Cache {
 
   get(pathOrComputed) {
     if (isComputedDefinition(pathOrComputed)) {
-      const { inputs, apply } = pathOrComputed;
+      const { inputs, compute } = pathOrComputed;
 
       const inputValues = {};
       Object.entries(inputs).forEach(([key, value]) => {
         inputValues[key] = this.get(value);
       });
 
-      return apply(inputValues);
+      return compute(inputValues);
     } else {
       return getIn(this.data, pathOrComputed);
     }
@@ -150,9 +150,9 @@ export class Cache {
   observe(pathOrComputed) {
     let observer;
     if (isComputedDefinition(pathOrComputed)) {
-      const { inputs, apply } = pathOrComputed;
+      const { inputs, compute } = pathOrComputed;
       observer = Array.from(this.computedObservers).find(
-        (o) => o.apply === apply && o.inputs === inputs
+        (o) => o.compute === compute && o.inputs === inputs
       );
       if (observer) return observer;
 
@@ -165,9 +165,9 @@ export class Cache {
       return new Computed({
         cache: this,
         id: observableIds++,
+        compute,
         inputs,
         inputObservables,
-        apply,
       });
     } else {
       const path = parsePath(pathOrComputed);

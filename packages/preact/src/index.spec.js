@@ -20,7 +20,7 @@ const sum = {
     a: "a",
     b: "b",
   },
-  apply: ({ a, b }) => a + b,
+  compute: ({ a, b }) => a + b,
 };
 
 const increment = () => ({
@@ -50,6 +50,7 @@ const TestableConnected = connect(Testable, {
 
 describe("preact", () => {
   let container, store;
+
   beforeEach(() => {
     container = document.createElement("div");
 
