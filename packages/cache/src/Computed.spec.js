@@ -9,12 +9,12 @@ const numbers = "global.numbers";
 
 const sumOfNumbers = {
   inputs: { numbers },
-  apply: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
+  compute: ({ numbers }) => numbers.reduce((sum, n) => sum + n, 0),
 };
 
 const averageOfNumbers = {
   inputs: { numbers, sum: sumOfNumbers },
-  apply: ({ numbers, sum }) =>
+  compute: ({ numbers, sum }) =>
     numbers.length === 0 ? NaN : sum / numbers.length,
 };
 
@@ -63,7 +63,7 @@ describe("cache.computed", () => {
     it("returns the active observer", () => {
       const sum = {
         inputs: { a: "a", b: "b" },
-        apply: ({ a, b }) => a + b,
+        compute: ({ a, b }) => a + b,
       };
 
       const a = cache.observe(sum);

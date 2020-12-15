@@ -1,13 +1,13 @@
 import { Subscribable } from "./Subscribable";
 
 export class Computed extends Subscribable {
-  constructor({ cache, id, inputs, inputObservables, apply }) {
+  constructor({ cache, id, compute, inputs, inputObservables }) {
     super();
     this.id = id;
     this.cache = cache;
+    this.compute = compute;
     this.inputs = inputs;
     this.inputObservables = inputObservables;
-    this.apply = apply;
     this.inputValues = [];
     this.isDirty = true;
     this.value = {}; // unique
@@ -23,7 +23,7 @@ export class Computed extends Subscribable {
 
     if (this.isDirty) {
       const previousValue = this.value;
-      this.value = this.apply(this.inputValues, this.cache);
+      this.value = this.compute(this.inputValues, this.cache);
       this.isDirty = this.value !== previousValue;
     }
   }
