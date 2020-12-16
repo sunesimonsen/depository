@@ -5,6 +5,7 @@
   "author": "Sune Simonsen",
   "license": "MIT",
   "main": "src/index.js",
+  "private": true,
   "dependencies": {
     "@depository/promise-middleware": "^0.7.0",
     "@depository/store": "^0.7.0"
