@@ -46,7 +46,7 @@ describe("status-middleware", () => {
   it("handles async function payloads", async () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
-      payload: (api) => api.getTestValue(),
+      payload: (cache, api) => api.getTestValue(),
       apply: (store, { payload }) => {
         store.set("response", payload);
       },
@@ -67,7 +67,7 @@ describe("status-middleware", () => {
   it("handles promise rejections", async () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
-      payload: (api) => api.deadEnd(),
+      payload: (cache, api) => api.deadEnd(),
       apply: (store, { error }) => {
         store.set("response", error);
       },

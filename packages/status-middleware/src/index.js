@@ -11,7 +11,7 @@ export const statusMiddleware = (...args) => async ({
 
   const payload =
     typeof action.payload === "function"
-      ? action.payload(...args)
+      ? action.payload(store.cache, ...args)
       : action.payload;
 
   if (!isPromise(payload)) {
