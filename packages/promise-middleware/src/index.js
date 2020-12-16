@@ -11,7 +11,7 @@ export const promiseMiddleware = (...args) => async ({
 
   try {
     if (typeof payload === "function") {
-      payload = await payload(...args);
+      payload = await payload(store.cache, ...args);
     } else {
       payload = await payload;
     }

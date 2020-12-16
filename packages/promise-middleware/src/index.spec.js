@@ -34,7 +34,7 @@ describe("promise-middleware", () => {
 
   it("resolves async function payloads", async () => {
     await store.dispatch({
-      payload: (api) => api.getTestValue(),
+      payload: (cache, api) => api.getTestValue(),
       apply: (store, { payload }) => {
         store.set("response", payload);
       },
@@ -47,7 +47,7 @@ describe("promise-middleware", () => {
 
   it("forwards promise rejections as the payload", async () => {
     await store.dispatch({
-      payload: (api) => api.deadEnd(),
+      payload: (cache, api) => api.deadEnd(),
       apply: (store, { error }) => {
         store.set("response", error);
       },

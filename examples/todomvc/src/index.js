@@ -2,7 +2,9 @@ import { html, render } from "htm/preact";
 import { Store } from "@depository/store";
 import { StoreProvider } from "@depository/preact";
 import { RootView } from "./components/RootView.js";
-import { createTodo } from "./models/todo.js";
+import { loadTodos } from "./models/todo.js";
+import { promiseMiddleware } from "@depository/promise-middleware";
+import * as api from "./api.js";
 
 const store = new Store({
   global: {
@@ -13,8 +15,9 @@ const store = new Store({
   },
 });
 
-store.dispatch(createTodo({ text: "Buy milk" }));
-store.dispatch(createTodo({ text: "Write a front-end stack" }));
+store.useMiddleware(promiseMiddleware(api));
+
+store.dispatch(loadTodos());
 
 const Application = () => html`
   <${StoreProvider} value=${store}>

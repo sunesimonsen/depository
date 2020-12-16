@@ -14,14 +14,19 @@ export const visibilityFilter = "global.visibilityFilter";
 export const allTodos = {
   inputs: {
     filter: visibilityFilter,
-    todos: "entities.todo.*.{*}",
+    todos: "entities.todo.*",
   },
-  compute: ({ filter, todos }) =>
+  compute: ({ filter, todos }, cache) =>
     (todos || []).filter(createVisibilityFilter(filter)).sort((a, b) => {
       if (a.createdAt < b.createdAt) return -1;
       if (a.createdAt > b.createdAt) return 1;
       return 0;
     }),
+};
+
+const completedTodos = {
+  inputs: { todos: "entities.todo.*" },
+  compute: ({ todos }) => todos.filter(({ completed }) => completed),
 };
 
 export const todoById = (id) => `entities.todo.${id}`;
@@ -33,25 +38,34 @@ export const activeTodoCount = {
   compute: ({ completed }) => completed.filter((c) => !c).length,
 };
 
-let ids = 0;
-
-export const createTodo = ({ id = ids++, text, createdAt = new Date() }) => ({
-  payload: {
-    id: String(id),
-    text,
-    completed: false,
-    createdAt,
-    editing: false,
-  },
+export const loadTodos = () => ({
+  payload: (cache, api) => api.loadTodos(),
   apply: (cache, { payload }) => {
-    cache.set(`entities.todo.${payload.id}`, payload);
+    const todosById = payload.reduce(
+      (result, todo) => ({ ...result, [todo.id]: todo }),
+      {}
+    );
+    cache.set("entities.todo", todosById);
+  },
+});
+
+export const createTodo = ({ text, createdAt = new Date() }) => ({
+  payload: (cache, api) =>
+    api.createTodo({
+      text,
+      completed: false,
+      createdAt,
+      editing: false,
+    }),
+  apply: (cache, { payload }) => {
+    cache.set(todoById(payload.id), payload);
   },
 });
 
 export const updateTodo = ({ id, ...values }) => ({
-  payload: { ...values, id, editing: false },
+  payload: (cache, api) => api.updateTodo({ ...values, id, editing: false }),
   apply: (cache, { payload }) => {
-    cache.update(`entities.todo.${payload.id}`, (todo) => ({
+    cache.update(todoById(id), (todo) => ({
       ...todo,
       ...payload,
     }));
@@ -59,12 +73,29 @@ export const updateTodo = ({ id, ...values }) => ({
 });
 
 export const toggleTodo = ({ id }) => ({
-  payload: { id },
+  payload: (cache, api) => {
+    const todo = cache.get(todoById(id));
+    return api.updateTodo({ ...todo, completed: !todo.completed });
+  },
   apply: (cache, { payload }) => {
-    cache.update(
-      `entities.todo.${payload.id}.completed`,
-      (completed) => !completed
+    cache.set(todoById(id), payload);
+  },
+});
+
+export const toggleAllTodos = () => ({
+  payload: (cache, api) => {
+    const count = cache.get(activeTodoCount);
+
+    return Promise.all(
+      cache
+        .get(`entities.todo.*`)
+        .map((todo) => api.updateTodo({ ...todo, completed: count !== 0 }))
     );
+  },
+  apply: (cache, { payload }) => {
+    for (const todo of payload) {
+      cache.set(todoById(todo.id), todo);
+    }
   },
 });
 
@@ -82,27 +113,25 @@ export const stopEditingTodo = ({ id }) => ({
   },
 });
 
-export const toggleAllTodos = () => ({
-  apply: (cache) => {
-    const count = cache.get(activeTodoCount);
-
-    cache.set(`entities.todo.*.completed`, count !== 0);
-  },
-});
-
 export const removeTodo = ({ id }) => ({
-  payload: { id },
+  payload: (cache, api) => api.removeTodos({ ids: [id] }),
   apply: (cache, { payload }) => {
-    cache.remove(`entities.todo.${payload.id}`);
+    console.log(payload);
+    for (const id of payload.ids) {
+      cache.remove(todoById(id));
+    }
   },
 });
 
 export const clearCompleteTodos = () => ({
-  apply: (cache) => {
-    const todos = cache.get(`entities.todo.*`);
-    const completed = todos.filter(({ completed }) => completed);
-    for (const { id } of completed) {
-      cache.remove(`entities.todo.${id}`);
+  payload: (cache, api) => {
+    const completed = cache.get(completedTodos);
+    const ids = completed.map(({ id }) => id);
+    return api.removeTodos({ ids });
+  },
+  apply: (cache, { payload }) => {
+    for (const id of payload.ids) {
+      cache.remove(todoById(id));
     }
   },
 });
