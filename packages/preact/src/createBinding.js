@@ -19,7 +19,7 @@ export const createBinding = ({ h, Component, createContext }) => {
 
         this.observers = {};
 
-        Object.keys(bindings).forEach((name) => {
+        Object.keys(bindings || {}).forEach((name) => {
           const observer = store.observe(bindings[name]);
           this.observers[name] = observer;
           this.state[name] = observer.value;

@@ -1,4 +1,4 @@
-import { parsePath } from "./parsePath";
+import { parsePath } from "./parsePath.js";
 
 const containSegments = (data, segments) => {
   if (segments.length === 0) return typeof data !== "undefined";

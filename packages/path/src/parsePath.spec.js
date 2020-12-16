@@ -1,6 +1,6 @@
 import unexpected from "unexpected";
 import unexpectedSnapshot from "unexpected-snapshot";
-import { parsePath } from "./parsePath";
+import { parsePath } from "./parsePath.js";
 
 const expect = unexpected.clone().use(unexpectedSnapshot);
 

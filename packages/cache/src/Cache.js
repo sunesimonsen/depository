@@ -1,5 +1,5 @@
-import { Computed } from "./Computed";
-import { PathObserver } from "./PathObserver";
+import { Computed } from "./Computed.js";
+import { PathObserver } from "./PathObserver.js";
 
 import {
   getIn,

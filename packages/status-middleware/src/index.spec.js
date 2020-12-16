@@ -1,5 +1,5 @@
 import expect from "unexpected";
-import { statusMiddleware } from "./index";
+import { statusMiddleware } from "./index.js";
 import { promiseMiddleware } from "@depository/promise-middleware";
 import { Store } from "@depository/store";
 

@@ -1,9 +1,9 @@
-import { Path } from "./Path";
-import { Alternation } from "./Alternation";
-import { Collector } from "./Collector";
-import { Wildcard } from "./Wildcard";
-import { WildcardCollector } from "./WildcardCollector";
-import { Field } from "./Field";
+import { Path } from "./Path.js";
+import { Alternation } from "./Alternation.js";
+import { Collector } from "./Collector.js";
+import { Wildcard } from "./Wildcard.js";
+import { WildcardCollector } from "./WildcardCollector.js";
+import { Field } from "./Field.js";
 
 export const parsePath = (path) => {
   if (path instanceof Path) return path;

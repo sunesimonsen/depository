@@ -2,7 +2,7 @@ import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import simulate from "simulate-events";
 import { Store } from "@depository/store";
-import { StoreProvider, connect } from "./index";
+import { StoreProvider, connect } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
 

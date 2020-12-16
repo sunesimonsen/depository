@@ -1,5 +1,5 @@
 import expect from "unexpected";
-import { contains } from "./contains";
+import { contains } from "./contains.js";
 
 describe("contains", () => {
   const data = {

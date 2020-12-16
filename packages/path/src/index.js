@@ -1,7 +1,7 @@
-export { contains } from "./contains";
-export { getIn } from "./getIn";
-export { isPathsIntersecting } from "./isPathsIntersecting";
-export { isPathsEqual } from "./isPathsEqual";
-export { parsePath } from "./parsePath";
-export { setIn } from "./setIn";
-export { updateIn } from "./updateIn";
+export { contains } from "./contains.js";
+export { getIn } from "./getIn.js";
+export { isPathsIntersecting } from "./isPathsIntersecting.js";
+export { isPathsEqual } from "./isPathsEqual.js";
+export { parsePath } from "./parsePath.js";
+export { setIn } from "./setIn.js";
+export { updateIn } from "./updateIn.js";

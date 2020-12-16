@@ -1,4 +1,4 @@
-import { Subscription } from "./Subscription";
+import { Subscription } from "./Subscription.js";
 
 export class Subscribable {
   constructor() {

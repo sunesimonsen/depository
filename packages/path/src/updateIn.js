@@ -1,4 +1,4 @@
-import { parsePath } from "./parsePath";
+import { parsePath } from "./parsePath.js";
 
 const updateSegmentsIn = (data, segments, apply) => {
   if (segments.length === 0) {
@@ -16,7 +16,7 @@ const updateSegmentsIn = (data, segments, apply) => {
       return {
         ...data,
         [segment.name]: updateSegmentsIn(
-          data[segment.name] || {},
+          segment.name in data ? data[segment.name] : {},
           segments.slice(1),
           apply
         ),

@@ -1,7 +1,7 @@
 import unexpected from "unexpected";
 import unexpectedSinon from "unexpected-sinon";
 import sinon from "sinon";
-import { Cache } from "./Cache";
+import { Cache } from "./Cache.js";
 
 const expect = unexpected.clone().use(unexpectedSinon);
 
