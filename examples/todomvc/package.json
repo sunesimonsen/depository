@@ -1,7 +1,7 @@
 {
   "name": "todomvc",
   "description": "Headless TodoMVC build with @depository",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "Sune Simonsen",
   "license": "MIT",
   "main": "src/index.js",
