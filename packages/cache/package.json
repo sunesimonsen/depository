@@ -1,6 +1,6 @@
 {
   "name": "@depository/cache",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A reactive cache for @depository",
   "main": "./src/index.js",
   "module": "./src/index.js",
@@ -23,7 +23,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@depository/path": "^0.6.0"
+    "@depository/path": "^0.7.0"
   },
   "devDependencies": {
     "esm": "^3.2.25",

@@ -1,13 +1,13 @@
 {
   "name": "todomvc",
   "description": "Headless TodoMVC build with @depository",
-  "version": "1.0.0",
+  "version": "0.7.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "main": "src/index.js",
   "dependencies": {
-    "@depository/store": "0.6.0",
-    "@depository/promise-middleware": "0.6.0"
+    "@depository/promise-middleware": "^0.7.0",
+    "@depository/store": "^0.7.0"
   },
   "devDependencies": {
     "esm": "^3.2.25",
