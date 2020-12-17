@@ -6,13 +6,25 @@
   "license": "MIT",
   "main": "src/index.js",
   "private": true,
+  "scripts": {
+    "test": "mocha",
+    "start": "wmr",
+    "build": "wmr build",
+    "serve": "wmr serve --http2"
+  },
   "dependencies": {
+    "@depository/preact": "^0.8.0",
     "@depository/promise-middleware": "^0.8.0",
-    "@depository/store": "^0.8.0"
+    "@depository/store": "^0.8.0",
+    "htm": "^3.0.4",
+    "preact": "^10.5.7",
+    "todomvc-app-css": "^2.3.0",
+    "todomvc-common": "^1.0.5"
   },
   "devDependencies": {
     "esm": "^3.2.25",
     "mocha": "^8.2.1",
-    "unexpected": "^12.0.0"
+    "unexpected": "^12.0.0",
+    "wmr": "^1.0.0"
   }
 }
