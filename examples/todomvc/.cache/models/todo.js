@@ -116,7 +116,6 @@ export const stopEditingTodo = ({ id }) => ({
 export const removeTodo = ({ id }) => ({
   payload: (cache, api) => api.removeTodos({ ids: [id] }),
   apply: (cache, { payload }) => {
-    console.log(payload);
     for (const id of payload.ids) {
       cache.remove(todoById(id));
     }
