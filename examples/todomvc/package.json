@@ -10,7 +10,8 @@
     "test": "mocha",
     "start": "wmr",
     "build": "wmr build",
-    "serve": "wmr serve --http2"
+    "serve": "wmr serve --http2",
+    "deploy": "npm run build && surge dist depository-todomvc.surge.sh"
   },
   "dependencies": {
     "@depository/preact": "^0.8.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "esm": "^3.2.25",
     "mocha": "^8.2.1",
+    "surge": "^0.21.7",
     "unexpected": "^12.0.0",
     "wmr": "^1.0.0"
   }
