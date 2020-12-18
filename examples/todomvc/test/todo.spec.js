@@ -14,7 +14,7 @@ import {
   toggleTodo,
   updateTodo,
   visibilityFilter,
-} from "./todo";
+} from "../public/models/todo.js";
 
 import { Store } from "@depository/store";
 

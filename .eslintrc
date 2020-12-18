@@ -21,6 +21,7 @@
           "**/*.spec.js",
           "**/expect.js",
           "**/rollup.config.js",
+          "**/wmr.config.js",
         ],
         "optionalDependencies": false,
         "peerDependencies": true

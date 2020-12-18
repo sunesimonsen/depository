@@ -6,13 +6,31 @@
   "license": "MIT",
   "main": "src/index.js",
   "private": true,
+  "scripts": {
+    "test": "mocha",
+    "start": "wmr",
+    "build": "rm -rf dist && wmr build",
+    "deploy": "npm run build && surge dist depository-todomvc.surge.sh"
+  },
   "dependencies": {
+    "@depository/preact": "^0.8.0",
     "@depository/promise-middleware": "^0.8.0",
-    "@depository/store": "^0.8.0"
+    "@depository/store": "^0.8.0",
+    "htm": "^3.0.4",
+    "preact": "^10.5.7",
+    "todomvc-app-css": "^2.3.0",
+    "todomvc-common": "^1.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@rollup/plugin-babel": "^5.2.2",
+    "babel-plugin-htm": "^3.0.0",
     "esm": "^3.2.25",
     "mocha": "^8.2.1",
-    "unexpected": "^12.0.0"
+    "rollup": "^2.35.1",
+    "rollup-plugin-html-minifier": "^1.1.0",
+    "surge": "^0.21.7",
+    "unexpected": "^12.0.0",
+    "wmr": "^1.0.0"
   }
 }
