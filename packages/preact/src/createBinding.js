@@ -55,7 +55,7 @@ export const createBinding = ({ h, Component, createContext }) => {
         this.subscriptions = [];
       }
 
-      render({ children, ...other }) {
+      render({ children, store, ...other }) {
         return h(ChildComponent, { ...this.state, ...other }, children);
       }
     }
