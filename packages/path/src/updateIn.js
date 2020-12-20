@@ -1,12 +1,8 @@
 import { parsePath } from "./parsePath.js";
 
-const updateSegmentsIn = (data, segments, apply) => {
+const updateSegmentsIn = (data, segments, apply, defaultValue) => {
   if (segments.length === 0) {
-    return apply(data);
-  }
-
-  if (!data || typeof data !== "object") {
-    return;
+    return apply(typeof data === "undefined" ? defaultValue : data);
   }
 
   const segment = segments[0];
@@ -16,16 +12,26 @@ const updateSegmentsIn = (data, segments, apply) => {
       return {
         ...data,
         [segment.name]: updateSegmentsIn(
-          segment.name in data ? data[segment.name] : {},
+          segment.name in data || segments.length === 1
+            ? data[segment.name]
+            : {},
           segments.slice(1),
-          apply
+          apply,
+          defaultValue
         ),
       };
 
     case "alternation":
       return segment.names.reduce(
         (result, key) => {
-          result[key] = updateSegmentsIn(data[key], segments.slice(1), apply);
+          if (key in data) {
+            result[key] = updateSegmentsIn(
+              data[key],
+              segments.slice(1),
+              apply,
+              defaultValue
+            );
+          }
           return result;
         },
         { ...data }
@@ -33,7 +39,14 @@ const updateSegmentsIn = (data, segments, apply) => {
 
     case "wildcard":
       return Object.keys(data).reduce((result, key) => {
-        result[key] = updateSegmentsIn(data[key], segments.slice(1), apply);
+        if (key in data) {
+          result[key] = updateSegmentsIn(
+            data[key],
+            segments.slice(1),
+            apply,
+            defaultValue
+          );
+        }
         return result;
       }, {});
 
@@ -42,5 +55,5 @@ const updateSegmentsIn = (data, segments, apply) => {
   }
 };
 
-export const updateIn = (data, path, apply) =>
-  updateSegmentsIn(data, parsePath(path).segments, apply);
+export const updateIn = (data, path, apply, defaultValue) =>
+  updateSegmentsIn(data, parsePath(path).segments, apply, defaultValue);
