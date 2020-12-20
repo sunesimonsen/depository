@@ -1,3 +1,5 @@
+let nextId = 0;
+
 export const createBinding = ({ h, Component, createContext }) => {
   const StoreContext = createContext(`depository`);
 
@@ -6,16 +8,21 @@ export const createBinding = ({ h, Component, createContext }) => {
       constructor(props) {
         super(props);
 
+        const instanceId = nextId++;
+        this.instanceId = instanceId;
+
         const bindings =
           typeof functionbindings === "function"
-            ? functionbindings(props)
+            ? functionbindings({ instanceId, ...props })
             : functionbindings;
 
         const store = props.store;
 
-        this.state = {
-          dispatch: store.dispatch.bind(store),
+        const dispatch = (action) => {
+          return store.dispatch({ instanceId, ...action });
         };
+
+        this.state = { instanceId, dispatch };
 
         this.observers = {};
 

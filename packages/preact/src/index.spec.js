@@ -29,24 +29,56 @@ const increment = () => ({
   },
 });
 
-const Testable = ({ a, b, sum, dispatch }) => {
-  const onClick = () => {
-    dispatch(increment());
-  };
+const Calculator = connect(
+  ({ a, b, sum, dispatch }) => {
+    const onClick = () => {
+      dispatch(increment());
+    };
 
-  return html`
-    <div>
-      <span data-test-id="sum">${a}+${b}=${sum}<//>
-      <button data-test-id="increment" onClick=${onClick}>Increment<//>
-    </div>
-  `;
-};
+    return html`
+      <div>
+        <span data-test-id="sum">${a}+${b}=${sum}<//>
+        <button data-test-id="increment" onClick=${onClick}>Increment<//>
+      </div>
+    `;
+  },
+  {
+    a: "a",
+    b: "b",
+    sum,
+  }
+);
 
-const TestableConnected = connect(Testable, {
-  a: "a",
-  b: "b",
-  sum,
+const incrementCounter = () => ({
+  apply: (cache, { instanceId }) => {
+    cache.update(`widgets.${instanceId}.counter`, (v) => v + 1, 0);
+  },
 });
+
+const Widget = connect(
+  ({ dispatch, id, instanceId, count }) => {
+    const onClick = () => {
+      dispatch(incrementCounter());
+    };
+
+    return html`
+      <div id=${id}>
+        <span data-test-id="instanceId">${instanceId}<//>
+        <span data-test-id="count">${count}<//>
+        <button data-test-id="increment" onClick=${onClick}>Increment<//>
+      </div>
+    `;
+  },
+  (props) => ({
+    count: `widgets.${props.instanceId}.counter`,
+  })
+);
+
+const Testable = () => html`
+  <${Calculator} />
+  <${Widget} id="widget-one" />
+  <${Widget} id="widget-two" />
+`;
 
 describe("preact", () => {
   let container, store;
@@ -60,7 +92,7 @@ describe("preact", () => {
     });
 
     render(
-      html`<${StoreProvider} value=${store}><${TestableConnected} /><//>`,
+      html`<${StoreProvider} value=${store}><${Testable} /><//>`,
       container
     );
   });
@@ -75,5 +107,20 @@ describe("preact", () => {
     await delay();
 
     expect(container, "queried for test id", "sum", "to have text", "11+11=22");
+  });
+
+  it("allows storing separate state based on instance ids", async () => {
+    const widgetOne = container.querySelector("#widget-one");
+    const widgetTwo = container.querySelector("#widget-two");
+
+    simulate(widgetOne.querySelector("[data-test-id=increment]"), "click");
+
+    simulate(widgetTwo.querySelector("[data-test-id=increment]"), "click");
+    simulate(widgetTwo.querySelector("[data-test-id=increment]"), "click");
+
+    await delay();
+
+    expect(widgetOne, "queried for test id", "count", "to have text", "1");
+    expect(widgetTwo, "queried for test id", "count", "to have text", "2");
   });
 });
