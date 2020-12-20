@@ -98,16 +98,19 @@ export class Cache {
   }
 
   update(...args) {
-    let apply, path;
+    let apply, path, defaultValue;
 
     if (args.length === 1) {
       apply = args[0];
     } else {
       path = args[0];
       apply = args[1];
+      defaultValue = args[2];
     }
 
-    this._setData(updateIn(this.data, path, (value) => apply(value, this)));
+    this._setData(
+      updateIn(this.data, path, (value) => apply(value, this), defaultValue)
+    );
     this.pathObservers.forEach((pathObserver) => {
       if (
         !pathObserver.isDirty &&

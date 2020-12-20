@@ -90,6 +90,37 @@ describe("updateIn", () => {
           }
         );
       });
+
+      describe("when a default value is given", () => {
+        it("apply the function to the default value", () => {
+          expect(
+            updateIn(data, "global.foo.bar.baz.counter", (v) => v + 1, 0),
+            "to equal snapshot",
+            {
+              entities: {
+                todo: {
+                  1: { title: "Outsider", text: "Lorem ipsum hapsum" },
+                  42: {
+                    title: "Something to remember",
+                    text: "Lorem ipsum",
+                    meta: "meta",
+                    nested: { nested: { hidden: true } },
+                  },
+                  666: {
+                    title: "Another",
+                    text: "also this",
+                    extra: "something extra",
+                    nested: { nested: { hidden: false } },
+                  },
+                },
+              },
+              global: {
+                foo: { bar: { baz: { counter: 1 } } },
+              },
+            }
+          );
+        });
+      });
     });
   });
 
