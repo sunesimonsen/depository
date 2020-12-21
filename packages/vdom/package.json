@@ -1,0 +1,37 @@
+{
+  "name": "@depository/vdom",
+  "version": "0.8.1",
+  "description": "A virtual DOM with focus on size and separation of concerns",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "sideEffects": false,
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "query",
+    "native"
+  ],
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
+  "license": "MIT",
+  "bugs": "https://github.com/sunesimonsen/depository/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunesimonsen/depository"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "htm": "^3.0.4",
+    "jsdom": "^16.4.0",
+    "mocha": "8.2.1",
+    "mocha-dominate": "^1.0.0",
+    "unexpected": "11.8.1",
+    "unexpected-dom": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
