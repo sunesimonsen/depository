@@ -1,7 +1,7 @@
 {
   "name": "todomvc",
   "description": "Headless TodoMVC build with @depository",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "author": "Sune Simonsen",
   "license": "MIT",
   "main": "src/index.js",
@@ -13,7 +13,7 @@
     "deploy": "npm run build && surge dist depository-todomvc.surge.sh"
   },
   "dependencies": {
-    "@depository/preact": "^0.9.0",
+    "@depository/preact": "^0.9.1",
     "@depository/promise-middleware": "^0.9.0",
     "@depository/store": "^0.9.0",
     "htm": "^3.0.4",
