@@ -1,6 +1,6 @@
 {
   "name": "@depository/promise-middleware",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "Promise middleware for @depository",
   "main": "./src/index.js",
   "module": "./src/index.js",
@@ -27,7 +27,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/store": "^0.8.1",
+    "@depository/store": "^0.9.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "esm": "^3.2.25",

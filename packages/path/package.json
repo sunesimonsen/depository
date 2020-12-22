@@ -1,6 +1,6 @@
 {
   "name": "@depository/path",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "Paths for updateing and retrieving data from nested structures",
   "main": "./src/index.js",
   "module": "./src/index.js",
