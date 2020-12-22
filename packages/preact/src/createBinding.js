@@ -11,11 +11,6 @@ export const createBinding = ({ h, Component, createContext }) => {
         const instanceId = nextId++;
         this.instanceId = instanceId;
 
-        const bindings =
-          typeof functionbindings === "function"
-            ? functionbindings({ instanceId, ...props })
-            : functionbindings;
-
         const store = props.store;
 
         const dispatch = (action) => {
@@ -24,12 +19,22 @@ export const createBinding = ({ h, Component, createContext }) => {
 
         this.state = { instanceId, dispatch };
 
+        const bindings =
+          typeof functionbindings === "function"
+            ? functionbindings({ ...this.state, ...props })
+            : functionbindings;
+
         this.observers = {};
 
         Object.keys(bindings || {}).forEach((name) => {
-          const observer = store.observe(bindings[name]);
-          this.observers[name] = observer;
-          this.state[name] = observer.value;
+          const binding = bindings[name];
+          if (typeof binding === "function") {
+            this.state[name] = binding;
+          } else {
+            const observer = store.observe(binding);
+            this.observers[name] = observer;
+            this.state[name] = observer.value;
+          }
         });
       }
 
