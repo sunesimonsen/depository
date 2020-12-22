@@ -56,16 +56,21 @@ const incrementCounter = () => ({
 });
 
 const Widget = connect(
-  ({ id, instanceId, onClick, count }) => html`
-    <div id=${id}>
-      <span data-test-id="instanceId">${instanceId}<//>
-      <span data-test-id="count">${count}<//>
-      <button data-test-id="increment" onClick=${onClick}>Increment<//>
-    </div>
-  `,
-  ({ dispatch, instanceId }) => ({
-    count: `widgets.${instanceId}.counter`,
-    onClick: () => dispatch(incrementCounter()),
+  ({ dispatch, id, instanceId, count }) => {
+    const onClick = () => {
+      dispatch(incrementCounter());
+    };
+
+    return html`
+      <div id=${id}>
+        <span data-test-id="instanceId">${instanceId}<//>
+        <span data-test-id="count">${count}<//>
+        <button data-test-id="increment" onClick=${onClick}>Increment<//>
+      </div>
+    `;
+  },
+  (props) => ({
+    count: `widgets.${props.instanceId}.counter`,
   })
 );
 
