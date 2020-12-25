@@ -194,8 +194,6 @@ class UserComponent {
 
       const dom = mount(this._vdom);
 
-      instance.didMount && instance.didMount();
-
       mounting = false;
 
       return dom;
@@ -232,6 +230,8 @@ class UserComponent {
 
   _flush() {
     flush(this._vdom);
+    this._instance.didMount && this._instance.didMount();
+
     if (this._queuedRender) {
       this._render();
     }

@@ -10,7 +10,7 @@ const numberStyles = css`
 
 class JSONNumber {
   render({ value }) {
-    return html`<span class=${numberStyles}>"${String(value)}"</span>`;
+    return html`<span class=${numberStyles}>${value}</span>`;
   }
 }
 
@@ -227,11 +227,11 @@ const theme = css`
   & {
     --json-color-key: #032f62;
     --json-color-comment: #6a737d;
-    --json-color-boolean: #005cc5;
     --json-color-string: #d73a49;
-    --json-color-number: #757575;
-    --json-color-undefined: #005cc5;
-    --json-color-null: #005cc5;
+    --json-color-number: #005cc5;
+    --json-color-boolean: #6f42c1;
+    --json-color-undefined: #6f42c1;
+    --json-color-null: #6f42c1;
   }
 `;
 
