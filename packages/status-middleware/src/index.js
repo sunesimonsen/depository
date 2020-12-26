@@ -1,4 +1,7 @@
-import isPromise from "is-promise/index.mjs";
+const isPromise = (obj) =>
+  !!obj &&
+  (typeof obj === "object" || typeof obj === "function") &&
+  typeof obj.then === "function";
 
 export const statusMiddleware = (...args) => async ({
   store,
