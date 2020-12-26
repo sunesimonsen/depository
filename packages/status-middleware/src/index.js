@@ -1,4 +1,4 @@
-import isPromise from "is-promise";
+import isPromise from "is-promise/index.mjs";
 
 export const statusMiddleware = (...args) => async ({
   store,
