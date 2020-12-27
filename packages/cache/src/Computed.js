@@ -18,6 +18,7 @@ export class Computed extends Subscribable {
   }
 
   updateValue() {
+    this.isDirty = this.value === notInstantiated;
     this.inputValues = {};
     Object.entries(this.inputObservables).forEach(([name, observer]) => {
       this.inputValues[name] = observer.value;
