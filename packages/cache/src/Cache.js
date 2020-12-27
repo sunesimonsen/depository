@@ -1,5 +1,6 @@
 import { Computed } from "./Computed.js";
 import { PathObserver } from "./PathObserver.js";
+import { shallowEqual } from "./equality.js";
 
 import {
   getIn,
@@ -153,9 +154,10 @@ export class Cache {
   observe(pathOrComputed) {
     let observer;
     if (isComputedDefinition(pathOrComputed)) {
-      const { inputs, compute } = pathOrComputed;
+      const { inputs, compute, isEqual = shallowEqual } = pathOrComputed;
       observer = Array.from(this.computedObservers).find(
-        (o) => o.compute === compute && o.inputs === inputs
+        (o) =>
+          o.compute === compute && o.inputs === inputs && o.isEqual === isEqual
       );
       if (observer) return observer;
 
@@ -171,6 +173,7 @@ export class Cache {
         compute,
         inputs,
         inputObservables,
+        isEqual,
       });
     } else {
       const path = parsePath(pathOrComputed);
