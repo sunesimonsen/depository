@@ -25,8 +25,7 @@ const oddNumbers = {
 
 const oddNumbersStrictEquality = {
   inputs: { numbers },
-  compute: ({ numbers }) =>
-    console.log("compute", numbers) || numbers.filter((n) => n % 2 === 1),
+  compute: ({ numbers }) => numbers.filter((n) => n % 2 === 1),
   isEqual: Object.is,
 };
 
@@ -145,7 +144,6 @@ describe("cache.computed", () => {
 
     it("allows you to override the value equality check", () => {
       strictOdd.subscribe(spy);
-      console.log(strictOdd.value);
 
       cache.update("global.numbers", (numbers) => [...numbers, 4]);
 

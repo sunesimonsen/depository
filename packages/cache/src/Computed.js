@@ -24,11 +24,9 @@ export class Computed extends Subscribable {
       this.isDirty = this.isDirty || observer.isDirty;
     });
 
-    console.log(this.isDirty);
     if (this.isDirty) {
       const previousValue = this.value;
       this.value = this.compute(this.inputValues, this.cache);
-      console.log(this.isEqual, previousValue, this.value);
       this.isDirty =
         previousValue === notInstantiated ||
         !this.isEqual(previousValue, this.value);
