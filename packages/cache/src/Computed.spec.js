@@ -18,8 +18,20 @@ const averageOfNumbers = {
     numbers.length === 0 ? NaN : sum / numbers.length,
 };
 
+const oddNumbers = {
+  inputs: { numbers },
+  compute: ({ numbers }) => numbers.filter((n) => n % 2 === 1),
+};
+
+const oddNumbersStrictEquality = {
+  inputs: { numbers },
+  compute: ({ numbers }) =>
+    console.log("compute", numbers) || numbers.filter((n) => n % 2 === 1),
+  isEqual: Object.is,
+};
+
 describe("cache.computed", () => {
-  let spy, cache, sum, average;
+  let spy, cache, sum, average, odd, strictOdd;
   beforeEach(() => {
     spy = sinon.spy();
 
@@ -29,6 +41,8 @@ describe("cache.computed", () => {
 
     sum = cache.observe(sumOfNumbers);
     average = cache.observe(averageOfNumbers);
+    odd = cache.observe(oddNumbers);
+    strictOdd = cache.observe(oddNumbersStrictEquality);
   });
 
   it("returns a subscribable computed value", () => {
@@ -86,6 +100,8 @@ describe("cache.computed", () => {
 
       cache.set("global.other", "New stuff");
 
+      cache.notify();
+
       expect(cache.get(), "to equal", {
         global: { numbers: [1, 2, 3], other: "New stuff" },
       });
@@ -100,6 +116,8 @@ describe("cache.computed", () => {
 
       cache.update("global.numbers", (numbers) => numbers.slice().reverse());
 
+      cache.notify();
+
       expect(cache.get(), "to equal", {
         global: { numbers: [3, 2, 1] },
       });
@@ -107,6 +125,41 @@ describe("cache.computed", () => {
       expect(sum.value, "to equal", 6);
 
       expect(spy, "was not called");
+    });
+
+    it("uses shallow equal by default to determine if the value has changed", () => {
+      odd.subscribe(spy);
+
+      cache.update("global.numbers", (numbers) => [...numbers, 4]);
+
+      cache.notify();
+
+      expect(cache.get(), "to equal", {
+        global: { numbers: [1, 2, 3, 4] },
+      });
+
+      expect(odd.value, "to equal", [1, 3]);
+
+      expect(spy, "was not called");
+    });
+
+    it("allows you to override the value equality check", () => {
+      strictOdd.subscribe(spy);
+      console.log(strictOdd.value);
+
+      cache.update("global.numbers", (numbers) => [...numbers, 4]);
+
+      cache.notify();
+
+      expect(cache.get(), "to equal", {
+        global: { numbers: [1, 2, 3, 4] },
+      });
+
+      expect(strictOdd.value, "to equal", [1, 3]);
+
+      expect(spy, "to have calls satisfying", () => {
+        spy([1, 3]);
+      });
     });
   });
 
