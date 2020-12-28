@@ -24,10 +24,14 @@ export class Store {
   }
 
   dispatch(action) {
-    action.apply(this.cache, action);
-    this.cache.notify();
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        action.apply(this.cache, action);
+        this.cache.notify();
 
-    return action;
+        resolve(action);
+      }, 0);
+    });
   }
 
   get(...args) {

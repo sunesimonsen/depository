@@ -29,12 +29,12 @@ describe("store", () => {
 
   describe("dispatch", () => {
     describe("when the action doesn't contain a path", () => {
-      it("executes the given action against the entire store", () => {
+      it("executes the given action against the entire store", async () => {
         const store = new Store({
           global: { testing: "The state" },
         });
 
-        store.dispatch({
+        await store.dispatch({
           apply: (cache) => {
             cache.update("global.testing", (v) => v.toUpperCase());
             cache.set("global.extra", "Fresh out of the gate");
@@ -47,7 +47,7 @@ describe("store", () => {
       });
     });
 
-    it("notify observers", () => {
+    it("notify observers", async () => {
       const store = new Store({
         a: 0,
         b: 0,
@@ -69,7 +69,7 @@ describe("store", () => {
 
       multipy.subscribe(computedSpy);
 
-      store.dispatch({
+      await store.dispatch({
         apply: (cache) => {
           cache.set("a", 2);
           cache.set("b", 4);
@@ -104,7 +104,7 @@ describe("store", () => {
   });
 
   describe("useMiddleware", () => {
-    it("adds the given middleware to the dispatch chain", () => {
+    it("adds the given middleware to the dispatch chain", async () => {
       const logger = sinon.spy();
 
       const store = new Store({
@@ -126,7 +126,7 @@ describe("store", () => {
         return next(transformedAction);
       });
 
-      store.dispatch({
+      await store.dispatch({
         type: "upper-case",
         apply: (cache) => {
           cache.update("global.testing", (v) => v.toUpperCase());
