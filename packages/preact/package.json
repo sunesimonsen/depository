@@ -4,9 +4,13 @@
   "description": "Preact bindings for depository",
   "main": "./src/index.js",
   "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./hooks": "./src/hooks/index.js"
+  },
   "sideEffects": false,
   "scripts": {
-    "test": "mocha **/*.spec.js"
+    "test": "mocha './src/**/*.spec.js'"
   },
   "keywords": [
     "query",
@@ -40,6 +44,6 @@
     "preact": "^10.5.7"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   }
 }

@@ -1,8 +1,6 @@
 let nextId = 0;
 
-export const createBinding = ({ h, Component, createContext }) => {
-  const StoreContext = createContext(`depository`);
-
+export const createBinding = ({ h, Component, StoreContext }) => {
   const connect = (ChildComponent, functionbindings) => {
     class Connected extends Component {
       constructor(props) {
@@ -68,7 +66,5 @@ export const createBinding = ({ h, Component, createContext }) => {
     return StoreInjector;
   };
 
-  const StoreProvider = StoreContext.Provider;
-
-  return { connect, StoreProvider };
+  return connect;
 };
