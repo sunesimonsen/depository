@@ -25,6 +25,7 @@ export const statusMiddleware = (...args) => async ({
   }
 
   store.cache.set(`statuses.${action.status}`, "loading");
+  store.cache.notify();
 
   payload.then(
     () => {

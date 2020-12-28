@@ -1,7 +1,11 @@
-import expect from "unexpected";
+import unexpected from "unexpected";
+import unexpectedSinon from "unexpected-sinon";
+import sinon from "sinon";
 import { statusMiddleware } from "./index.js";
 import { promiseMiddleware } from "@depository/promise-middleware";
 import { Store } from "@depository/store";
+
+const expect = unexpected.clone().use(unexpectedSinon);
 
 const fakeApi = {
   async getTestValue() {
@@ -82,6 +86,29 @@ describe("status-middleware", () => {
     expect(store.get(), "to equal", {
       statuses: { "test-value": "failed" },
       response: Error("Dead end!"),
+    });
+  });
+
+  it("triggers observers of the status", async () => {
+    const spy = sinon.spy();
+    store.observe("statuses.test-value").subscribe(spy);
+
+    await store.dispatch({
+      status: "test-value",
+      payload: fakeApi.getTestValue(),
+      apply: (store, { payload }) => {
+        store.set("response", payload);
+      },
+    });
+
+    expect(store.get(), "to equal", {
+      response: "From fake API",
+      statuses: { "test-value": "ready" },
+    });
+
+    expect(spy, "to have calls satisfying", () => {
+      spy("loading");
+      spy("ready");
     });
   });
 });
