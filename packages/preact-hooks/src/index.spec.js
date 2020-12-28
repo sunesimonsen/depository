@@ -5,8 +5,8 @@ import { Store } from "@depository/store";
 import {
   StoreProvider,
   useObservable,
-  useDispatch,
   useInstanceId,
+  useAction,
 } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
@@ -32,14 +32,10 @@ const increment = () => ({
 });
 
 const Calculator = () => {
-  const dispatch = useDispatch();
   const a = useObservable("a");
   const b = useObservable("b");
   const sum = useObservable(computedSum);
-
-  const onClick = () => {
-    dispatch(increment());
-  };
+  const onClick = useAction(increment());
 
   return html`
     <div>
@@ -59,12 +55,8 @@ const counterByInstance = (instanceId) => `widgets.${instanceId}.counter`;
 
 const Widget = ({ id }) => {
   const instanceId = useInstanceId();
-  const dispatch = useDispatch();
   const count = useObservable(counterByInstance(instanceId));
-
-  const onClick = () => {
-    dispatch(incrementCounter(instanceId));
-  };
+  const onClick = useAction(incrementCounter(instanceId));
 
   return html`
     <div id=${id}>
