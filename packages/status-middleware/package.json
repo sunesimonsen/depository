@@ -1,6 +1,6 @@
 {
   "name": "@depository/status-middleware",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Status middleware for @depository",
   "main": "./src/index.js",
   "module": "./src/index.js",

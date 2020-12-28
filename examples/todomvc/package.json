@@ -1,7 +1,7 @@
 {
   "name": "todomvc",
   "description": "TodoMVC build with @depository",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "author": "Sune Simonsen",
   "license": "MIT",
   "main": "src/index.js",
