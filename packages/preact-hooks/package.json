@@ -1,6 +1,6 @@
 {
   "name": "@depository/preact-hooks",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Preact hooks for depository",
   "main": "./src/index.js",
   "module": "./src/index.js",
