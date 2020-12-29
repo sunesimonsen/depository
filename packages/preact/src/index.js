@@ -1,11 +1,6 @@
-import { h, Component, createContext } from "preact";
-
+import { h, Component } from "preact";
+import { StoreContext } from "./StoreContext.js";
 import { createBinding } from "./createBinding.js";
 
-const { connect, StoreProvider } = createBinding({
-  h,
-  Component,
-  createContext,
-});
-
-export { connect, StoreProvider };
+export const StoreProvider = StoreContext.Provider;
+export const connect = createBinding({ h, Component, StoreContext });

@@ -20,35 +20,6 @@ const html = htm.bind(h);
 
 const expect = unexpected.clone().use(unexpectedDom);
 
-const computedSum = {
-  inputs: { a: "a", b: "b" },
-  compute: ({ a, b }) => a + b,
-};
-
-const increment = () => ({
-  apply: (cache) => {
-    cache.update("(a|b)", (v) => v + 1);
-  },
-});
-
-const Calculator = () => {
-  const dispatch = useDispatch();
-  const a = useObservable("a");
-  const b = useObservable("b");
-  const sum = useObservable(computedSum);
-
-  const onClick = () => {
-    dispatch(increment());
-  };
-
-  return html`
-    <div>
-      <span data-test-id="sum">${a}+${b}=${sum}<//>
-      <button data-test-id="increment" onClick=${onClick}>Increment<//>
-    </div>
-  `;
-};
-
 const incrementCounter = (instanceId) => ({
   apply: (cache) => {
     cache.update(`widgets.${instanceId}.counter`, (v) => v + 1, 0);
@@ -75,38 +46,22 @@ const Widget = ({ id }) => {
 };
 
 const Testable = () => html`
-  <${Calculator} />
   <${Widget} id="widget-one" />
   <${Widget} id="widget-two" />
 `;
 
-describe("preact", () => {
+describe("useObservable", () => {
   let container, store;
 
   beforeEach(() => {
     container = document.createElement("div");
 
-    store = new Store({
-      a: 10,
-      b: 10,
-    });
+    store = new Store();
 
     render(
       html`<${StoreProvider} value=${store}><${Testable} /><//>`,
       container
     );
-  });
-
-  it("handles rendering paths and computeds", () => {
-    expect(container, "queried for test id", "sum", "to have text", "10+10=20");
-  });
-
-  it("handles dispatching actions", async () => {
-    simulate(container.querySelector("[data-test-id=increment]"), "click");
-
-    await delay();
-
-    expect(container, "queried for test id", "sum", "to have text", "11+11=22");
   });
 
   it("allows storing separate state based on instance ids", async () => {
