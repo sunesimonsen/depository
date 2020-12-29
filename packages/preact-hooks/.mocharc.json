@@ -1,4 +1,0 @@
-{
-  "timeout": 4000,
-  "require": ["esm", "mocha-dominate"]
-}
