@@ -13,8 +13,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test",
-    "format": "prettier --write '**/*.{js,md,json}'",
-    "lint": "eslint . && prettier --check '**/*.{js,md,json}'",
+    "format": "prettier --write '**/*.{js,mjs,md,json}'",
+    "lint": "eslint . && prettier --check '**/*.{js,mjs,md,json}'",
     "update-toc": "for f in `ls packages/*/Readme.md`; do markdown-toc -i $f; done; npm run format",
     "ci": "npm run lint && npm run test",
     "release": "lerna publish"

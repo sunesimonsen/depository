@@ -18,8 +18,7 @@
       "error",
       {
         "devDependencies": [
-          "**/*.spec.js",
-          "**/expect.js",
+          "**/*.spec.{mjs,js}",
           "**/rollup.config.js",
           "**/wmr.config.js",
         ],
