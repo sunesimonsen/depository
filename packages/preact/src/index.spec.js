@@ -1,10 +1,12 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
-import simulate from "simulate-events";
+import simulateEvents from "simulate-events";
 import { Store } from "@depository/store";
 import { StoreProvider, connect } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
+
+const simulate = simulateEvents.default;
 
 const delay = (timeout = 0) =>
   new Promise((resolve) => {
@@ -16,10 +18,7 @@ const html = htm.bind(h);
 const expect = unexpected.clone().use(unexpectedDom);
 
 const sum = {
-  inputs: {
-    a: "a",
-    b: "b",
-  },
+  inputs: { a: "a", b: "b" },
   compute: ({ a, b }) => a + b,
 };
 

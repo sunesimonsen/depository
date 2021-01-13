@@ -1,7 +1,7 @@
-const htmlMinifier = require("rollup-plugin-html-minifier");
-const { babel } = require("@rollup/plugin-babel");
+import htmlMinifier from "rollup-plugin-html-minifier";
+import { babel } from "@rollup/plugin-babel";
 
-module.exports = (config) => {
+export default (config) => {
   if (config.mode === "build") {
     config.plugins.push(
       htmlMinifier({

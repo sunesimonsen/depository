@@ -1,6 +1,6 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
-import simulate from "simulate-events";
+import simulateEvents from "simulate-events";
 import { Store } from "@depository/store";
 import {
   StoreProvider,
@@ -10,6 +10,8 @@ import {
 } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
+
+const simulate = simulateEvents.default;
 
 const delay = (timeout = 0) =>
   new Promise((resolve) => {
