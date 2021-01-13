@@ -1,26 +1,21 @@
-let nextId = 0;
-
 export const createBinding = ({ h, Component, StoreContext }) => {
   const connect = (ChildComponent, functionbindings) => {
     class Connected extends Component {
       constructor(props) {
         super(props);
 
-        const instanceId = nextId++;
-        this.instanceId = instanceId;
-
         const bindings =
           typeof functionbindings === "function"
-            ? functionbindings({ instanceId, ...props })
+            ? functionbindings(props)
             : functionbindings;
 
         const store = props.store;
 
         const dispatch = (action) => {
-          return store.dispatch({ instanceId, ...action });
+          return store.dispatch(action);
         };
 
-        this.state = { instanceId, dispatch };
+        this.state = { dispatch };
 
         this.observers = {};
 
