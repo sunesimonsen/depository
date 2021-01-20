@@ -1,7 +1,7 @@
-import { useContext, useMemo } from "preact/hooks";
-import { StoreContext } from "../StoreContext.js";
+import { useMemo } from "preact/hooks";
+import { useStore } from "./useStore.js";
 
 export const useDispatch = () => {
-  const store = useContext(StoreContext);
+  const store = useStore();
   return useMemo(() => store.dispatch.bind(store), [store]);
 };

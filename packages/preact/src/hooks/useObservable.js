@@ -1,8 +1,8 @@
-import { useLayoutEffect, useContext, useState, useMemo } from "preact/hooks";
-import { StoreContext } from "../StoreContext.js";
+import { useLayoutEffect, useState, useMemo } from "preact/hooks";
+import { useStore } from "./useStore.js";
 
 export const useObservable = (pathOrComputed) => {
-  const store = useContext(StoreContext);
+  const store = useStore();
   const observable = useMemo(() => store.observe(pathOrComputed), [
     store,
     pathOrComputed,

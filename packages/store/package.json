@@ -9,7 +9,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "test": "mocha **/*.spec.js",
+    "test": "mocha './src/**/*.spec.js'",
     "build": "rollup -c rollup.config.js",
     "prepublishOnly": "npm run build"
   },

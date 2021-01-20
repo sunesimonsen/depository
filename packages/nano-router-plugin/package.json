@@ -1,11 +1,13 @@
 {
   "type": "module",
-  "name": "@depository/status-middleware",
+  "name": "@depository/nano-router-plugin",
   "version": "0.14.0",
-  "description": "Status middleware for @depository",
+  "description": "Integrates @nano-router/router with @depository",
+  "main": "./src/index.js",
   "module": "./src/index.js",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./preact": "./src/preact/index.js"
   },
   "sideEffects": false,
   "scripts": {
@@ -14,11 +16,11 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
-    "async",
-    "promise",
-    "middleware",
-    "depository",
-    "loading"
+    "router",
+    "routing",
+    "nano-router",
+    "plugin",
+    "depository"
   ],
   "author": "Sune Simonsen <sune@we-knowhow.dk>",
   "license": "MIT",
@@ -30,19 +32,32 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@depository/promise-middleware": "^0.14.0",
+  "dependencies": {
     "@depository/store": "^0.14.0",
+    "@depository/preact": "^0.14.0",
+    "@nano-router/router": "^2.2.0"
+  },
+  "devDependencies": {
+    "@nano-router/history": "^2.2.0",
+    "@nano-router/router": "^2.2.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "htm": "^3.0.4",
+    "jsdom": "^16.4.0",
     "mocha": "8.2.1",
+    "mocha-dominate": "^1.0.0",
+    "preact": "^10.5.7",
     "rollup": "^2.27.1",
     "rollup-plugin-terser": "^7.0.2",
-    "sinon": "^9.2.1",
-    "unexpected": "11.8.1",
-    "unexpected-sinon": "^10.11.2"
+    "simulate-events": "^1.0.0",
+    "unexpected": "^12.0.0",
+    "unexpected-dom": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@nano-router/history": "^2.2.0",
+    "preact": "^10.5.7"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   }
 }

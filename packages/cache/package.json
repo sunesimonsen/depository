@@ -9,7 +9,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "test": "mocha **/*.spec.js"
+    "test": "mocha './src/**/*.spec.js'"
   },
   "keywords": [
     "cache",
