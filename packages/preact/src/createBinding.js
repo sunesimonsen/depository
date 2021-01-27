@@ -1,5 +1,10 @@
 export const createBinding = ({ h, Component, StoreContext }) => {
-  const connect = (ChildComponent, functionbindings) => {
+  const connect = (functionbindings, ChildComponent) => {
+    if (!ChildComponent) {
+      ChildComponent = functionbindings;
+      functionbindings = null;
+    }
+
     class Connected extends Component {
       constructor(props) {
         super(props);

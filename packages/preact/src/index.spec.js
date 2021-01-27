@@ -29,6 +29,7 @@ const increment = () => ({
 });
 
 const Calculator = connect(
+  { a: "a", b: "b", sum },
   ({ a, b, sum, dispatch }) => {
     const onClick = () => {
       dispatch(increment());
@@ -40,11 +41,6 @@ const Calculator = connect(
         <button data-test-id="increment" onClick=${onClick}>Increment<//>
       </div>
     `;
-  },
-  {
-    a: "a",
-    b: "b",
-    sum,
   }
 );
 

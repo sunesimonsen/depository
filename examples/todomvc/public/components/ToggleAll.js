@@ -3,6 +3,7 @@ import { connect } from "@depository/preact";
 import { activeTodoCount, toggleAllTodos } from "../models/todo.js";
 
 export const ToggleAll = connect(
+  { activeTodoCount },
   ({ dispatch, activeTodoCount }) => {
     const onChange = () => {
       dispatch(toggleAllTodos());
@@ -18,6 +19,5 @@ export const ToggleAll = connect(
       />
       <label for="toggle-all">Mark all as complete</label>
     `;
-  },
-  { activeTodoCount }
+  }
 );

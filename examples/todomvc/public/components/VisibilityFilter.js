@@ -3,6 +3,7 @@ import { connect } from "@depository/preact";
 import { visibilityFilter, setVisibilityFilter } from "../models/todo.js";
 
 export const VisibilityFilter = connect(
+  { visibilityFilter },
   ({ dispatch, visibilityFilter, value, children, store }) => {
     const onClick = (e) => {
       e.preventDefault();
@@ -19,6 +20,5 @@ export const VisibilityFilter = connect(
         >
       </li>
     `;
-  },
-  { visibilityFilter }
+  }
 );
