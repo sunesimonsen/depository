@@ -8,37 +8,20 @@ export const statusMiddleware = (...args) => async ({
   next,
   action,
 }) => {
-  if (!action.payload || !action.status) {
-    return next(action);
-  }
+  const execution = next(action);
 
-  const payload =
-    typeof action.payload === "function"
-      ? action.payload(store.cache, ...args)
-      : action.payload;
-
-  if (!isPromise(payload)) {
-    return next({
-      ...action,
-      payload,
-    });
-  }
-
-  store.cache.set(`statuses.${action.status}`, "loading");
-  store.cache.notify();
-
-  payload.then(
-    () => {
+  if (isPromise(execution) && action.status) {
+    try {
+      store.cache.set(`statuses.${action.status}`, "loading");
+      store.cache.notify();
+      const result = await execution;
       store.cache.set(`statuses.${action.status}`, "ready");
-    },
-    (error) => {
+      return result;
+    } catch (e) {
       store.cache.set(`statuses.${action.status}`, "failed");
-      throw error;
+      throw e;
     }
-  );
-
-  return next({
-    ...action,
-    payload,
-  });
+  } else {
+    return execution;
+  }
 };

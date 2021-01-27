@@ -94,7 +94,40 @@ describe("cache.computed", () => {
       expect(sum.value, "to equal", 6);
     });
 
-    it("doesn't fire if the subscribe path is not affected", () => {
+    it("only notifies ones for mulitple changes", () => {
+      cache = new Cache({
+        a: 10,
+        b: 20,
+        c: 30,
+      });
+
+      const abc = cache.observe({
+        inputs: { a: "a", b: "b", c: "c" },
+        compute: ({ a, b, c }) => a + b + c,
+      });
+
+      abc.subscribe(spy);
+
+      cache.set("a", 5);
+      cache.set("b", 10);
+      cache.set("c", 15);
+
+      cache.notify();
+
+      expect(cache.get(), "to equal", {
+        a: 5,
+        b: 10,
+        c: 15,
+      });
+
+      expect(abc.value, "to equal", 30);
+
+      expect(spy, "to have calls satisfying", () => {
+        spy(30);
+      });
+    });
+
+    it("doesn't notify if the subscribe path is not affected", () => {
       sum.subscribe(spy);
 
       cache.set("global.other", "New stuff");
@@ -110,7 +143,7 @@ describe("cache.computed", () => {
       expect(spy, "was not called");
     });
 
-    it("doesn't fire if the value didn't change", () => {
+    it("doesn't notify if the value didn't change", () => {
       sum.subscribe(spy);
 
       cache.update("global.numbers", (numbers) => numbers.slice().reverse());

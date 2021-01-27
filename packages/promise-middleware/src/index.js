@@ -21,10 +21,12 @@ export const promiseMiddleware = (...args) => async ({
       payload,
     });
   } catch (error) {
-    return next({
+    next({
       ...action,
       payload: null,
       error,
     });
+
+    throw error;
   }
 };
