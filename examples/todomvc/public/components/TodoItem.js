@@ -13,6 +13,7 @@ import {
 } from "../models/todo.js";
 
 export const TodoItem = connect(
+  ({ id }) => ({ todo: todoById(id) }),
   ({ dispatch, id, todo }) => {
     const onChange = (e) => {
       e.preventDefault();
@@ -66,6 +67,5 @@ export const TodoItem = connect(
         />
       </li>
     `;
-  },
-  ({ id }) => ({ todo: todoById(id) })
+  }
 );
