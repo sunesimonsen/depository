@@ -3,12 +3,15 @@ import { Cache } from "@depository/cache";
 export class Store {
   constructor(data) {
     this.cache = new Cache(data);
+    this._apply = (action) => {
+      action.apply(this.cache, action);
+    };
   }
 
   useMiddleware(middleware) {
-    const next = this.dispatch.bind(this);
+    const next = this._apply.bind(this);
 
-    this.dispatch = (action) =>
+    this._apply = (action) =>
       middleware({
         store: this,
         next,
@@ -23,15 +26,14 @@ export class Store {
     return this;
   }
 
-  dispatch(action) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        action.apply(this.cache, action);
-        this.cache.notify();
-
-        resolve(action);
-      }, 0);
-    });
+  async dispatch(action) {
+    try {
+      await this._apply(action);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      this.cache.notify();
+    }
   }
 
   get(...args) {
