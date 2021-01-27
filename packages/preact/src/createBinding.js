@@ -15,10 +15,7 @@ export const createBinding = ({ h, Component, StoreContext }) => {
           return store.dispatch(action);
         };
 
-        this.observer = store.observe({
-          inputs: bindings,
-          compute: (values) => values,
-        });
+        this.observer = store.observe(bindings);
 
         this.state = this.observer.value;
       }
@@ -34,7 +31,6 @@ export const createBinding = ({ h, Component, StoreContext }) => {
       }
 
       render({ children, store, ...other }, state) {
-        console.log("wat", state);
         return h(
           ChildComponent,
           {

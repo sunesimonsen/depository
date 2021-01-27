@@ -284,6 +284,43 @@ describe("cache", () => {
       });
     });
 
+    describe("when given an object", () => {
+      it("observes all of the values", () => {
+        cache
+          .observe({
+            numbers: "global.numbers",
+            otherNumbers: "global.otherNumbers",
+          })
+          .subscribe(spy);
+
+        cache.update("global", ({ numbers, otherNumbers, sum }) => ({
+          numbers: [...numbers, 4],
+          otherNumbers,
+          sum: sum + 4,
+        }));
+
+        cache.update("global", ({ numbers, otherNumbers, sum }) => ({
+          numbers,
+          otherNumbers: [...otherNumbers, 5],
+          sum: sum + 5,
+        }));
+
+        expect(cache.get(), "to equal", {
+          global: {
+            numbers: [1, 2, 3, 4],
+            otherNumbers: [5],
+            sum: 1 + 2 + 3 + 4 + 5,
+          },
+        });
+
+        cache.notify();
+
+        expect(spy, "to have calls satisfying", () => {
+          spy({ numbers: [1, 2, 3, 4], otherNumbers: [5] });
+        });
+      });
+    });
+
     it("subscriptions doesn't fire if the observed path is not affected", () => {
       cache.observe("global.numbers").subscribe(spy);
 

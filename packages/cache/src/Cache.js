@@ -31,6 +31,8 @@ const isComputedDefinition = (definition) => {
   return true;
 };
 
+const identity = (v) => v;
+
 export class Cache {
   constructor(data = {}) {
     this._data = data;
@@ -174,6 +176,11 @@ export class Cache {
         inputs,
         inputObservables,
         isEqual,
+      });
+    } else if (isObject(pathOrComputed)) {
+      return this.observe({
+        inputs: pathOrComputed,
+        compute: identity,
       });
     } else {
       const path = parsePath(pathOrComputed);
