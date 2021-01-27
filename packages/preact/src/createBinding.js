@@ -11,45 +11,39 @@ export const createBinding = ({ h, Component, StoreContext }) => {
 
         const store = props.store;
 
-        const dispatch = (action) => {
+        this.dispatch = (action) => {
           return store.dispatch(action);
         };
 
-        this.state = { dispatch };
-
-        this.observers = {};
-
-        Object.keys(bindings || {}).forEach((name) => {
-          const observer = store.observe(bindings[name]);
-          this.observers[name] = observer;
-          this.state[name] = observer.value;
+        this.observer = store.observe({
+          inputs: bindings,
+          compute: (values) => values,
         });
+
+        this.state = this.observer.value;
       }
 
       componentDidMount() {
-        this.subscriptions = [];
-
-        Object.entries(this.observers).forEach(([name, observer]) => {
-          this.subscriptions.push(
-            observer.subscribe((value) => {
-              this.setState({
-                [name]: value,
-              });
-            })
-          );
+        this.subscription = this.observer.subscribe((value) => {
+          this.setState(value);
         });
       }
 
       componentWillUnmount() {
-        this.subscriptions.forEach((subscription) => {
-          subscription.unsubscribe();
-        });
-
-        this.subscriptions = [];
+        this.subscription.unsubscribe();
       }
 
-      render({ children, store, ...other }) {
-        return h(ChildComponent, { ...this.state, ...other }, children);
+      render({ children, store, ...other }, state) {
+        console.log("wat", state);
+        return h(
+          ChildComponent,
+          {
+            dispatch: this.dispatch,
+            ...state,
+            ...other,
+          },
+          children
+        );
       }
     }
 
