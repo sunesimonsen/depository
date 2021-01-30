@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/preact",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Preact bindings for depository",
   "module": "./src/index.js",
   "exports": {
