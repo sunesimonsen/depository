@@ -20,19 +20,21 @@ export const createBinding = ({ h, Component, StoreContext }) => {
           return store.dispatch(action);
         };
 
-        this.observer = store.observe(bindings);
+        this.observer = bindings && store.observe(bindings);
 
-        this.state = this.observer.value;
+        this.state = this.observer ? this.observer.value : {};
       }
 
       componentDidMount() {
-        this.subscription = this.observer.subscribe((value) => {
-          this.setState(value);
-        });
+        if (this.observer) {
+          this.subscription = this.observer.subscribe((value) => {
+            this.setState(value);
+          });
+        }
       }
 
       componentWillUnmount() {
-        this.subscription.unsubscribe();
+        this.subscription && this.subscription.unsubscribe();
       }
 
       render({ children, store, ...other }, state) {
