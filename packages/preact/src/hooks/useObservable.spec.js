@@ -23,9 +23,11 @@ const computedSum = {
 };
 
 const increment = () => ({
-  apply: (cache) => {
-    cache.update("(a|b)", (v) => v + 1);
-  },
+  payload: (cache) => cache.get("{a,b}"),
+  apply: ({ a, b }) => ({
+    a: a + 1,
+    b: b + 1,
+  }),
 });
 
 const Calculator = () => {

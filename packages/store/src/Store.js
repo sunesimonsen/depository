@@ -4,7 +4,19 @@ export class Store {
   constructor(data) {
     this.cache = new Cache(data);
     this._apply = (action) => {
-      action.apply(this.cache, action);
+      const payload =
+        typeof action.payload === "function"
+          ? action.payload(this.cache)
+          : action.payload;
+
+      const patch =
+        typeof action.apply === "function"
+          ? action.apply(payload, action)
+          : action.apply;
+
+      Object.entries(patch).forEach(([pathPattern, value]) => {
+        this.cache.set(pathPattern, value);
+      });
     };
   }
 

@@ -11,9 +11,7 @@ export const nanoRouterPlugin = ({ routes, history }) => (store) => {
         params: router.params,
         queryParams: router.queryParams,
       },
-      apply: (cache, { payload }) => {
-        cache.set("routing", payload);
-      },
+      apply: (routing) => ({ routing }),
     });
   };
 

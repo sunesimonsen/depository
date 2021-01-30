@@ -21,7 +21,7 @@ export const promiseMiddleware = (...args) => async ({
       payload,
     });
   } catch (error) {
-    next({
+    await next({
       ...action,
       payload: null,
       error,

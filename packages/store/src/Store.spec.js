@@ -35,10 +35,11 @@ describe("store", () => {
         });
 
         await store.dispatch({
-          apply: (cache) => {
-            cache.update("global.testing", (v) => v.toUpperCase());
-            cache.set("global.extra", "Fresh out of the gate");
-          },
+          payload: (cache) => cache.get("global.testing").toUpperCase(),
+          apply: (testing) => ({
+            "global.testing": testing.toUpperCase(),
+            "global.extra": "Fresh out of the gate",
+          }),
         });
 
         expect(store.get(), "to equal", {
@@ -70,10 +71,7 @@ describe("store", () => {
       multipy.subscribe(computedSpy);
 
       await store.dispatch({
-        apply: (cache) => {
-          cache.set("a", 2);
-          cache.set("b", 4);
-        },
+        apply: { a: 2, b: 4 },
       });
 
       expect(store.get(), "to equal", {
@@ -128,9 +126,10 @@ describe("store", () => {
 
       await store.dispatch({
         type: "upper-case",
-        apply: (cache) => {
-          cache.update("global.testing", (v) => v.toUpperCase());
-        },
+        payload: (cache) => cache.get("global.testing").toUpperCase(),
+        apply: (testing) => ({
+          "global.testing": testing,
+        }),
       });
 
       expect(store.get(), "to equal", {

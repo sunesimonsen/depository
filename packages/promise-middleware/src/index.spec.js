@@ -22,9 +22,9 @@ describe("promise-middleware", () => {
   it("resolve promise payloads", async () => {
     await store.dispatch({
       payload: fakeApi.getTestValue(),
-      apply: (store, { payload }) => {
-        store.set("response", payload);
-      },
+      apply: (response) => ({
+        response,
+      }),
     });
 
     expect(store.get(), "to equal", {
@@ -35,9 +35,9 @@ describe("promise-middleware", () => {
   it("resolves async function payloads", async () => {
     await store.dispatch({
       payload: (cache, api) => api.getTestValue(),
-      apply: (store, { payload }) => {
-        store.set("response", payload);
-      },
+      apply: (response) => ({
+        response,
+      }),
     });
 
     expect(store.get(), "to equal", {
@@ -48,13 +48,13 @@ describe("promise-middleware", () => {
   it("forwards promise rejections as the payload", async () => {
     await store.dispatch({
       payload: (cache, api) => api.deadEnd(),
-      apply: (store, { error }) => {
-        store.set("response", error);
+      apply: (response, { error }) => {
+        return error ? { error: error.message } : { response };
       },
     });
 
     expect(store.get(), "to equal", {
-      response: new Error("Dead end!"),
+      error: "Dead end!",
     });
   });
 });

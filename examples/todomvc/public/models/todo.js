@@ -40,12 +40,15 @@ export const activeTodoCount = {
 
 export const loadTodos = () => ({
   payload: (cache, api) => api.loadTodos(),
-  apply: (cache, { payload }) => {
+  apply: (payload) => {
     const todosById = payload.reduce(
       (result, todo) => ({ ...result, [todo.id]: todo }),
       {}
     );
-    cache.set("entities.todo", todosById);
+
+    return {
+      "entities.todo": todosById,
+    };
   },
 });
 
@@ -57,19 +60,17 @@ export const createTodo = ({ text, createdAt = new Date() }) => ({
       createdAt,
       editing: false,
     }),
-  apply: (cache, { payload }) => {
-    cache.set(todoById(payload.id), payload);
-  },
+  apply: (payload) => ({
+    [todoById(payload.id)]: payload,
+  }),
 });
 
 export const updateTodo = ({ id, ...values }) => ({
-  payload: (cache, api) => api.updateTodo({ ...values, id, editing: false }),
-  apply: (cache, { payload }) => {
-    cache.update(todoById(id), (todo) => ({
-      ...todo,
-      ...payload,
-    }));
+  payload: (cache, api) => {
+    const todo = cache.get(todoById(id));
+    return api.updateTodo({ ...todo, ...values, id, editing: false });
   },
+  apply: (payload) => ({ [todoById(id)]: payload }),
 });
 
 export const toggleTodo = ({ id }) => ({
@@ -77,9 +78,7 @@ export const toggleTodo = ({ id }) => ({
     const todo = cache.get(todoById(id));
     return api.updateTodo({ ...todo, completed: !todo.completed });
   },
-  apply: (cache, { payload }) => {
-    cache.set(todoById(id), payload);
-  },
+  apply: (payload) => ({ [todoById(id)]: payload }),
 });
 
 export const toggleAllTodos = () => ({
@@ -92,34 +91,34 @@ export const toggleAllTodos = () => ({
         .map((todo) => api.updateTodo({ ...todo, completed: count !== 0 }))
     );
   },
-  apply: (cache, { payload }) => {
+  apply: (payload) => {
+    const update = {};
     for (const todo of payload) {
-      cache.set(todoById(todo.id), todo);
+      update[todoById(todo.id)] = todo;
     }
+    return update;
   },
 });
 
 export const startEditingTodo = ({ id }) => ({
   payload: { id },
-  apply: (cache, { payload }) => {
-    cache.set(`entities.todo.${payload.id}.editing`, true);
-  },
+  apply: (payload) => ({
+    [`entities.todo.${payload.id}.editing`]: true,
+  }),
 });
 
 export const stopEditingTodo = ({ id }) => ({
   payload: { id },
-  apply: (cache, { payload }) => {
-    cache.set(`entities.todo.${payload.id}.editing`, false);
-  },
+  apply: (payload) => ({
+    [`entities.todo.${payload.id}.editing`]: false,
+  }),
 });
 
 export const removeTodo = ({ id }) => ({
   payload: (cache, api) => api.removeTodos({ ids: [id] }),
-  apply: (cache, { payload }) => {
-    for (const id of payload.ids) {
-      cache.remove(todoById(id));
-    }
-  },
+  apply: (payload) => ({
+    [todoById(id)]: undefined,
+  }),
 });
 
 export const clearCompleteTodos = () => ({
@@ -128,16 +127,16 @@ export const clearCompleteTodos = () => ({
     const ids = completed.map(({ id }) => id);
     return api.removeTodos({ ids });
   },
-  apply: (cache, { payload }) => {
+  apply: (payload) => {
+    const update = {};
     for (const id of payload.ids) {
-      cache.remove(todoById(id));
+      update[todoById(id)] = undefined;
     }
+    return update;
   },
 });
 
 export const setVisibilityFilter = (filter) => ({
-  payload: { filter },
-  apply: (cache, { payload }) => {
-    cache.set(visibilityFilter, filter);
-  },
+  payload: filter,
+  apply: { [visibilityFilter]: filter },
 });

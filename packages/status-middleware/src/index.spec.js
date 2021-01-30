@@ -30,9 +30,7 @@ describe("status-middleware", () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
       payload: fakeApi.getTestValue(),
-      apply: (store, { payload }) => {
-        store.set("response", payload);
-      },
+      apply: (payload) => ({ response: payload }),
     });
 
     expect(store.get(), "to equal", {
@@ -51,9 +49,7 @@ describe("status-middleware", () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
       payload: (cache, api) => api.getTestValue(),
-      apply: (store, { payload }) => {
-        store.set("response", payload);
-      },
+      apply: (payload) => ({ response: payload }),
     });
 
     expect(store.get(), "to equal", {
@@ -72,9 +68,7 @@ describe("status-middleware", () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
       payload: (cache, api) => api.deadEnd(),
-      apply: (store, { error }) => {
-        store.set("response", error);
-      },
+      apply: (response, { error }) => ({ error: error.message }),
     });
 
     expect(store.get(), "to equal", {
@@ -85,7 +79,7 @@ describe("status-middleware", () => {
 
     expect(store.get(), "to equal", {
       statuses: { "test-value": "failed" },
-      response: Error("Dead end!"),
+      error: "Dead end!",
     });
   });
 
@@ -96,9 +90,7 @@ describe("status-middleware", () => {
     await store.dispatch({
       status: "test-value",
       payload: fakeApi.getTestValue(),
-      apply: (store, { payload }) => {
-        store.set("response", payload);
-      },
+      apply: (response) => ({ response }),
     });
 
     expect(store.get(), "to equal", {

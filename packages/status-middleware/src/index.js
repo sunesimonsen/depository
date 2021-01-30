@@ -9,16 +9,17 @@ export const statusMiddleware = (...args) => async ({
   action,
 }) => {
   const execution = next(action);
+  const key = `statuses.${action.status}`;
 
   if (isPromise(execution) && action.status) {
     try {
-      store.cache.set(`statuses.${action.status}`, "loading");
+      store.cache.set(key, "loading");
       store.cache.notify();
       const result = await execution;
-      store.cache.set(`statuses.${action.status}`, "ready");
+      await next({ apply: { [key]: "ready" } });
       return result;
     } catch (e) {
-      store.cache.set(`statuses.${action.status}`, "failed");
+      await next({ apply: { [key]: "failed" } });
       throw e;
     }
   } else {
