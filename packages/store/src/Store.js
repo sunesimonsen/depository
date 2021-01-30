@@ -4,17 +4,7 @@ export class Store {
   constructor(data) {
     this.cache = new Cache(data);
     this._apply = (action) => {
-      const payload =
-        typeof action.payload === "function"
-          ? action.payload(this.cache)
-          : action.payload;
-
-      const patch =
-        typeof action.apply === "function"
-          ? action.apply(payload, action)
-          : action.apply;
-
-      Object.entries(patch).forEach(([pathPattern, value]) => {
+      Object.entries(action.payload).forEach(([pathPattern, value]) => {
         this.cache.set(pathPattern, value);
       });
     };
@@ -41,8 +31,6 @@ export class Store {
   async dispatch(action) {
     try {
       await this._apply(action);
-    } catch (e) {
-      console.error(e);
     } finally {
       this.cache.notify();
     }

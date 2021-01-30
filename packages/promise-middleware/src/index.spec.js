@@ -19,25 +19,12 @@ describe("promise-middleware", () => {
     store.useMiddleware(promiseMiddleware(fakeApi));
   });
 
-  it("resolve promise payloads", async () => {
-    await store.dispatch({
-      payload: fakeApi.getTestValue(),
-      apply: (response) => ({
-        response,
-      }),
-    });
-
-    expect(store.get(), "to equal", {
-      response: "From fake API",
-    });
-  });
-
   it("resolves async function payloads", async () => {
     await store.dispatch({
-      payload: (cache, api) => api.getTestValue(),
-      apply: (response) => ({
-        response,
-      }),
+      payload: async (cache, api) => {
+        const response = await api.getTestValue();
+        return { response };
+      },
     });
 
     expect(store.get(), "to equal", {
@@ -46,15 +33,17 @@ describe("promise-middleware", () => {
   });
 
   it("forwards promise rejections as the payload", async () => {
-    await store.dispatch({
-      payload: (cache, api) => api.deadEnd(),
-      apply: (response, { error }) => {
-        return error ? { error: error.message } : { response };
-      },
-    });
+    await expect(
+      () =>
+        store.dispatch({
+          payload: async (cache, api) => {
+            const response = await api.deadEnd();
+            return { response };
+          },
+        }),
+      "to be rejected"
+    );
 
-    expect(store.get(), "to equal", {
-      error: "Dead end!",
-    });
+    expect(store.get(), "to equal", {});
   });
 });

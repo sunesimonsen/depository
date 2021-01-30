@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@depository/store": "^0.16.0",
+    "@depository/promise-middleware": "^0.16.0",
     "htm": "^3.0.4",
     "jsdom": "^16.4.0",
     "mocha": "8.2.1",

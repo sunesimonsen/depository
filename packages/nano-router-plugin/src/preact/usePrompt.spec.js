@@ -40,8 +40,7 @@ const isDirty = {
 };
 
 const updateName = (newName) => ({
-  payload: newName,
-  apply: { [namePath]: newName },
+  payload: { [namePath]: newName },
 });
 
 const NewView = () => {

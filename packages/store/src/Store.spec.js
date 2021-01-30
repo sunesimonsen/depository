@@ -28,23 +28,20 @@ describe("store", () => {
   });
 
   describe("dispatch", () => {
-    describe("when the action doesn't contain a path", () => {
-      it("executes the given action against the entire store", async () => {
-        const store = new Store({
-          global: { testing: "The state" },
-        });
+    it("patches the store with the payload", async () => {
+      const store = new Store({
+        global: { testing: "The state" },
+      });
 
-        await store.dispatch({
-          payload: (cache) => cache.get("global.testing").toUpperCase(),
-          apply: (testing) => ({
-            "global.testing": testing.toUpperCase(),
-            "global.extra": "Fresh out of the gate",
-          }),
-        });
+      await store.dispatch({
+        payload: {
+          "global.testing": "THE STATE",
+          "global.extra": "Fresh out of the gate",
+        },
+      });
 
-        expect(store.get(), "to equal", {
-          global: { testing: "THE STATE", extra: "Fresh out of the gate" },
-        });
+      expect(store.get(), "to equal", {
+        global: { testing: "THE STATE", extra: "Fresh out of the gate" },
       });
     });
 
@@ -71,7 +68,7 @@ describe("store", () => {
       multipy.subscribe(computedSpy);
 
       await store.dispatch({
-        apply: { a: 2, b: 4 },
+        payload: { a: 2, b: 4 },
       });
 
       expect(store.get(), "to equal", {
@@ -126,10 +123,9 @@ describe("store", () => {
 
       await store.dispatch({
         type: "upper-case",
-        payload: (cache) => cache.get("global.testing").toUpperCase(),
-        apply: (testing) => ({
-          "global.testing": testing,
-        }),
+        payload: {
+          "global.testing": "THE STATE",
+        },
       });
 
       expect(store.get(), "to equal", {
