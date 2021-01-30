@@ -1,3 +1,7 @@
+const readonlyCache = (cache) => ({
+  get: cache.get.bind(cache),
+});
+
 export const promiseMiddleware = (...args) => async ({
   store,
   next,
@@ -9,6 +13,6 @@ export const promiseMiddleware = (...args) => async ({
 
   return next({
     ...action,
-    payload: await action.payload(store.cache, ...args),
+    payload: await action.payload(readonlyCache(store.cache), ...args),
   });
 };
