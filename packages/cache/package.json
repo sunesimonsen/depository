@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/cache",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "A reactive cache for @depository",
   "module": "./src/index.js",
   "exports": {
@@ -26,7 +26,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@depository/path": "^0.16.0"
+    "@depository/path": "^0.17.0"
   },
   "devDependencies": {
     "mocha": "8.2.1",
