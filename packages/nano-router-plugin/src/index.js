@@ -6,13 +6,12 @@ export const nanoRouterPlugin = ({ routes, history }) => (store) => {
   const updateRouting = () => {
     store.dispatch({
       payload: {
-        route: router.route,
-        location: router.location,
-        params: router.params,
-        queryParams: router.queryParams,
-      },
-      apply: (cache, { payload }) => {
-        cache.set("routing", payload);
+        routing: {
+          route: router.route,
+          location: router.location,
+          params: router.params,
+          queryParams: router.queryParams,
+        },
       },
     });
   };

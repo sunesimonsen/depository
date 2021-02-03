@@ -40,10 +40,7 @@ const isDirty = {
 };
 
 const updateName = (newName) => ({
-  payload: newName,
-  apply: (cache, { payload }) => {
-    cache.set(namePath, payload);
-  },
+  payload: { [namePath]: newName },
 });
 
 const NewView = () => {

@@ -1,32 +1,18 @@
+const readonlyCache = (cache) => ({
+  get: cache.get.bind(cache),
+});
+
 export const promiseMiddleware = (...args) => async ({
   store,
   next,
   action,
 }) => {
-  let payload = action.payload;
-
-  if (!payload) {
+  if (!action.payload || typeof action.payload !== "function") {
     return next(action);
   }
 
-  try {
-    if (typeof payload === "function") {
-      payload = await payload(store.cache, ...args);
-    } else {
-      payload = await payload;
-    }
-
-    return next({
-      ...action,
-      payload,
-    });
-  } catch (error) {
-    next({
-      ...action,
-      payload: null,
-      error,
-    });
-
-    throw error;
-  }
+  return next({
+    ...action,
+    payload: await action.payload(readonlyCache(store.cache), ...args),
+  });
 };

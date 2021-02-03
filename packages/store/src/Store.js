@@ -4,7 +4,9 @@ export class Store {
   constructor(data) {
     this.cache = new Cache(data);
     this._apply = (action) => {
-      action.apply(this.cache, action);
+      Object.entries(action.payload).forEach(([pathPattern, value]) => {
+        this.cache.set(pathPattern, value);
+      });
     };
   }
 
@@ -29,8 +31,6 @@ export class Store {
   async dispatch(action) {
     try {
       await this._apply(action);
-    } catch (e) {
-      console.error(e);
     } finally {
       this.cache.notify();
     }

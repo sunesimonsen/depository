@@ -2,6 +2,7 @@ import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import simulateEvents from "simulate-events";
 import { Store } from "@depository/store";
+import { promiseMiddleware } from "@depository/promise-middleware";
 import { StoreProvider, connect } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
@@ -23,8 +24,12 @@ const sum = {
 };
 
 const increment = () => ({
-  apply: (cache) => {
-    cache.update("(a|b)", (v) => v + 1);
+  payload: (cache) => {
+    const { a, b } = cache.get("{a,b}");
+    return {
+      a: a + 1,
+      b: b + 1,
+    };
   },
 });
 
@@ -54,6 +59,8 @@ describe("preact", () => {
       a: 10,
       b: 10,
     });
+
+    store.useMiddleware(promiseMiddleware());
 
     render(
       html`<${StoreProvider} value=${store}><${Calculator} /><//>`,

@@ -39,105 +39,103 @@ export const activeTodoCount = {
 };
 
 export const loadTodos = () => ({
-  payload: (cache, api) => api.loadTodos(),
-  apply: (cache, { payload }) => {
-    const todosById = payload.reduce(
+  payload: async (cache, api) => {
+    const response = await api.loadTodos();
+
+    const todosById = response.reduce(
       (result, todo) => ({ ...result, [todo.id]: todo }),
       {}
     );
-    cache.set("entities.todo", todosById);
+
+    return {
+      "entities.todo": todosById,
+    };
   },
 });
 
 export const createTodo = ({ text, createdAt = new Date() }) => ({
-  payload: (cache, api) =>
-    api.createTodo({
+  payload: async (cache, api) => {
+    const response = await api.createTodo({
       text,
       completed: false,
       createdAt,
       editing: false,
-    }),
-  apply: (cache, { payload }) => {
-    cache.set(todoById(payload.id), payload);
+    });
+
+    return { [todoById(response.id)]: response };
   },
 });
 
 export const updateTodo = ({ id, ...values }) => ({
-  payload: (cache, api) => api.updateTodo({ ...values, id, editing: false }),
-  apply: (cache, { payload }) => {
-    cache.update(todoById(id), (todo) => ({
-      ...todo,
-      ...payload,
-    }));
+  payload: async (cache, api) => {
+    const todo = cache.get(todoById(id));
+    const response = api.updateTodo({ ...todo, ...values, id, editing: false });
+    return { [todoById(id)]: response };
   },
 });
 
 export const toggleTodo = ({ id }) => ({
-  payload: (cache, api) => {
+  payload: async (cache, api) => {
     const todo = cache.get(todoById(id));
-    return api.updateTodo({ ...todo, completed: !todo.completed });
-  },
-  apply: (cache, { payload }) => {
-    cache.set(todoById(id), payload);
+    const response = await api.updateTodo({
+      ...todo,
+      completed: !todo.completed,
+    });
+    return { [todoById(id)]: response };
   },
 });
 
 export const toggleAllTodos = () => ({
-  payload: (cache, api) => {
+  payload: async (cache, api) => {
     const count = cache.get(activeTodoCount);
 
-    return Promise.all(
+    const response = await Promise.all(
       cache
         .get(`entities.todo.*`)
         .map((todo) => api.updateTodo({ ...todo, completed: count !== 0 }))
     );
-  },
-  apply: (cache, { payload }) => {
-    for (const todo of payload) {
-      cache.set(todoById(todo.id), todo);
+
+    const update = {};
+    for (const todo of response) {
+      update[todoById(todo.id)] = todo;
     }
+    return update;
   },
 });
 
 export const startEditingTodo = ({ id }) => ({
-  payload: { id },
-  apply: (cache, { payload }) => {
-    cache.set(`entities.todo.${payload.id}.editing`, true);
+  payload: {
+    [`entities.todo.${id}.editing`]: true,
   },
 });
 
 export const stopEditingTodo = ({ id }) => ({
-  payload: { id },
-  apply: (cache, { payload }) => {
-    cache.set(`entities.todo.${payload.id}.editing`, false);
+  payload: {
+    [`entities.todo.${id}.editing`]: false,
   },
 });
 
 export const removeTodo = ({ id }) => ({
-  payload: (cache, api) => api.removeTodos({ ids: [id] }),
-  apply: (cache, { payload }) => {
-    for (const id of payload.ids) {
-      cache.remove(todoById(id));
-    }
+  payload: async (cache, api) => {
+    await api.removeTodos({ ids: [id] });
+    return { [todoById(id)]: undefined };
   },
 });
 
 export const clearCompleteTodos = () => ({
-  payload: (cache, api) => {
+  payload: async (cache, api) => {
     const completed = cache.get(completedTodos);
     const ids = completed.map(({ id }) => id);
-    return api.removeTodos({ ids });
-  },
-  apply: (cache, { payload }) => {
-    for (const id of payload.ids) {
-      cache.remove(todoById(id));
+    const response = await api.removeTodos({ ids });
+
+    const update = {};
+    for (const id of response.ids) {
+      update[todoById(id)] = undefined;
     }
+    return update;
   },
 });
 
 export const setVisibilityFilter = (filter) => ({
-  payload: { filter },
-  apply: (cache, { payload }) => {
-    cache.set(visibilityFilter, filter);
-  },
+  payload: { [visibilityFilter]: filter },
 });
