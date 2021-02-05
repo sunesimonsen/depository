@@ -7,6 +7,7 @@ import {
   contains,
   isPathsEqual,
   isPathsIntersecting,
+  isPathObject,
   parsePath,
   updateIn,
 } from "@depository/path";
@@ -76,6 +77,11 @@ export class Cache {
       });
 
       return compute(inputValues);
+    } else if (isObject(pathOrComputed) && !isPathObject(pathOrComputed)) {
+      return this.get({
+        inputs: pathOrComputed,
+        compute: identity,
+      });
     } else {
       return getIn(this.data, pathOrComputed);
     }
@@ -177,7 +183,7 @@ export class Cache {
         inputObservables,
         isEqual,
       });
-    } else if (isObject(pathOrComputed)) {
+    } else if (isObject(pathOrComputed) && !isPathObject(pathOrComputed)) {
       return this.observe({
         inputs: pathOrComputed,
         compute: identity,
