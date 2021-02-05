@@ -228,7 +228,6 @@ describe("view", () => {
             }
 
             render(props) {
-              console.log(props);
               const items = props.reversed
                 ? this.items.slice().reverse()
                 : this.items;
