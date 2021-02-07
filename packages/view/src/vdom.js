@@ -80,18 +80,23 @@ class UserComponent {
     };
   }
 
-  _renderInstance() {
-    const instanceProps = this._createInstanceProps();
-    this._instance.props = instanceProps;
-    return this._instance.render(instanceProps);
+  _renderInstance(nextProps) {
+    this._instance.props = nextProps;
+    return this._instance.render(nextProps);
   }
 
   _render() {
-    const prevInstanceProps = this._instance.props;
-    const updatedTree = this._renderInstance();
-    this._vdom = update(updatedTree, this._vdom);
-    if (this._instance.didUpdate) {
-      this._instance.didUpdate(prevInstanceProps);
+    const nextProps = this._createInstanceProps();
+    const prevProps = this._instance.props;
+    if (
+      !this._instance.shouldUpdate ||
+      this._instance.shouldUpdate(prevProps)
+    ) {
+      const updatedTree = this._renderInstance(nextProps);
+      this._vdom = update(updatedTree, this._vdom);
+      if (this._instance.didUpdate) {
+        this._instance.didUpdate(prevProps);
+      }
     }
   }
 
@@ -115,7 +120,8 @@ class UserComponent {
       this._data = this._observable.value;
     }
 
-    const tree = this._renderInstance();
+    const nextProps = this._createInstanceProps();
+    const tree = this._renderInstance(nextProps);
     this._vdom = create(tree, this._store);
 
     const dom = mount(this._vdom);

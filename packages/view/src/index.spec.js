@@ -271,8 +271,8 @@ describe("view", () => {
     });
   });
 
-  describe("with a component containing life-cycle method", () => {
-    it("calls the life-cycle methods", async () => {
+  describe("with a component containing life-cycle methods", () => {
+    it("calls the life-cycle methods in the correct order", async () => {
       const mountSpy = sinon.spy().named("didMount");
       const updateSpy = sinon.spy().named("didUpdate");
       const unmountSpy = sinon.spy().named("willUnmount");
@@ -344,6 +344,84 @@ describe("view", () => {
               children: [],
             }
           );
+          unmountSpy();
+        }
+      );
+    });
+
+    it("returning falls from shouldUpdate prevents the component to re-render", async () => {
+      const mountSpy = sinon.spy().named("didMount");
+      const shouldUpdateSpy = sinon.spy().named("shouldUpdate");
+      const updateSpy = sinon.spy().named("didUpdate");
+      const unmountSpy = sinon.spy().named("willUnmount");
+
+      const store = new Store({ visible: true, message: "Hello" });
+
+      class TestComponent {
+        get data() {
+          return { message: "message" };
+        }
+
+        didMount() {
+          mountSpy();
+        }
+
+        didUpdate(prevProps) {
+          updateSpy(this.props, prevProps);
+        }
+
+        shouldUpdate(nextProps) {
+          shouldUpdateSpy(nextProps);
+          return false;
+        }
+
+        willUnmount() {
+          unmountSpy();
+        }
+
+        render({ message }) {
+          return html`<h1>${message}</h1>`;
+        }
+      }
+
+      class App {
+        get data() {
+          return { visible: "visible" };
+        }
+
+        render({ visible }) {
+          return visible ? html`<${TestComponent} />` : null;
+        }
+      }
+
+      render(html`<${App} />`, store, container);
+
+      await store.dispatch({
+        payload: {
+          message: "world",
+        },
+      });
+
+      expect(container, "to satisfy", "<div><h1>Hello</h1></div>");
+
+      await store.dispatch({
+        payload: {
+          visible: false,
+        },
+      });
+
+      clock.runAll();
+
+      expect(
+        [mountSpy, shouldUpdateSpy, updateSpy, unmountSpy],
+        "to have calls satisfying",
+        () => {
+          mountSpy();
+          shouldUpdateSpy({
+            message: "Hello",
+            dispatch: expect.it("to be a function"),
+            children: [],
+          });
           unmountSpy();
         }
       );
