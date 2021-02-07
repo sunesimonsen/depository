@@ -48,8 +48,10 @@ class UserComponent {
     this._props = props;
     this._children = children;
     this._store = store;
-    this._instance = new Constructor(props, children);
     this._dispatch = store.dispatch.bind(store);
+    const instanceProps = this._createInstanceProps();
+    this._instance = new Constructor(instanceProps);
+    this._instance.props = instanceProps;
     const paths = this._instance.data;
     if (paths) {
       this._observable = store.observe(paths);
@@ -69,13 +71,19 @@ class UserComponent {
     }, 0);
   }
 
-  _renderInstance() {
-    return this._instance.render({
+  _createInstanceProps() {
+    return {
       ...this._data,
       dispatch: this._dispatch,
       ...this._props,
       children: this._children,
-    });
+    };
+  }
+
+  _renderInstance() {
+    const instanceProps = this._createInstanceProps();
+    this._instance.props = instanceProps;
+    return this._instance.render(instanceProps);
   }
 
   _render() {
