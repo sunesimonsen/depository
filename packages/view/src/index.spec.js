@@ -427,4 +427,32 @@ describe("view", () => {
       );
     });
   });
+
+  describe("when ref-props", () => {
+    it("calls the ref, when the element is mounted", () => {
+      class TestComponent {
+        setId(dom) {
+          dom.setAttribute("id", "title");
+        }
+
+        render() {
+          return html`
+            <section>
+              <h1 ref=${this.setId}>Title</h1>
+            </section>
+          `;
+        }
+      }
+
+      render(html`<${TestComponent} />`, store, container);
+
+      clock.runAll();
+
+      expect(
+        container,
+        "to satisfy",
+        '<div><section><h1 id="title">Title</h1></section></div>'
+      );
+    });
+  });
 });

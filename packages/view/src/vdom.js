@@ -163,7 +163,11 @@ class PrimitiveComponent {
 
     Object.entries(props).forEach(([name, value]) => {
       if (name !== "key" && this._props[name] !== value) {
-        this._dom.setAttribute(name, value);
+        if (name === "ref") {
+          value(this._dom);
+        } else {
+          this._dom.setAttribute(name, value);
+        }
       }
     });
 
@@ -178,12 +182,16 @@ class PrimitiveComponent {
     this._dom = document.createElement(this._type);
 
     Object.entries(this._props).forEach(([name, value]) => {
-      if (name !== "key") {
+      if (name !== "key" || name !== "ref") {
         this._dom.setAttribute(name, value);
       }
     });
 
     appendChildren(this._dom, mount(this._children));
+
+    if (this._props.ref) {
+      this._props.ref(this._dom);
+    }
 
     return this._dom;
   }
