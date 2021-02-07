@@ -49,6 +49,7 @@ class UserComponent {
     this._children = children;
     this._store = store;
     this._instance = new Constructor(props, children);
+    this._dispatch = store.dispatch.bind(store);
     const paths = this._instance.data;
     if (paths) {
       this._observable = store.observe(paths);
@@ -71,6 +72,7 @@ class UserComponent {
   _renderInstance() {
     return this._instance.render({
       ...this._data,
+      dispatch: this._dispatch,
       ...this._props,
       children: this._children,
     });
@@ -104,7 +106,11 @@ class UserComponent {
     const tree = this._renderInstance();
     this._vdom = create(tree, this._store);
 
-    return mount(this._vdom);
+    const dom = mount(this._vdom);
+
+    this._instance.didMount && this._instance.didMount();
+
+    return dom;
   }
 
   _insertBefore(dom) {
@@ -113,6 +119,7 @@ class UserComponent {
   }
 
   _unmount() {
+    this._instance.willUnmount && this._instance.willUnmount();
     clearTimeout(this._renderTimer);
     if (this._subscription) {
       this._subscription.unsubscribe();

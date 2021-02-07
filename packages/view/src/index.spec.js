@@ -1,10 +1,11 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
+import unexpectedSimon from "unexpected-sinon";
 import { Store } from "@depository/store";
 import { render, html } from "./index.js";
 import sinon from "sinon";
 
-const expect = unexpected.clone().use(unexpectedDom);
+const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
 
 describe("view", () => {
   let container, store, clock;
@@ -266,6 +267,55 @@ describe("view", () => {
             `<div><ul><li>three</li><li>two</li><li>one</li></ul></div>`
           );
         });
+      });
+    });
+  });
+
+  describe("with a component containing life-cycle method", () => {
+    it("calls the life-cycle methods", async () => {
+      const mountSpy = sinon.spy().named("didMount");
+      const unmountSpy = sinon.spy().named("willUnmount");
+
+      const store = new Store({ visible: true });
+
+      class TestComponent {
+        didMount() {
+          mountSpy();
+        }
+
+        willUnmount() {
+          unmountSpy();
+        }
+
+        render() {
+          return null;
+        }
+      }
+
+      class App {
+        get data() {
+          return { visible: "visible" };
+        }
+
+        render({ visible }) {
+          console.log("visible", visible);
+          return visible ? html`<${TestComponent} />` : null;
+        }
+      }
+
+      render(html`<${App} />`, store, container);
+
+      await store.dispatch({
+        payload: {
+          visible: false,
+        },
+      });
+
+      clock.runAll();
+
+      expect([mountSpy, unmountSpy], "to have calls satisfying", () => {
+        mountSpy();
+        unmountSpy();
       });
     });
   });
