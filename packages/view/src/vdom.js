@@ -87,8 +87,12 @@ class UserComponent {
   }
 
   _render() {
+    const prevInstanceProps = this._instance.props;
     const updatedTree = this._renderInstance();
     this._vdom = update(updatedTree, this._vdom);
+    if (this._instance.didUpdate) {
+      this._instance.didUpdate(prevInstanceProps);
+    }
   }
 
   _updateProps(props) {

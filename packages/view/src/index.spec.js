@@ -274,21 +274,30 @@ describe("view", () => {
   describe("with a component containing life-cycle method", () => {
     it("calls the life-cycle methods", async () => {
       const mountSpy = sinon.spy().named("didMount");
+      const updateSpy = sinon.spy().named("didUpdate");
       const unmountSpy = sinon.spy().named("willUnmount");
 
-      const store = new Store({ visible: true });
+      const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
+        get data() {
+          return { message: "message" };
+        }
+
         didMount() {
           mountSpy();
+        }
+
+        didUpdate(prevProps) {
+          updateSpy(this.props, prevProps);
         }
 
         willUnmount() {
           unmountSpy();
         }
 
-        render() {
-          return null;
+        render({ message }) {
+          return html`<h1>${message}</h1>`;
         }
       }
 
@@ -298,12 +307,17 @@ describe("view", () => {
         }
 
         render({ visible }) {
-          console.log("visible", visible);
           return visible ? html`<${TestComponent} />` : null;
         }
       }
 
       render(html`<${App} />`, store, container);
+
+      await store.dispatch({
+        payload: {
+          message: "world",
+        },
+      });
 
       await store.dispatch({
         payload: {
@@ -313,10 +327,26 @@ describe("view", () => {
 
       clock.runAll();
 
-      expect([mountSpy, unmountSpy], "to have calls satisfying", () => {
-        mountSpy();
-        unmountSpy();
-      });
+      expect(
+        [mountSpy, updateSpy, unmountSpy],
+        "to have calls satisfying",
+        () => {
+          mountSpy();
+          updateSpy(
+            {
+              message: "world",
+              dispatch: expect.it("to be a function"),
+              children: [],
+            },
+            {
+              message: "Hello",
+              dispatch: expect.it("to be a function"),
+              children: [],
+            }
+          );
+          unmountSpy();
+        }
+      );
     });
   });
 });
