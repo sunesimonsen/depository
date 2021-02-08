@@ -7,24 +7,24 @@ export const shallowEqual = (objA, objB) => {
     return false;
   }
 
-  var keysA = Object.keys(objA);
-  var keysB = Object.keys(objB);
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
 
   if (keysA.length !== keysB.length) {
     return false;
   }
 
-  var bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
+  const bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
 
-  for (var idx = 0; idx < keysA.length; idx++) {
-    var key = keysA[idx];
+  for (let idx = 0; idx < keysA.length; idx++) {
+    const key = keysA[idx];
 
     if (!bHasOwnProperty(key)) {
       return false;
     }
 
-    var valueA = objA[key];
-    var valueB = objB[key];
+    const valueA = objA[key];
+    const valueB = objB[key];
 
     if (valueA !== valueB) {
       return false;
