@@ -67,7 +67,7 @@ describe("view", () => {
       });
 
       class Title {
-        get data() {
+        data() {
           return { message: "message" };
         }
 
@@ -92,7 +92,7 @@ describe("view", () => {
         });
 
         class Title {
-          get data() {
+          data() {
             return { message: "message" };
           }
 
@@ -135,7 +135,7 @@ describe("view", () => {
         }
 
         class App {
-          get data() {
+          data() {
             return { title: "title", message: "message" };
           }
 
@@ -174,7 +174,7 @@ describe("view", () => {
         });
 
         class Title {
-          get data() {
+          data() {
             return { title: "title" };
           }
 
@@ -184,7 +184,7 @@ describe("view", () => {
         }
 
         class App {
-          get data() {
+          data() {
             return { message: "message" };
           }
 
@@ -224,7 +224,7 @@ describe("view", () => {
               this.items = ["one", "two", "three"];
             }
 
-            get data() {
+            data() {
               return { reversed: "reversed" };
             }
 
@@ -280,7 +280,7 @@ describe("view", () => {
       const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
-        get data() {
+        data() {
           return { message: "message" };
         }
 
@@ -302,7 +302,7 @@ describe("view", () => {
       }
 
       class App {
-        get data() {
+        data() {
           return { visible: "visible" };
         }
 
@@ -335,12 +335,10 @@ describe("view", () => {
           updateSpy(
             {
               message: "world",
-              dispatch: expect.it("to be a function"),
               children: [],
             },
             {
               message: "Hello",
-              dispatch: expect.it("to be a function"),
               children: [],
             }
           );
@@ -358,7 +356,7 @@ describe("view", () => {
       const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
-        get data() {
+        data() {
           return { message: "message" };
         }
 
@@ -385,7 +383,7 @@ describe("view", () => {
       }
 
       class App {
-        get data() {
+        data() {
           return { visible: "visible" };
         }
 
@@ -419,7 +417,6 @@ describe("view", () => {
           mountSpy();
           shouldUpdateSpy({
             message: "Hello",
-            dispatch: expect.it("to be a function"),
             children: [],
           });
           unmountSpy();

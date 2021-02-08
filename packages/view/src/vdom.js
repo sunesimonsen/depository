@@ -48,11 +48,11 @@ class UserComponent {
     this._props = props;
     this._children = children;
     this._store = store;
-    this._dispatch = store.dispatch.bind(store);
     const instanceProps = this._createInstanceProps();
     this._instance = new Constructor(instanceProps);
+    this._instance.dispatch = store.dispatch.bind(store);
     this._instance.props = instanceProps;
-    const paths = this._instance.data;
+    const paths = this._instance.data && this._instance.data(instanceProps);
     if (paths) {
       this._observable = store.observe(paths);
     }
@@ -74,7 +74,6 @@ class UserComponent {
   _createInstanceProps() {
     return {
       ...this._data,
-      dispatch: this._dispatch,
       ...this._props,
       children: this._children,
     };
