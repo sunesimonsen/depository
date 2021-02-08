@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "todomvc",
+  "name": "todomvc-preact",
   "description": "TodoMVC build with @depository",
   "version": "0.17.0",
   "author": "Sune Simonsen",
