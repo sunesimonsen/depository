@@ -174,7 +174,7 @@ class PrimitiveComponent {
   }
 
   _updateChildren(children) {
-    this._children = update(children, this._children);
+    this._children = update(children, this._children, this._store);
   }
 
   _mount() {
