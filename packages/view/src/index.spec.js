@@ -235,7 +235,7 @@ describe("view", () => {
 
               return html`
                 <ul>
-                  ${items.map((item) => html`<li key=${item}>${item}</li>`)}
+                  ${items.map((item) => html`<li #=${item}>${item}</li>`)}
                 </ul>
               `;
             }

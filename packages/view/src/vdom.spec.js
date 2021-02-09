@@ -72,25 +72,25 @@ describe("vdom", () => {
         ],
         [
           html`<ul>
-            <li key="0">0</li>
-            <li key="1">1</li>
-            <li key="2">2</li>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
           </ul>`,
           html`<ul>
-            <li key="1">1</li>
-            <li key="0">0</li>
+            <li #="1">1</li>
+            <li #="0">0</li>
           </ul>`,
         ],
         [
           html`<ul>
-            <li key="0">0</li>
-            <li key="1">1</li>
-            <li key="2">2</li>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
           </ul>`,
           html`<ul>
-            <li key="0">0</li>
-            <li key="1">one</li>
-            <li key="2">2</li>
+            <li #="0">0</li>
+            <li #="1">one</li>
+            <li #="2">2</li>
           </ul>`,
         ],
       ].forEach(([a, b]) => {

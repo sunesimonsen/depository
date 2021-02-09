@@ -155,13 +155,13 @@ class PrimitiveComponent {
 
   _updateProps(props) {
     Object.keys(this._props).forEach((name) => {
-      if (!(name in this._props) && name !== "key") {
+      if (!(name in this._props) && name !== "#") {
         this._dom.removeAttribute(name);
       }
     });
 
     Object.entries(props).forEach(([name, value]) => {
-      if (name !== "key" && this._props[name] !== value) {
+      if (name !== "#" && this._props[name] !== value) {
         if (name === "ref") {
           value(this._dom);
         } else {
@@ -181,7 +181,8 @@ class PrimitiveComponent {
     this._dom = document.createElement(this._type);
 
     Object.entries(this._props).forEach(([name, value]) => {
-      if (name !== "key" || name !== "ref") {
+      if (name !== "#" && name !== "ref") {
+        console.log("name", name);
         this._dom.setAttribute(name, value);
       }
     });
@@ -262,19 +263,20 @@ export const create = (value, store) => {
   }
 };
 
-const hasKey = (value) => value && value._props && "key" in value._props;
+const hasKey = (value) => value && value._props && "#" in value._props;
 
-const similar = (a, b) => a._type === b._type && a._props.key === b._props.key;
+const similar = (a, b) =>
+  a._type === b._type && a._props["#"] === b._props["#"];
 
 const updateKeyedArray = (updatedTree, vdom, store) => {
   const updatedByKey = new Map();
   updatedTree.forEach((child) => {
-    updatedByKey.set(child._props.key, child);
+    updatedByKey.set(child._props["#"], child);
   });
 
   vdom.forEach((oldChild, i) => {
-    if (updatedByKey.has(oldChild._props.key)) {
-      const newChild = updatedByKey.get(oldChild._props.key);
+    if (updatedByKey.has(oldChild._props["#"])) {
+      const newChild = updatedByKey.get(oldChild._props["#"]);
       update(newChild, oldChild, store);
     }
   });
