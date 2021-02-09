@@ -9,7 +9,7 @@ const minifyPlugins = [
     mangle: {
       reserved: [],
       properties: {
-        regex: /^_/,
+        regex: /^_|^(InsertDiff|RemoveDiff|MoveDiff|howMany)$/,
       },
     },
   }),

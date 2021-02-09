@@ -154,21 +154,22 @@ class PrimitiveComponent {
   }
 
   _updateProps(props) {
-    Object.keys(this._props).forEach((name) => {
-      if (!(name in this._props) && name !== "#") {
+    for (const p in this._props) {
+      if (!(p in props) && name !== "#") {
         this._dom.removeAttribute(name);
       }
-    });
+    }
 
-    Object.entries(props).forEach(([name, value]) => {
-      if (name !== "#" && this._props[name] !== value) {
-        if (name === "ref") {
+    for (const p in props) {
+      const value = props[p];
+      if (p !== "#" && this._props[p] !== value) {
+        if (p === "ref") {
           value(this._dom);
         } else {
-          this._dom.setAttribute(name, value);
+          this._dom.setAttribute(p, value);
         }
       }
-    });
+    }
 
     this._props = props;
   }
@@ -180,12 +181,11 @@ class PrimitiveComponent {
   _mount() {
     this._dom = document.createElement(this._type);
 
-    Object.entries(this._props).forEach(([name, value]) => {
-      if (name !== "#" && name !== "ref") {
-        console.log("name", name);
-        this._dom.setAttribute(name, value);
+    for (const p in this._props) {
+      if (p !== "#" && p !== "ref") {
+        this._dom.setAttribute(p, this._props[p]);
       }
-    });
+    }
 
     appendChildren(this._dom, mount(this._children));
 
@@ -263,20 +263,20 @@ export const create = (value, store) => {
   }
 };
 
-const hasKey = (value) => value && value._props && "#" in value._props;
-
-const similar = (a, b) =>
-  a._type === b._type && a._props["#"] === b._props["#"];
+const getKey = (value) => value._props["#"];
+const hasKey = (value) => value._props && "#" in value._props;
+const similar = (a, b) => a._type === b._type && getKey(a) === getKey(b);
 
 const updateKeyedArray = (updatedTree, vdom, store) => {
   const updatedByKey = new Map();
   updatedTree.forEach((child) => {
-    updatedByKey.set(child._props["#"], child);
+    updatedByKey.set(getKey(child), child);
   });
 
   vdom.forEach((oldChild, i) => {
-    if (updatedByKey.has(oldChild._props["#"])) {
-      const newChild = updatedByKey.get(oldChild._props["#"]);
+    const key = getKey(oldChild);
+    if (updatedByKey.has(key)) {
+      const newChild = updatedByKey.get(key);
       update(newChild, oldChild, store);
     }
   });
