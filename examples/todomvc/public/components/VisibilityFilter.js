@@ -2,6 +2,10 @@ import { html } from "@depository/view";
 import { visibilityFilter, setVisibilityFilter } from "../models/todo.js";
 
 export class VisibilityFilter {
+  constructor() {
+    this.onClick = this.onClick.bind(this);
+  }
+
   data() {
     return { visibilityFilter };
   }
@@ -18,7 +22,7 @@ export class VisibilityFilter {
         <a
           class=${visibilityFilter === value && "selected"}
           href="#"
-          onClick=${this.onClick}
+          @click=${this.onClick}
         >
           ${children}
         </a>

@@ -10,7 +10,7 @@ export class TodoList {
   render({ todos }) {
     return html`
       <ul class="todo-list">
-        ${todos.map(({ id }) => html`<${TodoItem} key=${id} id=${id} />`)}
+        ${todos.map(({ id }) => html`<${TodoItem} #=${id} id=${id} />`)}
       </ul>
     `;
   }

@@ -2,6 +2,10 @@ import { html } from "@depository/view";
 import { createTodo } from "../models/todo.js";
 
 export class TodoInput {
+  constructor() {
+    this.onKeyUp = this.onKeyUp.bind(this);
+  }
+
   onKeyUp(e) {
     if (e.code === "Enter") {
       this.dispatch(createTodo({ text: e.target.value.trim() }));
@@ -16,7 +20,7 @@ export class TodoInput {
         class="new-todo"
         placeholder="What needs to be done?"
         autofocus
-        onKeyUp=${this.onKeyUp}
+        @keyup=${this.onKeyUp}
       />
     `;
   }

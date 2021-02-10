@@ -12,6 +12,13 @@ import {
 } from "../models/todo.js";
 
 export class TodoItem {
+  constructor() {
+    this.onChange = this.onChange.bind(this);
+    this.onDblClick = this.onDblClick.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+  }
+
   data({ id }) {
     return { todo: todoById(id) };
   }
@@ -58,18 +65,18 @@ export class TodoItem {
           <input
             class="toggle"
             type="checkbox"
-            onChange=${this.onChange}
+            @change=${this.onChange}
             checked=${todo.completed}
           />
-          <label onDblClick=${this.onDblClick}>${todo.text}</label>
+          <label @dblclick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />
         </div>
         <input
           ref=${(element) => element && element.focus()}
           class="edit"
           value=${todo.text}
-          onKeyUp=${this.onKeyUp}
-          onBlur=${this.onBlur}
+          @keyup=${this.onKeyUp}
+          @blur=${this.onBlur}
         />
       </li>
     `;
