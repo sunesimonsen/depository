@@ -46,6 +46,6 @@
     "unexpected-sinon": "^10.11.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=12"
   }
 }

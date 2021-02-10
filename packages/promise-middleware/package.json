@@ -39,6 +39,6 @@
     "unexpected": "11.8.1"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   }
 }
