@@ -145,6 +145,8 @@ class UserComponent {
   }
 }
 
+const propToEventName = (p) => p.slice(1);
+
 class PrimitiveComponent {
   constructor(type, props, children, store) {
     this._type = type;
@@ -155,16 +157,25 @@ class PrimitiveComponent {
 
   _updateProps(props) {
     for (const p in this._props) {
-      if (!(p in props) && name !== "#") {
-        this._dom.removeAttribute(name);
+      if (!(p in props) && p !== "#" && p !== "ref") {
+        if (p[0] === "@") {
+          this._dom.removeEventListener(propToEventName(p), this._props[p]);
+        } else {
+          this._dom.removeAttribute(p);
+        }
       }
     }
 
     for (const p in props) {
+      const prevValue = this._props[p];
       const value = props[p];
-      if (p !== "#" && this._props[p] !== value) {
+      if (p !== "#" && prevValue !== value) {
         if (p === "ref") {
           value(this._dom);
+        } else if (p[0] === "@") {
+          const eventName = propToEventName(p);
+          this._dom.removeEventListener(eventName, prevValue);
+          this._dom.addEventListener(eventName, value);
         } else {
           this._dom.setAttribute(p, value);
         }
@@ -183,7 +194,11 @@ class PrimitiveComponent {
 
     for (const p in this._props) {
       if (p !== "#" && p !== "ref") {
-        this._dom.setAttribute(p, this._props[p]);
+        if (p[0] === "@") {
+          this._dom.addEventListener(p.slice(1), this._props[p]);
+        } else {
+          this._dom.setAttribute(p, this._props[p]);
+        }
       }
     }
 
@@ -208,12 +223,20 @@ class PrimitiveComponent {
 
 class Text {
   constructor(value) {
-    this.value = value;
+    this._type = "text";
+    this._value = value;
   }
 
   _mount() {
-    this._dom = document.createTextNode(this.value);
+    this._dom = document.createTextNode(this._value);
     return this._dom;
+  }
+
+  _updateText(value) {
+    if (this._value !== value) {
+      this._dom.textContent = value;
+      this._value = value;
+    }
   }
 
   _insertBefore(dom) {
@@ -288,7 +311,11 @@ const updateKeyedArray = (updatedTree, vdom, store) => {
       const anchor = vdom[update.index];
       const newValues = update.values.map((child) => create(child, store));
       const dom = mount(newValues);
-      anchor._insertBefore(dom);
+      if (anchor) {
+        anchor._insertBefore(dom);
+      } else {
+        appendChildren(vdom[0]._dom.parentNode, dom);
+      }
       vdom.splice(update.index, 0, ...newValues);
     } else if (update instanceof arrayDiff.RemoveDiff) {
       const candidates = vdom.splice(update.index, update.howMany);
@@ -327,7 +354,17 @@ const updateArray = (updatedTree, vdom, store) => {
 };
 
 export const update = (updatedTree, vdom, store) => {
-  if (updatedTree && updatedTree._type && updatedTree._type === vdom._type) {
+  if (
+    vdom._type === "text" &&
+    (typeof updatedTree === "string" || typeof updatedTree === "number")
+  ) {
+    vdom._updateText(updatedTree);
+    return vdom;
+  } else if (
+    updatedTree &&
+    updatedTree._type &&
+    updatedTree._type === vdom._type
+  ) {
     vdom._updateProps(updatedTree._props);
     vdom._updateChildren(updatedTree._children);
     return vdom;

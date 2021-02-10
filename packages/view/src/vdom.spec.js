@@ -50,9 +50,15 @@ describe("vdom", () => {
         ["Hello", 42],
         [html`<h1>Hello</h1>`, html`<h1>world</h1>`],
         [html`<h1>Hello</h1>`, 42],
+        [html`<h1>Hello</h1>`, html`<h1>Hello ${42}</h1>`],
         [html`<h1>Hello</h1>`, html`<h2>world</h2>`],
         [html`<h1>Hello</h1>`, html`<h2>world</h2>`],
         [html`<${Title}>Hello<//>`, html`<${Title}>world<//>`],
+        [html`<${Title}>Hello<//>`, html`<${Title}><span>world</span><//>`],
+        [
+          html`<${Title}>Hello<//>`,
+          html`<${Title}>Hello <span>world</span><//>`,
+        ],
         [html`<${Title}>Hello<//>`, html`<h1>Hello</h1>`],
         [
           html`<${Box} title="Hello"><em>content</em><//>`,
