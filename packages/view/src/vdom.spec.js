@@ -65,6 +65,20 @@ describe("vdom", () => {
           html`<h1>Hello</h1>`,
         ],
         [
+          html`<ul></ul>`,
+          html`<ul>
+            <li>0</li>
+            <li>1</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li>0</li>
+            <li>1</li>
+          </ul>`,
+          html`<ul></ul>`,
+        ],
+        [
           html`<ul>
             <li>0</li>
             <li>1</li>
@@ -75,6 +89,20 @@ describe("vdom", () => {
             <li>1</li>
             ${false}
           </ul>`,
+        ],
+        [
+          html`<ul></ul>`,
+          html`<ul>
+            <li #="1">1</li>
+            <li #="0">0</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li #="1">1</li>
+            <li #="0">0</li>
+          </ul>`,
+          html`<ul></ul>`,
         ],
         [
           html`<ul>

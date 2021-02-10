@@ -340,7 +340,7 @@ const updateArray = (updatedTree, vdom, store) => {
     return updateKeyedArray(updatedTree, vdom, store);
   }
 
-  if (updatedTree.length === vdom.length) {
+  if (updatedTree.length > 0 && updatedTree.length === vdom.length) {
     for (let i = 0; i < updatedTree.length; i++) {
       update(updatedTree[i], vdom[i], store);
     }
@@ -372,7 +372,8 @@ export const update = (updatedTree, vdom, store) => {
     return updateArray(updatedTree, vdom, store);
   } else {
     const newVdom = create(updatedTree, store);
-    vdom._insertBefore(mount(newVdom));
+    const anchor = isArray(vdom) ? vdom[0] : vdom;
+    anchor._insertBefore(mount(newVdom));
     unmount(vdom);
     return newVdom;
   }
