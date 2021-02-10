@@ -48,6 +48,11 @@ describe("vdom", () => {
         [20, 10],
         ["Hello", "world"],
         ["Hello", 42],
+        ["Hello", html`<img src="https://example.com" />`],
+        [
+          html`<img src="https://example.com" />`,
+          html`<img src="https://www.example.com" />`,
+        ],
         [html`<h1>Hello</h1>`, html`<h1>world</h1>`],
         [html`<h1>Hello</h1>`, 42],
         [html`<h1>Hello</h1>`, html`<h1>Hello ${42}</h1>`],
@@ -98,11 +103,11 @@ describe("vdom", () => {
           </ul>`,
         ],
         [
+          html`<ul></ul>`,
           html`<ul>
             <li #="1">1</li>
             <li #="0">0</li>
           </ul>`,
-          html`<ul></ul>`,
         ],
         [
           html`<ul>
@@ -125,6 +130,17 @@ describe("vdom", () => {
             <li #="0">0</li>
             <li #="1">one</li>
             <li #="2">2</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
+          </ul>`,
+          html`<ul>
+            <li #="4">4</li>
+            <li #="5">5</li>
           </ul>`,
         ],
       ].forEach(([a, b]) => {

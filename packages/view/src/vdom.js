@@ -305,6 +305,7 @@ const updateKeyedArray = (updatedTree, vdom, store) => {
   });
 
   const diff = arrayDiff(vdom, updatedTree, similar);
+  const container = vdom[0]._dom.parentNode;
 
   diff.forEach((update) => {
     if (update instanceof arrayDiff.InsertDiff) {
@@ -314,20 +315,21 @@ const updateKeyedArray = (updatedTree, vdom, store) => {
       if (anchor) {
         anchor._insertBefore(dom);
       } else {
-        appendChildren(vdom[0]._dom.parentNode, dom);
+        appendChildren(container, dom);
       }
       vdom.splice(update.index, 0, ...newValues);
     } else if (update instanceof arrayDiff.RemoveDiff) {
       const candidates = vdom.splice(update.index, update.howMany);
-      candidates.forEach((candidate) => {
-        unmount(candidate);
-      });
+      unmount(candidates);
     } else if (update instanceof arrayDiff.MoveDiff) {
       const anchor = vdom[update.to];
       const candidates = vdom.splice(update.from, update.howMany);
-      candidates.forEach((candidate) => {
-        anchor._insertBefore(candidate._dom);
-      });
+      const dom = candidates.map((c) => c._dom);
+      if (anchor) {
+        anchor._insertBefore(dom);
+      } else {
+        appendChildren(container, dom);
+      }
       vdom.splice(update.to, 0, ...candidates);
     }
   });
@@ -384,10 +386,12 @@ export const render = (value, store, container = document.body) => {
   appendChildren(container, mount(vdom));
 };
 
-const h = (type, props, ...children) => ({
-  _type: type,
-  _props: props || {},
-  _children: children.flat(),
-});
+const h = (type, props, ...children) => {
+  return {
+    _type: type,
+    _props: props || {},
+    _children: children.length > 0 ? children.flat() : null,
+  };
+};
 
 export const html = htm.bind(h);
