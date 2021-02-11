@@ -25,7 +25,6 @@ export class TodoItem {
 
   onChange(e) {
     e.preventDefault();
-    console.log("wat", e);
     const { id } = this.props;
     this.dispatch(toggleTodo({ id }));
   }
