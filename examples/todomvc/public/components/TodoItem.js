@@ -25,6 +25,7 @@ export class TodoItem {
 
   onChange(e) {
     e.preventDefault();
+    console.log("wat", e);
     const { id } = this.props;
     this.dispatch(toggleTodo({ id }));
   }
@@ -66,7 +67,7 @@ export class TodoItem {
             class="toggle"
             type="checkbox"
             @change=${this.onChange}
-            checked=${todo.completed}
+            ?checked=${todo.completed}
           />
           <label @dblclick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />

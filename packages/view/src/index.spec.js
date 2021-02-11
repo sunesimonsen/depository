@@ -335,11 +335,11 @@ describe("view", () => {
           updateSpy(
             {
               message: "world",
-              children: [],
+              children: null,
             },
             {
               message: "Hello",
-              children: [],
+              children: null,
             }
           );
           unmountSpy();
@@ -417,7 +417,7 @@ describe("view", () => {
           mountSpy();
           shouldUpdateSpy({
             message: "Hello",
-            children: [],
+            children: null,
           });
           unmountSpy();
         }

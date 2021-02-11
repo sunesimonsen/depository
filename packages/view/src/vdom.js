@@ -145,7 +145,15 @@ class UserComponent {
   }
 }
 
-const propToEventName = (p) => p.slice(1);
+const propWithoutType = (p) => p.slice(1);
+
+const setBooleanProp = (dom, name, value) => {
+  if (value) {
+    dom.setAttribute(propWithoutType(name), "");
+  } else {
+    dom.removeAttribute(propWithoutType(name));
+  }
+};
 
 class PrimitiveComponent {
   constructor(type, props, children, store) {
@@ -157,9 +165,11 @@ class PrimitiveComponent {
 
   _updateProps(props) {
     for (const p in this._props) {
-      if (!(p in props) && p !== "#" && p !== "ref") {
+      if (p !== "#" && p !== "ref" && !(p in props)) {
         if (p[0] === "@") {
-          this._dom.removeEventListener(propToEventName(p), this._props[p]);
+          this._dom.removeEventListener(propWithoutType(p), this._props[p]);
+        } else if (p[0] === "?") {
+          setBooleanProp(this._dom, p, false);
         } else {
           this._dom.removeAttribute(p);
         }
@@ -169,17 +179,22 @@ class PrimitiveComponent {
     for (const p in props) {
       const prevValue = this._props[p];
       const value = props[p];
-      if (p !== "#" && prevValue !== value) {
-        if (p === "ref") {
-          value(this._dom);
-        } else if (p[0] === "@") {
-          const eventName = propToEventName(p);
+
+      if (p !== "#" && p !== "ref" && prevValue !== value) {
+        if (p[0] === "@") {
+          const eventName = propWithoutType(p);
           this._dom.removeEventListener(eventName, prevValue);
           this._dom.addEventListener(eventName, value);
+        } else if (p[0] === "?") {
+          setBooleanProp(this._dom, p, value);
         } else {
           this._dom.setAttribute(p, value);
         }
       }
+    }
+
+    if (props.ref && this._props.ref !== props.ref) {
+      props.ref(this._dom);
     }
 
     this._props = props;
@@ -194,10 +209,13 @@ class PrimitiveComponent {
 
     for (const p in this._props) {
       if (p !== "#" && p !== "ref") {
+        const value = this._props[p];
         if (p[0] === "@") {
-          this._dom.addEventListener(p.slice(1), this._props[p]);
+          this._dom.addEventListener(propWithoutType(p), value);
+        } else if (p[0] === "?") {
+          setBooleanProp(this._dom, p, value);
         } else {
-          this._dom.setAttribute(p, this._props[p]);
+          this._dom.setAttribute(p, value);
         }
       }
     }
