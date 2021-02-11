@@ -29,7 +29,6 @@
     "access": "public"
   },
   "dependencies": {
-    "arraydiff": "^0.1.3",
     "htm": "^3.0.4"
   },
   "devDependencies": {

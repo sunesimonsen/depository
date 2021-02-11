@@ -7,9 +7,8 @@ const minifyPlugins = [
   terser({
     compress: true,
     mangle: {
-      reserved: [],
       properties: {
-        regex: /^_|^(InsertDiff|RemoveDiff|MoveDiff|howMany)$/,
+        regex: /^_/,
       },
     },
   }),

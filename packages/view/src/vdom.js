@@ -1,5 +1,5 @@
 import htm from "htm";
-import arrayDiff from "./arrayDiff.cjs";
+import { arrayDiff, InsertDiff, MoveDiff, RemoveDiff } from "./arrayDiff.js";
 
 const isArray = (v) => Array.isArray(v);
 
@@ -329,29 +329,29 @@ const updateKeyedArray = (updatedTree, vdom, store) => {
   const container = vdom[0]._dom.parentNode;
 
   diff.forEach((update) => {
-    if (update instanceof arrayDiff.InsertDiff) {
-      const anchor = vdom[update.index];
-      const newValues = update.values.map((child) => create(child, store));
+    if (update instanceof InsertDiff) {
+      const anchor = vdom[update._index];
+      const newValues = update._values.map((child) => create(child, store));
       const dom = mount(newValues);
       if (anchor) {
         anchor._insertBefore(dom);
       } else {
         appendChildren(container, dom);
       }
-      vdom.splice(update.index, 0, ...newValues);
-    } else if (update instanceof arrayDiff.RemoveDiff) {
-      const candidates = vdom.splice(update.index, update.howMany);
+      vdom.splice(update._index, 0, ...newValues);
+    } else if (update instanceof RemoveDiff) {
+      const candidates = vdom.splice(update._index, update._howMany);
       unmount(candidates);
-    } else if (update instanceof arrayDiff.MoveDiff) {
-      const anchor = vdom[update.to];
-      const candidates = vdom.splice(update.from, update.howMany);
+    } else if (update instanceof MoveDiff) {
+      const anchor = vdom[update._to];
+      const candidates = vdom.splice(update._from, update._howMany);
       const dom = candidates.map((c) => c._dom);
       if (anchor) {
         anchor._insertBefore(dom);
       } else {
         appendChildren(container, dom);
       }
-      vdom.splice(update.to, 0, ...candidates);
+      vdom.splice(update._to, 0, ...candidates);
     }
   });
 
