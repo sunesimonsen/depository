@@ -154,7 +154,7 @@ class PrimitiveComponent {
   constructor(type, props, children, store) {
     this._type = type;
     this._props = props;
-    this._children = create(children, store);
+    this._children = children && create(children, store);
     this._store = store;
   }
 
@@ -195,7 +195,15 @@ class PrimitiveComponent {
   }
 
   _updateChildren(children) {
-    this._children = update(children, this._children, this._store);
+    if (children === null) {
+      unmount(this._children);
+      this.children = children;
+    } else if (this._children === null) {
+      this._children = create(children, this._store);
+      appendChildren(this._dom, mount(this._children));
+    } else {
+      this._children = update(children, this._children, this._store);
+    }
   }
 
   _mount() {
@@ -216,7 +224,9 @@ class PrimitiveComponent {
       }
     }
 
-    appendChildren(this._dom, mount(this._children));
+    if (this._children) {
+      appendChildren(this._dom, mount(this._children));
+    }
 
     if (this._props.ref) {
       this._props.ref(this._dom);
