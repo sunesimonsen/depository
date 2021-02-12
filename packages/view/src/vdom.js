@@ -163,6 +163,8 @@ class PrimitiveComponent {
       if (p !== "#" && p !== "ref" && !(p in props)) {
         if (p[0] === "@") {
           this._dom.removeEventListener(propWithoutType(p), this._props[p]);
+        } else if (p[0] === ".") {
+          this._dom[propWithoutType(p)] = undefined;
         } else {
           this._dom.removeAttribute(p);
         }
@@ -177,6 +179,8 @@ class PrimitiveComponent {
         if (p[0] === "@") {
           this._dom.removeEventListener(propWithoutType(p), prevValue);
           this._dom.addEventListener(propWithoutType(p), value);
+        } else if (p[0] === ".") {
+          this._dom[propWithoutType(p)] = value;
         } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (value === false) {
@@ -214,6 +218,8 @@ class PrimitiveComponent {
         const value = this._props[p];
         if (p[0] === "@") {
           this._dom.addEventListener(propWithoutType(p), value);
+        } else if (p[0] === ".") {
+          this._dom[propWithoutType(p)] = value;
         } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (value === false) {
