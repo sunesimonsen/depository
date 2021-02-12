@@ -59,12 +59,16 @@ describe("vdom", () => {
         [html`<h1>Hello</h1>`, html`<h2>world</h2>`],
         [html`<h1>Hello</h1>`, html`<h2>world</h2>`],
         [
-          html`<input type="checkbox" ?checked />`,
+          html`<input type="checkbox" checked />`,
           html`<input type="checkbox" />`,
         ],
         [
           html`<input type="checkbox" />`,
-          html`<input type="checkbox" ?checked />`,
+          html`<input type="checkbox" checked />`,
+        ],
+        [
+          html`<input type="checkbox" checked />`,
+          html`<input type="checkbox" checked=${false} />`,
         ],
         [html`<${Title}>Hello<//>`, html`<${Title}>world<//>`],
         [html`<${Title}>Hello<//>`, html`<${Title}><span>world</span><//>`],

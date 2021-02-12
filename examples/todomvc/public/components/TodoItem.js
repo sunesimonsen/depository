@@ -66,7 +66,7 @@ export class TodoItem {
             class="toggle"
             type="checkbox"
             @change=${this.onChange}
-            ?checked=${todo.completed}
+            checked=${todo.completed}
           />
           <label @dblclick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />

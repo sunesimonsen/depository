@@ -150,14 +150,6 @@ class UserComponent {
 
 const propWithoutType = (p) => p.slice(1);
 
-const setBooleanProp = (dom, name, value) => {
-  if (value) {
-    dom.setAttribute(propWithoutType(name), "");
-  } else {
-    dom.removeAttribute(propWithoutType(name));
-  }
-};
-
 class PrimitiveComponent {
   constructor(type, props, children, store) {
     this._type = type;
@@ -171,8 +163,6 @@ class PrimitiveComponent {
       if (p !== "#" && p !== "ref" && !(p in props)) {
         if (p[0] === "@") {
           this._dom.removeEventListener(propWithoutType(p), this._props[p]);
-        } else if (p[0] === "?") {
-          setBooleanProp(this._dom, p, false);
         } else {
           this._dom.removeAttribute(p);
         }
@@ -185,11 +175,12 @@ class PrimitiveComponent {
 
       if (p !== "#" && p !== "ref" && prevValue !== value) {
         if (p[0] === "@") {
-          const eventName = propWithoutType(p);
-          this._dom.removeEventListener(eventName, prevValue);
-          this._dom.addEventListener(eventName, value);
-        } else if (p[0] === "?") {
-          setBooleanProp(this._dom, p, value);
+          this._dom.removeEventListener(propWithoutType(p), prevValue);
+          this._dom.addEventListener(propWithoutType(p), value);
+        } else if (value === true) {
+          this._dom.setAttribute(p, "");
+        } else if (value === false) {
+          this._dom.removeAttribute(p);
         } else {
           this._dom.setAttribute(p, value);
         }
@@ -215,8 +206,10 @@ class PrimitiveComponent {
         const value = this._props[p];
         if (p[0] === "@") {
           this._dom.addEventListener(propWithoutType(p), value);
-        } else if (p[0] === "?") {
-          setBooleanProp(this._dom, p, value);
+        } else if (value === true) {
+          this._dom.setAttribute(p, "");
+        } else if (value === false) {
+          this._dom.removeAttribute(p);
         } else {
           this._dom.setAttribute(p, value);
         }
