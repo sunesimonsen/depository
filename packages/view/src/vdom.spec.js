@@ -4,7 +4,34 @@ import unexpectedDom from "unexpected-dom";
 import { Store } from "@depository/store";
 import sinon from "sinon";
 
-const expect = unexpected.clone().use(unexpectedDom);
+const renderIntoContainer = (vdom) => {
+  const dom = mount(vdom);
+  const container = document.createElement("div");
+  container.appendChild(dom);
+  return container;
+};
+
+const expect = unexpected
+  .clone()
+  .use(unexpectedDom)
+  .addAssertion("<any> to update to <any>", (expect, a, b) => {
+    const clock = sinon.useFakeTimers();
+    const store = new Store();
+    const aVDom = create(a, store);
+    const bVDom = create(b, store);
+    const aContainer = renderIntoContainer(aVDom);
+    const bContainer = renderIntoContainer(bVDom);
+
+    try {
+      update(b, aVDom, store);
+
+      clock.runAll();
+
+      expect(aContainer, "to equal", bContainer);
+    } finally {
+      clock.restore();
+    }
+  });
 
 class Title {
   render({ children }) {
@@ -22,24 +49,6 @@ class Box {
 }
 
 describe("vdom", () => {
-  let store, clock;
-
-  beforeEach(() => {
-    store = new Store();
-    clock = sinon.useFakeTimers();
-  });
-
-  afterEach(() => {
-    clock.restore();
-  });
-
-  const renderIntoContainer = (vdom) => {
-    const dom = mount(vdom);
-    const container = document.createElement("div");
-    container.appendChild(dom);
-    return container;
-  };
-
   describe("update", () => {
     it("create(b) === update(b, create(a))", () => {
       [
@@ -155,17 +164,54 @@ describe("vdom", () => {
             <li #="5">5</li>
           </ul>`,
         ],
+        [
+          html`<div style="color: white; background-color: black">Hello</div>`,
+          html`<div>Hello</div>`,
+        ],
+        [
+          html`<div>Hello</div>`,
+          html`<div style="color: white; background-color: black">Hello</div>`,
+        ],
+        [
+          html`<div style="color: red">Hello</div>`,
+          html`<div style="color: white; background-color: black">Hello</div>`,
+        ],
+        [
+          html`<div style="color: white; background-color: black">Hello</div>`,
+          html`<div style="color: red">Hello</div>`,
+        ],
+        [
+          html`<div style="color: white; background-color: black">Hello</div>`,
+          html`<div style=${{ color: "red" }}>Hello</div>`,
+        ],
+        [
+          html`<div style="color: red">Hello</div>`,
+          html`<div style=${{ color: "white", backgroundColor: "black" }}>
+            Hello
+          </div>`,
+        ],
+        [
+          html`<div style=${{ color: "red" }}>Hello</div>`,
+          html`<div>Hello</div>`,
+        ],
+        [
+          html`<div>Hello</div>`,
+          html`<div style=${{ color: "red" }}>Hello</div>`,
+        ],
+        [
+          html`<div style=${{ color: "red" }}>Hello</div>`,
+          html`<div style=${{ color: "white", backgroundColor: "black" }}>
+            Hello
+          </div>`,
+        ],
+        [
+          html`<div style=${{ color: "white", backgroundColor: "black" }}>
+            Hello
+          </div>`,
+          html`<div style=${{ color: "red" }}>Hello</div>`,
+        ],
       ].forEach(([a, b]) => {
-        const aVDom = create(a, store);
-        const bVDom = create(b, store);
-        const aContainer = renderIntoContainer(aVDom);
-        const bContainer = renderIntoContainer(bVDom);
-
-        update(b, aVDom, store);
-
-        clock.runAll();
-
-        expect(aContainer, "to equal", bContainer);
+        expect(a, "to update to", b);
       });
     });
   });

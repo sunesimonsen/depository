@@ -150,6 +150,38 @@ class UserComponent {
 
 const propWithoutType = (p) => p.slice(1);
 
+const setStyle = (style, key, value) => {
+  if (key[0] === "-") {
+    style.setProperty(key, value);
+  } else {
+    style[key] = value == null ? "" : value;
+  }
+};
+
+const setStyles = (style, value, prevValue) => {
+  if (typeof value === "string") {
+    style.cssText = value;
+  } else {
+    style.cssText = prevValue = "";
+
+    for (const name in value) {
+      if (!prevValue || value[name] !== prevValue[name]) {
+        setStyle(style, name, value[name]);
+      }
+    }
+  }
+};
+
+const removeStyles = (style, value) => {
+  if (typeof value === "string") {
+    style.cssText = "";
+  } else {
+    for (const name in value) {
+      setStyle(style, name, "");
+    }
+  }
+};
+
 class PrimitiveComponent {
   constructor(type, props, children, store) {
     this._type = type;
@@ -166,6 +198,9 @@ class PrimitiveComponent {
         } else if (p[0] === ".") {
           this._dom[propWithoutType(p)] = undefined;
         } else {
+          if (p === "style") {
+            removeStyles(this._dom.style, this._props[p]);
+          }
           this._dom.removeAttribute(p);
         }
       }
@@ -181,6 +216,8 @@ class PrimitiveComponent {
           this._dom.addEventListener(propWithoutType(p), value);
         } else if (p[0] === ".") {
           this._dom[propWithoutType(p)] = value;
+        } else if (p === "style") {
+          setStyles(this._dom.style, value, prevValue);
         } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (value === false) {
@@ -220,6 +257,8 @@ class PrimitiveComponent {
           this._dom.addEventListener(propWithoutType(p), value);
         } else if (p[0] === ".") {
           this._dom[propWithoutType(p)] = value;
+        } else if (p === "style") {
+          setStyles(this._dom.style, value);
         } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (value === false) {
