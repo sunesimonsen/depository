@@ -210,6 +210,62 @@ describe("vdom", () => {
           </div>`,
           html`<div style=${{ color: "red" }}>Hello</div>`,
         ],
+        [
+          html`
+            <svg height="100" width="100">
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                stroke="black"
+                stroke-width="3"
+                fill="red"
+              />
+            </svg>
+          `,
+          html`
+            <svg height="100" width="100">
+              <circle
+                cx="100"
+                cy="100"
+                r="40"
+                stroke="black"
+                stroke-width="3"
+                fill="red"
+              />
+            </svg>
+          `,
+        ],
+        [
+          html`<span>Something else</span>`,
+          html`
+            <svg height="100" width="100">
+              <circle
+                cx="100"
+                cy="100"
+                r="40"
+                stroke="black"
+                stroke-width="3"
+                fill="red"
+              />
+            </svg>
+          `,
+        ],
+        [
+          html`
+            <svg height="100" width="100">
+              <circle
+                cx="100"
+                cy="100"
+                r="40"
+                stroke="black"
+                stroke-width="3"
+                fill="red"
+              />
+            </svg>
+          `,
+          html`<span>Something else</span>`,
+        ],
       ].forEach(([a, b]) => {
         expect(a, "to update to", b);
       });
