@@ -11,6 +11,7 @@
   "scripts": {
     "test": "mocha './src/**/*.spec.js'",
     "build": "rollup -c rollup.config.js",
+    "coverage": "c8 -r lcov -r text npm test",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -35,6 +36,7 @@
     "@depository/store": "^0.17.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "c8": "^7.5.0",
     "mocha": "8.2.1",
     "mocha-dominate": "^1.0.0",
     "rollup": "^2.27.1",
