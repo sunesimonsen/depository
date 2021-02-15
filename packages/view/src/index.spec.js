@@ -4,7 +4,9 @@ import unexpectedSimon from "unexpected-sinon";
 import { Store } from "@depository/store";
 import { render, html } from "./index.js";
 import sinon from "sinon";
+import simulateEvents from "simulate-events";
 
+const simulate = simulateEvents.default;
 const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
 
 describe("view", () => {
@@ -425,7 +427,7 @@ describe("view", () => {
     });
   });
 
-  describe("when ref-props", () => {
+  describe("when using ref-props", () => {
     it("calls the ref, when the element is mounted", () => {
       class TestComponent {
         setId(dom) {
@@ -450,6 +452,275 @@ describe("view", () => {
         "to satisfy",
         '<div><section><h1 id="title">Title</h1></section></div>'
       );
+    });
+  });
+
+  describe("when adding an event listener", () => {
+    it("attaches the event listener to the DOM element", () => {
+      const listener = sinon.spy();
+
+      render(
+        html`<button @click=${listener}>click me</button>`,
+        store,
+        container
+      );
+
+      const button = container.querySelector("button");
+
+      simulate(button, "click");
+
+      expect(listener, "to have calls satisfying", () => {
+        listener({ type: "click", target: button });
+      });
+    });
+
+    describe("and there was an earlier event listener attached", () => {
+      it("deattaches the old listener and attaches the new one", async () => {
+        const oldListener = sinon.spy();
+        const newListener = sinon.spy();
+
+        const store = new Store({ listener: "old" });
+
+        class TestComponent {
+          data() {
+            return { listener: "listener" };
+          }
+
+          render({ listener }) {
+            return html`<button
+              @click=${listener === "old" ? oldListener : newListener}
+            >
+              click me
+            </button>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        const button = container.querySelector("button");
+
+        simulate(button, "click");
+
+        await store.dispatch({ payload: { listener: "new" } });
+
+        clock.runAll();
+
+        simulate(button, "click");
+
+        expect([oldListener, newListener], "to have calls satisfying", () => {
+          oldListener({ type: "click", target: button });
+          newListener({ type: "click", target: button });
+        });
+      });
+    });
+
+    describe("and removing it again", () => {
+      it("no longer calls the event handler", async () => {
+        const listener = sinon.spy();
+
+        const store = new Store({ enabled: true });
+
+        class TestComponent {
+          data() {
+            return { enabled: "enabled" };
+          }
+
+          render({ enabled }) {
+            return html`<button @click=${enabled && listener}>
+              click me
+            </button>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        const button = container.querySelector("button");
+
+        simulate(button, "click");
+
+        await store.dispatch({ payload: { enabled: false } });
+
+        clock.runAll();
+
+        simulate(button, "click");
+
+        expect(listener, "to have calls satisfying", () => {
+          listener({ type: "click", target: button });
+        });
+      });
+    });
+
+    describe("and removing the attribute", () => {
+      it("no longer calls the event handler", async () => {
+        const listener = sinon.spy();
+
+        const store = new Store({ enabled: true });
+
+        class TestComponent {
+          data() {
+            return { enabled: "enabled" };
+          }
+
+          render({ enabled }) {
+            return enabled
+              ? html`<button @click=${listener}>click me</button>`
+              : html`<button>click me</button>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        const button = container.querySelector("button");
+
+        simulate(button, "click");
+
+        await store.dispatch({ payload: { enabled: false } });
+
+        clock.runAll();
+
+        simulate(button, "click");
+
+        expect(listener, "to have calls satisfying", () => {
+          listener({ type: "click", target: button });
+        });
+      });
+    });
+  });
+
+  describe("when adding an event listener in the capturing phase", () => {
+    it("attaches the event listener to the DOM element", () => {
+      const listener = (e) => {
+        e.stopPropagation();
+      };
+      const captureListener = sinon.spy();
+
+      render(
+        html`<div @clickCapture=${captureListener}>
+          <button @click=${listener}>click me</button>
+        </div>`,
+        store,
+        container
+      );
+
+      const button = container.querySelector("button");
+
+      simulate(button, "click", { bubbles: true });
+
+      expect(captureListener, "to have calls satisfying", () => {
+        captureListener({ type: "click", target: button });
+      });
+    });
+
+    describe("and there was an earlier event listener attached", () => {
+      it("deattaches the old listener and attaches the new one", async () => {
+        const oldListener = sinon.spy();
+        const newListener = sinon.spy();
+
+        const store = new Store({ listener: "old" });
+
+        class TestComponent {
+          data() {
+            return { listener: "listener" };
+          }
+
+          render({ listener }) {
+            return html`<button
+              @clickCapture=${listener === "old" ? oldListener : newListener}
+            >
+              click me
+            </button>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        const button = container.querySelector("button");
+
+        simulate(button, "click");
+
+        await store.dispatch({ payload: { listener: "new" } });
+
+        clock.runAll();
+
+        simulate(button, "click");
+
+        expect([oldListener, newListener], "to have calls satisfying", () => {
+          oldListener({ type: "click", target: button });
+          newListener({ type: "click", target: button });
+        });
+      });
+    });
+
+    describe("and removing it again", () => {
+      it("no longer calls the event handler", async () => {
+        const listener = sinon.spy();
+
+        const store = new Store({ enabled: true });
+
+        class TestComponent {
+          data() {
+            return { enabled: "enabled" };
+          }
+
+          render({ enabled }) {
+            return html`<button @clickCapture=${enabled && listener}>
+              click me
+            </button>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        const button = container.querySelector("button");
+
+        simulate(button, "click");
+
+        await store.dispatch({ payload: { enabled: false } });
+
+        clock.runAll();
+
+        simulate(button, "click");
+
+        expect(listener, "to have calls satisfying", () => {
+          listener({ type: "click", target: button });
+        });
+      });
+    });
+
+    describe("and removing the attribute", () => {
+      it("no longer calls the event handler", async () => {
+        const listener = sinon.spy();
+
+        const store = new Store({ enabled: true });
+
+        class TestComponent {
+          data() {
+            return { enabled: "enabled" };
+          }
+
+          render({ enabled }) {
+            return enabled
+              ? html`<button @clickCapture=${listener}>click me</button>`
+              : html`<button>click me</button>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        const button = container.querySelector("button");
+
+        simulate(button, "click");
+
+        await store.dispatch({ payload: { enabled: false } });
+
+        clock.runAll();
+
+        simulate(button, "click");
+
+        expect(listener, "to have calls satisfying", () => {
+          listener({ type: "click", target: button });
+        });
+      });
     });
   });
 });

@@ -189,11 +189,13 @@ const isCapturePhase = (name) => captureRegex.test(name);
 const nameWithoutCapture = (name) => name.replace(captureRegex, "");
 
 const addEventListener = (dom, name, listener) => {
-  dom.addEventListener(
-    nameWithoutCapture(propWithoutType(name)),
-    listener,
-    isCapturePhase(name)
-  );
+  if (listener) {
+    dom.addEventListener(
+      nameWithoutCapture(propWithoutType(name)),
+      listener,
+      isCapturePhase(name)
+    );
+  }
 };
 
 const removeEventListener = (dom, name, listener) => {
