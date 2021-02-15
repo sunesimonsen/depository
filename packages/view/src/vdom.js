@@ -183,6 +183,27 @@ const removeStyles = (style, value) => {
   }
 };
 
+const captureRegex = /Capture$/;
+
+const isCapturePhase = (name) => captureRegex.test(name);
+const nameWithoutCapture = (name) => name.replace(captureRegex, "");
+
+const addEventListener = (dom, name, listener) => {
+  dom.addEventListener(
+    nameWithoutCapture(propWithoutType(name)),
+    listener,
+    isCapturePhase(name)
+  );
+};
+
+const removeEventListener = (dom, name, listener) => {
+  dom.removeEventListener(
+    nameWithoutCapture(propWithoutType(name)),
+    listener,
+    isCapturePhase(name)
+  );
+};
+
 class PrimitiveComponent {
   constructor(type, props, children, store, isSvg) {
     this._type = type;
@@ -195,8 +216,9 @@ class PrimitiveComponent {
   _updateProps(props) {
     for (const p in this._props) {
       if (p !== "#" && p !== "ref" && !(p in props)) {
+        const value = this._props[p];
         if (p[0] === "@") {
-          this._dom.removeEventListener(propWithoutType(p), this._props[p]);
+          removeEventListener(this._dom, p, value);
         } else if (p[0] === ".") {
           this._dom[propWithoutType(p)] = undefined;
         } else {
@@ -214,8 +236,8 @@ class PrimitiveComponent {
 
       if (p !== "#" && p !== "ref" && prevValue !== value) {
         if (p[0] === "@") {
-          this._dom.removeEventListener(propWithoutType(p), prevValue);
-          this._dom.addEventListener(propWithoutType(p), value);
+          removeEventListener(this._dom, p, prevValue);
+          addEventListener(this._dom, p, value);
         } else if (p[0] === ".") {
           this._dom[propWithoutType(p)] = value;
         } else if (p === "style") {
@@ -268,7 +290,7 @@ class PrimitiveComponent {
       if (p !== "#" && p !== "ref") {
         const value = this._props[p];
         if (p[0] === "@") {
-          this._dom.addEventListener(propWithoutType(p), value);
+          addEventListener(this._dom, p, value);
         } else if (p[0] === ".") {
           this._dom[propWithoutType(p)] = value;
         } else if (p === "style") {
