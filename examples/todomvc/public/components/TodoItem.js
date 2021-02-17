@@ -13,44 +13,30 @@ import {
 
 export class TodoItem {
   constructor() {
-    this.onChange = this.onChange.bind(this);
-    this.onDblClick = this.onDblClick.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onBlur = this.onBlur.bind(this);
+    this.onChange = (e) => {
+      e.preventDefault();
+      this.dispatch(toggleTodo({ id: this.props.id }));
+    };
+
+    this.onDblClick = () => {
+      this.dispatch(startEditingTodo({ id: this.props.id }));
+    };
+
+    this.onKeyUp = (e) => {
+      if (e.code === "Enter") {
+        const { todo } = this.props;
+        this.dispatch(updateTodo({ ...todo, text: e.target.value.trim() }));
+        e.target.value = "";
+      }
+    };
+
+    this.onBlur = () => {
+      this.dispatch(stopEditingTodo({ id: this.props.id }));
+    };
   }
 
   data({ id }) {
     return { todo: todoById(id) };
-  }
-
-  onChange(e) {
-    e.preventDefault();
-    const { id } = this.props;
-    this.dispatch(toggleTodo({ id }));
-  }
-
-  onDblClick() {
-    const { id } = this.props;
-    this.dispatch(startEditingTodo({ id }));
-  }
-
-  onKeyUp(e) {
-    if (e.code === "Enter") {
-      const { todo } = this.props;
-      this.dispatch(
-        updateTodo({
-          ...todo,
-          text: e.target.value.trim(),
-        })
-      );
-
-      e.target.value = "";
-    }
-  }
-
-  onBlur() {
-    const { id } = this.props;
-    this.dispatch(stopEditingTodo({ id }));
   }
 
   render({ todo }) {

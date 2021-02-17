@@ -3,11 +3,9 @@ import { clearCompleteTodos } from "../models/todo.js";
 
 export class ClearCompletedButton {
   constructor() {
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick() {
-    this.dispatch(clearCompleteTodos());
+    this.onClick = () => {
+      this.dispatch(clearCompleteTodos());
+    };
   }
 
   render() {

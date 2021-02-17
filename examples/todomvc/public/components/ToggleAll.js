@@ -3,15 +3,13 @@ import { activeTodoCount, toggleAllTodos } from "../models/todo.js";
 
 export class ToggleAll {
   constructor() {
-    this.onChange = this.onChange.bind(this);
+    this.onChange = () => {
+      this.dispatch(toggleAllTodos());
+    };
   }
 
   data() {
     return { activeTodoCount };
-  }
-
-  onChange() {
-    this.dispatch(toggleAllTodos());
   }
 
   render({ activeTodoCount }) {

@@ -3,12 +3,9 @@ import { removeTodo } from "../models/todo.js";
 
 export class DestroyButton {
   constructor() {
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick() {
-    const { id } = this.props;
-    this.dispatch(removeTodo({ id }));
+    this.onClick = () => {
+      this.dispatch(removeTodo({ id: this.props.id }));
+    };
   }
 
   render() {

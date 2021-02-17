@@ -3,17 +3,14 @@ import { visibilityFilter, setVisibilityFilter } from "../models/todo.js";
 
 export class VisibilityFilter {
   constructor() {
-    this.onClick = this.onClick.bind(this);
+    this.onClick = (e) => {
+      e.preventDefault();
+      this.dispatch(setVisibilityFilter(this.props.value));
+    };
   }
 
   data() {
     return { visibilityFilter };
-  }
-
-  onClick(e) {
-    e.preventDefault();
-    const { value } = this.props;
-    this.dispatch(setVisibilityFilter(value));
   }
 
   render({ visibilityFilter, value, children }) {

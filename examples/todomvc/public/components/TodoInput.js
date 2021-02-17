@@ -3,15 +3,12 @@ import { createTodo } from "../models/todo.js";
 
 export class TodoInput {
   constructor() {
-    this.onKeyUp = this.onKeyUp.bind(this);
-  }
-
-  onKeyUp(e) {
-    if (e.code === "Enter") {
-      this.dispatch(createTodo({ text: e.target.value.trim() }));
-
-      e.target.value = "";
-    }
+    this.onKeyUp = (e) => {
+      if (e.code === "Enter") {
+        this.dispatch(createTodo({ text: e.target.value.trim() }));
+        e.target.value = "";
+      }
+    };
   }
 
   render() {
