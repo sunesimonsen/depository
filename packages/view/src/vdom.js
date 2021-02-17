@@ -493,7 +493,7 @@ export const render = (value, store, container = document.body) => {
   appendChildren(container, mount(vdom));
 };
 
-const h = (type, props, ...children) => {
+export const h = (type, props, ...children) => {
   return {
     _type: type,
     _props: props || {},
