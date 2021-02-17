@@ -25,6 +25,7 @@ export default [
                   '<script src="./bundle.min.js"></script>'
                 ),
           },
+          { src: "public/favicon.ico", dest: "dist" },
         ],
       }),
       commonjs(),
