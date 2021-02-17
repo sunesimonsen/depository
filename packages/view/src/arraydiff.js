@@ -20,13 +20,7 @@ export function MoveDiff(from, to, howMany) {
   this._howMany = howMany;
 }
 
-function strictEqual(a, b) {
-  return a === b;
-}
-
 export function arrayDiff(before, after, equalFn) {
-  if (!equalFn) equalFn = strictEqual;
-
   // Find all items in both the before and after array, and represent them
   // as moves. Many of these "moves" may end up being discarded in the last
   // pass if they are from an index to the same index, but we don't know this

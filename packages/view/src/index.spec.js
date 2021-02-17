@@ -282,20 +282,14 @@ describe("view", () => {
       const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
+        constructor() {
+          this.didMount = mountSpy;
+          this.didUpdate = updateSpy;
+          this.willUnmount = unmountSpy;
+        }
+
         data() {
           return { message: "message" };
-        }
-
-        didMount() {
-          mountSpy();
-        }
-
-        didUpdate(prevProps) {
-          updateSpy(this.props, prevProps);
-        }
-
-        willUnmount() {
-          unmountSpy();
         }
 
         render({ message }) {
@@ -334,49 +328,34 @@ describe("view", () => {
         "to have calls satisfying",
         () => {
           mountSpy();
-          updateSpy(
-            {
-              message: "world",
-              children: null,
-            },
-            {
-              message: "Hello",
-              children: null,
-            }
-          );
+          updateSpy({ message: "Hello", children: null });
           unmountSpy();
         }
       );
     });
 
-    it("returning falls from shouldUpdate prevents the component to re-render", async () => {
+    it("returning false from shouldUpdate prevents the component to re-render", async () => {
       const mountSpy = sinon.spy().named("didMount");
-      const shouldUpdateSpy = sinon.spy().named("shouldUpdate");
+      const shouldUpdateSpy = sinon
+        .stub()
+        .returns(false)
+        .named("shouldUpdate")
+        .returns(false);
       const updateSpy = sinon.spy().named("didUpdate");
       const unmountSpy = sinon.spy().named("willUnmount");
 
       const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
+        constructor() {
+          this.didUpdate = updateSpy;
+          this.didMount = mountSpy;
+          this.shouldUpdate = shouldUpdateSpy;
+          this.willUnmount = unmountSpy;
+        }
+
         data() {
           return { message: "message" };
-        }
-
-        didMount() {
-          mountSpy();
-        }
-
-        didUpdate(prevProps) {
-          updateSpy(this.props, prevProps);
-        }
-
-        shouldUpdate(nextProps) {
-          shouldUpdateSpy(nextProps);
-          return false;
-        }
-
-        willUnmount() {
-          unmountSpy();
         }
 
         render({ message }) {
@@ -452,6 +431,54 @@ describe("view", () => {
         "to satisfy",
         '<div><section><h1 id="title">Title</h1></section></div>'
       );
+    });
+
+    describe("when the ref is replaced", () => {
+      it("calls the new ref", async () => {
+        const store = new Store({ method: "setId" });
+
+        class TestComponent {
+          setId(dom) {
+            dom.setAttribute("id", "title");
+          }
+
+          setTitle(dom) {
+            dom.setAttribute("title", "Hello!");
+          }
+
+          data() {
+            return { method: "method" };
+          }
+
+          render({ method }) {
+            return html`
+              <section>
+                <h1 ref=${this[method]}>Title</h1>
+              </section>
+            `;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        clock.runAll();
+
+        expect(
+          container,
+          "to satisfy",
+          '<div><section><h1 id="title">Title</h1></section></div>'
+        );
+
+        await store.dispatch({ payload: { method: "setTitle" } });
+
+        clock.runAll();
+
+        expect(
+          container,
+          "to satisfy",
+          '<div><section><h1 id="title" title="Hello!">Title</h1></section></div>'
+        );
+      });
     });
   });
 

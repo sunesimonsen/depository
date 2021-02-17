@@ -7,7 +7,13 @@ import sinon from "sinon";
 const renderIntoContainer = (vdom) => {
   const dom = mount(vdom);
   const container = document.createElement("div");
-  container.appendChild(dom);
+  if (Array.isArray(dom)) {
+    dom.forEach((child) => {
+      container.appendChild(child);
+    });
+  } else {
+    container.appendChild(dom);
+  }
   return container;
 };
 
@@ -45,6 +51,22 @@ class Box {
       <${Title}>${title}<//>
       <div class="body">${children}</div>
     </div>`;
+  }
+}
+
+class Numbers {
+  render() {
+    return html`
+      <li>one</li>
+      <li>two</li>
+      <li>three</li>
+    `;
+  }
+}
+
+class Childish {
+  render({ children }) {
+    return children;
   }
 }
 
@@ -91,6 +113,83 @@ describe("vdom", () => {
           html`<h1>Hello</h1>`,
         ],
         [
+          html`<div><span>something</span><${Title}>Hello<//></div>`,
+          html`<div>
+            <span>something</span>
+            <h1>Hello</h1>
+          </div>`,
+        ],
+        [
+          html`<div>
+            <span>something</span>
+            <h1>Hello</h1>
+          </div>`,
+          html`<div><span>something</span><${Title}>Hello<//></div>`,
+        ],
+        [
+          html`<div>Hello</div>`,
+          html`<span>one</span><span>two</span><span>three</span>`,
+        ],
+        [
+          html`<span>one</span><span>two</span><span>three</span>`,
+          html`<div>Hello</div>`,
+        ],
+        [
+          html`<ul>
+            <${Numbers} />
+          </ul>`,
+          html`<ul>
+            <li>zero</li>
+            <${Numbers} />
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li>zero</li>
+            <${Numbers} />
+          </ul>`,
+          html`<ul>
+            <${Numbers} />
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <${Numbers} />
+          </ul>`,
+          html`<ul>
+            <${Numbers} />
+            <li>four</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <${Numbers} />
+            <li>four</li>
+          </ul>`,
+          html`<ul>
+            <${Numbers} />
+          </ul>`,
+        ],
+        [html`<${Childish}><//>`, html`<${Childish}><span>0</span><//>`],
+        [html`<${Childish}><span>0</span><//>`, html`<${Childish}><//>`],
+        [
+          html`<${Childish}><span #="0">0</span><//>`,
+          html`<${Childish}><span #="0">0</span><span #="1">1</span><//>`,
+        ],
+        [
+          html`<${Childish}><${Title} #="0">0<//><//>`,
+          html`<${Childish}><${Title} #="0">0<//><${Title} #="1">1<//><//>`,
+        ],
+        [
+          html`<ul>
+            <${Numbers} #="0" />
+          </ul>`,
+          html`<ul>
+            <${Numbers} #="0" />
+            <${Childish}><li>four</li><//>
+          </ul>`,
+        ],
+        [
           html`<ul></ul>`,
           html`<ul>
             <li>0</li>
@@ -134,6 +233,41 @@ describe("vdom", () => {
           html`<ul>
             <li #="0">0</li>
             <li #="1">1</li>
+          </ul>`,
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <${Numbers} #3 />
+          </ul>`,
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
+            <${Numbers} #3 />
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
+          </ul>`,
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
             <li #="2">2</li>
           </ul>`,
           html`<ul>
@@ -166,6 +300,14 @@ describe("vdom", () => {
         ],
         [
           html`<div style="color: white; background-color: black">Hello</div>`,
+          html`<div>Hello</div>`,
+        ],
+        [
+          html`<div
+            style="background: -moz-linear-gradient(top, #000 0%, #fff 100%)"
+          >
+            Hello
+          </div>`,
           html`<div>Hello</div>`,
         ],
         [

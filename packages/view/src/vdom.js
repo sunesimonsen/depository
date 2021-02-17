@@ -2,6 +2,7 @@ import htm from "htm";
 import { arrayDiff, InsertDiff, MoveDiff, RemoveDiff } from "./arrayDiff.js";
 
 const isArray = (v) => Array.isArray(v);
+const getAnchor = (dom) => (isArray(dom) ? dom[0] : dom);
 
 export const mount = (vdom) => {
   if (Array.isArray(vdom)) {
@@ -95,7 +96,7 @@ class UserComponent {
       this._instance.shouldUpdate(prevProps)
     ) {
       const updatedTree = this._renderInstance(nextProps);
-      this._vdom = update(updatedTree, this._vdom, this._isSvg);
+      this._vdom = update(updatedTree, this._vdom, this._store, this._isSvg);
       if (this._instance.didUpdate) {
         this._instance.didUpdate(prevProps);
       }
@@ -151,23 +152,16 @@ class UserComponent {
 
 const propWithoutType = (p) => p.slice(1);
 
-const setStyle = (style, key, value) => {
-  if (key[0] === "-") {
-    style.setProperty(key, value);
-  } else {
-    style[key] = value == null ? "" : value;
-  }
-};
-
 const setStyles = (style, value, prevValue) => {
   if (typeof value === "string") {
     style.cssText = value;
   } else {
-    style.cssText = prevValue = "";
+    const hasPrevValue = typeof prevValue !== "string" && prevValue;
+    style.cssText = "";
 
     for (const name in value) {
-      if (!prevValue || value[name] !== prevValue[name]) {
-        setStyle(style, name, value[name]);
+      if (!hasPrevValue || value[name] !== prevValue[name]) {
+        style[name] = value[name];
       }
     }
   }
@@ -178,7 +172,7 @@ const removeStyles = (style, value) => {
     style.cssText = "";
   } else {
     for (const name in value) {
-      setStyle(style, name, "");
+      style[name] = "";
     }
   }
 };
@@ -417,7 +411,15 @@ const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
   });
 
   const diff = arrayDiff(vdom, updatedTree, similar);
-  const container = vdom[0]._dom.parentNode;
+
+  const container = getAnchor(vdom[0]._dom).parentNode;
+  const insertBefore = (dom, anchor) => {
+    if (anchor) {
+      anchor._insertBefore(dom);
+    } else {
+      appendChildren(container, dom);
+    }
+  };
 
   diff.forEach((update) => {
     if (update instanceof InsertDiff) {
@@ -426,11 +428,7 @@ const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
         create(child, store, isSvg)
       );
       const dom = mount(newValues);
-      if (anchor) {
-        anchor._insertBefore(dom);
-      } else {
-        appendChildren(container, dom);
-      }
+      insertBefore(dom, anchor);
       vdom.splice(update._index, 0, ...newValues);
     } else if (update instanceof RemoveDiff) {
       const candidates = vdom.splice(update._index, update._howMany);
@@ -439,11 +437,7 @@ const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
       const anchor = vdom[update._to];
       const candidates = vdom.splice(update._from, update._howMany);
       const dom = candidates.map((c) => c._dom);
-      if (anchor) {
-        anchor._insertBefore(dom);
-      } else {
-        appendChildren(container, dom);
-      }
+      insertBefore(dom, anchor);
       vdom.splice(update._to, 0, ...candidates);
     }
   });
@@ -488,8 +482,7 @@ export const update = (updatedTree, vdom, store, isSvg) => {
     return updateArray(updatedTree, vdom, store);
   } else {
     const newVdom = create(updatedTree, store, isSvg);
-    const anchor = isArray(vdom) ? vdom[0] : vdom;
-    anchor._insertBefore(mount(newVdom));
+    getAnchor(vdom)._insertBefore(mount(newVdom));
     unmount(vdom);
     return newVdom;
   }
