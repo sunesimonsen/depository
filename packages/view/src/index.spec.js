@@ -723,4 +723,84 @@ describe("view", () => {
       });
     });
   });
+
+  describe("when adding a DOM property", () => {
+    it("sets the DOM property", () => {
+      render(html`<input .value="My value" />`, store, container);
+
+      expect(container, "queried for first", "input", "to have properties", {
+        value: "My value",
+      });
+    });
+
+    describe("when updating the property", () => {
+      it("updates the DOM property", async () => {
+        const store = new Store({
+          value: "Initial value",
+        });
+
+        class TestComponent {
+          data() {
+            return { value: "value" };
+          }
+
+          render({ value }) {
+            return html`<input .value=${value} />`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        clock.runAll();
+
+        expect(container, "queried for first", "input", "to have properties", {
+          value: "Initial value",
+        });
+
+        await store.dispatch({ payload: { value: "Updated value" } });
+
+        clock.runAll();
+
+        expect(container, "queried for first", "input", "to have properties", {
+          value: "Updated value",
+        });
+      });
+    });
+
+    describe("when removing the property", () => {
+      it("the DOM property is left unchanged", async () => {
+        const store = new Store({
+          hasValue: true,
+        });
+
+        class TestComponent {
+          data() {
+            return { hasValue: "hasValue" };
+          }
+
+          render({ hasValue }) {
+            return hasValue
+              ? html`<input .value="My value" />`
+              : html`<input />`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        clock.runAll();
+
+        expect(container, "queried for first", "input", "to have properties", {
+          value: "My value",
+        });
+
+        await store.dispatch({ payload: { hasValue: false } });
+
+        clock.runAll();
+
+        expect(container, "queried for first", "input", "to have properties", {
+          value: "My value",
+        });
+      });
+    });
+  });
 });

@@ -221,9 +221,7 @@ class PrimitiveComponent {
         const value = this._props[p];
         if (p[0] === "@") {
           removeEventListener(this._dom, p, value);
-        } else if (p[0] === ".") {
-          this._dom[propWithoutType(p)] = undefined;
-        } else {
+        } else if (p[0] !== ".") {
           if (p === "style") {
             removeStyles(this._dom.style, this._props[p]);
           }
