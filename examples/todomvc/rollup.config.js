@@ -31,7 +31,14 @@ export default [
       commonjs(),
       nodeResolve(),
       babel({ babelHelpers: "bundled" }),
-      terser(),
+      terser({
+        compress: true,
+        mangle: {
+          properties: {
+            regex: /^_/,
+          },
+        },
+      }),
     ],
   },
 ];
