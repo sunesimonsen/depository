@@ -22,7 +22,7 @@ const updateSegmentsIn = (data, segments, apply, defaultValue) => {
       };
 
     case "alternation":
-      return segment.names.reduce(
+      return segment._names.reduce(
         (result, key) => {
           if (key in data) {
             result[key] = updateSegmentsIn(

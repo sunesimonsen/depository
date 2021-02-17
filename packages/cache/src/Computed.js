@@ -34,16 +34,16 @@ export class Computed extends Subscribable {
     }
   }
 
-  onActivate() {
+  _onActivate() {
     Object.values(this.inputObservables).forEach((input) =>
-      input.addDependent(this)
+      input._addDependent(this)
     );
     this.cache.addObserver(this);
   }
 
-  onDeactivate() {
+  _onDeactivate() {
     Object.values(this.inputObservables).forEach((input) =>
-      input.removeDependent(this)
+      input._removeDependent(this)
     );
     this.cache.removeObserver(this);
   }

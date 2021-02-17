@@ -1,6 +1,6 @@
 export class Collector {
-  constructor(names) {
+  constructor(_names) {
     this.type = "collector";
-    this.names = names;
+    this._names = _names;
   }
 }

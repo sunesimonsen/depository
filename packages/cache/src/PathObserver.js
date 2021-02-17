@@ -13,11 +13,11 @@ export class PathObserver extends Subscribable {
     this.value = this.cache.get(this.path);
   }
 
-  onActivate() {
+  _onActivate() {
     this.cache.addObserver(this);
   }
 
-  onDeactivate() {
+  _onDeactivate() {
     this.cache.removeObserver(this);
   }
 }

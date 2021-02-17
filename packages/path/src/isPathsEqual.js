@@ -20,10 +20,10 @@ const isSegmentsEqual = (aSegments, bSegments) => {
 
       case "collector":
       case "alternation":
-        if (a.names.length !== b.names.length) return false;
+        if (a._names.length !== b._names.length) return false;
 
-        bNames = new Set(b.names);
-        if (a.names.some((name) => !bNames.has(name))) {
+        bNames = new Set(b._names);
+        if (a._names.some((name) => !bNames.has(name))) {
           return false;
         }
         break;

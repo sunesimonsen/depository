@@ -58,7 +58,7 @@ describe("parsePath", () => {
           type: 'path',
           segments: [
             Field({ type: 'field', name: 'foo' }),
-            Collector({ type: 'collector', names: [ 'bar', 'qux' ] }),
+            Collector({ type: 'collector', _names: [ 'bar', 'qux' ] }),
             Field({ type: 'field', name: 'baz' })
           ]
         })
@@ -72,7 +72,7 @@ describe("parsePath", () => {
           type: 'path',
           segments: [
             Field({ type: 'field', name: 'foo' }),
-            Alternation({ type: 'alternation', names: [ 'bar', 'qux' ] }),
+            Alternation({ type: 'alternation', _names: [ 'bar', 'qux' ] }),
             Field({ type: 'field', name: 'baz' })
           ]
         })
@@ -100,7 +100,7 @@ describe("parsePath", () => {
           type: 'path',
           segments: [
             Field({ type: 'field', name: 'foo' }),
-            Collector({ type: 'collector', names: [ 'bar' ] }),
+            Collector({ type: 'collector', _names: [ 'bar' ] }),
             Field({ type: 'field', name: 'baz' })
           ]
         })
@@ -114,7 +114,7 @@ describe("parsePath", () => {
           type: 'path',
           segments: [
             Field({ type: 'field', name: 'foo' }),
-            Alternation({ type: 'alternation', names: [ 'bar' ] }),
+            Alternation({ type: 'alternation', _names: [ 'bar' ] }),
             Field({ type: 'field', name: 'baz' })
           ]
         })

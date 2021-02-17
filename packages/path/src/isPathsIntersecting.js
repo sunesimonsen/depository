@@ -27,21 +27,21 @@ const isSegmentsIntersecting = (aSegments, bSegments) => {
       case "collector:alternation":
       case "alternation:collector":
       case "collector:collector":
-        if (a.names.every((name) => !b.names.includes(name))) {
+        if (a._names.every((name) => !b._names.includes(name))) {
           return false;
         }
         break;
 
       case "alternation:field":
       case "collector:field":
-        if (!a.names.includes(b.name)) {
+        if (!a._names.includes(b.name)) {
           return false;
         }
         break;
 
       case "field:alternation":
       case "field:collector":
-        if (!b.names.includes(a.name)) {
+        if (!b._names.includes(a.name)) {
           return false;
         }
         break;
