@@ -37,25 +37,25 @@ const identity = (v) => v;
 export class Cache {
   constructor(data = {}) {
     this._data = data;
-    this.pathObservers = new Set();
-    this.computedObservers = new Set();
+    this._pathObservers = new Set();
+    this._computedObservers = new Set();
 
     this._setData = this._setData.bind(this);
   }
 
-  addObserver(observer) {
+  _addObserver(observer) {
     if (observer instanceof Computed) {
-      this.computedObservers.add(observer);
+      this._computedObservers.add(observer);
     } else {
-      this.pathObservers.add(observer);
+      this._pathObservers.add(observer);
     }
   }
 
-  removeObserver(observer) {
+  _removeObserver(observer) {
     if (observer instanceof Computed) {
-      this.computedObservers.delete(observer);
+      this._computedObservers.delete(observer);
     } else {
-      this.pathObservers.delete(observer);
+      this._pathObservers.delete(observer);
     }
   }
 
@@ -120,12 +120,12 @@ export class Cache {
     this._setData(
       updateIn(this.data, path, (value) => apply(value, this), defaultValue)
     );
-    this.pathObservers.forEach((pathObserver) => {
+    this._pathObservers.forEach((pathObserver) => {
       if (
-        !pathObserver.isDirty &&
-        isPathsIntersecting(pathObserver.path, path)
+        !pathObserver._isDirty &&
+        isPathsIntersecting(pathObserver._path, path)
       ) {
-        pathObserver.isDirty = true;
+        pathObserver._isDirty = true;
       }
     });
 
@@ -137,25 +137,25 @@ export class Cache {
   }
 
   notify() {
-    const computedObservers = Array.from(this.computedObservers).sort(
-      (a, b) => a.id - b.id
+    const _computedObservers = Array.from(this._computedObservers).sort(
+      (a, b) => a._id - b._id
     );
 
-    const updateValue = (observer) => observer.updateValue();
-    const isDirty = (observer) => observer.isDirty;
+    const updateValue = (observer) => observer._updateValue();
+    const isDirty = (observer) => observer._isDirty;
 
-    const dirtyPathObservers = Array.from(this.pathObservers).filter(isDirty);
+    const dirtyPathObservers = Array.from(this._pathObservers).filter(isDirty);
 
     dirtyPathObservers.forEach(updateValue);
-    computedObservers.forEach(updateValue);
+    _computedObservers.forEach(updateValue);
 
-    const dirtyComputedObservers = computedObservers.filter(isDirty);
+    const dirtyComputedObservers = _computedObservers.filter(isDirty);
 
     const dirtyObservers = [...dirtyPathObservers, ...dirtyComputedObservers];
 
     dirtyObservers.forEach((observer) => {
-      observer.isDirty = false;
-      observer.notify(observer.value);
+      observer._isDirty = false;
+      observer._notify(observer.value);
     });
   }
 
@@ -163,10 +163,14 @@ export class Cache {
     let observer;
     if (isComputedDefinition(pathOrComputed)) {
       const { inputs, compute, isEqual = shallowEqual } = pathOrComputed;
-      observer = Array.from(this.computedObservers).find(
+
+      observer = Array.from(this._computedObservers).find(
         (o) =>
-          o.compute === compute && o.inputs === inputs && o.isEqual === isEqual
+          o._compute === compute &&
+          o._inputs === inputs &&
+          o._isEqual === isEqual
       );
+
       if (observer) return observer;
 
       const inputObservables = {};
@@ -175,14 +179,14 @@ export class Cache {
         inputObservables[key] = this.observe(value);
       });
 
-      return new Computed({
-        cache: this,
-        id: observableIds++,
+      return new Computed(
+        this,
+        observableIds++,
         compute,
         inputs,
         inputObservables,
-        isEqual,
-      });
+        isEqual
+      );
     } else if (isObject(pathOrComputed) && !isPathObject(pathOrComputed)) {
       return this.observe({
         inputs: pathOrComputed,
@@ -190,11 +194,11 @@ export class Cache {
       });
     } else {
       const path = parsePath(pathOrComputed);
-      const pathObservers = Array.from(this.pathObservers);
-      observer = pathObservers.find((o) => isPathsEqual(o.path, path));
+      const _pathObservers = Array.from(this._pathObservers);
+      observer = _pathObservers.find((o) => isPathsEqual(o._path, path));
       if (observer) return observer;
 
-      return new PathObserver({ cache: this, path });
+      return new PathObserver(this, path);
     }
   }
 }

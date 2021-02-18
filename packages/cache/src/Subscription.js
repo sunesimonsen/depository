@@ -1,14 +1,14 @@
 export class Subscription {
-  constructor({ listener, subscribable }) {
-    this.subscribable = subscribable;
-    this.listener = listener;
+  constructor(subscribable, listener) {
+    this._subscribable = subscribable;
+    this._listener = listener;
   }
 
-  notify(...args) {
-    this.listener(...args);
+  _notify(...args) {
+    this._listener(...args);
   }
 
   unsubscribe() {
-    this.subscribable.unsubscribe(this);
+    this._subscribable.unsubscribe(this);
   }
 }

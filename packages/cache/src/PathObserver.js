@@ -1,23 +1,23 @@
 import { Subscribable } from "./Subscribable.js";
 
 export class PathObserver extends Subscribable {
-  constructor({ cache, path }) {
+  constructor(cache, path) {
     super();
-    this.path = path;
-    this.cache = cache;
-    this.isDirty = false;
+    this._path = path;
+    this._cache = cache;
+    this._isDirty = false;
     this.value = cache.get(path);
   }
 
-  updateValue() {
-    this.value = this.cache.get(this.path);
+  _updateValue() {
+    this.value = this._cache.get(this._path);
   }
 
   _onActivate() {
-    this.cache.addObserver(this);
+    this._cache._addObserver(this);
   }
 
   _onDeactivate() {
-    this.cache.removeObserver(this);
+    this._cache._removeObserver(this);
   }
 }

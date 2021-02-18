@@ -3,48 +3,48 @@ import { Subscribable } from "./Subscribable.js";
 const notInstantiated = {};
 
 export class Computed extends Subscribable {
-  constructor({ cache, id, compute, inputs, inputObservables, isEqual }) {
+  constructor(cache, id, compute, inputs, inputObservables, isEqual) {
     super();
-    this.id = id;
-    this.cache = cache;
-    this.compute = compute;
-    this.inputs = inputs;
-    this.inputObservables = inputObservables;
-    this.inputValues = [];
-    this.isEqual = isEqual;
-    this.isDirty = true;
+    this._id = id;
+    this._cache = cache;
+    this._compute = compute;
+    this._inputs = inputs;
+    this._inputObservables = inputObservables;
+    this._inputValues = [];
+    this._isEqual = isEqual;
+    this._isDirty = true;
     this.value = notInstantiated;
-    this.updateValue();
+    this._updateValue();
   }
 
-  updateValue() {
-    this.isDirty = this.value === notInstantiated;
-    this.inputValues = {};
-    Object.entries(this.inputObservables).forEach(([name, observer]) => {
-      this.inputValues[name] = observer.value;
-      this.isDirty = this.isDirty || observer.isDirty;
+  _updateValue() {
+    this._isDirty = this.value === notInstantiated;
+    this._inputValues = {};
+    Object.entries(this._inputObservables).forEach(([name, observer]) => {
+      this._inputValues[name] = observer.value;
+      this._isDirty = this._isDirty || observer._isDirty;
     });
 
-    if (this.isDirty) {
+    if (this._isDirty) {
       const previousValue = this.value;
-      this.value = this.compute(this.inputValues, this.cache);
-      this.isDirty =
+      this.value = this._compute(this._inputValues, this._cache);
+      this._isDirty =
         previousValue === notInstantiated ||
-        !this.isEqual(previousValue, this.value);
+        !this._isEqual(previousValue, this.value);
     }
   }
 
   _onActivate() {
-    Object.values(this.inputObservables).forEach((input) =>
+    Object.values(this._inputObservables).forEach((input) =>
       input._addDependent(this)
     );
-    this.cache.addObserver(this);
+    this._cache._addObserver(this);
   }
 
   _onDeactivate() {
-    Object.values(this.inputObservables).forEach((input) =>
+    Object.values(this._inputObservables).forEach((input) =>
       input._removeDependent(this)
     );
-    this.cache.removeObserver(this);
+    this._cache._removeObserver(this);
   }
 }
