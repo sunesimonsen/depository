@@ -1,5 +1,13 @@
 import { parsePath } from "./parsePath.js";
 
+import {
+  fieldType,
+  wildcardType,
+  alternationType,
+  collectorType,
+  wildcardCollectorType,
+} from "./Path.js";
+
 const getSegmentsIn = (data, segments) => {
   if (segments.length === 0) return data;
 
@@ -11,32 +19,32 @@ const getSegmentsIn = (data, segments) => {
       return undefined;
     }
 
-    switch (segment.type) {
-      case "field":
-        if (segment.name in current) {
-          current = current[segment.name];
+    switch (segment._type) {
+      case fieldType:
+        if (segment._data in current) {
+          current = current[segment._data];
         } else {
           return undefined;
         }
         break;
 
-      case "wildcard":
+      case wildcardType:
         return Object.keys(current)
           .map((key) => getSegmentsIn(current[key], segments.slice(i + 1)))
           .filter((v) => typeof v !== "undefined");
 
-      case "alternation":
-        return segment._names
+      case alternationType:
+        return segment._data
           .map((key) => getSegmentsIn(current[key], segments.slice(i + 1)))
           .filter((v) => typeof v !== "undefined");
 
-      case "collector":
-        return segment._names.reduce((result, key) => {
+      case collectorType:
+        return segment._data.reduce((result, key) => {
           result[key] = getSegmentsIn(current[key], segments.slice(i + 1));
           return result;
         }, {});
 
-      case "wildcardCollector":
+      case wildcardCollectorType:
         return Object.keys(current).reduce((result, key) => {
           result[key] = getSegmentsIn(current[key], segments.slice(i + 1));
           return result;
@@ -47,5 +55,4 @@ const getSegmentsIn = (data, segments) => {
   return current;
 };
 
-export const getIn = (data, path) =>
-  getSegmentsIn(data, parsePath(path).segments);
+export const getIn = (data, path) => getSegmentsIn(data, parsePath(path)._data);

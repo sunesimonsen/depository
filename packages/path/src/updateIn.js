@@ -1,5 +1,7 @@
 import { parsePath } from "./parsePath.js";
 
+import { fieldType, wildcardType, alternationType } from "./Path.js";
+
 const updateSegmentsIn = (data, segments, apply, defaultValue) => {
   if (segments.length === 0) {
     return apply(typeof data === "undefined" ? defaultValue : data);
@@ -7,13 +9,13 @@ const updateSegmentsIn = (data, segments, apply, defaultValue) => {
 
   const segment = segments[0];
 
-  switch (segment.type) {
-    case "field":
+  switch (segment._type) {
+    case fieldType:
       return {
         ...data,
-        [segment.name]: updateSegmentsIn(
-          segment.name in data || segments.length === 1
-            ? data[segment.name]
+        [segment._data]: updateSegmentsIn(
+          segment._data in data || segments.length === 1
+            ? data[segment._data]
             : {},
           segments.slice(1),
           apply,
@@ -21,8 +23,8 @@ const updateSegmentsIn = (data, segments, apply, defaultValue) => {
         ),
       };
 
-    case "alternation":
-      return segment._names.reduce(
+    case alternationType:
+      return segment._data.reduce(
         (result, key) => {
           if (key in data) {
             result[key] = updateSegmentsIn(
@@ -37,7 +39,7 @@ const updateSegmentsIn = (data, segments, apply, defaultValue) => {
         { ...data }
       );
 
-    case "wildcard":
+    case wildcardType:
       return Object.keys(data).reduce((result, key) => {
         if (key in data) {
           result[key] = updateSegmentsIn(
@@ -51,9 +53,9 @@ const updateSegmentsIn = (data, segments, apply, defaultValue) => {
       }, {});
 
     default:
-      throw new Error(`Segment ${segment.type} is not supported by updateIn`);
+      throw new Error(`Segment ${segment._type} is not supported by updateIn`);
   }
 };
 
 export const updateIn = (data, path, apply, defaultValue) =>
-  updateSegmentsIn(data, parsePath(path).segments, apply, defaultValue);
+  updateSegmentsIn(data, parsePath(path)._data, apply, defaultValue);
