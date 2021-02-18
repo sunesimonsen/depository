@@ -236,7 +236,7 @@ class PrimitiveComponent {
           this._dom[propWithoutType(p)] = value;
         } else if (p === "style") {
           setStyles(this._dom.style, value, prevValue);
-        } else if (value === true || value === "") {
+        } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (!value) {
           this._dom.removeAttribute(p);
@@ -289,7 +289,7 @@ class PrimitiveComponent {
           this._dom[propWithoutType(p)] = value;
         } else if (p === "style") {
           setStyles(this._dom.style, value);
-        } else if (value === true || value === "") {
+        } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (value) {
           this._dom.setAttribute(p, value);
