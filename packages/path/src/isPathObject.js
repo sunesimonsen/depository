@@ -1,3 +1,3 @@
-import { Path } from "./Path.js";
+import { pathType } from "./Path.js";
 
-export const isPathObject = (path) => path instanceof Path;
+export const isPathObject = (path) => path && path._type === pathType;

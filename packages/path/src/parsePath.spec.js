@@ -12,112 +12,112 @@ describe("parsePath", () => {
       parsePath("foo.bar.baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Field({ type: 'field', name: 'bar' }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 1, _data: 'bar' },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.*.baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Wildcard({ type: 'wildcard' }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 4, _data: undefined },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.{*}.baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            WildcardCollector({ type: 'wildcardCollector' }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 5, _data: undefined },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.{bar,qux}.baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Collector({ type: 'collector', _names: [ 'bar', 'qux' ] }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 3, _data: [ 'bar', 'qux' ] },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.(bar|qux).baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Alternation({ type: 'alternation', _names: [ 'bar', 'qux' ] }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 2, _data: [ 'bar', 'qux' ] },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.-_&^%.qux"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Field({ type: 'field', name: '-_&^%' }),
-            Field({ type: 'field', name: 'qux' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 1, _data: '-_&^%' },
+            { _type: 1, _data: 'qux' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.{bar}.baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Collector({ type: 'collector', _names: [ 'bar' ] }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 3, _data: [ 'bar' ] },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
     expect(
       parsePath("foo.(bar).baz"),
       "to inspect as snapshot",
       expect.unindent`
-        Path({
-          type: 'path',
-          segments: [
-            Field({ type: 'field', name: 'foo' }),
-            Alternation({ type: 'alternation', _names: [ 'bar' ] }),
-            Field({ type: 'field', name: 'baz' })
+        {
+          _type: 0,
+          _data: [
+            { _type: 1, _data: 'foo' },
+            { _type: 2, _data: [ 'bar' ] },
+            { _type: 1, _data: 'baz' }
           ]
-        })
+        }
       `
     );
   });

@@ -1,3 +1,11 @@
+import {
+  fieldType,
+  alternationType,
+  collectorType,
+  wildcardType,
+  wildcardCollectorType,
+} from "./Path.js";
+
 import { parsePath } from "./parsePath.js";
 
 const isSegmentsIntersecting = (aSegments, bSegments) => {
@@ -8,40 +16,40 @@ const isSegmentsIntersecting = (aSegments, bSegments) => {
     const b = bSegments[i];
 
     if (
-      a.type === "wildcard" ||
-      b.type === "wildcard" ||
-      a.type === "wildcardCollector" ||
-      b.type === "wildcardCollector"
+      a._type === wildcardType ||
+      b._type === wildcardType ||
+      a._type === wildcardCollectorType ||
+      b._type === wildcardCollectorType
     ) {
       continue;
     }
 
-    switch (`${a.type}:${b.type}`) {
-      case "field:field":
-        if (a.name !== b.name) {
+    switch (`${a._type}:${b._type}`) {
+      case `${fieldType}:${fieldType}`:
+        if (a._data !== b._data) {
           return false;
         }
         break;
 
-      case "alternation:alternation":
-      case "collector:alternation":
-      case "alternation:collector":
-      case "collector:collector":
-        if (a._names.every((name) => !b._names.includes(name))) {
+      case `${alternationType}:${alternationType}`:
+      case `${collectorType}:${alternationType}`:
+      case `${alternationType}:${collectorType}`:
+      case `${collectorType}:${collectorType}`:
+        if (a._data.every((name) => !b._data.includes(name))) {
           return false;
         }
         break;
 
-      case "alternation:field":
-      case "collector:field":
-        if (!a._names.includes(b.name)) {
+      case `${alternationType}:${fieldType}`:
+      case `${collectorType}:${fieldType}`:
+        if (!a._data.includes(b._data)) {
           return false;
         }
         break;
 
-      case "field:alternation":
-      case "field:collector":
-        if (!b._names.includes(a.name)) {
+      case `${fieldType}:${alternationType}`:
+      case `${fieldType}:${collectorType}`:
+        if (!b._data.includes(a._data)) {
           return false;
         }
         break;
@@ -52,4 +60,4 @@ const isSegmentsIntersecting = (aSegments, bSegments) => {
 };
 
 export const isPathsIntersecting = (aPath, bPath) =>
-  isSegmentsIntersecting(parsePath(aPath).segments, parsePath(bPath).segments);
+  isSegmentsIntersecting(parsePath(aPath)._data, parsePath(bPath)._data);

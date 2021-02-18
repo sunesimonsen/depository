@@ -1,4 +1,5 @@
 import { parsePath } from "./parsePath.js";
+import { fieldType, alternationType, collectorType } from "./Path.js";
 
 const isSegmentsEqual = (aSegments, bSegments) => {
   if (aSegments === bSegments) return true;
@@ -11,19 +12,19 @@ const isSegmentsEqual = (aSegments, bSegments) => {
 
     if (a === b) continue;
 
-    if (a.type !== b.type) return false;
+    if (a._type !== b._type) return false;
 
-    switch (a.type) {
-      case "field":
-        if (a.name !== b.name) return false;
+    switch (a._type) {
+      case fieldType:
+        if (a._data !== b._data) return false;
         break;
 
-      case "collector":
-      case "alternation":
-        if (a._names.length !== b._names.length) return false;
+      case collectorType:
+      case alternationType:
+        if (a._data.length !== b._data.length) return false;
 
-        bNames = new Set(b._names);
-        if (a._names.some((name) => !bNames.has(name))) {
+        bNames = new Set(b._data);
+        if (a._data.some((name) => !bNames.has(name))) {
           return false;
         }
         break;
@@ -34,4 +35,4 @@ const isSegmentsEqual = (aSegments, bSegments) => {
 };
 
 export const isPathsEqual = (aPath, bPath) =>
-  isSegmentsEqual(parsePath(aPath).segments, parsePath(bPath).segments);
+  isSegmentsEqual(parsePath(aPath)._data, parsePath(bPath)._data);

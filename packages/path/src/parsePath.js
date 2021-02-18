@@ -1,44 +1,49 @@
-import { Path } from "./Path.js";
-import { Alternation } from "./Alternation.js";
-import { Collector } from "./Collector.js";
-import { Wildcard } from "./Wildcard.js";
-import { WildcardCollector } from "./WildcardCollector.js";
-import { Field } from "./Field.js";
+import {
+  createSegment,
+  pathType,
+  fieldType,
+  alternationType,
+  collectorType,
+  wildcardType,
+  wildcardCollectorType,
+} from "./Path.js";
+
 import { isPathObject } from "./isPathObject.js";
 
 export const parsePath = (path) => {
   if (isPathObject(path)) return path;
-  if (!path) return new Path([]);
+  if (!path) return createSegment(pathType, []);
 
-  return new Path(
+  return createSegment(
+    pathType,
     path
       .split(".")
       .map((segment) => segment.trim())
       .map((segment) => {
         if (segment === "*") {
-          return new Wildcard();
+          return createSegment(wildcardType);
         }
 
         if (segment === "{*}") {
-          return new WildcardCollector();
+          return createSegment(wildcardCollectorType);
         }
 
         if (segment.match(/^[^()[\]{}.*]+$/)) {
-          return new Field(segment);
+          return createSegment(fieldType, segment);
         }
 
         const alternationMatch = segment.match(
           /^\(([^()[\]{}.*|,]+(\|[^()[\]{}.*|,]+)*)\)$/
         );
         if (alternationMatch) {
-          return new Alternation(alternationMatch[1].split("|"));
+          return createSegment(alternationType, alternationMatch[1].split("|"));
         }
 
         const collectorMatch = segment.match(
           /^\{([^()[\]{}.*|,]+(,[^()[\]{}.*|,]+)*)\}$/
         );
         if (collectorMatch) {
-          return new Collector(collectorMatch[1].split(","));
+          return createSegment(collectorType, collectorMatch[1].split(","));
         }
 
         throw new Error(`Unsupported path segment ${segment} in path ${path}`);
