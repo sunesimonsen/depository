@@ -4,9 +4,10 @@ import { Collector } from "./Collector.js";
 import { Wildcard } from "./Wildcard.js";
 import { WildcardCollector } from "./WildcardCollector.js";
 import { Field } from "./Field.js";
+import { isPathObject } from "./isPathObject.js";
 
 export const parsePath = (path) => {
-  if (path instanceof Path) return path;
+  if (isPathObject(path)) return path;
   if (!path) return new Path([]);
 
   return new Path(

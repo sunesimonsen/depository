@@ -1,5 +1,7 @@
-import { html } from "htm/preact";
+import { html } from "@depository/view";
 
-export const Header = ({ children }) => html`
-  <header class="header">${children}</header>
-`;
+export class Header {
+  render({ children }) {
+    return html`<header class="header">${children}</header>`;
+  }
+}

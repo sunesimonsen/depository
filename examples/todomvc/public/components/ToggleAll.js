@@ -1,23 +1,27 @@
-import { html } from "htm/preact";
-import { connect } from "@depository/preact";
+import { html } from "@depository/view";
 import { activeTodoCount, toggleAllTodos } from "../models/todo.js";
 
-export const ToggleAll = connect(
-  { activeTodoCount },
-  ({ dispatch, activeTodoCount }) => {
-    const onChange = () => {
-      dispatch(toggleAllTodos());
+export class ToggleAll {
+  constructor() {
+    this.onChange = () => {
+      this.dispatch(toggleAllTodos());
     };
+  }
 
+  data() {
+    return { activeTodoCount };
+  }
+
+  render({ activeTodoCount }) {
     return html`
       <input
         id="toggle-all"
         class="toggle-all"
         type="checkbox"
-        checked=${activeTodoCount === 0}
-        onChange=${onChange}
+        .checked=${activeTodoCount === 0}
+        @change=${this.onChange}
       />
       <label for="toggle-all">Mark all as complete</label>
     `;
   }
-);
+}

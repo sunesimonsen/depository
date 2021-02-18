@@ -1,13 +1,18 @@
-import { html } from "htm/preact";
-import { connect } from "@depository/preact";
+import { html } from "@depository/view";
 import { clearCompleteTodos } from "../models/todo.js";
 
-export const ClearCompletedButton = connect(({ dispatch }) => {
-  const onClick = () => {
-    dispatch(clearCompleteTodos());
-  };
+export class ClearCompletedButton {
+  constructor() {
+    this.onClick = () => {
+      this.dispatch(clearCompleteTodos());
+    };
+  }
 
-  return html`
-    <button class="clear-completed" onClick=${onClick}>Clear completed</button>
-  `;
-});
+  render() {
+    return html`
+      <button class="clear-completed" @click=${this.onClick}>
+        Clear completed
+      </button>
+    `;
+  }
+}

@@ -1,5 +1,4 @@
-import { html } from "htm/preact";
-import { connect } from "@depository/preact";
+import { html } from "@depository/view";
 
 import { classes } from "../utils/classes.js";
 import { DestroyButton } from "./DestroyButton.js";
@@ -12,35 +11,35 @@ import {
   stopEditingTodo,
 } from "../models/todo.js";
 
-export const TodoItem = connect(
-  ({ id }) => ({ todo: todoById(id) }),
-  ({ dispatch, id, todo }) => {
-    const onChange = (e) => {
+export class TodoItem {
+  constructor() {
+    this.onChange = (e) => {
       e.preventDefault();
-      dispatch(toggleTodo({ id }));
+      this.dispatch(toggleTodo({ id: this.props.id }));
     };
 
-    const onDblClick = () => {
-      dispatch(startEditingTodo({ id }));
+    this.onDblClick = () => {
+      this.dispatch(startEditingTodo({ id: this.props.id }));
     };
 
-    const onKeyUp = (e) => {
+    this.onKeyUp = (e) => {
       if (e.code === "Enter") {
-        dispatch(
-          updateTodo({
-            ...todo,
-            text: e.target.value.trim(),
-          })
-        );
-
+        const { todo } = this.props;
+        this.dispatch(updateTodo({ ...todo, text: e.target.value.trim() }));
         e.target.value = "";
       }
     };
 
-    const onBlur = () => {
-      dispatch(stopEditingTodo({ id }));
+    this.onBlur = () => {
+      this.dispatch(stopEditingTodo({ id: this.props.id }));
     };
+  }
 
+  data({ id }) {
+    return { todo: todoById(id) };
+  }
+
+  render({ todo }) {
     return html`
       <li
         class=${classes(
@@ -52,20 +51,20 @@ export const TodoItem = connect(
           <input
             class="toggle"
             type="checkbox"
-            onChange=${onChange}
-            checked=${todo.completed}
+            @change=${this.onChange}
+            .checked=${todo.completed}
           />
-          <label onDblClick=${onDblClick}>${todo.text}</label>
+          <label @dblclick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />
         </div>
         <input
           ref=${(element) => element && element.focus()}
           class="edit"
-          value=${todo.text}
-          onKeyUp=${onKeyUp}
-          onBlur=${onBlur}
+          .value=${todo.text}
+          @keyup=${this.onKeyUp}
+          @blur=${this.onBlur}
         />
       </li>
     `;
   }
-);
+}

@@ -1,3 +1,7 @@
-import { html } from "htm/preact";
+import { html } from "@depository/view";
 
-export const Title = ({ children }) => html`<h1>${children}</h1>`;
+export class Title {
+  render({ children }) {
+    return html`<h1>${children}</h1>`;
+  }
+}

@@ -1,11 +1,14 @@
-import { html } from "htm/preact";
-import { connect } from "@depository/preact";
+import { html } from "@depository/view";
 import { removeTodo } from "../models/todo.js";
 
-export const DestroyButton = connect(({ id, dispatch }) => {
-  const onClick = () => {
-    dispatch(removeTodo({ id }));
-  };
+export class DestroyButton {
+  constructor() {
+    this.onClick = () => {
+      this.dispatch(removeTodo({ id: this.props.id }));
+    };
+  }
 
-  return html`<button onClick=${onClick} class="destroy"></button> `;
-});
+  render() {
+    return html`<button @click=${this.onClick} class="destroy"></button> `;
+  }
+}

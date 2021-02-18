@@ -7,28 +7,28 @@ export class Subscribable {
     this.notifyTimer = null;
   }
 
-  addDependent(dependent) {
+  _addDependent(dependent) {
     if (this.subscriptions.length === 0 && this.dependents.length === 0) {
-      this.onActivate();
+      this._onActivate();
     }
 
     this.dependents.push(dependent);
   }
 
-  removeDependent(dependent) {
+  _removeDependent(dependent) {
     this.dependents = this.dependents.filter((d) => d !== dependent);
 
     if (this.subscriptions.length === 0 && this.dependents.length === 0) {
-      this.onDeactivate();
+      this._onDeactivate();
     }
   }
 
-  onActivate() {}
-  onDeactivate() {}
+  _onActivate() {}
+  _onDeactivate() {}
 
   subscribe(listener) {
     if (this.subscriptions.length === 0 && this.dependents.length === 0) {
-      this.onActivate();
+      this._onActivate();
     }
 
     const subscription = new Subscription({
@@ -45,7 +45,7 @@ export class Subscribable {
     this.subscriptions = this.subscriptions.filter((s) => s !== subscription);
 
     if (this.subscriptions.length === 0 && this.dependents.length === 0) {
-      this.onDeactivate();
+      this._onDeactivate();
     }
   }
 

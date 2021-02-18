@@ -26,7 +26,7 @@ const containSegments = (data, segments) => {
         );
 
       case "alternation":
-        return segment.names.some((key) =>
+        return segment._names.some((key) =>
           containSegments(current[key], segments.slice(i + 1))
         );
 

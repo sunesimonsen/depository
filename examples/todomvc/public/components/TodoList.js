@@ -1,14 +1,17 @@
-import { html } from "htm/preact";
-import { connect } from "@depository/preact";
+import { html } from "@depository/view";
 import { allTodos } from "../models/todo.js";
 import { TodoItem } from "./TodoItem.js";
 
-export const TodoList = connect(
-  { todos: allTodos },
-  ({ todos }) =>
-    html`
+export class TodoList {
+  data() {
+    return { todos: allTodos };
+  }
+
+  render({ todos }) {
+    return html`
       <ul class="todo-list">
-        ${todos.map(({ id }) => html`<${TodoItem} key=${id} id=${id} />`)}
+        ${todos.map(({ id }) => html`<${TodoItem} #=${id} id=${id} />`)}
       </ul>
-    `
-);
+    `;
+  }
+}

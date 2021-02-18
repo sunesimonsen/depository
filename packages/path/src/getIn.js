@@ -26,12 +26,12 @@ const getSegmentsIn = (data, segments) => {
           .filter((v) => typeof v !== "undefined");
 
       case "alternation":
-        return segment.names
+        return segment._names
           .map((key) => getSegmentsIn(current[key], segments.slice(i + 1)))
           .filter((v) => typeof v !== "undefined");
 
       case "collector":
-        return segment.names.reduce((result, key) => {
+        return segment._names.reduce((result, key) => {
           result[key] = getSegmentsIn(current[key], segments.slice(i + 1));
           return result;
         }, {});

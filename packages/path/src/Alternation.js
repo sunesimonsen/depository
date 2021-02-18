@@ -1,6 +1,6 @@
 export class Alternation {
-  constructor(names) {
+  constructor(_names) {
     this.type = "alternation";
-    this.names = names;
+    this._names = _names;
   }
 }
