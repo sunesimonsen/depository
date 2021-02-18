@@ -3,7 +3,7 @@ import { createTodo } from "../models/todo.js";
 
 export class TodoInput {
   constructor() {
-    this.onKeyUp = (e) => {
+    this.onKeyDown = (e) => {
       if (e.code === "Enter") {
         this.dispatch(createTodo({ text: e.target.value.trim() }));
         e.target.value = "";
@@ -17,7 +17,7 @@ export class TodoInput {
         class="new-todo"
         placeholder="What needs to be done?"
         autofocus
-        @keyup=${this.onKeyUp}
+        @keydown=${this.onKeyDown}
       />
     `;
   }

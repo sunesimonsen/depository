@@ -22,7 +22,7 @@ export class TodoItem {
       this.dispatch(startEditingTodo({ id: this.props.id }));
     };
 
-    this.onKeyUp = (e) => {
+    this.onKeyDown = (e) => {
       if (e.code === "Enter") {
         const { todo } = this.props;
         this.dispatch(updateTodo({ ...todo, text: e.target.value.trim() }));
@@ -61,7 +61,7 @@ export class TodoItem {
           ref=${(element) => element && element.focus()}
           class="edit"
           .value=${todo.text}
-          @keyup=${this.onKeyUp}
+          @keydown=${this.onKeyDown}
           @blur=${this.onBlur}
         />
       </li>
