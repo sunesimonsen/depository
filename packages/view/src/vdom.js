@@ -43,7 +43,7 @@ const insertBefore = (dom, referenceNode) => {
 const isFunction = (value) => typeof value === "function";
 
 class UserComponent {
-  constructor(type, props, children, store, isSvg) {
+  constructor(type, props, children, store, errorHandler, isSvg) {
     const Constructor = type;
     this._type = type;
     this._props = props;
@@ -52,6 +52,7 @@ class UserComponent {
     this._isSvg = isSvg;
     const instanceProps = this._createInstanceProps();
     this._instance = new Constructor(instanceProps);
+    this._errorHandler = errorHandler;
     this._instance.dispatch = store.dispatch.bind(store);
     this._instance.props = instanceProps;
     const paths = this._instance.data && this._instance.data(instanceProps);
@@ -89,17 +90,29 @@ class UserComponent {
   }
 
   _render() {
-    const nextProps = this._createInstanceProps();
-    const prevProps = this._instance.props;
-    if (
-      !this._instance.shouldUpdate ||
-      this._instance.shouldUpdate(prevProps)
-    ) {
-      const updatedTree = this._renderInstance(nextProps);
-      this._vdom = update(updatedTree, this._vdom, this._store, this._isSvg);
-      if (this._instance.didUpdate) {
-        this._instance.didUpdate(prevProps);
+    try {
+      const nextProps = this._createInstanceProps();
+      const prevProps = this._instance.props;
+      const shouldUpdate =
+        !this._instance.shouldUpdate || this._instance.shouldUpdate(prevProps);
+
+      if (shouldUpdate) {
+        const updatedTree = this._renderInstance(nextProps);
+
+        this._vdom = update(
+          updatedTree,
+          this._vdom,
+          this._store,
+          this._instance.didCatch || this._errorHandler,
+          this._isSvg
+        );
+
+        if (this._instance.didUpdate) {
+          this._instance.didUpdate(prevProps);
+        }
       }
+    } catch (e) {
+      this._errorHandler(e);
     }
   }
 
@@ -114,24 +127,36 @@ class UserComponent {
   }
 
   _mount() {
-    if (this._observable) {
-      this._subscription = this._observable.subscribe((data) => {
-        this._data = data;
-        this._enqueueRender();
-      });
+    try {
+      if (this._observable) {
+        this._subscription = this._observable.subscribe((data) => {
+          this._data = data;
+          this._enqueueRender();
+        });
 
-      this._data = this._observable.value;
+        this._data = this._observable.value;
+      }
+
+      const nextProps = this._createInstanceProps();
+      const tree = this._renderInstance(nextProps);
+
+      this._vdom = create(
+        tree,
+        this._store,
+        this._instance.didCatch || this._errorHandler,
+        this._isSvg
+      );
+
+      const dom = mount(this._vdom);
+
+      this._instance.didMount && this._instance.didMount();
+
+      return dom;
+    } catch (e) {
+      this._errorHandler(e);
+      this._vdom = new Hidden();
+      return mount(this._vdom);
     }
-
-    const nextProps = this._createInstanceProps();
-    const tree = this._renderInstance(nextProps);
-    this._vdom = create(tree, this._store, this._isSvg);
-
-    const dom = mount(this._vdom);
-
-    this._instance.didMount && this._instance.didMount();
-
-    return dom;
   }
 
   _insertBefore(dom) {
@@ -140,7 +165,11 @@ class UserComponent {
   }
 
   _unmount() {
-    this._instance.willUnmount && this._instance.willUnmount();
+    try {
+      this._instance.willUnmount && this._instance.willUnmount();
+    } catch (e) {
+      this._errorHandler(e);
+    }
     cancelAnimationFrame(this._renderTimer);
     this._renderTimer = null;
     if (this._subscription) {
@@ -201,11 +230,13 @@ const removeEventListener = (dom, name, listener) => {
 };
 
 class PrimitiveComponent {
-  constructor(type, props, children, store, isSvg) {
+  constructor(type, props, children, store, errorHandler, isSvg) {
     this._type = type;
     this._props = props;
+    this._errorHandler = errorHandler;
     this._isSvg = isSvg || type === "svg";
-    this._children = children && create(children, store, this._isSvg);
+    this._children =
+      children && create(children, store, this._errorHandler, this._isSvg);
     this._store = store;
   }
 
@@ -258,7 +289,12 @@ class PrimitiveComponent {
       unmount(this._children);
       this.children = children;
     } else if (this._children === null) {
-      this._children = create(children, this._store, this._isSvg);
+      this._children = create(
+        children,
+        this._store,
+        this._errorHandler,
+        this._isSvg
+      );
       appendChildren(this._dom, mount(this._children));
     } else {
       this._children = update(
@@ -360,7 +396,7 @@ class Hidden {
   }
 }
 
-export const create = (value, store, isSvg) => {
+export const create = (value, store, errorHandler, isSvg) => {
   if (
     value == null ||
     value === false ||
@@ -368,21 +404,28 @@ export const create = (value, store, isSvg) => {
   ) {
     return new Hidden();
   } else if (isArray(value)) {
-    return value.map((item) => create(item, store, isSvg));
+    return value.map((item) => create(item, store, errorHandler, isSvg));
   } else if (isFunction(value._type)) {
-    return new UserComponent(
-      value._type,
-      value._props,
-      value._children,
-      store,
-      isSvg
-    );
+    try {
+      return new UserComponent(
+        value._type,
+        value._props,
+        value._children,
+        store,
+        errorHandler,
+        isSvg
+      );
+    } catch (e) {
+      errorHandler(e);
+      return new Hidden();
+    }
   } else if (typeof value === "object") {
     return new PrimitiveComponent(
       value._type,
       value._props,
       value._children,
       store,
+      errorHandler,
       isSvg
     );
   } else {
@@ -394,7 +437,7 @@ const getKey = (value) => value._props["#"];
 const hasKey = (value) => value._props && "#" in value._props;
 const similar = (a, b) => a._type === b._type && getKey(a) === getKey(b);
 
-const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
+const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
   const updatedByKey = new Map();
   updatedTree.forEach((child) => {
     updatedByKey.set(getKey(child), child);
@@ -404,7 +447,7 @@ const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
     const key = getKey(oldChild);
     if (updatedByKey.has(key)) {
       const newChild = updatedByKey.get(key);
-      update(newChild, oldChild, store, isSvg);
+      update(newChild, oldChild, store, errorHandler, isSvg);
     }
   });
 
@@ -423,7 +466,7 @@ const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
     if (update instanceof InsertDiff) {
       const anchor = vdom[update._index];
       const newValues = update._values.map((child) =>
-        create(child, store, isSvg)
+        create(child, store, errorHandler, isSvg)
       );
       const dom = mount(newValues);
       insertBefore(dom, anchor);
@@ -443,25 +486,25 @@ const updateKeyedArray = (updatedTree, vdom, store, isSvg) => {
   return vdom;
 };
 
-const updateArray = (updatedTree, vdom, store, isSvg) => {
+const updateArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
   if (hasKey(updatedTree[0]) && hasKey(vdom[0])) {
-    return updateKeyedArray(updatedTree, vdom, store, isSvg);
+    return updateKeyedArray(updatedTree, vdom, store, errorHandler, isSvg);
   }
 
   if (updatedTree.length > 0 && updatedTree.length === vdom.length) {
     for (let i = 0; i < updatedTree.length; i++) {
-      update(updatedTree[i], vdom[i], store, isSvg);
+      update(updatedTree[i], vdom[i], store, errorHandler, isSvg);
     }
     return vdom;
   }
 
-  const newVdom = create(updatedTree, store, isSvg);
+  const newVdom = create(updatedTree, store, errorHandler, isSvg);
   vdom[0]._insertBefore(mount(newVdom));
   unmount(vdom);
   return newVdom;
 };
 
-export const update = (updatedTree, vdom, store, isSvg) => {
+export const update = (updatedTree, vdom, store, errorHandler, isSvg) => {
   if (
     vdom._type === "text" &&
     (typeof updatedTree === "string" || typeof updatedTree === "number")
@@ -479,15 +522,19 @@ export const update = (updatedTree, vdom, store, isSvg) => {
   } else if (isArray(updatedTree) && updatedTree.length > 0 && isArray(vdom)) {
     return updateArray(updatedTree, vdom, store);
   } else {
-    const newVdom = create(updatedTree, store, isSvg);
+    const newVdom = create(updatedTree, store, errorHandler, isSvg);
     getAnchor(vdom)._insertBefore(mount(newVdom));
     unmount(vdom);
     return newVdom;
   }
 };
 
+const reThrow = (e) => {
+  throw e;
+};
+
 export const render = (value, store, container = document.body) => {
-  const vdom = create(value, store, false);
+  const vdom = create(value, store, reThrow, false);
   appendChildren(container, mount(vdom));
 };
 
