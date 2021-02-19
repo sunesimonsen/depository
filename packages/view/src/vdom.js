@@ -68,7 +68,7 @@ class UserComponent {
 
   _enqueueRender() {
     if (!this._renderTimer) {
-      this._renderTimer = setTimeout(() => {
+      this._renderTimer = requestAnimationFrame(() => {
         this._render();
         this._renderTimer = null;
       }, 0);
@@ -141,7 +141,7 @@ class UserComponent {
 
   _unmount() {
     this._instance.willUnmount && this._instance.willUnmount();
-    clearTimeout(this._renderTimer);
+    cancelAnimationFrame(this._renderTimer);
     this._renderTimer = null;
     if (this._subscription) {
       this._subscription.unsubscribe();
