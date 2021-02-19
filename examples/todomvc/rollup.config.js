@@ -35,7 +35,7 @@ export default [
         compress: true,
         mangle: {
           properties: {
-            regex: /^_|^(onClick|onDblClick|onKeyUp|onKeyDown|onBlur|onChange|payload|dispatch|observe)$/,
+            regex: /^_|^(onClick|onDblClick|onKeyUp|onKeyDown|onBlur|onChange|payload|dispatch|compute|computed|render)$/,
           },
         },
       }),
