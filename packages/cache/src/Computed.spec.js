@@ -253,19 +253,4 @@ describe("cache.computed", () => {
       });
     });
   });
-
-  describe("waitFor", () => {
-    it("returns a promise for when the given condition is true value of the computed", async () => {
-      setTimeout(() => {
-        cache.update("global.numbers", (numbers) => [...numbers, 4]);
-        cache.notify();
-      }, 1);
-
-      await sum.waitFor((n) => n === 10);
-
-      expect(cache.get(), "to equal", {
-        global: { numbers: [1, 2, 3, 4] },
-      });
-    });
-  });
 });

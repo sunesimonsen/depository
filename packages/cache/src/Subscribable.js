@@ -50,20 +50,4 @@ export class Subscribable {
       subscription._notify(...args);
     });
   }
-
-  waitFor(predicate) {
-    return new Promise((resolve) => {
-      const subscription = this.subscribe((value) => {
-        if (predicate(value)) {
-          subscription.unsubscribe();
-          resolve(value);
-        }
-      });
-
-      if (predicate(this.value)) {
-        subscription.unsubscribe();
-        resolve(this.value);
-      }
-    });
-  }
 }

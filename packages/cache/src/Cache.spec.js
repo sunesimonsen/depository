@@ -387,23 +387,4 @@ describe("cache", () => {
       });
     });
   });
-
-  describe("waitFor", () => {
-    describe("when only given a predicate", () => {
-      it("returns a promise for when the given condition is true for the entire cache", async () => {
-        const cache = new Cache({
-          global: { status: "loading" },
-        });
-
-        const pathObserver = cache.observe("global.status");
-
-        setTimeout(() => {
-          cache.set("global.status", "ready");
-          cache.notify();
-        }, 1);
-
-        await pathObserver.waitFor((status) => status === "ready");
-      });
-    });
-  });
 });

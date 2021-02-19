@@ -5,6 +5,7 @@ import { Store } from "@depository/store";
 import { render, html } from "./index.js";
 import sinon from "sinon";
 import simulateEvents from "simulate-events";
+import "../test/animationFramePolyfill.js";
 
 const simulate = simulateEvents.default;
 const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
@@ -403,6 +404,274 @@ describe("view", () => {
           unmountSpy();
         }
       );
+    });
+
+    describe("when didCatch is not defined and an error is throw", () => {
+      it("throws from render", () => {
+        class TestComponent {
+          render() {
+            throw new Error("Test failure");
+          }
+        }
+
+        expect(() => {
+          render(html`<${TestComponent} />`, store, container);
+        }, "to throw");
+      });
+    });
+
+    describe("when didCatch is defined", () => {
+      class ErrorBoundary {
+        constructor({ name }) {
+          this.didCatch = (e) => {
+            this.dispatch({ payload: { [`errors.${name}`]: true } });
+          };
+        }
+
+        data({ name }) {
+          return { failed: `errors.${name}` };
+        }
+
+        render({ children, fallback, failed }) {
+          return failed ? fallback : children;
+        }
+      }
+
+      const parentFallback = html`<h1 data-test-id="parent-failure">
+        Parent failure
+      </h1>`;
+      const fallback = html`<h1 data-test-id="failure">Failure</h1>`;
+
+      it("catches errors in constructors", async () => {
+        class TestComponent {
+          constructor() {
+            throw new Error("Test failure");
+          }
+
+          render() {
+            return null;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in the data method", async () => {
+        class TestComponent {
+          data() {
+            throw new Error("Test failure");
+          }
+
+          render() {
+            return null;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in didMount", async () => {
+        class TestComponent {
+          didMount() {
+            throw new Error("Test failure");
+          }
+
+          render() {
+            return null;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in render", async () => {
+        class TestComponent {
+          render() {
+            throw new Error("Test failure");
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in shouldUpdate", async () => {
+        class TestComponent {
+          data() {
+            return { data: "data" };
+          }
+
+          shouldUpdate() {
+            throw new Error("Test failure");
+          }
+
+          render({ data }) {
+            return data;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await store.dispatch({ payload: { data: "stuff" } });
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in didUpdate", async () => {
+        class TestComponent {
+          data() {
+            return { data: "data" };
+          }
+
+          didUpdate() {
+            throw new Error("Test failure");
+          }
+
+          render({ data }) {
+            return data;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await store.dispatch({ payload: { data: "stuff" } });
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in willUnmount", async () => {
+        store = new Store({ visible: true });
+
+        class ConditionalChildren {
+          data() {
+            return { visible: "visible" };
+          }
+
+          render({ visible, children }) {
+            return visible ? children : null;
+          }
+        }
+
+        class TestComponent {
+          willUnmount() {
+            throw new Error("Test failure");
+          }
+
+          render() {
+            return null;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}
+              ><${ConditionalChildren}> <${TestComponent} /> <//><//
+          ><//>`,
+          store,
+          container
+        );
+
+        await store.dispatch({ payload: { visible: false } });
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
     });
   });
 

@@ -3,6 +3,7 @@ import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import { Store } from "@depository/store";
 import sinon from "sinon";
+import "../test/animationFramePolyfill.js";
 
 const renderIntoContainer = (vdom) => {
   const dom = mount(vdom);

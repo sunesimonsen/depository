@@ -51,8 +51,4 @@ export class Store {
   computed(...args) {
     return this.cache.computed(...args);
   }
-
-  waitFor(...args) {
-    return this.cache.waitFor(...args);
-  }
 }
