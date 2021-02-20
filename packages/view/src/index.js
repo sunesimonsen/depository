@@ -1,1 +1,2 @@
-export { html, h, render } from "./vdom.js";
+export { h, render } from "./vdom.js";
+export { html } from "./html.js";

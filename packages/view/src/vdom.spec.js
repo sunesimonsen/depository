@@ -1,4 +1,5 @@
-import { create, update, html, mount } from "./vdom.js";
+import { create, update, mount } from "./vdom.js";
+import { html } from "./html.js";
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import { Store } from "@depository/store";

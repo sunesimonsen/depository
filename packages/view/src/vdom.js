@@ -1,4 +1,3 @@
-import htm from "htm";
 import { arrayDiff, InsertDiff, MoveDiff, RemoveDiff } from "./arrayDiff.js";
 
 const isArray = (v) => Array.isArray(v);
@@ -607,5 +606,3 @@ export const h = (type, props, ...children) => {
     _children: children.length ? children.flat() : null,
   };
 };
-
-export const html = htm.bind(h);
