@@ -3,7 +3,9 @@
     [
       "htm",
       {
-        "import": "@depository/view"
+        "import": "@depository/view",
+        "useBuiltIns": true,
+        "useNativeSpread": true
       }
     ]
   ]
