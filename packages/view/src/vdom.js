@@ -287,7 +287,7 @@ class PrimitiveComponent {
   _updateChildren(children) {
     if (children === null) {
       unmount(this._children);
-      this.children = children;
+      this._children = children;
     } else if (this._children === null) {
       this._children = create(
         children,
