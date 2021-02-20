@@ -217,6 +217,36 @@ describe("vdom", () => {
           </ul>`,
         ],
         [
+          html`<ul>
+            <li>0</li>
+            <li>1</li>
+            <li>2</li>
+          </ul>`,
+          html`<ul>
+            ${null}
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li>0</li>
+            <li>1</li>
+            <li>2</li>
+          </ul>`,
+          html`<ul>
+            ${[]}
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li #="0">0</li>
+            <li #="1">1</li>
+            <li #="2">2</li>
+          </ul>`,
+          html`<ul>
+            ${null}
+          </ul>`,
+        ],
+        [
           html`<ul></ul>`,
           html`<ul>
             <li #="1">1</li>

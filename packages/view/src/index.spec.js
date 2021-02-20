@@ -10,6 +10,16 @@ import "../test/animationFramePolyfill.js";
 const simulate = simulateEvents.default;
 const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
 
+class ConditionalChildren {
+  data() {
+    return { visible: "visible" };
+  }
+
+  render({ visible, children }) {
+    return visible ? children : null;
+  }
+}
+
 describe("view", () => {
   let container, store, clock;
 
@@ -633,16 +643,6 @@ describe("view", () => {
       it("catches errors in willUnmount", async () => {
         store = new Store({ visible: true });
 
-        class ConditionalChildren {
-          data() {
-            return { visible: "visible" };
-          }
-
-          render({ visible, children }) {
-            return visible ? children : null;
-          }
-        }
-
         class TestComponent {
           willUnmount() {
             throw new Error("Test failure");
@@ -1096,6 +1096,192 @@ describe("view", () => {
         expect(container, "queried for first", "input", "to have properties", {
           value: "My value",
         });
+      });
+    });
+  });
+
+  describe("portal", () => {
+    describe("on first render", () => {
+      it("renders the children in the portal target", () => {
+        const target = document.createElement("div");
+        class TestComponent {
+          render() {
+            return html`<portal target=${target}>
+              <h1>Hello from the portal</h1>
+            </portal>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        expect(container, "to satisfy", "<div><!--hidden--></div>");
+
+        expect(
+          target,
+          "to satisfy",
+          "<div><h1>Hello from the portal</h1></div>"
+        );
+      });
+
+      describe("when the target is not specified", () => {
+        it("renders the children in the portal document body", async () => {
+          store = new Store({ visible: true });
+          class TestComponent {
+            render() {
+              return html`<portal>
+                  <h1>Hello from the portal</h1>
+                </portal>
+                <section>
+                  <portal>
+                    <p>this is another portal</p>
+                  </portal>
+                </section>`;
+            }
+          }
+
+          render(
+            html`<${ConditionalChildren}><${TestComponent} /><//>`,
+            store,
+            container
+          );
+
+          expect(
+            container,
+            "to satisfy",
+            "<div><!--hidden--><section><!--hidden--></section></div>"
+          );
+
+          expect(document.body.childNodes, "to satisfy", [
+            "<h1>Hello from the portal</h1>",
+            "<p>this is another portal</p>",
+          ]);
+
+          await store.dispatch({ payload: { visible: false } });
+          await clock.runAllAsync();
+
+          expect(document.body.childNodes, "to satisfy", []);
+        });
+      });
+    });
+
+    describe("when the portal has children", () => {
+      let target, store;
+
+      beforeEach(() => {
+        store = new Store({ message: "Hello from the portal" });
+
+        target = document.createElement("div");
+
+        class TestComponent {
+          data() {
+            return { message: "message" };
+          }
+
+          render({ message }) {
+            return html`<portal target=${target}>${message}</portal>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        expect(container, "to satisfy", "<div><!--hidden--></div>");
+        expect(target, "to satisfy", "<div>Hello from the portal</div>");
+      });
+
+      describe("and updating the portal children", () => {
+        it("updates the portal DOM", async () => {
+          await store.dispatch({ payload: { message: "Updated portal!" } });
+          await clock.runAllAsync();
+
+          expect(target, "to satisfy", "<div>Updated portal!</div>");
+        });
+      });
+
+      describe("and removing the children", () => {
+        it("removes the portal DOM", async () => {
+          await store.dispatch({ payload: { message: null } });
+          await clock.runAllAsync();
+
+          expect(target, "to satisfy", "<div><!--hidden--></div>");
+        });
+      });
+    });
+
+    describe("when the portal is empty", () => {
+      let target, store;
+
+      beforeEach(() => {
+        store = new Store({ message: null });
+
+        target = document.createElement("div");
+
+        class TestComponent {
+          data() {
+            return { message: "message" };
+          }
+
+          render({ message }) {
+            return html`<portal target=${target}>${message}</portal>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        expect(container, "to satisfy", "<div><!--hidden--></div>");
+        expect(target, "to satisfy", "<div><!--hidden--></div>");
+      });
+
+      describe("and setting the portal children", () => {
+        it("updates the portal DOM", async () => {
+          await store.dispatch({ payload: { message: "Updated portal!" } });
+          await clock.runAllAsync();
+
+          expect(target, "to satisfy", "<div>Updated portal!</div>");
+        });
+      });
+
+      describe("and the portal is updated to be emtpy", () => {
+        it("keeps the empty portal", async () => {
+          await store.dispatch({ payload: { message: null } });
+
+          await clock.runAllAsync();
+
+          expect(target, "to satisfy", "<div><!--hidden--></div>");
+        });
+      });
+    });
+
+    describe("when the target is changed", () => {
+      it("moves the children to the new target", async () => {
+        const store = new Store({ target: "target1" });
+
+        const target1 = document.createElement("div");
+        const target2 = document.createElement("div");
+
+        class TestComponent {
+          data() {
+            return { target: "target" };
+          }
+
+          render({ target }) {
+            return html`<portal
+              target=${target === "target1" ? target1 : target2}
+            >
+              This is a portal
+            </portal>`;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        expect(container, "to satisfy", "<div><!--hidden--></div>");
+        expect(target1, "to satisfy", "<div>This is a portal</div>");
+
+        await store.dispatch({ payload: { target: "target2" } });
+        await clock.runAllAsync();
+
+        expect(target1, "to satisfy", "<div></div>");
+        expect(target2, "to satisfy", "<div>This is a portal</div>");
       });
     });
   });

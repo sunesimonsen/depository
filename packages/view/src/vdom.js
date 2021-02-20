@@ -5,7 +5,7 @@ const isArray = (v) => Array.isArray(v);
 const getAnchor = (dom) => (isArray(dom) ? dom[0] : dom);
 
 export const mount = (vdom) => {
-  if (Array.isArray(vdom)) {
+  if (isArray(vdom)) {
     return vdom.flatMap(mount);
   } else {
     return vdom._mount();
@@ -23,7 +23,7 @@ const unmount = (vdom) => {
 const appendChildren = (container, children) => {
   if (isArray(children)) {
     children.forEach((child) => {
-      container.appendChild(child);
+      appendChildren(container, child);
     });
   } else {
     container.appendChild(children);
@@ -40,7 +40,7 @@ const insertBefore = (dom, referenceNode) => {
   }
 };
 
-const isFunction = (value) => typeof value === "function";
+const getDom = (vdom) => (isArray(vdom) ? vdom.map((c) => c._dom) : vdom._dom);
 
 class UserComponent {
   constructor(type, props, children, store, errorHandler, isSvg) {
@@ -62,9 +62,7 @@ class UserComponent {
   }
 
   get _dom() {
-    return isArray(this._vdom)
-      ? this._vdom.map((c) => c._dom)
-      : this._vdom._dom;
+    return getDom(this._vdom);
   }
 
   _enqueueRender() {
@@ -160,8 +158,7 @@ class UserComponent {
   }
 
   _insertBefore(dom) {
-    const anchor = isArray(this._vdom) ? this._vdom[0] : this._vdom;
-    anchor._insertBefore(dom);
+    getAnchor(this._vdom)._insertBefore(dom);
   }
 
   _unmount() {
@@ -301,6 +298,7 @@ class PrimitiveComponent {
         children,
         this._children,
         this._store,
+        this._errorHandler,
         this._isSvg
       );
     }
@@ -396,16 +394,67 @@ class Hidden {
   }
 }
 
-export const create = (value, store, errorHandler, isSvg) => {
-  if (
-    value == null ||
-    value === false ||
-    (isArray(value) && value.length === 0)
+class PortalComponent extends Hidden {
+  constructor(
+    type,
+    { target = document.body },
+    children,
+    store,
+    errorHandler,
+    isSvg
   ) {
+    super();
+    this._type = type;
+    this._errorHandler = errorHandler;
+    this._isSvg = isSvg || type === "svg";
+    this._children =
+      children && create(children, store, this._errorHandler, this._isSvg);
+    this._target = target;
+    this._store = store;
+  }
+
+  _updateProps({ target = document.body }) {
+    if (this._target !== target) {
+      // Move DOM tree
+      this._target = target;
+      appendChildren(target, getDom(this._children));
+    }
+  }
+
+  _updateChildren(children) {
+    this._children = update(
+      children,
+      this._children,
+      this._store,
+      this._errorHandler,
+      this._isSvg
+    );
+  }
+
+  _mount() {
+    if (this._children) {
+      appendChildren(this._target, mount(this._children));
+    }
+
+    return super._mount();
+  }
+
+  _unmount() {
+    unmount(this._children);
+    super._unmount();
+  }
+}
+
+export const create = (value, store, errorHandler, isSvg) => {
+  if (value == null || value === false || (isArray(value) && !value.length)) {
     return new Hidden();
-  } else if (isArray(value)) {
+  }
+
+  if (isArray(value)) {
     return value.map((item) => create(item, store, errorHandler, isSvg));
-  } else if (isFunction(value._type)) {
+  }
+
+  if (typeof value._type === "function") {
     try {
       return new UserComponent(
         value._type,
@@ -419,7 +468,20 @@ export const create = (value, store, errorHandler, isSvg) => {
       errorHandler(e);
       return new Hidden();
     }
-  } else if (typeof value === "object") {
+  }
+
+  if (typeof value === "object") {
+    if (value._type === "portal") {
+      return new PortalComponent(
+        value._type,
+        value._props,
+        value._children,
+        store,
+        errorHandler,
+        isSvg
+      );
+    }
+
     return new PrimitiveComponent(
       value._type,
       value._props,
@@ -428,13 +490,13 @@ export const create = (value, store, errorHandler, isSvg) => {
       errorHandler,
       isSvg
     );
-  } else {
-    return new Text(String(value));
   }
+
+  return new Text(String(value));
 };
 
 const getKey = (value) => value._props["#"];
-const hasKey = (value) => value._props && "#" in value._props;
+const hasKey = (value) => value && value._props && "#" in value._props;
 const similar = (a, b) => a._type === b._type && getKey(a) === getKey(b);
 
 const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
@@ -491,7 +553,7 @@ const updateArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
     return updateKeyedArray(updatedTree, vdom, store, errorHandler, isSvg);
   }
 
-  if (updatedTree.length > 0 && updatedTree.length === vdom.length) {
+  if (updatedTree.length && updatedTree.length === vdom.length) {
     for (let i = 0; i < updatedTree.length; i++) {
       update(updatedTree[i], vdom[i], store, errorHandler, isSvg);
     }
@@ -511,22 +573,22 @@ export const update = (updatedTree, vdom, store, errorHandler, isSvg) => {
   ) {
     vdom._updateText(updatedTree);
     return vdom;
-  } else if (
-    updatedTree &&
-    updatedTree._type &&
-    updatedTree._type === vdom._type
-  ) {
+  }
+
+  if (updatedTree && updatedTree._type && updatedTree._type === vdom._type) {
     vdom._updateProps(updatedTree._props);
     vdom._updateChildren(updatedTree._children);
     return vdom;
-  } else if (isArray(updatedTree) && updatedTree.length > 0 && isArray(vdom)) {
-    return updateArray(updatedTree, vdom, store);
-  } else {
-    const newVdom = create(updatedTree, store, errorHandler, isSvg);
-    getAnchor(vdom)._insertBefore(mount(newVdom));
-    unmount(vdom);
-    return newVdom;
   }
+
+  if (isArray(updatedTree) && updatedTree.length && isArray(vdom)) {
+    return updateArray(updatedTree, vdom, store);
+  }
+
+  const newVdom = create(updatedTree, store, errorHandler, isSvg);
+  getAnchor(vdom)._insertBefore(mount(newVdom));
+  unmount(vdom);
+  return newVdom;
 };
 
 const reThrow = (e) => {
@@ -542,7 +604,7 @@ export const h = (type, props, ...children) => {
   return {
     _type: type,
     _props: props || {},
-    _children: children.length > 0 ? children.flat() : null,
+    _children: children.length ? children.flat() : null,
   };
 };
 
