@@ -41,6 +41,21 @@ const insertBefore = (dom, referenceNode) => {
 
 const getDom = (vdom) => (isArray(vdom) ? vdom.map((c) => c._dom) : vdom._dom);
 
+function defaultShouldUpdate(nextProps) {
+  if (nextProps.children !== this.props.children) return true;
+
+  const prevKeys = Object.keys(nextProps);
+  const keys = Object.keys(this.props);
+  if (prevKeys.length !== keys.length) return true;
+
+  for (let i = 0; i < prevKeys.length; i++) {
+    const key = prevKeys[i];
+    if (nextProps[key] !== this.props[key]) return true;
+  }
+
+  return false;
+}
+
 class UserComponent {
   constructor(type, props, children, store, errorHandler, isSvg) {
     const Constructor = type;
@@ -54,6 +69,8 @@ class UserComponent {
     this._errorHandler = errorHandler;
     this._instance.dispatch = store.dispatch.bind(store);
     this._instance.props = instanceProps;
+    this._instance.shouldUpdate =
+      this._instance.shouldUpdate || defaultShouldUpdate;
     const paths = this._instance.data && this._instance.data(instanceProps);
     if (paths) {
       this._observable = store.observe(paths);
@@ -89,11 +106,10 @@ class UserComponent {
   _render() {
     try {
       const nextProps = this._createInstanceProps();
-      const prevProps = this._instance.props;
-      const shouldUpdate =
-        !this._instance.shouldUpdate || this._instance.shouldUpdate(prevProps);
+      const shouldUpdate = this._instance.shouldUpdate(nextProps);
 
       if (shouldUpdate) {
+        const prevProps = this._instance.props;
         const updatedTree = this._renderInstance(nextProps);
 
         this._vdom = update(
@@ -119,8 +135,10 @@ class UserComponent {
   }
 
   _updateChildren(children) {
-    this._children = children;
-    this._enqueueRender();
+    if (this._children !== children) {
+      this._children = children;
+      this._enqueueRender();
+    }
   }
 
   _mount() {
@@ -281,25 +299,27 @@ class PrimitiveComponent {
   }
 
   _updateChildren(children) {
-    if (children === null) {
-      unmount(this._children);
-      this._children = children;
-    } else if (this._children === null) {
-      this._children = create(
-        children,
-        this._store,
-        this._errorHandler,
-        this._isSvg
-      );
-      appendChildren(this._dom, mount(this._children));
-    } else {
-      this._children = update(
-        children,
-        this._children,
-        this._store,
-        this._errorHandler,
-        this._isSvg
-      );
+    if (this._children !== children) {
+      if (children === null) {
+        unmount(this._children);
+        this._children = children;
+      } else if (this._children === null) {
+        this._children = create(
+          children,
+          this._store,
+          this._errorHandler,
+          this._isSvg
+        );
+        appendChildren(this._dom, mount(this._children));
+      } else {
+        this._children = update(
+          children,
+          this._children,
+          this._store,
+          this._errorHandler,
+          this._isSvg
+        );
+      }
     }
   }
 

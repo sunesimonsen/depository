@@ -408,7 +408,7 @@ describe("view", () => {
         () => {
           mountSpy();
           shouldUpdateSpy({
-            message: "Hello",
+            message: "world",
             children: null,
           });
           unmountSpy();
