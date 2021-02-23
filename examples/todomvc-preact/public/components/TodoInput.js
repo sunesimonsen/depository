@@ -3,7 +3,7 @@ import { connect } from "@depository/preact";
 import { createTodo } from "../models/todo.js";
 
 export const TodoInput = connect(({ dispatch }) => {
-  const onKeyUp = (e) => {
+  const onKeyDown = (e) => {
     if (e.code === "Enter") {
       dispatch(createTodo({ text: e.target.value.trim() }));
 
@@ -16,7 +16,7 @@ export const TodoInput = connect(({ dispatch }) => {
       class="new-todo"
       placeholder="What needs to be done?"
       autofocus
-      onKeyUp=${onKeyUp}
+      onKeyDown=${onKeyDown}
     />
   `;
 });
