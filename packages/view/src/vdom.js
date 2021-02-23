@@ -543,28 +543,33 @@ const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
     }
   };
 
+  if (!diff.length) {
+    return vdom;
+  }
+
+  const updatedVDom = vdom.slice();
   diff.forEach((update) => {
     if (update instanceof InsertDiff) {
-      const anchor = vdom[update._index];
+      const anchor = updatedVDom[update._index];
       const newValues = update._values.map((child) =>
         create(child, store, errorHandler, isSvg)
       );
       const dom = mount(newValues);
       insertBefore(dom, anchor);
-      vdom.splice(update._index, 0, ...newValues);
+      updatedVDom.splice(update._index, 0, ...newValues);
     } else if (update instanceof RemoveDiff) {
-      const candidates = vdom.splice(update._index, update._howMany);
+      const candidates = updatedVDom.splice(update._index, update._howMany);
       unmount(candidates);
     } else if (update instanceof MoveDiff) {
-      const anchor = vdom[update._to];
-      const candidates = vdom.splice(update._from, update._howMany);
+      const anchor = updatedVDom[update._to];
+      const candidates = updatedVDom.splice(update._from, update._howMany);
       const dom = candidates.map((c) => c._dom);
       insertBefore(dom, anchor);
-      vdom.splice(update._to, 0, ...candidates);
+      updatedVDom.splice(update._to, 0, ...candidates);
     }
   });
 
-  return vdom;
+  return updatedVDom;
 };
 
 const updateArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
