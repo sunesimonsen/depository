@@ -11,6 +11,8 @@ import {
   stopEditingTodo,
 } from "../models/todo.js";
 
+const focus = (element) => element && element.focus();
+
 export class TodoItem {
   constructor() {
     this.onChange = (e) => {
@@ -58,7 +60,7 @@ export class TodoItem {
           <${DestroyButton} id=${todo.id} />
         </div>
         <input
-          ref=${(element) => element && element.focus()}
+          ref=${focus}
           class="edit"
           .value=${todo.text}
           @keydown=${this.onKeyDown}

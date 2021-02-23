@@ -4,7 +4,8 @@ import { fieldType, wildcardType, alternationType } from "./Path.js";
 
 const updateSegmentsIn = (data, segments, apply, defaultValue) => {
   if (segments.length === 0) {
-    return apply(typeof data === "undefined" ? defaultValue : data);
+    const result = apply(typeof data === "undefined" ? defaultValue : data);
+    return result == null ? undefined : result;
   }
 
   const segment = segments[0];
