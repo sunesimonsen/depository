@@ -2,7 +2,7 @@
   "type": "module",
   "name": "todomvc-preact",
   "description": "TodoMVC build with @depository",
-  "version": "0.23.0",
+  "version": "0.23.1",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
