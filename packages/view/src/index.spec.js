@@ -1100,6 +1100,122 @@ describe("view", () => {
     });
   });
 
+  describe("with a custom component returning an array", () => {
+    describe("and its only the items that changes", () => {
+      it("still updates the DOM", async () => {
+        const store = new Store({
+          number: 0,
+        });
+
+        class TestComponent {
+          data() {
+            return { number: "number" };
+          }
+
+          render({ number }) {
+            return [
+              html`<span>${number}</span>`,
+              html`<span>${number + 1}</span>`,
+              html`<span>${number + 2}</span>`,
+            ];
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        expect(
+          container,
+          "to satisfy",
+          "<div><span>0</span><span>1</span><span>2</span></div>"
+        );
+
+        await store.dispatch({
+          payload: { number: 10 },
+        });
+
+        clock.runAll();
+
+        expect(
+          container,
+          "to satisfy",
+          "<div><span>10</span><span>11</span><span>12</span></div>"
+        );
+      });
+    });
+
+    it("renders the array to the DOM", async () => {
+      const store = new Store({
+        items: ["one", "two", "three"],
+      });
+
+      class TestComponent {
+        data() {
+          return { items: "items" };
+        }
+
+        render({ items }) {
+          return items.map((item) => html`<span>${item}</span>`);
+        }
+      }
+
+      render(html`<${TestComponent} />`, store, container);
+
+      expect(
+        container,
+        "to satisfy",
+        "<div><span>one</span><span>two</span><span>three</span></div>"
+      );
+
+      await store.dispatch({
+        payload: { items: ["one", "two", "three", "four"] },
+      });
+
+      clock.runAll();
+
+      expect(
+        container,
+        "to satisfy",
+        "<div><span>one</span><span>two</span><span>three</span><span>four</span></div>"
+      );
+    });
+
+    it("renders a keyed array to the DOM", async () => {
+      const store = new Store({
+        items: ["one", "two", "three"],
+      });
+
+      class TestComponent {
+        data() {
+          return { items: "items" };
+        }
+
+        render({ items }) {
+          return items.map((item, i) => html`<span #=${i}>${item}</span>`);
+        }
+      }
+
+      render(html`<${TestComponent} />`, store, container);
+
+      expect(
+        container,
+        "to satisfy",
+        "<div><span>one</span><span>two</span><span>three</span></div>"
+      );
+
+      await store.dispatch({
+        payload: { items: ["one", "two", "three", "four"] },
+      });
+
+      clock.runAll();
+
+      expect(
+        container,
+        "to satisfy",
+        "<div><span>one</span><span>two</span><span>three</span><span>four</span></div>"
+      );
+    });
+  });
+
   describe("portal", () => {
     describe("on first render", () => {
       it("renders the children in the portal target", () => {
