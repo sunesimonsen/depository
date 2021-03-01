@@ -578,7 +578,7 @@ const updateArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
 
   if (updatedTree.length && updatedTree.length === vdom.length) {
     for (let i = 0; i < updatedTree.length; i++) {
-      update(updatedTree[i], vdom[i], store, errorHandler, isSvg);
+      vdom[i] = update(updatedTree[i], vdom[i], store, errorHandler, isSvg);
     }
     return vdom;
   }
