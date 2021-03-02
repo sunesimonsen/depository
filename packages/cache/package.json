@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/cache",
-  "version": "0.23.0",
+  "version": "0.23.3",
   "description": "A reactive cache for @depository",
   "module": "./src/index.js",
   "exports": {
