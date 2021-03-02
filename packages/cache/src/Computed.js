@@ -1,7 +1,5 @@
 import { Subscribable } from "./Subscribable.js";
 
-const notInstantiated = {};
-
 export class Computed extends Subscribable {
   constructor(cache, id, compute, inputs, inputObservables, isEqual) {
     super();
@@ -13,24 +11,20 @@ export class Computed extends Subscribable {
     this._inputValues = [];
     this._isEqual = isEqual;
     this._isDirty = true;
-    this.value = notInstantiated;
-    this._updateValue();
+    this._updateValue(true);
   }
 
-  _updateValue() {
-    this._isDirty = this.value === notInstantiated;
+  _updateValue(force = false) {
     this._inputValues = {};
     Object.entries(this._inputObservables).forEach(([name, observer]) => {
       this._inputValues[name] = observer.value;
       this._isDirty = this._isDirty || observer._isDirty;
     });
 
-    if (this._isDirty) {
+    if (force || this._isDirty) {
       const previousValue = this.value;
       this.value = this._compute(this._inputValues, this._cache);
-      this._isDirty =
-        previousValue === notInstantiated ||
-        !this._isEqual(previousValue, this.value);
+      this._isDirty = !this._isEqual(previousValue, this.value);
     }
   }
 
@@ -39,6 +33,7 @@ export class Computed extends Subscribable {
       input._addDependent(this)
     );
     this._cache._addObserver(this);
+    this._updateValue(true);
   }
 
   _onDeactivate() {

@@ -6,7 +6,7 @@ export class PathObserver extends Subscribable {
     this._path = path;
     this._cache = cache;
     this._isDirty = false;
-    this.value = cache.get(path);
+    this._updateValue();
   }
 
   _updateValue() {
@@ -15,6 +15,7 @@ export class PathObserver extends Subscribable {
 
   _onActivate() {
     this._cache._addObserver(this);
+    this._updateValue();
   }
 
   _onDeactivate() {

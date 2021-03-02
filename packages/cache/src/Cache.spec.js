@@ -321,6 +321,58 @@ describe("cache", () => {
       });
     });
 
+    describe("when the path doesn't exists and is created", () => {
+      describe("and the path gets created after subscribing to it", () => {
+        it("gets an update with the created value", () => {
+          const observable = cache.observe({
+            value: "not.defined.yet",
+          });
+
+          observable.subscribe(spy);
+
+          expect(observable.value, "to equal", { value: undefined });
+
+          cache.set("not.defined.yet", 42);
+
+          expect(cache.get(), "to equal", {
+            global: { numbers: [1, 2, 3], otherNumbers: [], sum: 6 },
+            not: { defined: { yet: 42 } },
+          });
+
+          cache.notify();
+
+          expect(spy, "to have calls satisfying", () => {
+            spy({ value: 42 });
+          });
+        });
+      });
+
+      describe("and the path gets created before subscribing to it", () => {
+        it("doesn't get an update but gets the updated initial value", () => {
+          const observable = cache.observe({
+            value: "not.defined.yet",
+          });
+
+          expect(observable.value, "to equal", { value: undefined });
+
+          cache.set("not.defined.yet", 42);
+
+          observable.subscribe(spy);
+
+          expect(observable.value, "to equal", { value: 42 });
+
+          expect(cache.get(), "to equal", {
+            global: { numbers: [1, 2, 3], otherNumbers: [], sum: 6 },
+            not: { defined: { yet: 42 } },
+          });
+
+          cache.notify();
+
+          expect(spy, "was not called");
+        });
+      });
+    });
+
     it("subscriptions doesn't fire if the observed path is not affected", () => {
       cache.observe("global.numbers").subscribe(spy);
 
