@@ -22,18 +22,30 @@ const renderIntoContainer = (vdom) => {
 const expect = unexpected
   .clone()
   .use(unexpectedDom)
-  .addAssertion("<any> to update to <any>", (expect, a, b) => {
+  .addAssertion("<any> to update to <any+>", (expect, ...updates) => {
+    const start = updates[0];
+    const end = updates[updates.length - 1];
     const clock = sinon.useFakeTimers();
     const store = new Store();
-    const aVDom = create(a, store);
-    const bVDom = create(b, store);
-    const aContainer = renderIntoContainer(aVDom);
-    const bContainer = renderIntoContainer(bVDom);
+    const startVDom = create(start, store);
+    const endVDom = create(end, store);
+    const aContainer = renderIntoContainer(startVDom);
+    const bContainer = renderIntoContainer(endVDom);
 
     try {
-      update(b, aVDom, store);
-
-      clock.runAll();
+      let last = startVDom;
+      updates.slice(1).forEach((vdom) => {
+        last = update(
+          vdom,
+          last,
+          store,
+          (e) => {
+            throw e;
+          },
+          false
+        );
+        clock.runAll();
+      });
 
       expect(aContainer, "to equal", bContainer);
     } finally {
@@ -81,6 +93,24 @@ describe("vdom", () => {
         [20, 10],
         ["Hello", "world"],
         ["Hello", 42],
+        ["Hello", 42, 43],
+        ["Hello", false, "World"],
+        [html`<${Childish}>Hello<//>`, false, html`<${Childish}>World<//>`],
+        [html`<${Childish}>Hello<//>`, null, html`<${Childish}>World<//>`],
+        [
+          html`<${Childish}>${"Hello"}<//>`,
+          html`<${Childish}>${null}<//>`,
+          html`<${Childish}>${"World"}<//>`,
+        ],
+        [
+          html`<${Childish}
+            ><span #="0">${"Hello"}</span><span #="1">world</span><//
+          >`,
+          html`<${Childish}>${null}<span #="1">world</span><//>`,
+          html`<${Childish}
+            ><span #="0">${"H3110"}</span><span #="1">world</span><//
+          >`,
+        ],
         ["Hello", html`<img src="https://example.com" />`],
         [
           html`<img src="https://example.com" />`,
@@ -440,8 +470,8 @@ describe("vdom", () => {
           `,
           html`<span>Something else</span>`,
         ],
-      ].forEach(([a, b]) => {
-        expect(a, "to update to", b);
+      ].forEach(([a, ...updates]) => {
+        expect(a, "to update to", ...updates);
       });
     });
   });
