@@ -2,7 +2,7 @@
   "type": "module",
   "name": "todomvc",
   "description": "TodoMVC build with @depository",
-  "version": "0.23.1",
+  "version": "0.23.2",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -15,7 +15,7 @@
   "dependencies": {
     "@depository/promise-middleware": "^0.23.0",
     "@depository/store": "^0.23.0",
-    "@depository/view": "^0.23.1",
+    "@depository/view": "^0.23.2",
     "@rollup/plugin-html": "^0.2.3",
     "htm": "^3.0.4",
     "preact": "^10.5.7"
