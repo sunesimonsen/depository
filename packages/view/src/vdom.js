@@ -65,13 +65,13 @@ class UserComponent {
     this._store = store;
     this._isSvg = isSvg;
     const instanceProps = this._createInstanceProps();
-    this._instance = new Constructor(instanceProps);
+    const instance = new Constructor(instanceProps);
+    this._instance = instance;
     this._errorHandler = errorHandler;
-    this._instance.dispatch = store.dispatch.bind(store);
-    this._instance.props = instanceProps;
-    this._instance.shouldUpdate =
-      this._instance.shouldUpdate || defaultShouldUpdate;
-    const paths = this._instance.data && this._instance.data(instanceProps);
+    instance.dispatch = store.dispatch.bind(store);
+    instance.props = instanceProps;
+    instance.shouldUpdate = instance.shouldUpdate || defaultShouldUpdate;
+    const paths = instance.data && instance.data(instanceProps);
     if (paths) {
       this._observable = store.observe(paths);
     }
@@ -98,30 +98,28 @@ class UserComponent {
     };
   }
 
-  _renderInstance(nextProps) {
-    this._instance.props = nextProps;
-    return this._instance.render(nextProps);
-  }
-
   _render() {
+    const instance = this._instance;
+
     try {
       const nextProps = this._createInstanceProps();
-      const shouldUpdate = this._instance.shouldUpdate(nextProps);
+      const shouldUpdate = instance.shouldUpdate(nextProps);
 
       if (shouldUpdate) {
-        const prevProps = this._instance.props;
-        const updatedTree = this._renderInstance(nextProps);
+        const prevProps = instance.props;
+        instance.props = nextProps;
+        const updatedTree = instance.render(nextProps);
 
         this._vdom = update(
           updatedTree,
           this._vdom,
           this._store,
-          this._instance.didCatch || this._errorHandler,
+          instance.didCatch || this._errorHandler,
           this._isSvg
         );
 
-        if (this._instance.didUpdate) {
-          this._instance.didUpdate(prevProps);
+        if (instance.didUpdate) {
+          instance.didUpdate(prevProps);
         }
       }
     } catch (e) {
@@ -143,6 +141,16 @@ class UserComponent {
 
   _mount() {
     try {
+      const instance = this._instance;
+
+      if (this._observable) {
+        this._data = this._observable.value;
+      }
+
+      instance.props = this._createInstanceProps();
+
+      instance.willMount && instance.willMount();
+
       if (this._observable) {
         this._subscription = this._observable.subscribe((data) => {
           this._data = data;
@@ -153,18 +161,20 @@ class UserComponent {
       }
 
       const nextProps = this._createInstanceProps();
-      const tree = this._renderInstance(nextProps);
+      instance.props = nextProps;
+
+      const tree = instance.render(nextProps);
 
       this._vdom = create(
         tree,
         this._store,
-        this._instance.didCatch || this._errorHandler,
+        instance.didCatch || this._errorHandler,
         this._isSvg
       );
 
       const dom = mount(this._vdom);
 
-      this._instance.didMount && this._instance.didMount();
+      instance.didMount && this._instance.didMount();
 
       return dom;
     } catch (e) {
@@ -179,8 +189,10 @@ class UserComponent {
   }
 
   _unmount() {
+    const instance = this._instance;
+
     try {
-      this._instance.willUnmount && this._instance.willUnmount();
+      instance.willUnmount && instance.willUnmount();
     } catch (e) {
       this._errorHandler(e);
     }
@@ -190,6 +202,12 @@ class UserComponent {
       this._subscription.unsubscribe();
     }
     unmount(this._vdom);
+
+    try {
+      instance.didUnmount && instance.didUnmount();
+    } catch (e) {
+      this._errorHandler(e);
+    }
   }
 }
 

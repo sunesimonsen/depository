@@ -286,17 +286,21 @@ describe("view", () => {
 
   describe("with a component containing life-cycle methods", () => {
     it("calls the life-cycle methods in the correct order", async () => {
-      const mountSpy = sinon.spy().named("didMount");
-      const updateSpy = sinon.spy().named("didUpdate");
-      const unmountSpy = sinon.spy().named("willUnmount");
+      const willMountSpy = sinon.spy().named("willMount");
+      const didMountSpy = sinon.spy().named("didMount");
+      const didUpdateSpy = sinon.spy().named("didUpdate");
+      const willUnmountSpy = sinon.spy().named("willUnmount");
+      const didUnmountSpy = sinon.spy().named("didUnmount");
 
       const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
         constructor() {
-          this.didMount = mountSpy;
-          this.didUpdate = updateSpy;
-          this.willUnmount = unmountSpy;
+          this.willMount = willMountSpy;
+          this.didMount = didMountSpy;
+          this.didUpdate = didUpdateSpy;
+          this.willUnmount = willUnmountSpy;
+          this.didUnmount = didUnmountSpy;
         }
 
         data() {
@@ -335,34 +339,42 @@ describe("view", () => {
       clock.runAll();
 
       expect(
-        [mountSpy, updateSpy, unmountSpy],
+        [
+          willMountSpy,
+          didMountSpy,
+          didUpdateSpy,
+          willUnmountSpy,
+          didUnmountSpy,
+        ],
         "to have calls satisfying",
         () => {
-          mountSpy();
-          updateSpy({ message: "Hello", children: null });
-          unmountSpy();
+          willMountSpy();
+          didMountSpy();
+          didUpdateSpy({ message: "Hello", children: null });
+          willUnmountSpy();
+          didUnmountSpy();
         }
       );
     });
 
     it("returning false from shouldUpdate prevents the component to re-render", async () => {
-      const mountSpy = sinon.spy().named("didMount");
+      const didMountSpy = sinon.spy().named("didMount");
       const shouldUpdateSpy = sinon
         .stub()
         .returns(false)
         .named("shouldUpdate")
         .returns(false);
-      const updateSpy = sinon.spy().named("didUpdate");
-      const unmountSpy = sinon.spy().named("willUnmount");
+      const didUpdateSpy = sinon.spy().named("didUpdate");
+      const willUnmountSpy = sinon.spy().named("willUnmount");
 
       const store = new Store({ visible: true, message: "Hello" });
 
       class TestComponent {
         constructor() {
-          this.didUpdate = updateSpy;
-          this.didMount = mountSpy;
+          this.didUpdate = didUpdateSpy;
+          this.didMount = didMountSpy;
           this.shouldUpdate = shouldUpdateSpy;
-          this.willUnmount = unmountSpy;
+          this.willUnmount = willUnmountSpy;
         }
 
         data() {
@@ -403,15 +415,15 @@ describe("view", () => {
       clock.runAll();
 
       expect(
-        [mountSpy, shouldUpdateSpy, updateSpy, unmountSpy],
+        [didMountSpy, shouldUpdateSpy, didUpdateSpy, willUnmountSpy],
         "to have calls satisfying",
         () => {
-          mountSpy();
+          didMountSpy();
           shouldUpdateSpy({
             message: "world",
             children: null,
           });
-          unmountSpy();
+          willUnmountSpy();
         }
       );
     });
