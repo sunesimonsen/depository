@@ -81,15 +81,6 @@ class UserComponent {
     return getDom(this._vdom);
   }
 
-  _enqueueRender() {
-    if (!this._renderTimer) {
-      this._renderTimer = requestAnimationFrame(() => {
-        this._render();
-        this._renderTimer = null;
-      }, 0);
-    }
-  }
-
   _createInstanceProps() {
     return {
       ...this._data,
@@ -129,13 +120,13 @@ class UserComponent {
 
   _updateProps(props) {
     this._props = props;
-    this._enqueueRender();
+    this._render();
   }
 
   _updateChildren(children) {
     if (this._children !== children) {
       this._children = children;
-      this._enqueueRender();
+      this._render();
     }
   }
 
@@ -154,7 +145,7 @@ class UserComponent {
       if (this._observable) {
         this._subscription = this._observable.subscribe((data) => {
           this._data = data;
-          this._enqueueRender();
+          this._render();
         });
 
         this._data = this._observable.value;
@@ -196,8 +187,6 @@ class UserComponent {
     } catch (e) {
       this._errorHandler(e);
     }
-    cancelAnimationFrame(this._renderTimer);
-    this._renderTimer = null;
     if (this._subscription) {
       this._subscription.unsubscribe();
     }

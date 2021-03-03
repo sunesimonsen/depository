@@ -3,7 +3,6 @@ import { html } from "./html.js";
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import { Store } from "@depository/store";
-import sinon from "sinon";
 import "../test/animationFramePolyfill.js";
 
 const renderIntoContainer = (vdom) => {
@@ -25,32 +24,26 @@ const expect = unexpected
   .addAssertion("<any> to update to <any+>", (expect, ...updates) => {
     const start = updates[0];
     const end = updates[updates.length - 1];
-    const clock = sinon.useFakeTimers();
     const store = new Store();
     const startVDom = create(start, store);
     const endVDom = create(end, store);
     const aContainer = renderIntoContainer(startVDom);
     const bContainer = renderIntoContainer(endVDom);
 
-    try {
-      let last = startVDom;
-      updates.slice(1).forEach((vdom) => {
-        last = update(
-          vdom,
-          last,
-          store,
-          (e) => {
-            throw e;
-          },
-          false
-        );
-        clock.runAll();
-      });
+    let last = startVDom;
+    updates.slice(1).forEach((vdom) => {
+      last = update(
+        vdom,
+        last,
+        store,
+        (e) => {
+          throw e;
+        },
+        false
+      );
+    });
 
-      expect(aContainer, "to equal", bContainer);
-    } finally {
-      clock.restore();
-    }
+    expect(aContainer, "to equal", bContainer);
   });
 
 class Title {
