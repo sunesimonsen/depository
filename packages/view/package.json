@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/view",
-  "version": "0.23.3",
+  "version": "0.23.4",
   "description": "A view library for @depository",
   "module": "./src/index.js",
   "exports": {

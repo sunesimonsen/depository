@@ -4,5 +4,5 @@
     "examples/*"
   ],
   "lerna": "3.19.0",
-  "version": "0.23.3"
+  "version": "0.23.4"
 }
