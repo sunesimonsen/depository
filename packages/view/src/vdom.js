@@ -268,7 +268,7 @@ class PrimitiveComponent {
     this._errorHandler = errorHandler;
     this._isSvg = isSvg || type === "svg";
     this._children =
-      children && create(children, store, this._errorHandler, this._isSvg);
+      children && create(children, store, errorHandler, this._isSvg);
     this._store = store;
   }
 
@@ -445,7 +445,7 @@ class PortalComponent extends Hidden {
     this._errorHandler = errorHandler;
     this._isSvg = isSvg || type === "svg";
     this._children =
-      children && create(children, store, this._errorHandler, this._isSvg);
+      children && create(children, store, errorHandler, this._isSvg);
     this._target = target;
     this._store = store;
   }
@@ -623,7 +623,7 @@ export const update = (updatedTree, vdom, store, errorHandler, isSvg) => {
   }
 
   if (isArray(updatedTree) && updatedTree.length && isArray(vdom)) {
-    return updateArray(updatedTree, vdom, store);
+    return updateArray(updatedTree, vdom, store, errorHandler, isSvg);
   }
 
   const newVdom = create(updatedTree, store, errorHandler, isSvg);
