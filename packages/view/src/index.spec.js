@@ -124,8 +124,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { message: "Updated!" } });
 
-        clock.runAll();
-
         expect(
           container,
           "to satisfy",
@@ -168,8 +166,6 @@ describe("view", () => {
         await store.dispatch({
           payload: { "(title|message)": "Updated!" },
         });
-
-        clock.runAll();
 
         expect(
           container,
@@ -218,8 +214,6 @@ describe("view", () => {
           payload: { "(title|message)": "Updated!" },
         });
 
-        clock.runAll();
-
         expect(
           container,
           "to satisfy",
@@ -267,8 +261,6 @@ describe("view", () => {
           await store.dispatch({
             payload: { reversed: true },
           });
-
-          clock.runAll();
 
           const lastItem = container.firstElementChild.lastElementChild;
 
@@ -335,8 +327,6 @@ describe("view", () => {
           visible: false,
         },
       });
-
-      clock.runAll();
 
       expect(
         [
@@ -411,8 +401,6 @@ describe("view", () => {
           visible: false,
         },
       });
-
-      clock.runAll();
 
       expect(
         [didMountSpy, shouldUpdateSpy, didUpdateSpy, willUnmountSpy],
@@ -607,8 +595,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { data: "stuff" } });
 
-        await clock.runAllAsync();
-
         expect(
           container,
           "to contain elements matching",
@@ -643,8 +629,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { data: "stuff" } });
 
-        await clock.runAllAsync();
-
         expect(
           container,
           "to contain elements matching",
@@ -676,8 +660,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { visible: false } });
 
-        await clock.runAllAsync();
-
         expect(
           container,
           "to contain elements matching",
@@ -704,8 +686,6 @@ describe("view", () => {
       }
 
       render(html`<${TestComponent} />`, store, container);
-
-      clock.runAll();
 
       expect(
         container,
@@ -742,8 +722,6 @@ describe("view", () => {
 
         render(html`<${TestComponent} />`, store, container);
 
-        clock.runAll();
-
         expect(
           container,
           "to satisfy",
@@ -751,8 +729,6 @@ describe("view", () => {
         );
 
         await store.dispatch({ payload: { method: "setTitle" } });
-
-        clock.runAll();
 
         expect(
           container,
@@ -811,8 +787,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { listener: "new" } });
 
-        clock.runAll();
-
         simulate(button, "click");
 
         expect([oldListener, newListener], "to have calls satisfying", () => {
@@ -848,8 +822,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { enabled: false } });
 
-        clock.runAll();
-
         simulate(button, "click");
 
         expect(listener, "to have calls satisfying", () => {
@@ -883,8 +855,6 @@ describe("view", () => {
         simulate(button, "click");
 
         await store.dispatch({ payload: { enabled: false } });
-
-        clock.runAll();
 
         simulate(button, "click");
 
@@ -948,8 +918,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { listener: "new" } });
 
-        clock.runAll();
-
         simulate(button, "click");
 
         expect([oldListener, newListener], "to have calls satisfying", () => {
@@ -985,8 +953,6 @@ describe("view", () => {
 
         await store.dispatch({ payload: { enabled: false } });
 
-        clock.runAll();
-
         simulate(button, "click");
 
         expect(listener, "to have calls satisfying", () => {
@@ -1020,8 +986,6 @@ describe("view", () => {
         simulate(button, "click");
 
         await store.dispatch({ payload: { enabled: false } });
-
-        clock.runAll();
 
         simulate(button, "click");
 
@@ -1059,15 +1023,11 @@ describe("view", () => {
 
         render(html`<${TestComponent} />`, store, container);
 
-        clock.runAll();
-
         expect(container, "queried for first", "input", "to have properties", {
           value: "Initial value",
         });
 
         await store.dispatch({ payload: { value: "Updated value" } });
-
-        clock.runAll();
 
         expect(container, "queried for first", "input", "to have properties", {
           value: "Updated value",
@@ -1095,15 +1055,11 @@ describe("view", () => {
 
         render(html`<${TestComponent} />`, store, container);
 
-        clock.runAll();
-
         expect(container, "queried for first", "input", "to have properties", {
           value: "My value",
         });
 
         await store.dispatch({ payload: { hasValue: false } });
-
-        clock.runAll();
 
         expect(container, "queried for first", "input", "to have properties", {
           value: "My value",
@@ -1145,8 +1101,6 @@ describe("view", () => {
           payload: { number: 10 },
         });
 
-        clock.runAll();
-
         expect(
           container,
           "to satisfy",
@@ -1182,8 +1136,6 @@ describe("view", () => {
         payload: { items: ["one", "two", "three", "four"] },
       });
 
-      clock.runAll();
-
       expect(
         container,
         "to satisfy",
@@ -1217,8 +1169,6 @@ describe("view", () => {
       await store.dispatch({
         payload: { items: ["one", "two", "three", "four"] },
       });
-
-      clock.runAll();
 
       expect(
         container,
@@ -1285,7 +1235,6 @@ describe("view", () => {
           ]);
 
           await store.dispatch({ payload: { visible: false } });
-          await clock.runAllAsync();
 
           expect(document.body.childNodes, "to satisfy", []);
         });
@@ -1319,7 +1268,6 @@ describe("view", () => {
       describe("and updating the portal children", () => {
         it("updates the portal DOM", async () => {
           await store.dispatch({ payload: { message: "Updated portal!" } });
-          await clock.runAllAsync();
 
           expect(target, "to satisfy", "<div>Updated portal!</div>");
         });
@@ -1328,7 +1276,6 @@ describe("view", () => {
       describe("and removing the children", () => {
         it("removes the portal DOM", async () => {
           await store.dispatch({ payload: { message: null } });
-          await clock.runAllAsync();
 
           expect(target, "to satisfy", "<div><!--hidden--></div>");
         });
@@ -1362,7 +1309,6 @@ describe("view", () => {
       describe("and setting the portal children", () => {
         it("updates the portal DOM", async () => {
           await store.dispatch({ payload: { message: "Updated portal!" } });
-          await clock.runAllAsync();
 
           expect(target, "to satisfy", "<div>Updated portal!</div>");
         });
@@ -1371,8 +1317,6 @@ describe("view", () => {
       describe("and the portal is updated to be emtpy", () => {
         it("keeps the empty portal", async () => {
           await store.dispatch({ payload: { message: null } });
-
-          await clock.runAllAsync();
 
           expect(target, "to satisfy", "<div><!--hidden--></div>");
         });
@@ -1406,7 +1350,6 @@ describe("view", () => {
         expect(target1, "to satisfy", "<div>This is a portal</div>");
 
         await store.dispatch({ payload: { target: "target2" } });
-        await clock.runAllAsync();
 
         expect(target1, "to satisfy", "<div></div>");
         expect(target2, "to satisfy", "<div>This is a portal</div>");
