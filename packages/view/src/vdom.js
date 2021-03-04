@@ -64,6 +64,7 @@ class UserComponent {
     this._children = children;
     this._store = store;
     this._isSvg = isSvg;
+    this._defaultProps = (Constructor.defaultProps || (() => ({})))();
     const instanceProps = this._createInstanceProps();
     const instance = new Constructor(instanceProps);
     this._instance = instance;
@@ -83,6 +84,7 @@ class UserComponent {
 
   _createInstanceProps() {
     return {
+      ...this._defaultProps,
       ...this._data,
       ...this._props,
       children: this._children,
