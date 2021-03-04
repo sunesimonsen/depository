@@ -1356,4 +1356,32 @@ describe("view", () => {
       });
     });
   });
+
+  describe("defaultProps", () => {
+    class Welcome {
+      static defaultProps() {
+        return { greeting: "Hello, " };
+      }
+
+      render({ greeting, name }) {
+        return greeting + name;
+      }
+    }
+
+    it("is used when props isn't provided", () => {
+      render(html`<${Welcome} name="Jane Doe" />`, store, container);
+
+      expect(container, "to satisfy", "<div>Hello, Jane Doe</div>");
+    });
+
+    it("is overridable", () => {
+      render(
+        html`<${Welcome} greeting="Hi!, " name="Jane Doe" />`,
+        store,
+        container
+      );
+
+      expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
+    });
+  });
 });
