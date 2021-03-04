@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/path",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "description": "Paths for updateing and retrieving data from nested structures",
   "module": "./src/index.js",
   "exports": {
