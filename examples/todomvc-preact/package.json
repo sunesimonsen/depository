@@ -10,7 +10,7 @@
     "test": "mocha",
     "start": "wmr",
     "build": "rm -rf dist && wmr build",
-    "deploy": "npm run build && surge dist depository-todomvc-preact.surge.sh"
+    "deploy": "yarn build && surge dist depository-todomvc-preact.surge.sh"
   },
   "dependencies": {
     "@depository/preact": "^0.25.0",

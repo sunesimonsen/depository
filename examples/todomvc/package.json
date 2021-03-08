@@ -10,7 +10,7 @@
     "test": "mocha",
     "start": "relivestyle --port 5000 public",
     "build": "rollup -c rollup.config.js",
-    "deploy": "npm run build && surge dist depository-todomvc.surge.sh"
+    "deploy": "yarn build && surge dist depository-todomvc.surge.sh"
   },
   "dependencies": {
     "@depository/promise-middleware": "^0.25.0",

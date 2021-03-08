@@ -11,12 +11,11 @@
     "url": "https://github.com/sunesimonsen/depository"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
     "test": "lerna run test",
     "format": "prettier --write '**/*.{js,mjs,md,json}'",
     "lint": "eslint . && prettier --check '**/*.{js,mjs,md,json}'",
-    "update-toc": "for f in `ls packages/*/Readme.md`; do markdown-toc -i $f; done; npm run format",
-    "ci": "npm run lint && npm run test",
+    "update-toc": "for f in `ls packages/*/Readme.md`; do markdown-toc -i $f; done; yarn format",
+    "ci": "yarn lint && yarn test",
     "release": "lerna publish"
   },
   "devDependencies": {
@@ -32,6 +31,12 @@
     "lerna": "^3.19.0",
     "markdown-toc": "^1.2.0",
     "prettier": "^2.2.1"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ]
   },
   "engines": {
     "node": ">=12"
