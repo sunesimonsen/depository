@@ -5,7 +5,6 @@ import { Store } from "@depository/store";
 import { render, html } from "./index.js";
 import sinon from "sinon";
 import simulateEvents from "simulate-events";
-import "../test/animationFramePolyfill.js";
 
 const simulate = simulateEvents.default;
 const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
