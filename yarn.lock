@@ -2253,6 +2253,18 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+chance-generators@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/chance-generators/-/chance-generators-3.5.2.tgz#010213564864d3391301c3bec1f8641e0b0040dd"
+  integrity sha512-emfYGPYSexHS8k5iBo8odudYqCHzwU9HIgYpKV28YMOKh4TqNpv2w5IvU2QoZyfXMBPgDfvafmZ2ribGP28Q3A==
+  dependencies:
+    chance "1.0.16"
+
+chance@1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.0.16.tgz#bd61912716b0010c3dca8e3948a960efcaa7bb1b"
+  integrity sha512-2bgDHH5bVfAXH05SPtjqrsASzZ7h90yCuYT2z4mkYpxxYvJXiIydBFzVieVHZx7wLH1Ag2Azaaej2/zA1XUrNQ==
+
 chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
@@ -4839,7 +4851,7 @@ ignore@^4.0.3, ignore@^4.0.6:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
 
-ignore@^5.1.1:
+ignore@^5.0.3, ignore@^5.1.1:
   version "5.1.8"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
@@ -7247,6 +7259,13 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
+pkg-up@^3.0.1:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
+  integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
+  dependencies:
+    find-up "^3.0.0"
+
 pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
@@ -9556,6 +9575,17 @@ unexpected-bluebird@2.9.34-longstack2:
   version "2.9.34-longstack2"
   resolved "https://registry.yarnpkg.com/unexpected-bluebird/-/unexpected-bluebird-2.9.34-longstack2.tgz#49acac753b0556ded6025210ee96182307d2b2c9"
   integrity sha1-SaysdTsFVt7WAlIQ7pYYIwfSssk=
+
+unexpected-check@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/unexpected-check/-/unexpected-check-3.0.0.tgz#1e883a03e6eea8a97bf8ce8c097107fb60bd1a3b"
+  integrity sha512-oktqwcSDyMhcqWi8LpBfTupqUttutkOATco1FArAMJY5DQnXE1bxvUts8tbjM8/l7R5bFpSlIT84vzzV8Xzlmw==
+  dependencies:
+    escodegen "^2.0.0"
+    esprima "^4.0.0"
+    estraverse "^5.2.0"
+    ignore "^5.0.3"
+    pkg-up "^3.0.1"
 
 unexpected-dom@^4.18.0:
   version "4.18.0"

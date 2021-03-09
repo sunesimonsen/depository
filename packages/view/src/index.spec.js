@@ -511,6 +511,36 @@ describe("view", () => {
         );
       });
 
+      it("catches errors in willMount", async () => {
+        class TestComponent {
+          willMount() {
+            throw new Error("Test failure");
+          }
+
+          render() {
+            return null;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await clock.runAllAsync();
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
       it("catches errors in didMount", async () => {
         class TestComponent {
           didMount() {
@@ -640,6 +670,37 @@ describe("view", () => {
 
         class TestComponent {
           willUnmount() {
+            throw new Error("Test failure");
+          }
+
+          render() {
+            return null;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}
+              ><${ConditionalChildren}> <${TestComponent} /> <//><//
+          ><//>`,
+          store,
+          container
+        );
+
+        await store.dispatch({ payload: { visible: false } });
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in didUnmount", async () => {
+        store = new Store({ visible: true });
+
+        class TestComponent {
+          didUnmount() {
             throw new Error("Test failure");
           }
 
