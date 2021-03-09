@@ -2,7 +2,21 @@ import { create, update, mount } from "./vdom.js";
 import { html } from "./html.js";
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
+import unexpectedCheck from "unexpected-check";
+import generators from "chance-generators";
 import { Store } from "@depository/store";
+
+const {
+  natural,
+  word,
+  bool,
+  array,
+  shape,
+  tree,
+  pickone,
+  pickset,
+  weighted,
+} = generators;
 
 const renderIntoContainer = (vdom) => {
   const dom = mount(vdom);
@@ -20,6 +34,7 @@ const renderIntoContainer = (vdom) => {
 const expect = unexpected
   .clone()
   .use(unexpectedDom)
+  .use(unexpectedCheck)
   .addAssertion("<any> to update to <any+>", (expect, ...updates) => {
     const start = updates[0];
     const end = updates[updates.length - 1];
@@ -465,6 +480,77 @@ describe("vdom", () => {
       ].forEach(([a, ...updates]) => {
         expect(a, "to update to", ...updates);
       });
+    });
+
+    it("create(b) === update(b, create(a)) for random updates", () => {
+      const leaf = pickone([natural, word, bool]);
+
+      const _type = pickone(["div", "span", "h1", "portal", Childish]);
+
+      const styles = pickone([
+        shape({
+          height: natural.map((n) => `${n}px`),
+          width: natural.map((n) => `${n}px`),
+        }),
+        "width: 42",
+        "height: 42; width: 42",
+        "border: thin solid red;",
+      ]);
+
+      const handlers = pickone([() => {}, () => {}, undefined]);
+
+      const entries = pickset([
+        [word.map((w) => `data-${w}`), word],
+        ["style", styles],
+        ["@click", handlers],
+        ["ref", handlers],
+        ["disabled", bool],
+        [".myProp", pickone([word, bool, undefined])],
+      ]);
+
+      const _props = entries.map((arr) => Object.fromEntries(arr));
+
+      const maybeKeyed = (children, chance) => {
+        if (chance.bool()) return children;
+
+        const indexes = chance.shuffle(children.map((_, i) => i));
+
+        const result = children.map((c, i) =>
+          c && typeof c === "object" && c.type
+            ? { ...c, _props: { ...c._props, "#": indexes[i] } }
+            : { _type: "div", _props: { "#": indexes[i] }, _children: [c] }
+        );
+
+        return result;
+      };
+
+      const mapBranches = (tree, mapper) =>
+        Array.isArray(tree)
+          ? mapper(tree.map((child) => mapBranches(child, mapper)))
+          : tree;
+
+      const htmlTree = weighted([
+        [
+          tree(leaf, { max: 10 }).map((tree, chance) =>
+            mapBranches(tree, (children) => ({
+              _type,
+              _props,
+              _children: maybeKeyed(children, chance),
+            }))
+          ),
+          5,
+        ],
+        [leaf, 1],
+      ]);
+
+      expect(
+        (a, updates) => {
+          expect(a, "to update to", ...updates);
+        },
+        "to be valid for all",
+        htmlTree,
+        array(htmlTree, { min: 1, max: 10 })
+      );
     });
   });
 });
