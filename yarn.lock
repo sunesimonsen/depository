@@ -1012,9 +1012,9 @@
   integrity sha512-pKWm8K4bGlkgHuyux1dbs6f/7n1lIvHQ+n6z6mHPspqdn27z2tBaXXtap5XMPW8DmuyFXQIqjXZ3GSc/SgAInA==
 
 "@nano-router/router@^2.2.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nano-router/router/-/router-2.5.0.tgz#0eba9e84c7504af0450ad5caefb6f5438736a9ee"
-  integrity sha512-alWlYyoB4mjZODO1gYPb0f9/w33+u5OsiBNku+AausspoHGYBNgvuDzoes6UOe+z7g/ASo27kXdws9CWHgTgeA==
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@nano-router/router/-/router-2.6.0.tgz#78c5346b7cc26e84e008cfb78526f0e0e04021c5"
+  integrity sha512-fFLIbMGev84utIWpeMITQMwIAR180rmlNh5Qzy6pEUDYlcti61W4Z48oHjonsEIOh1vTUtW227EvqCELb82Gxg==
   dependencies:
     "@nano-router/routes" "^2.3.0"
     "@nano-router/url" "^2.5.0"
