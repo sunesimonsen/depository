@@ -8081,10 +8081,10 @@ relateurl@^0.2.7:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
-relivestyle@1.0.0-3:
-  version "1.0.0-3"
-  resolved "https://registry.yarnpkg.com/relivestyle/-/relivestyle-1.0.0-3.tgz#f2eb864e2790497ab508440da23c79ea85587487"
-  integrity sha512-lRVg6rMF83/1gxjgKT6Z0CqsAHHRzFfPQ++wi/nEYcQuIcncfOC1JMBLPNWUEZZmEoFjaqyQmSaLcIxy8yiW0Q==
+relivestyle@1.0.0-6:
+  version "1.0.0-6"
+  resolved "https://registry.yarnpkg.com/relivestyle/-/relivestyle-1.0.0-6.tgz#1c4f2b6bdcea7206b3b99b9f58fac8a22a470edf"
+  integrity sha512-dpEvu9cVwS6SfqRFKt3/y2W0wxuUYheDj7+i32dz2VFlNHBscug6gA5KnpIrKLn0rHluwBWyvXSFwrBGguoQ9A==
   dependencies:
     "@rollup/plugin-node-resolve" "~11.0.1"
     assetgraph "^6.4.0"
