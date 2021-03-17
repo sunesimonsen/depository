@@ -105,7 +105,7 @@ export class Action {
     }
   }
 
-  render({ name, isSelected }) {
+  render({ name = "Action", isSelected }) {
     return html`<div
       ref=${this.setRef}
       class=${classes(actionStyles, isSelected && selectedStyles)}
