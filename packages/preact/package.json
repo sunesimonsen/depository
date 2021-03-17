@@ -31,7 +31,7 @@
     "@depository/store": "^0.25.0",
     "htm": "^3.0.4",
     "jsdom": "^16.4.0",
-    "mocha": "8.2.1",
+    "mocha": "8.3.2",
     "mocha-dominate": "^1.0.0",
     "preact": "^10.5.7",
     "serve": "^11.3.2",
