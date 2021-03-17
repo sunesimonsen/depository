@@ -14,6 +14,10 @@ const store = new Store({
   },
 });
 
+if (window.__DEPOSITORY__) {
+  store.use(window.__DEPOSITORY__.plugin({ name: "TodoMVC" }));
+}
+
 store.useMiddleware(promiseMiddleware(api));
 
 store.dispatch(loadTodos());

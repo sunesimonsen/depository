@@ -133,7 +133,7 @@ export class Cache {
   }
 
   remove(path) {
-    return this.set(path, undefined);
+    return this.set(path, null);
   }
 
   notify() {

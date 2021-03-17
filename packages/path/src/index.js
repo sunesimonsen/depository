@@ -1,4 +1,5 @@
 export { contains } from "./contains.js";
+export { escapePath } from "./escapePath.js";
 export { getIn } from "./getIn.js";
 export { isPathObject } from "./isPathObject.js";
 export { isPathsEqual } from "./isPathsEqual.js";
