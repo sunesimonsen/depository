@@ -9,6 +9,22 @@ import simulateEvents from "simulate-events";
 const simulate = simulateEvents.default;
 const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
 
+class ErrorBoundary {
+  constructor({ name }) {
+    this.didCatch = (e) => {
+      this.dispatch({ payload: { [`errors.${name}`]: true } });
+    };
+  }
+
+  data({ name }) {
+    return { failed: `errors.${name}` };
+  }
+
+  render({ children, fallback, failed }) {
+    return failed ? fallback : children;
+  }
+}
+
 class ConditionalChildren {
   data() {
     return { visible: "visible" };
@@ -430,22 +446,6 @@ describe("view", () => {
     });
 
     describe("when didCatch is defined", () => {
-      class ErrorBoundary {
-        constructor({ name }) {
-          this.didCatch = (e) => {
-            this.dispatch({ payload: { [`errors.${name}`]: true } });
-          };
-        }
-
-        data({ name }) {
-          return { failed: `errors.${name}` };
-        }
-
-        render({ children, fallback, failed }) {
-          return failed ? fallback : children;
-        }
-      }
-
       const parentFallback = html`<h1 data-test-id="parent-failure">
         Parent failure
       </h1>`;
@@ -1442,6 +1442,49 @@ describe("view", () => {
       );
 
       expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
+    });
+  });
+
+  describe("context", () => {
+    it("allows you to pass down references to components from the initial render", () => {
+      class Welcome {
+        render({ name }, { greeting }) {
+          return greeting + name;
+        }
+      }
+
+      render(html`<${Welcome} name="Jane Doe" />`, store, container, {
+        greeting: "Hi!, ",
+      });
+
+      expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
+    });
+
+    it("doesn't allow chaning the context", async () => {
+      class Welcome {
+        willMount() {
+          this.context.greeting = "HALLO!, ";
+        }
+
+        render({ name }, { greeting }) {
+          return greeting + name;
+        }
+      }
+
+      const fallback = html`<div data-test-id="failed">Failed</div>`;
+
+      render(
+        html`<${ErrorBoundary} fallback=${fallback}>
+          <${Welcome} name="Jane Doe" />
+        <//>`,
+        store,
+        container,
+        { greeting: "Hi!, " }
+      );
+
+      await clock.runAllAsync();
+
+      expect(container, "to contain test id", "failed");
     });
   });
 });
