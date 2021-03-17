@@ -57,7 +57,7 @@ function defaultShouldUpdate(nextProps) {
 }
 
 class UserComponent {
-  constructor(type, props, children, store, errorHandler, isSvg) {
+  constructor(type, props, children, store, context, errorHandler, isSvg) {
     const Constructor = type;
     this._type = type;
     this._props = props;
@@ -66,9 +66,11 @@ class UserComponent {
     this._isSvg = isSvg;
     this._defaultProps = (Constructor.defaultProps || (() => ({})))();
     const instanceProps = this._createInstanceProps();
-    const instance = new Constructor(instanceProps);
+    const instance = new Constructor(instanceProps, context);
     this._instance = instance;
+    this._context = context;
     this._errorHandler = errorHandler;
+    instance.context = context;
     instance.dispatch = store.dispatch.bind(store);
     instance.props = instanceProps;
     instance.shouldUpdate = instance.shouldUpdate || defaultShouldUpdate;
@@ -107,6 +109,7 @@ class UserComponent {
           updatedTree,
           this._vdom,
           this._store,
+          this._context,
           instance.didCatch || this._errorHandler,
           this._isSvg
         );
@@ -156,11 +159,12 @@ class UserComponent {
       const nextProps = this._createInstanceProps();
       instance.props = nextProps;
 
-      const tree = instance.render(nextProps);
+      const tree = instance.render(nextProps, this._context);
 
       this._vdom = create(
         tree,
         this._store,
+        this._context,
         instance.didCatch || this._errorHandler,
         this._isSvg
       );
@@ -253,13 +257,14 @@ const removeEventListener = (dom, name, listener) => {
 };
 
 class PrimitiveComponent {
-  constructor(type, props, children, store, errorHandler, isSvg) {
+  constructor(type, props, children, store, context, errorHandler, isSvg) {
     this._type = type;
     this._props = props;
+    this._context = context;
     this._errorHandler = errorHandler;
     this._isSvg = isSvg || type === "svg";
     this._children =
-      children && create(children, store, errorHandler, this._isSvg);
+      children && create(children, store, context, errorHandler, this._isSvg);
     this._store = store;
   }
 
@@ -316,6 +321,7 @@ class PrimitiveComponent {
         this._children = create(
           children,
           this._store,
+          this._context,
           this._errorHandler,
           this._isSvg
         );
@@ -325,6 +331,7 @@ class PrimitiveComponent {
           children,
           this._children,
           this._store,
+          this._context,
           this._errorHandler,
           this._isSvg
         );
@@ -428,15 +435,17 @@ class PortalComponent extends Hidden {
     { target = document.body },
     children,
     store,
+    context,
     errorHandler,
     isSvg
   ) {
     super();
     this._type = type;
+    this._context = context;
     this._errorHandler = errorHandler;
     this._isSvg = isSvg || type === "svg";
     this._children =
-      children && create(children, store, errorHandler, this._isSvg);
+      children && create(children, store, context, errorHandler, this._isSvg);
     this._target = target;
     this._store = store;
   }
@@ -454,6 +463,7 @@ class PortalComponent extends Hidden {
       children,
       this._children,
       this._store,
+      this._context,
       this._errorHandler,
       this._isSvg
     );
@@ -473,13 +483,15 @@ class PortalComponent extends Hidden {
   }
 }
 
-export const create = (value, store, errorHandler, isSvg) => {
+export const create = (value, store, context, errorHandler, isSvg) => {
   if (value == null || value === false || (isArray(value) && !value.length)) {
     return new Hidden();
   }
 
   if (isArray(value)) {
-    return value.map((item) => create(item, store, errorHandler, isSvg));
+    return value.map((item) =>
+      create(item, store, context, errorHandler, isSvg)
+    );
   }
 
   if (typeof value._type === "function") {
@@ -489,6 +501,7 @@ export const create = (value, store, errorHandler, isSvg) => {
         value._props,
         value._children,
         store,
+        context,
         errorHandler,
         isSvg
       );
@@ -505,6 +518,7 @@ export const create = (value, store, errorHandler, isSvg) => {
         value._props,
         value._children,
         store,
+        context,
         errorHandler,
         isSvg
       );
@@ -515,6 +529,7 @@ export const create = (value, store, errorHandler, isSvg) => {
       value._props,
       value._children,
       store,
+      context,
       errorHandler,
       isSvg
     );
@@ -527,7 +542,14 @@ const getKey = (value) => value._props["#"];
 const hasKey = (value) => value && value._props && "#" in value._props;
 const similar = (a, b) => a._type === b._type && getKey(a) === getKey(b);
 
-const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
+const updateKeyedArray = (
+  updatedTree,
+  vdom,
+  store,
+  context,
+  errorHandler,
+  isSvg
+) => {
   const updatedByKey = new Map();
   updatedTree.forEach((child) => {
     updatedByKey.set(getKey(child), child);
@@ -537,7 +559,7 @@ const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
     const key = getKey(oldChild);
     if (updatedByKey.has(key)) {
       const newChild = updatedByKey.get(key);
-      update(newChild, oldChild, store, errorHandler, isSvg);
+      update(newChild, oldChild, store, context, errorHandler, isSvg);
     }
   });
 
@@ -560,7 +582,7 @@ const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
     if (update instanceof InsertDiff) {
       const anchor = vdom[update._index];
       const newValues = update._values.map((child) =>
-        create(child, store, errorHandler, isSvg)
+        create(child, store, context, errorHandler, isSvg)
       );
       const dom = mount(newValues);
       insertBefore(dom, anchor);
@@ -580,25 +602,53 @@ const updateKeyedArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
   return vdom;
 };
 
-const updateArray = (updatedTree, vdom, store, errorHandler, isSvg) => {
+const updateArray = (
+  updatedTree,
+  vdom,
+  store,
+  context,
+  errorHandler,
+  isSvg
+) => {
   if (hasKey(updatedTree[0]) && hasKey(vdom[0])) {
-    return updateKeyedArray(updatedTree, vdom, store, errorHandler, isSvg);
+    return updateKeyedArray(
+      updatedTree,
+      vdom,
+      store,
+      context,
+      errorHandler,
+      isSvg
+    );
   }
 
   if (updatedTree.length && updatedTree.length === vdom.length) {
     for (let i = 0; i < updatedTree.length; i++) {
-      vdom[i] = update(updatedTree[i], vdom[i], store, errorHandler, isSvg);
+      vdom[i] = update(
+        updatedTree[i],
+        vdom[i],
+        store,
+        context,
+        errorHandler,
+        isSvg
+      );
     }
     return vdom;
   }
 
-  const newVdom = create(updatedTree, store, errorHandler, isSvg);
+  const newVdom = create(updatedTree, store, context, errorHandler, isSvg);
   vdom[0]._insertBefore(mount(newVdom));
   unmount(vdom);
   return newVdom;
 };
 
-export const update = (updatedTree, vdom, store, errorHandler, isSvg) => {
+export const update = (
+  updatedTree,
+  vdom,
+  store,
+  context,
+  errorHandler,
+  isSvg
+) => {
   if (
     vdom._type === "text" &&
     (typeof updatedTree === "string" || typeof updatedTree === "number")
@@ -614,10 +664,10 @@ export const update = (updatedTree, vdom, store, errorHandler, isSvg) => {
   }
 
   if (isArray(updatedTree) && updatedTree.length && isArray(vdom)) {
-    return updateArray(updatedTree, vdom, store, errorHandler, isSvg);
+    return updateArray(updatedTree, vdom, store, context, errorHandler, isSvg);
   }
 
-  const newVdom = create(updatedTree, store, errorHandler, isSvg);
+  const newVdom = create(updatedTree, store, context, errorHandler, isSvg);
   getAnchor(vdom)._insertBefore(mount(newVdom));
   unmount(vdom);
   return newVdom;
@@ -627,8 +677,13 @@ const reThrow = (e) => {
   throw e;
 };
 
-export const render = (value, store, container = document.body) => {
-  const vdom = create(value, store, reThrow, false);
+export const render = (
+  value,
+  store,
+  container = document.body,
+  context = {}
+) => {
+  const vdom = create(value, store, Object.freeze(context), reThrow, false);
   appendChildren(container, mount(vdom));
 };
 
