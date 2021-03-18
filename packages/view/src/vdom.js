@@ -101,6 +101,10 @@ class UserComponent {
       const shouldUpdate = instance.shouldUpdate(nextProps);
 
       if (shouldUpdate) {
+        if (instance.willUpdate) {
+          instance.willUpdate(nextProps);
+        }
+
         const prevProps = instance.props;
         instance.props = nextProps;
         const updatedTree = instance.render(nextProps);
