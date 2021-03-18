@@ -141,6 +141,8 @@ class UserComponent {
 
   _mount() {
     try {
+      let mounting = true;
+      let queuedRender = false;
       const instance = this._instance;
 
       if (this._observable) {
@@ -154,7 +156,11 @@ class UserComponent {
       if (this._observable) {
         this._subscription = this._observable.subscribe((data) => {
           this._data = data;
-          this._render();
+          if (mounting) {
+            queuedRender = true;
+          } else {
+            this._render();
+          }
         });
 
         this._data = this._observable.value;
@@ -176,6 +182,13 @@ class UserComponent {
       const dom = mount(this._vdom);
 
       instance.didMount && this._instance.didMount();
+
+      mounting = false;
+
+      if (queuedRender) {
+        queuedRender = false;
+        this._render();
+      }
 
       return dom;
     } catch (e) {
