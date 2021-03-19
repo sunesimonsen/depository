@@ -295,6 +295,8 @@ describe("view", () => {
     it("calls the life-cycle methods in the correct order", async () => {
       const willMountSpy = sinon.spy().named("willMount");
       const didMountSpy = sinon.spy().named("didMount");
+      const shouldUpdateSpy = sinon.stub().named("shouldUpdate").returns(true);
+      const willUpdateSpy = sinon.spy().named("willUpdate");
       const didUpdateSpy = sinon.spy().named("didUpdate");
       const willUnmountSpy = sinon.spy().named("willUnmount");
       const didUnmountSpy = sinon.spy().named("didUnmount");
@@ -305,6 +307,8 @@ describe("view", () => {
         constructor() {
           this.willMount = willMountSpy;
           this.didMount = didMountSpy;
+          this.shouldUpdate = shouldUpdateSpy;
+          this.willUpdate = willUpdateSpy;
           this.didUpdate = didUpdateSpy;
           this.willUnmount = willUnmountSpy;
           this.didUnmount = didUnmountSpy;
@@ -347,6 +351,8 @@ describe("view", () => {
         [
           willMountSpy,
           didMountSpy,
+          shouldUpdateSpy,
+          willUpdateSpy,
           didUpdateSpy,
           willUnmountSpy,
           didUnmountSpy,
@@ -355,6 +361,8 @@ describe("view", () => {
         () => {
           willMountSpy();
           didMountSpy();
+          shouldUpdateSpy({ message: "world", children: null });
+          willUpdateSpy({ message: "world", children: null });
           didUpdateSpy({ message: "Hello", children: null });
           willUnmountSpy();
           didUnmountSpy();
@@ -369,6 +377,7 @@ describe("view", () => {
         .returns(false)
         .named("shouldUpdate")
         .returns(false);
+      const willUpdateSpy = sinon.spy().named("willUpdate");
       const didUpdateSpy = sinon.spy().named("didUpdate");
       const willUnmountSpy = sinon.spy().named("willUnmount");
 
@@ -376,9 +385,10 @@ describe("view", () => {
 
       class TestComponent {
         constructor() {
-          this.didUpdate = didUpdateSpy;
           this.didMount = didMountSpy;
           this.shouldUpdate = shouldUpdateSpy;
+          this.willUpdate = willUpdateSpy;
+          this.didUpdate = didUpdateSpy;
           this.willUnmount = willUnmountSpy;
         }
 
@@ -418,7 +428,13 @@ describe("view", () => {
       });
 
       expect(
-        [didMountSpy, shouldUpdateSpy, didUpdateSpy, willUnmountSpy],
+        [
+          didMountSpy,
+          shouldUpdateSpy,
+          willUpdateSpy,
+          didUpdateSpy,
+          willUnmountSpy,
+        ],
         "to have calls satisfying",
         () => {
           didMountSpy();
@@ -604,6 +620,40 @@ describe("view", () => {
           }
 
           shouldUpdate() {
+            throw new Error("Test failure");
+          }
+
+          render({ data }) {
+            return data;
+          }
+        }
+
+        render(
+          html`<${ErrorBoundary} name="test-parent" fallback=${parentFallback}>
+            <${ErrorBoundary} name="test" fallback=${fallback}>
+              <${TestComponent} />
+            <//>
+          <//>`,
+          store,
+          container
+        );
+
+        await store.dispatch({ payload: { data: "stuff" } });
+
+        expect(
+          container,
+          "to contain elements matching",
+          "[data-test-id=failure]"
+        );
+      });
+
+      it("catches errors in willUpdate", async () => {
+        class TestComponent {
+          data() {
+            return { data: "data" };
+          }
+
+          willUpdate() {
             throw new Error("Test failure");
           }
 
