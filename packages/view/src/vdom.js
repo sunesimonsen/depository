@@ -11,6 +11,14 @@ export const mount = (vdom) => {
   }
 };
 
+export const flush = (vdom) => {
+  if (isArray(vdom)) {
+    return vdom.flatMap(flush);
+  } else {
+    return vdom && vdom._flush && vdom._flush();
+  }
+};
+
 const unmount = (vdom) => {
   if (isArray(vdom)) {
     vdom.map(unmount);
@@ -142,7 +150,6 @@ class UserComponent {
   _mount() {
     try {
       let mounting = true;
-      let queuedRender = false;
       const instance = this._instance;
 
       if (this._observable) {
@@ -157,7 +164,7 @@ class UserComponent {
         this._subscription = this._observable.subscribe((data) => {
           this._data = data;
           if (mounting) {
-            queuedRender = true;
+            this._queuedRender = true;
           } else {
             this._render();
           }
@@ -184,11 +191,6 @@ class UserComponent {
       instance.didMount && this._instance.didMount();
 
       mounting = false;
-
-      if (queuedRender) {
-        queuedRender = false;
-        this._render();
-      }
 
       return dom;
     } catch (e) {
@@ -219,6 +221,13 @@ class UserComponent {
       instance.didUnmount && instance.didUnmount();
     } catch (e) {
       this._errorHandler(e);
+    }
+  }
+
+  _flush() {
+    flush(this._vdom);
+    if (this._queuedRender) {
+      this._render();
     }
   }
 }
@@ -343,6 +352,7 @@ class PrimitiveComponent {
           this._isSvg
         );
         appendChildren(this._dom, mount(this._children));
+        flush(this._children);
       } else {
         this._children = update(
           children,
@@ -401,6 +411,10 @@ class PrimitiveComponent {
   _unmount() {
     unmount(this._children);
     this._dom.remove();
+  }
+
+  _flush() {
+    flush(this._children);
   }
 }
 
@@ -489,6 +503,7 @@ class PortalComponent extends Hidden {
   _mount() {
     if (this._children) {
       appendChildren(this._target, mount(this._children));
+      flush(this._children);
     }
 
     return super._mount();
@@ -497,6 +512,10 @@ class PortalComponent extends Hidden {
   _unmount() {
     unmount(this._children);
     super._unmount();
+  }
+
+  _flush() {
+    flush(this._children);
   }
 }
 
@@ -604,6 +623,7 @@ const updateKeyedArray = (
       const dom = mount(newValues);
       insertBefore(dom, anchor);
       vdom.splice(update._index, 0, ...newValues);
+      flush(newValues);
     } else if (update instanceof RemoveDiff) {
       const candidates = vdom.splice(update._index, update._howMany);
       unmount(candidates);
@@ -655,6 +675,7 @@ const updateArray = (
   const newVdom = create(updatedTree, store, context, errorHandler, isSvg);
   vdom[0]._insertBefore(mount(newVdom));
   unmount(vdom);
+  flush(newVdom);
   return newVdom;
 };
 
@@ -687,6 +708,7 @@ export const update = (
   const newVdom = create(updatedTree, store, context, errorHandler, isSvg);
   getAnchor(vdom)._insertBefore(mount(newVdom));
   unmount(vdom);
+  flush(newVdom);
   return newVdom;
 };
 
@@ -702,6 +724,7 @@ export const render = (
 ) => {
   const vdom = create(value, store, Object.freeze(context), reThrow, false);
   appendChildren(container, mount(vdom));
+  flush(vdom);
 };
 
 export const h = (type, props, ...children) => {
