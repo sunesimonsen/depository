@@ -1,6 +1,6 @@
 import { Computed } from "./Computed.js";
 import { PathObserver } from "./PathObserver.js";
-import { shallowEqual } from "./equality.js";
+import { shallowEqual } from "@depository/shallow-equal";
 
 import {
   getIn,
