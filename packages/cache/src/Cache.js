@@ -167,8 +167,8 @@ export class Cache {
       observer = Array.from(this._computedObservers).find(
         (o) =>
           o._compute === compute &&
-          o._inputs === inputs &&
-          o._isEqual === isEqual
+          o._isEqual === isEqual &&
+          shallowEqual(o._inputs, inputs)
       );
 
       if (observer) return observer;
