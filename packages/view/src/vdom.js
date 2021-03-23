@@ -82,10 +82,6 @@ class UserComponent {
     instance.dispatch = store.dispatch.bind(store);
     instance.props = instanceProps;
     instance.shouldUpdate = instance.shouldUpdate || defaultShouldUpdate;
-    const paths = instance.data && instance.data(instanceProps);
-    if (paths) {
-      this._observable = store.observe(paths);
-    }
   }
 
   get _dom() {
@@ -151,12 +147,13 @@ class UserComponent {
     try {
       let mounting = true;
       const instance = this._instance;
+      instance.props = this._createInstanceProps();
 
-      if (this._observable) {
+      if (instance.data) {
+        const paths = instance.data(instance.props);
+        this._observable = this._store.observe(paths);
         this._data = this._observable.value;
       }
-
-      instance.props = this._createInstanceProps();
 
       instance.willMount && instance.willMount();
 
