@@ -131,16 +131,11 @@ class UserComponent {
     }
   }
 
-  _updateProps(props) {
-    this._props = props;
-    this._render();
-  }
+  _update(vdom) {
+    this._props = vdom._props;
+    this._children = vdom._children;
 
-  _updateChildren(children) {
-    if (this._children !== children) {
-      this._children = children;
-      this._render();
-    }
+    this._render();
   }
 
   _mount() {
@@ -291,7 +286,9 @@ class PrimitiveComponent {
     this._store = store;
   }
 
-  _updateProps(props) {
+  _update(vdom) {
+    const props = vdom._props;
+
     for (const p in this._props) {
       if (p !== "#" && p !== "ref" && !(p in props)) {
         const value = this._props[p];
@@ -333,9 +330,9 @@ class PrimitiveComponent {
     }
 
     this._props = props;
-  }
 
-  _updateChildren(children) {
+    const children = vdom._children;
+
     if (this._children !== children) {
       if (children === null) {
         unmount(this._children);
@@ -478,17 +475,16 @@ class PortalComponent extends Hidden {
     this._store = store;
   }
 
-  _updateProps({ target = document.body }) {
+  _update(vdom) {
+    const target = vdom._props.target || document.body;
     if (this._target !== target) {
       // Move DOM tree
       this._target = target;
       appendChildren(target, getDom(this._children));
     }
-  }
 
-  _updateChildren(children) {
     this._children = update(
-      children,
+      vdom._children,
       this._children,
       this._store,
       this._context,
@@ -693,8 +689,7 @@ export const update = (
   }
 
   if (updatedTree && updatedTree._type && updatedTree._type === vdom._type) {
-    vdom._updateProps(updatedTree._props);
-    vdom._updateChildren(updatedTree._children);
+    vdom._update(updatedTree);
     return vdom;
   }
 
