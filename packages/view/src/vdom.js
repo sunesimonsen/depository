@@ -82,10 +82,6 @@ class UserComponent {
     instance.dispatch = store.dispatch.bind(store);
     instance.props = instanceProps;
     instance.shouldUpdate = instance.shouldUpdate || defaultShouldUpdate;
-    const paths = instance.data && instance.data(instanceProps);
-    if (paths) {
-      this._observable = store.observe(paths);
-    }
   }
 
   get _dom() {
@@ -126,37 +122,47 @@ class UserComponent {
           this._isSvg
         );
 
-        if (instance.didUpdate) {
-          instance.didUpdate(prevProps);
-        }
+        instance.didUpdate && instance.didUpdate(prevProps);
       }
     } catch (e) {
       this._errorHandler(e);
     }
   }
 
-  _updateProps(props) {
-    this._props = props;
-    this._render();
-  }
+  _update(vdom) {
+    const instance = this._instance;
 
-  _updateChildren(children) {
-    if (this._children !== children) {
-      this._children = children;
-      this._render();
+    this._props = vdom._props;
+    this._children = vdom._children;
+
+    if (instance.data) {
+      const paths = instance.data(vdom._props);
+      const observable = this._store.observe(paths);
+      if (this._observable !== observable) {
+        this._subscription.unsubscribe();
+        this._observable = observable;
+        this._subscription = this._observable.subscribe((data) => {
+          this._data = data;
+          this._render();
+        });
+        this._data = this._observable.value;
+      }
     }
+
+    this._render();
   }
 
   _mount() {
     try {
       let mounting = true;
       const instance = this._instance;
+      instance.props = this._createInstanceProps();
 
-      if (this._observable) {
+      if (instance.data) {
+        const paths = instance.data(instance.props);
+        this._observable = this._store.observe(paths);
         this._data = this._observable.value;
       }
-
-      instance.props = this._createInstanceProps();
 
       instance.willMount && instance.willMount();
 
@@ -188,7 +194,7 @@ class UserComponent {
 
       const dom = mount(this._vdom);
 
-      instance.didMount && this._instance.didMount();
+      instance.didMount && instance.didMount();
 
       mounting = false;
 
@@ -294,7 +300,9 @@ class PrimitiveComponent {
     this._store = store;
   }
 
-  _updateProps(props) {
+  _update(vdom) {
+    const props = vdom._props;
+
     for (const p in this._props) {
       if (p !== "#" && p !== "ref" && !(p in props)) {
         const value = this._props[p];
@@ -336,9 +344,9 @@ class PrimitiveComponent {
     }
 
     this._props = props;
-  }
 
-  _updateChildren(children) {
+    const children = vdom._children;
+
     if (this._children !== children) {
       if (children === null) {
         unmount(this._children);
@@ -481,17 +489,16 @@ class PortalComponent extends Hidden {
     this._store = store;
   }
 
-  _updateProps({ target = document.body }) {
+  _update(vdom) {
+    const target = vdom._props.target || document.body;
     if (this._target !== target) {
       // Move DOM tree
       this._target = target;
       appendChildren(target, getDom(this._children));
     }
-  }
 
-  _updateChildren(children) {
     this._children = update(
-      children,
+      vdom._children,
       this._children,
       this._store,
       this._context,
@@ -696,8 +703,7 @@ export const update = (
   }
 
   if (updatedTree && updatedTree._type && updatedTree._type === vdom._type) {
-    vdom._updateProps(updatedTree._props);
-    vdom._updateChildren(updatedTree._children);
+    vdom._update(updatedTree);
     return vdom;
   }
 

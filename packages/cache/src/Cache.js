@@ -1,6 +1,6 @@
 import { Computed } from "./Computed.js";
 import { PathObserver } from "./PathObserver.js";
-import { shallowEqual } from "./equality.js";
+import { shallowEqual } from "@depository/shallow-equal";
 
 import {
   getIn,
@@ -167,8 +167,8 @@ export class Cache {
       observer = Array.from(this._computedObservers).find(
         (o) =>
           o._compute === compute &&
-          o._inputs === inputs &&
-          o._isEqual === isEqual
+          o._isEqual === isEqual &&
+          shallowEqual(o._inputs, inputs)
       );
 
       if (observer) return observer;

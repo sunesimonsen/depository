@@ -1,3 +1,5 @@
+// Stolen from https://github.com/dashed/shallowequal
+
 export const shallowEqual = (objA, objB) => {
   if (objA === objB) {
     return true;

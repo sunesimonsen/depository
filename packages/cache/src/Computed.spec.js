@@ -87,6 +87,29 @@ describe("cache.computed", () => {
     });
   });
 
+  describe("when observing similar computed that is already subscribed", () => {
+    it("returns the active observer", () => {
+      const compute = ({ a, b }) => a + b;
+
+      const sum = {
+        inputs: { a: "a", b: "b" },
+        compute,
+      };
+
+      const a = cache.observe(sum);
+      a.subscribe(spy);
+
+      const otherSum = {
+        inputs: { b: "b", a: "a" },
+        compute,
+      };
+
+      const b = cache.observe(otherSum);
+
+      expect(a, "to be", b);
+    });
+  });
+
   describe("when subscribed", () => {
     it("calculates the computed value", () => {
       sum.subscribe(spy);
