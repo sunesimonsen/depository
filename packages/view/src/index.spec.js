@@ -147,6 +147,68 @@ describe("view", () => {
       });
     });
 
+    describe("when the data subscription is updated with the props", () => {
+      it("unsubscribes the old subscription and start listening for changes on the new data subscription", async () => {
+        const mountSpy = sinon.spy();
+        const updateSpy = sinon.spy();
+
+        const store = new Store({
+          currentId: "0",
+          messages: {
+            0: "First message",
+            1: "Second message",
+          },
+        });
+
+        class Message {
+          constructor() {
+            this.didMount = mountSpy;
+            this.willUpdate = updateSpy;
+          }
+
+          data({ id }) {
+            return { message: `messages.${id}` };
+          }
+
+          render({ id, message }) {
+            return html`<h1 data-id=${id}>${message}</h1>`;
+          }
+        }
+
+        class App {
+          data() {
+            return { id: "currentId" };
+          }
+
+          render({ id }) {
+            return html`<${Message} id=${id} />`;
+          }
+        }
+
+        render(html`<${App} />`, store, container);
+
+        expect(
+          container,
+          "to satisfy",
+          `<div><h1 data-id="0">First message</h1></div>`
+        );
+
+        await store.dispatch({ payload: { currentId: 1 } });
+        await store.dispatch({ payload: { "messages.0": "Updated" } });
+
+        expect(
+          container,
+          "to satisfy",
+          `<div><h1 data-id="1">Second message</h1></div>`
+        );
+
+        expect([mountSpy, updateSpy], "to have calls satisfying", () => {
+          mountSpy();
+          updateSpy({ message: "Second message", id: 1, children: null });
+        });
+      });
+    });
+
     describe("when the props for the component changes", () => {
       it("re-renders", async () => {
         const store = new Store({

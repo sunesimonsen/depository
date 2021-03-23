@@ -122,9 +122,7 @@ class UserComponent {
           this._isSvg
         );
 
-        if (instance.didUpdate) {
-          instance.didUpdate(prevProps);
-        }
+        instance.didUpdate && instance.didUpdate(prevProps);
       }
     } catch (e) {
       this._errorHandler(e);
@@ -132,8 +130,24 @@ class UserComponent {
   }
 
   _update(vdom) {
+    const instance = this._instance;
+
     this._props = vdom._props;
     this._children = vdom._children;
+
+    if (instance.data) {
+      const paths = instance.data(vdom._props);
+      const observable = this._store.observe(paths);
+      if (this._observable !== observable) {
+        this._subscription.unsubscribe();
+        this._observable = observable;
+        this._subscription = this._observable.subscribe((data) => {
+          this._data = data;
+          this._render();
+        });
+        this._data = this._observable.value;
+      }
+    }
 
     this._render();
   }
@@ -180,7 +194,7 @@ class UserComponent {
 
       const dom = mount(this._vdom);
 
-      instance.didMount && this._instance.didMount();
+      instance.didMount && instance.didMount();
 
       mounting = false;
 
