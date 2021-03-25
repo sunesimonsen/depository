@@ -70,6 +70,7 @@ export class Story {
   scrollIntoViewIfNecessary() {
     if (this.ref && (this.props.isExpanded || this.props.scrollIntoView)) {
       this.ref.scrollIntoView(true);
+      this.context.router.navigate({ state: null, replace: true });
     }
   }
 
