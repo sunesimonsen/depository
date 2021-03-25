@@ -255,32 +255,6 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@depository/cache@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@depository/cache/-/cache-0.25.0.tgz#617b4b1ab7c3b9639a335b9a9397e9f81e4d9821"
-  integrity sha512-feTslQa0+nD0QsluFVcRgxCEnaRG9pxRDimtN874+LrcbOKli/Uz1NNR4CuriKP1uvEUb7s+MYWUsUzl4hHQSg==
-  dependencies:
-    "@depository/path" "^0.25.0"
-
-"@depository/path@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@depository/path/-/path-0.25.0.tgz#01b413f14761a2eee99ecb949f29b519373866af"
-  integrity sha512-R7QbKOtvuGI5cqRL8JgOQ78ninH4rWVddgiT+7ZoBrFMDeA/6WBwvkUCvRjOXMMokcwgxo+5JQCNZ1kKp/PpQQ==
-
-"@depository/store@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@depository/store/-/store-0.25.0.tgz#e02c4ca6d6b54bdf00a1697520256dc12c413881"
-  integrity sha512-dO59bej2cXuEHYInQa8jragLq5RQVfF0bOeX4elpwyyeBfBd4QjvqXOhy5NdvU0Iwaah5XRSylxXrwE54sOVQQ==
-  dependencies:
-    "@depository/cache" "^0.25.0"
-
-"@depository/view@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@depository/view/-/view-0.25.0.tgz#71346ed64989ef2104c97e8aa27185f04c00e22b"
-  integrity sha512-GVqBf946bvRREckklnApdWe1U+VMKdjkmdF22ejECXha48o1fcvpzQ7kxNxxd59VtEX8lccYBotnKc2lGD2AYA==
-  dependencies:
-    htm "^3.0.4"
-
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.0.tgz#99cc0a0584d72f1df38b900fb062ba995f395547"
