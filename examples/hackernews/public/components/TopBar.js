@@ -1,5 +1,6 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
+import { ReloadButton } from "./ReloadButton.js";
 
 const logo = new URL("../images/y18.gif", import.meta.url);
 
@@ -10,6 +11,7 @@ const headerStyles = css`
     background: rgb(255, 102, 0);
     color: white;
     padding: 8px 20px;
+    position: relative;
   }
 `;
 
@@ -31,6 +33,7 @@ export class TopBar {
       <header class=${headerStyles}>
         <img src=${logo} class=${logoStyles} />
         <span class=${brandStyles}>Hacker News</span>
+        <${ReloadButton} />
       </header>
     `;
   }

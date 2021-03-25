@@ -1,3 +1,12 @@
+const pageSize = 20;
+
+export const initialState = {
+  searches: {
+    topStories: { ids: [], count: pageSize },
+  },
+  entities: {},
+};
+
 export const loadTopStories = () => ({
   name: "loadTopStories",
   status: "topStories",
@@ -13,10 +22,24 @@ export const loadTopStories = () => ({
   },
 });
 
+export const reloadTopStories = () => ({
+  name: "reloadTopStories",
+  status: "reloadTopStories",
+  payload: async (cache, api) => {
+    const topStories = await api.loadTopStories();
+
+    return {
+      "searches.topStories.ids": topStories,
+      "searches.topStories.count": pageSize,
+    };
+  },
+});
+
 export const loadMoreTopStories = () => ({
   name: "loadMoreTopStories",
   payload: (cache) => ({
-    "searches.topStories.count": cache.get("searches.topStories.count") + 10,
+    "searches.topStories.count":
+      cache.get("searches.topStories.count") + pageSize,
   }),
 });
 

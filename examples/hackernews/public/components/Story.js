@@ -53,7 +53,6 @@ const scrollIntoView = (id) => ({
 export class Story {
   constructor() {
     this.setRef = (ref) => {
-      console.log(ref);
       this.ref = ref;
     };
   }

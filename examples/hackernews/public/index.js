@@ -7,13 +7,9 @@ import * as api from "./api.js";
 import { RootView } from "./components/RootView.js";
 import { Router, Routes, Route } from "@nano-router/router";
 import { createBrowserHistory } from "@nano-router/history";
+import { initialState } from "./models/news.js";
 
-const store = new Store({
-  searches: {
-    topStories: { ids: [], count: 10 },
-  },
-  entities: {},
-});
+const store = new Store(initialState);
 
 if (window.__DEPOSITORY__) {
   store.use(window.__DEPOSITORY__.plugin({ name: "HackerNews" }));
