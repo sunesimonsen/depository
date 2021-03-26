@@ -1,25 +1,19 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import simulateEvents from "simulate-events";
-import { h, render } from "preact";
-import htm from "htm";
+import sinon from "sinon";
+import { html, render } from "@depository/view";
 import { createMemoryHistory } from "@nano-router/history";
-import { nanoRouterPlugin } from "../index.js";
-import { useObservable, StoreProvider } from "@depository/preact/hooks";
+import { nanoRouterPlugin, Link } from "./index.js";
+
 import { Store } from "@depository/store";
-import { Routes, Route, ExternalRoute } from "@nano-router/router";
-import { useLink } from "./index.js";
+
+import { Router, Routes, Route, ExternalRoute } from "@nano-router/router";
 
 const simulate = simulateEvents.default;
 const createEvent = simulateEvents.createEvent;
-const html = htm.bind(h);
 
 const expect = unexpected.clone().use(unexpectedDom);
-
-const delay = (timeout = 0) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, timeout);
-  });
 
 const routes = new Routes(
   new Route("posts/new", "/posts/new"),
@@ -27,53 +21,68 @@ const routes = new Routes(
   new ExternalRoute("external", "https://www.example.com/blog/:id")
 );
 
-const NewView = () => html`<div data-test-id="new-view" />`;
-
-const PostsView = () => {
-  const showNewPost = useLink("posts/new");
-
-  const showNewPostInNewWindow = useLink({
-    route: "posts/new",
-    target: "_blank",
-  });
-
-  const showExternal = useLink({ route: "external", params: { id: 42 } });
-
-  return html`
-    <a data-test-id="external" ...${showExternal}> External </a>
-    <a data-test-id="new" ...${showNewPost}> New post </a>
-    <a data-test-id="new-open" ...${showNewPostInNewWindow}>
-      New post (new window)
-    </a>
-  `;
-};
-
-const RootView = () => {
-  const route = useObservable("routing.route");
-
-  switch (route) {
-    case "posts/new":
-      return html`<${NewView} />`;
-    default:
-      return html`<${PostsView} />`;
+class NewView {
+  render() {
+    return html`<div data-test-id="new-view" />`;
   }
-};
+}
 
-describe("useLink", () => {
-  let container, store;
+class PostsView {
+  render() {
+    return html`
+      <${Link}
+        data-test-id="external"
+        route="external"
+        params=${{ id: 42 }}
+        target="_blank"
+      >
+        External
+      <//>
+      <${Link} data-test-id="new" route="posts/new">New post<//>
+      <${Link} data-test-id="new-open" route="posts/new" target="_blank">
+        New post (new window)
+      <//>
+    `;
+  }
+}
+
+class RootView {
+  data() {
+    return {
+      route: "routing.route",
+    };
+  }
+
+  render({ route }) {
+    switch (route) {
+      case "posts/new":
+        return html`<${NewView} />`;
+      default:
+        return html`<${PostsView} />`;
+    }
+  }
+}
+
+describe("Link", () => {
+  let container, store, clock;
 
   beforeEach(async () => {
+    clock = sinon.useFakeTimers();
+
     const history = createMemoryHistory({ initialEntries: ["/posts"] });
     container = document.createElement("div");
     store = new Store();
-    store.use(nanoRouterPlugin({ routes, history }));
 
-    render(
-      html`<${StoreProvider} value=${store}><${RootView} /><//>`,
-      container
-    );
+    const router = new Router({ routes, history });
+    store.use(nanoRouterPlugin(router));
 
-    await delay();
+    render(html`<${RootView} />`, store, container, { router });
+
+    await clock.runAllAsync();
+  });
+
+  afterEach(() => {
+    clock.restore();
   });
 
   it("sets the href", () => {
@@ -102,10 +111,24 @@ describe("useLink", () => {
     beforeEach(async () => {
       const newLink = container.querySelector("[data-test-id=new]");
       simulate(newLink, "click");
-      await delay();
+
+      await clock.runAllAsync();
     });
 
     it("re-renders the subscribed parts", () => {
+      expect(store.get("routing"), "to satisfy", {
+        route: "posts/new",
+        location: {
+          href: "/posts/new",
+          search: "",
+          hash: "",
+          pathname: "/posts/new",
+          state: null,
+        },
+        params: {},
+        queryParams: {},
+      });
+
       expect(container, "to contain test id", "new-view");
     });
   });
@@ -118,7 +141,7 @@ describe("useLink", () => {
       event.button = 1;
       simulate(newLink, event);
 
-      await delay();
+      await clock.runAllAsync();
     });
 
     it("doesn't prevent default", () => {

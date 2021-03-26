@@ -1,0 +1,42 @@
+{
+  "name": "hackernews",
+  "description": "Hackernews build with @depository",
+  "version": "0.26.0",
+  "author": "Sune Simonsen",
+  "license": "MIT",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "start": "relivestyle --single --port 5000 public",
+    "build": "rollup -c rollup.config.js",
+    "deploy": "npm run build && surge dist depository-hackernews.surge.sh"
+  },
+  "dependencies": {
+    "@depository/nano-router-plugin": "^0.27.0",
+    "@depository/promise-middleware": "^0.27.0",
+    "@depository/status-middleware": "^0.27.0",
+    "@depository/store": "^0.27.0",
+    "@depository/view": "^0.27.0",
+    "@nano-router/history": "^2.2.0",
+    "@nano-router/router": "^2.6.1",
+    "htm": "^3.0.4",
+    "stylewars": "^1.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-html": "^0.2.3",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@web/rollup-plugin-import-meta-assets": "^1.0.4",
+    "babel-plugin-htm": "^3.0.0",
+    "mocha": "^8.2.1",
+    "relivestyle": "^1.0.0-6",
+    "rollup": "^2.35.1",
+    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-import-meta-url": "^5.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "surge": "^0.21.7",
+    "unexpected": "^12.0.0"
+  }
+}

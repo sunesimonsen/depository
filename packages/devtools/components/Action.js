@@ -57,6 +57,15 @@ const isSelected = (index) => ({
   compute: ({ selected }) => index === selected,
 });
 
+const computedName = (index) => ({
+  inputs: {
+    name: `updates.${index}.action.name`,
+    status: `updates.${index}.action.status`,
+  },
+  compute: ({ name = "Action", status }) =>
+    status ? `${name} (${status})` : name,
+});
+
 export class Action {
   constructor({ index }) {
     const show = () => {
@@ -95,7 +104,7 @@ export class Action {
   data({ index }) {
     return {
       isSelected: isSelected(index),
-      name: `updates.${index}.action.name`,
+      name: computedName(index),
     };
   }
 
@@ -105,7 +114,7 @@ export class Action {
     }
   }
 
-  render({ name = "Action", isSelected }) {
+  render({ name, isSelected }) {
     return html`<div
       ref=${this.setRef}
       class=${classes(actionStyles, isSelected && selectedStyles)}

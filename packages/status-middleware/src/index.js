@@ -16,10 +16,16 @@ export const statusMiddleware = (...args) => async ({
       store.cache.set(key, "loading");
       store.cache.notify();
       const result = await execution;
-      await next({ payload: { [key]: "ready" } });
+      await next({
+        name: `Ready (${action.status})`,
+        payload: { [key]: "ready" },
+      });
       return result;
     } catch (e) {
-      await next({ payload: { [key]: "failed" } });
+      await next({
+        name: `Failed (${action.status})`,
+        payload: { [key]: "failed" },
+      });
       throw e;
     }
   } else {

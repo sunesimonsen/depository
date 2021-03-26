@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    [
+      "htm",
+      {
+        "import": "@depository/view",
+        "useBuiltIns": true,
+        "useNativeSpread": true
+      }
+    ]
+  ]
+}
