@@ -5,7 +5,7 @@ export class CloseAnswers {
   constructor() {
     this.onClick = () => {
       this.context.router.navigate({
-        route: "topNews",
+        route: "topStories",
         state: { scrollIntoView: Number(this.props.id) },
       });
     };

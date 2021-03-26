@@ -18,7 +18,7 @@ if (window.__DEPOSITORY__) {
 const history = createBrowserHistory();
 
 const routes = new Routes(
-  new Route("topNews", "/"),
+  new Route("topStories", "/"),
   new Route("answer", "/stories/:storyId/comments/:commentId"),
   new Route("story", "/stories/:id")
 );
