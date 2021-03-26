@@ -229,8 +229,12 @@ class UserComponent {
   }
 
   _flush() {
-    flush(this._vdom);
-    this._instance.didMount && this._instance.didMount();
+    try {
+      flush(this._vdom);
+      this._instance.didMount && this._instance.didMount();
+    } catch (e) {
+      this._errorHandler(e);
+    }
 
     if (this._queuedRender) {
       this._render();
