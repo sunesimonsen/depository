@@ -5,19 +5,11 @@ import { Link } from "@depository/nano-router-plugin";
 
 const logo = new URL("../images/y18.gif", import.meta.url);
 
-const headerStyles = css`
-  & {
-    display: flex;
-    align-items: center;
-    background: rgb(255, 102, 0);
-    color: white;
-    position: relative;
-  }
-`;
-
 const logoStyles = css`
   & {
     border: thin solid white;
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -48,7 +40,7 @@ const homeStyles = css`
 export class TopBar {
   render() {
     return html`
-      <header class=${headerStyles}>
+      <header>
         <${Link}
           route="topStories"
           state=${{ scrollToTop: true }}

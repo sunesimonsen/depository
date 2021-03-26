@@ -22,8 +22,8 @@ export default [
               contents
                 .toString()
                 .replace(
-                  '<script type="module" src="/index.js"></script>',
-                  '<script type="module" src="/bundle.min.js"></script>'
+                  '<script type="module" src="/index.js"',
+                  '<script type="module" src="/bundle.min.js"'
                 ),
           },
           { src: "public/favicon.ico", dest: "dist" },

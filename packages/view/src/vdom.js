@@ -3,6 +3,12 @@ import { arrayDiff, InsertDiff, MoveDiff, RemoveDiff } from "./arrayDiff.js";
 const isArray = (v) => Array.isArray(v);
 const getAnchor = (dom) => (isArray(dom) ? dom[0] : dom);
 
+const removeChildren = (container) => {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+};
+
 export const mount = (vdom) => {
   if (isArray(vdom)) {
     return vdom.flatMap(mount);
@@ -732,6 +738,7 @@ export const render = (
   container = document.body,
   context = {}
 ) => {
+  removeChildren(container);
   const vdom = create(value, store, Object.freeze(context), reThrow, false);
   appendChildren(container, mount(vdom));
   flush(vdom);
