@@ -1,0 +1,44 @@
+{
+  "type": "module",
+  "name": "@depository/components",
+  "version": "0.27.0",
+  "description": "UI components for @depository/view",
+  "keywords": [
+    "depository",
+    "view",
+    "UI",
+    "components"
+  ],
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./icons/*": "./src/icons/*.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "prepublishOnly": "yarn build"
+  },
+  "homepage": "https://github.com/sunesimonsen/depository#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunesimonsen/depository.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sunesimonsen/depository/issues"
+  },
+  "dependencies": {
+    "@depository/view": "^0.27.0",
+    "stylewars": "^1.6.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "rollup": "^2.27.1",
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}

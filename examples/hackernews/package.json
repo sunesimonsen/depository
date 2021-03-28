@@ -4,7 +4,6 @@
   "version": "0.26.0",
   "author": "Sune Simonsen",
   "license": "MIT",
-  "main": "src/index.js",
   "private": true,
   "scripts": {
     "start": "relivestyle --single --port 5000 public",

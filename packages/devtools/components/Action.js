@@ -9,6 +9,8 @@ const actionStyles = css`
     text-align: left;
     cursor: pointer;
     display: flex;
+    align-items: center;
+    overflow: hidden;
   }
 
   &:focus {
@@ -45,8 +47,9 @@ const selectedStyles = css`
 const labelStyles = css`
   & {
     flex: 1;
-    display: flex;
-    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `;
 

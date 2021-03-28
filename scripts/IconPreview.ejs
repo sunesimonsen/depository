@@ -1,0 +1,118 @@
+import { html } from "@depository/view";
+import { Title, SubTitle, Line } from "../../components/Page.js";
+import { Example } from "../../components/Example.js";
+import { css } from "stylewars";
+import { Anchor } from "@depository/components";
+import IconUsage from "./IconUsage.js";
+import IconColors from "./IconColors.js";
+
+<% for(let group of items) { -%>
+<% for(let { name } of group.items) { -%>
+import <%-name%> from "@depository/components/icons/<%-name%>";
+<% } -%>
+<% } -%>
+
+const columnStyles = css`
+  & {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr;
+    gap: 20px;
+    fill: gray;
+    margin: 1em 0;
+  }
+`
+
+const copyStyles = css`
+  & {
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`
+
+let interceptCopy;
+
+document.addEventListener("copy", (e) => {
+  if (interceptCopy) {
+    e.clipboardData.setData("text/plain", interceptCopy);
+    e.preventDefault();
+  }
+});
+
+const copy = text => {
+  interceptCopy = text
+  document.execCommand("copy");
+  interceptCopy = null;
+}
+
+class IconCopyButton {
+  constructor() {
+    this.onClick = () => {
+      const name = this.props.children
+      copy(`import ${name} from "@depository/components/icons/${name}.js";`)
+    }
+  }
+
+  render({ children }) {
+    return html`
+      <button @click=${this.onClick} class=${copyStyles} title="Click to copy">
+        ${children}
+      </button>
+    `
+  }
+
+}
+
+class IconsPage {
+  render() {
+    return html`
+      <${Title}>Icons<//>
+      <${SubTitle}>
+        These icon components is extracted from
+        <${Anchor} href="https://garden.zendesk.com/design/icons/installation">Zendesk Garden<//>
+        and turned into components.
+      <//>
+      <${Line} />
+      <h2>Usage</h2>
+      <p>
+        The icons come in two flavors – monochrome and two-tone. The primary
+        fill/stroke will always be specified as
+        <code class="inline">currentColor</code> This means CSS text color style
+        will cascade to the icon. Two-tone icons can receive a secondary color
+        via the <code class="inline">fill</code> style property.
+      </p>
+      <${Example}
+        columns="2"
+        src=${new URL("./IconUsage.js", import.meta.url)}
+      >
+        <${IconUsage} />
+      <//>
+      <p>
+        Icons that users two-tones is displayed with gray and black.
+        You can control the colors the following way.
+      </p>
+      <${Example} src=${new URL("./IconColors.js", import.meta.url)}>
+        <${IconColors} />
+      <//>
+      <p>
+        Tip <${LightbulbStroke12Icon} /> click on the icon label to copy the import to that clipboard.
+      </p>
+<% for(let group of items) { -%>
+      <h2><%-group.key%></h2>
+      <div class=${columnStyles}>
+<% for(let { name } of group.items) { -%>
+         <${<%-name%>} />
+         <${IconCopyButton}><%-name%><//>
+<% } -%>
+      </div>
+<% } -%>
+    `;
+  }
+}
+
+export default IconsPage;

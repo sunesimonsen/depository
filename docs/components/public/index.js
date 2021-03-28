@@ -1,0 +1,31 @@
+import { html, render } from "@depository/view";
+import { Store } from "@depository/store";
+import { promiseMiddleware } from "@depository/promise-middleware";
+import { statusMiddleware } from "@depository/status-middleware";
+import { nanoRouterPlugin } from "@depository/nano-router-plugin";
+import { RootView } from "./components/RootView.js";
+import { Router, Routes, Route } from "@nano-router/router";
+import { createBrowserHistory } from "@nano-router/history";
+
+const store = new Store();
+
+if (window.__DEPOSITORY__) {
+  store.use(window.__DEPOSITORY__.plugin({ name: "HackerNews" }));
+}
+
+const history = createBrowserHistory();
+
+const routes = new Routes(
+  new Route("index", "/"),
+  new Route("page", "/page/:id")
+);
+
+const router = new Router({ routes, history });
+
+store.use(nanoRouterPlugin(router));
+store.useMiddleware(promiseMiddleware());
+store.useMiddleware(statusMiddleware());
+
+render(html`<${RootView} />`, store, document.getElementById("app"), {
+  router,
+});
