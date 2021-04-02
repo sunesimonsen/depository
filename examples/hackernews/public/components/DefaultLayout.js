@@ -1,5 +1,4 @@
 import { html } from "@depository/view";
-import { css } from "stylewars";
 import { TopBar } from "./TopBar.js";
 
 export class DefaultLayout {
