@@ -3105,11 +3105,6 @@ diacritics-map@^0.1.0:
   resolved "https://registry.yarnpkg.com/diacritics-map/-/diacritics-map-0.1.0.tgz#6dfc0ff9d01000a2edf2865371cac316e94977af"
   integrity sha1-bfwP+dAQAKLt8oZTccrDFulJd68=
 
-diff@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.1.tgz#0c667cb467ebbb5cea7f14f135cc2dba7780a8ff"
-  integrity sha512-s2+XdvhPCOF01LRQBC8hf4vhbVmI2CGS5aZnxLJlT5FtdhPCDFq80q++zK2KlrVorVDdL5BOGZ/VfLrVtYNF+Q==
-
 diff@5.0.0, diff@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
@@ -5472,11 +5467,6 @@ lerna@^4.0.0:
     import-local "^3.0.2"
     npmlog "^4.1.2"
 
-leven@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/leven/-/leven-2.1.0.tgz#c2e7a9f772094dee9d34202ae8acce4687875580"
-  integrity sha1-wuep93IJTe6dNCAq6KzORoeHVYA=
-
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.4.1.tgz#ae4562c007473b932a6200d403268dd2fffc6ade"
@@ -5741,7 +5731,7 @@ magicpen-prism@^4.0.0:
   dependencies:
     prismjs "^1.21.0"
 
-magicpen@^6.1.1, magicpen@^6.2.1:
+magicpen@^6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/magicpen/-/magicpen-6.2.1.tgz#8ead56fc9550b93b5420342481d803eaecf52e36"
   integrity sha512-JEkzC2hJmoCRTC8v1lgLIi75aF8pAz72kYZ9l/EorRnBXavPErnBywm/ec3xTDjCPBonsdhNZoRzj+TUfbCYJg==
@@ -9287,21 +9277,7 @@ unexpected-snapshot@^1.0.2:
     memoizesync "^1.1.1"
     pretty-maybe "^1.0.0"
 
-unexpected@11.8.1:
-  version "11.8.1"
-  resolved "https://registry.yarnpkg.com/unexpected/-/unexpected-11.8.1.tgz#1d2a342e64492d1c1a8d6419892874a2e9b9aa5b"
-  integrity sha512-xpLwCIlqdXBxiTSP7bwtPenqDuutMi6A+Dkw3NuXtj9OZzfxKcz4FMvcPniBSXJr+JlPI5XvmbIv8FMTCa/eRQ==
-  dependencies:
-    array-changes "3.0.1"
-    array-changes-async "3.0.1"
-    detect-indent "3.0.1"
-    diff "4.0.1"
-    greedy-interval-packer "1.2.0"
-    leven "2.1.0"
-    magicpen "^6.1.1"
-    unexpected-bluebird "2.9.34-longstack2"
-
-unexpected@^12.0.0:
+unexpected@12.0.0, unexpected@^12.0.0:
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/unexpected/-/unexpected-12.0.0.tgz#23f328dfb6681ed7147bb85a9af7a4856f4b7a9d"
   integrity sha512-fvfae3tGahPNRp3biVWDVGj/E3XHsD1uOr9/nf9cxV5zaaAtncRu2L2sVOeU2e3BJ7+kfVSyo/vakECBykPA6g==
