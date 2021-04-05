@@ -16,7 +16,7 @@ const columnStyles = css`
   & {
     display: grid;
     grid-template-columns: auto 1fr auto 1fr;
-    gap: 20px;
+    gap: 1em;
     fill: gray;
     margin: 1em 0;
   }
@@ -86,9 +86,7 @@ class IconsPage {
         will cascade to the icon. Two-tone icons can receive a secondary color
         via the <code class="inline">fill</code> style property.
       </p>
-      <${Example}
-        columns="2"
-        src=${new URL("./IconUsage.js", import.meta.url)}
+      <${Example} src=${new URL("./IconUsage.js", import.meta.url)}
       >
         <${IconUsage} />
       <//>

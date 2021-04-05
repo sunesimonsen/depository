@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { escapePath } from "@depository/path";
-import { css, classes } from "stylewars";
+import { css } from "stylewars";
 import { SourceCode } from "./SourceCode.js";
 import { IconButton } from "@depository/components";
 import { JSFiddleButton } from "./JSFiddleButton.js";
@@ -24,19 +24,6 @@ const previewStyles = css`
   }
 `;
 
-const previewContentStyles = css`
-  & {
-    display: grid;
-    grid-gap: 20px;
-  }
-`;
-
-const columnStyles = (columns) => css`
-  & {
-    grid-template-columns: repeat(${columns}, 1fr);
-  }
-`;
-
 const buttonsStyles = css`
   & {
     background: rgb(248, 249, 249);
@@ -44,12 +31,6 @@ const buttonsStyles = css`
     border-bottom: 1px solid rgb(216, 220, 222);
     text-align: right;
     padding: 4px 8px;
-  }
-`;
-
-const stretchedStyles = css`
-  & {
-    width: 100%;
   }
 `;
 
@@ -79,17 +60,7 @@ export class Example {
   render({ children, sourceVisible, src, columns = 1, stretched }) {
     return html`
       <div class=${styles}>
-        <div class=${previewStyles}>
-          <div
-            class=${classes(
-              previewContentStyles,
-              columnStyles(columns),
-              stretched && stretchedStyles
-            )}
-          >
-            ${children}
-          </div>
-        </div>
+        <div class=${previewStyles}>${children}</div>
         <div class=${buttonsStyles}>
           <${JSFiddleButton} src=${src} />
           <${IconButton} basic @click=${this.onToggleSource}>

@@ -29,13 +29,16 @@ export class Sidebar {
       <nav class=${styles}>
         <ul class=${listStyles}>
           <li class=${listItemStyles}>
+            <${PageReference} id="anchor">Anchor<//>
+          </li>
+          <li class=${listItemStyles}>
             <${PageReference} id="button">Button<//>
           </li>
           <li class=${listItemStyles}>
-            <${PageReference} id="iconbutton">Icon Button<//>
+            <${PageReference} id="iconbutton">Icon button<//>
           </li>
           <li class=${listItemStyles}>
-            <${PageReference} id="anchor">Anchor<//>
+            <${PageReference} id="columnlayout">Column layout<//>
           </li>
           <li class=${listItemStyles}>
             <${PageReference} id="icons">Icons<//>

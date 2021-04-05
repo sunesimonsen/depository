@@ -23,10 +23,7 @@ class ButtonPage {
       <//>
       <h3>Type</h3>
       <p>There are 3 types of Buttons: default, primary, and basic.</p>
-      <${Example}
-        columns="3"
-        src=${new URL("./ButtonTypes.js", import.meta.url)}
-      >
+      <${Example} src=${new URL("./ButtonTypes.js", import.meta.url)}>
         <${ButtonTypes} />
       <//>
       <h3>Stretched</h3>
