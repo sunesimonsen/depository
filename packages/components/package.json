@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/components",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "UI components for @depository/view",
   "keywords": [
     "depository",
@@ -33,7 +33,7 @@
     "url": "https://github.com/sunesimonsen/depository/issues"
   },
   "dependencies": {
-    "@depository/view": "^0.27.0",
+    "@depository/view": "^0.28.0",
     "stylewars": "^1.6.1"
   },
   "devDependencies": {

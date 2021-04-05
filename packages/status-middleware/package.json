@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/status-middleware",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "Status middleware for @depository",
   "module": "./src/index.js",
   "exports": {
@@ -31,8 +31,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/promise-middleware": "^0.27.0",
-    "@depository/store": "^0.27.0",
+    "@depository/promise-middleware": "^0.28.0",
+    "@depository/store": "^0.28.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "mocha": "8.3.2",
