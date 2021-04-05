@@ -1,8 +1,12 @@
 import { html } from "@depository/view";
-import { Anchor } from "@depository/components";
+import { Anchor, Center } from "@depository/components";
 
 export default class Example {
   render() {
-    return html`<${Anchor} href="./button">Show button documentation<//>`;
+    return html`
+      <${Center}>
+        <${Anchor} href="./button">Show button documentation<//>
+      <//>
+    `;
   }
 }

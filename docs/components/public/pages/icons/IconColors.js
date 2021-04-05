@@ -1,6 +1,7 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
 
+import { Center } from "@depository/components";
 import AnswerBot26Icon from "@depository/components/icons/AnswerBot26Icon";
 
 const answerBotStyles = css`
@@ -12,6 +13,10 @@ const answerBotStyles = css`
 
 export default class Example {
   render() {
-    return html`<${AnswerBot26Icon} class=${answerBotStyles} />`;
+    return html`
+      <${Center}>
+        <${AnswerBot26Icon} class=${answerBotStyles} />
+      <//>
+    `;
   }
 }
