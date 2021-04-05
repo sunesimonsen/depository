@@ -8880,10 +8880,10 @@ stylehacks@^4.0.0:
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
 
-stylewars@^1.6.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/stylewars/-/stylewars-1.7.1.tgz#41f9164abb8cd4286bbbdef9bebbb3e39832645a"
-  integrity sha512-6yAjzZV/D/4MM+f2kwwZrtcvH5azAOz0PiQaPtA5UUESRjmm469DbmDO/CDIYYBcYv6loHQLwX+dE4AN7Id2yg==
+stylewars@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/stylewars/-/stylewars-1.8.0.tgz#81518a51bca0229a7f9958b41d2b97319f5bf740"
+  integrity sha512-sC5E9uBfNOCStYSto82uDyhHQJXGWYvTL9WWhmJNvzTiYz1wAvwS0lt694lIH/KZ/BEAldlt84gIdIScOZoojw==
 
 supports-color@8.1.1:
   version "8.1.1"
