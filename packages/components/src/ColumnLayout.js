@@ -1,7 +1,7 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
 
-const styles = ({ gap, columns, alignItems, justifyItems }) => {
+const styles = ({ gap, stretched, columns, alignItems, justifyItems }) => {
   const gridTemplateColumns =
     typeof columns === "number" || columns.match(/^\d+$/)
       ? `repeat(${columns}, 1fr)`
@@ -9,7 +9,7 @@ const styles = ({ gap, columns, alignItems, justifyItems }) => {
 
   return css`
     & {
-      display: grid;
+      display: ${stretched ? "grid" : "inline-grid"};
       gap: ${gap};
       align-items: ${alignItems};
       justify-items: ${justifyItems};
@@ -38,7 +38,7 @@ export class ColumnLayout {
     return html`
       <div
         class=${classes(
-          styles({ gap, columns, alignItems, justifyItems }),
+          styles({ gap, stretched, columns, alignItems, justifyItems }),
           stretched && stretchedStyles,
           className
         )}
