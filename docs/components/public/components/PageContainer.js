@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Page } from "./Page.js";
+import { Page, PageSkeleton } from "./Page.js";
 
 const statusById = (id) => `statuses.module.${id}`;
 
@@ -49,7 +49,7 @@ export class PageContainer {
       throw new Error(`Component ${id} could not be loaded`);
     }
 
-    if (status !== "ready") return null;
+    if (status !== "ready") return html`<${PageSkeleton} />`;
 
     return html`<${Page}><${this.Page} /><//>`;
   }

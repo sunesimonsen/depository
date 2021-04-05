@@ -5,15 +5,15 @@ const styles = css`
   &,
   &:after {
     border-radius: 50%;
-    width: 4em;
-    height: 4em;
+    width: 3em;
+    height: 3em;
   }
 
   & {
     margin: 60px auto;
     position: relative;
     text-indent: -9999em;
-    border-width: var(--dc-spinner-border-size, 0.4em);
+    border-width: var(--dc-spinner-border-size, 0.2em);
     border-style: solid;
     border-color: var(--dc-spinner-background, rgba(0, 0, 0, 0.2));
     border-left-color: var(--dc-spinner-color, #1f73b7);

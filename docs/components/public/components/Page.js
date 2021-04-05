@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
-import { IconButton } from "@depository/components";
+import { IconButton, Skeleton, Spinner } from "@depository/components";
 import LinkStroke16Icon from "@depository/components/icons/LinkStroke16Icon";
 
 const containerStyles = css`
@@ -129,5 +129,21 @@ const lineStyles = css`
 export class Line {
   render() {
     return html`<hr class=${lineStyles} />`;
+  }
+}
+
+export class PageSkeleton {
+  render() {
+    return html`
+      <${Page}>
+        <${Title}><${Skeleton} /><//>
+        <${SubTitle}><${Skeleton} /><//>
+        <${Line}/>
+        <h2><${Skeleton} /></h2>
+        <h3><${Skeleton} /></h3>
+        <p><${Skeleton} /></p>
+        <${Spinner}/>
+      </${Page}>
+    `;
   }
 }

@@ -5,7 +5,7 @@ const styles = css`
   & {
     display: inline-block;
     position: relative;
-    animation: 750ms linear 0s 1 normal none running &(fade-in);
+    animation: 300ms linear 0s 1 normal none running &(fade-in);
     border-radius: 4px;
     width: 100%;
     height: 100%;
