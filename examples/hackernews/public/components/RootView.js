@@ -8,7 +8,7 @@ export class RootView {
     return { route: "routing.route" };
   }
 
-  render({ route, params }) {
+  render({ route }) {
     switch (route) {
       case "answer":
         return html`<${DefaultLayout}><${CommentAndAnswers} /><//>`;

@@ -8,4 +8,4 @@ const mapping = {
 };
 
 export const escapePath = (text) =>
-  text.replace(/[{}().]/g, ($0) => mapping[$0]);
+  String(text).replace(/[{}().]/g, ($0) => mapping[$0]);
