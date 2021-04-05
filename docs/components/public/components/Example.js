@@ -19,8 +19,6 @@ const styles = css`
 const previewStyles = css`
   & {
     padding: 20px;
-    display: flex;
-    justify-content: center;
   }
 `;
 

@@ -41,6 +41,12 @@ export class Sidebar {
             <${PageReference} id="columnlayout">Column layout<//>
           </li>
           <li class=${listItemStyles}>
+            <${PageReference} id="spinner">Spinner<//>
+          </li>
+          <li class=${listItemStyles}>
+            <${PageReference} id="skeleton">Skeleton<//>
+          </li>
+          <li class=${listItemStyles}>
             <${PageReference} id="icons">Icons<//>
           </li>
         </ul>

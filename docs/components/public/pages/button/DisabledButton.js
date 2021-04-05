@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Button } from "@depository/components";
+import { Button, Center } from "@depository/components";
 
 export default class Example {
   constructor() {
@@ -9,6 +9,8 @@ export default class Example {
   }
 
   render() {
-    return html`<${Button} @click=${this.sayHello} disabled>Button<//>`;
+    return html`
+      <${Center}><${Button} @click=${this.sayHello} disabled>Button<//><//>
+    `;
   }
 }

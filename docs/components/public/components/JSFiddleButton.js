@@ -13,7 +13,7 @@ const importmap = `
 <script type="importmap">
 {
   "imports": {
-    "stylewars": "https://unpkg.com/stylewars@1.8.0/dist/bundle.esm.js",
+    "stylewars": "https://unpkg.com/stylewars@1.9.0/dist/bundle.esm.js",
     "@depository/store": "https://unpkg.com/@depository/store@0.30.0/dist/store.esm.js",
     "@depository/view": "https://unpkg.com/@depository/view@0.30.0/dist/view.esm.js",
     "@depository/components/icons/": "https://unpkg.com/@depository/components@0.30.0/src/icons/",
@@ -29,9 +29,6 @@ html {
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
   margin: 0;
 }
