@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/nano-router-plugin",
-  "version": "0.28.0",
+  "version": "0.29.0",
   "description": "Integrates @nano-router/router with @depository",
   "main": "./src/index.js",
   "module": "./src/index.js",
@@ -32,8 +32,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/store": "^0.28.0",
-    "@depository/view": "^0.28.0",
+    "@depository/store": "^0.29.0",
+    "@depository/view": "^0.29.0",
     "@nano-router/history": "^2.2.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
