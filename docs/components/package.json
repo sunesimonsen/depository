@@ -28,7 +28,7 @@
     "@zendeskgarden/svg-icons": "^6.29.0",
     "highlight.js": "^10.7.1",
     "htm": "^3.0.4",
-    "stylewars": "^1.8.0"
+    "stylewars": "^1.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
