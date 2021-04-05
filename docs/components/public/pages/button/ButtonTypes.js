@@ -1,12 +1,14 @@
 import { html } from "@depository/view";
-import { Button } from "@depository/components";
+import { Button, ColumnLayout } from "@depository/components";
 
 export default class Example {
   render() {
     return html`
-      <${Button}>Default<//>
-      <${Button} primary>Basic<//>
-      <${Button} basic>Basic<//>
+      <${ColumnLayout} columns="3">
+        <${Button}>Default<//>
+        <${Button} primary>Basic<//>
+        <${Button} basic>Basic<//>
+      <//>
     `;
   }
 }

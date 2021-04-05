@@ -3,7 +3,7 @@ import { Title, SubTitle, Line } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultAnchor from "./DefaultAnchor.js";
 
-class Anchor {
+class AnchorPage {
   render() {
     return html`
       <${Title}>Anchor<//>
@@ -25,4 +25,4 @@ class Anchor {
   }
 }
 
-export default Anchor;
+export default AnchorPage;
