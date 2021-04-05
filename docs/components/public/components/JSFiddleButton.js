@@ -23,6 +23,20 @@ const importmap = `
 </script>
 `;
 
+const jsFiddleCSS = `\
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+}
+`;
+
 const template = (content) => `\
 import { render } from '@depository/view';
 import { Store } from "@depository/store";
@@ -78,6 +92,7 @@ export class JSFiddleButton {
         />
         <input type="hidden" name="js" />
         <input type="hidden" name="html" />
+        <input type="hidden" name="css" value=${jsFiddleCSS} />
       </form>
     `;
   }
