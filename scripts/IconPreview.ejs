@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line } from "../../components/Page.js";
+import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import { css } from "stylewars";
 import { Anchor } from "@depository/components";
@@ -78,7 +78,7 @@ class IconsPage {
         and turned into components.
       <//>
       <${Line} />
-      <h2>Usage</h2>
+      <${Heading} level=2>Usage<//>
       <p>
         The icons come in two flavors – monochrome and two-tone. The primary
         fill/stroke will always be specified as
@@ -101,7 +101,7 @@ class IconsPage {
         Tip <${LightbulbStroke12Icon} /> click on the icon label to copy the import to that clipboard.
       </p>
 <% for(let group of items) { -%>
-      <h2><%-group.key%></h2>
+      <${Heading} level=2><%-group.key%><//>
       <div class=${columnStyles}>
 <% for(let { name } of group.items) { -%>
          <${<%-name%>} />

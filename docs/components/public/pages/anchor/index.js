@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line } from "../../components/Page.js";
+import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultAnchor from "./DefaultAnchor.js";
 
@@ -12,8 +12,8 @@ class AnchorPage {
         another.
       <//>
       <${Line} />
-      <h2>How to use it</h2>
-      <h3>Default</h3>
+      <${Heading} level="2">How to use it<//>
+      <${Heading} level="3">Default<//>
       <p>
         The Anchor component is a styled<code class="inline">${"<a>"}</code>tag.
         It accepts all standard anchor attributes and signals a way to navigate.

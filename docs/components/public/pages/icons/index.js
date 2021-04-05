@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line } from "../../components/Page.js";
+import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import { css } from "stylewars";
 import { Anchor } from "@depository/components";
@@ -978,7 +978,7 @@ class IconsPage {
         and turned into components.
       <//>
       <${Line} />
-      <h2>Usage</h2>
+      <${Heading} level="2">Usage<//>
       <p>
         The icons come in two flavors – monochrome and two-tone. The primary
         fill/stroke will always be specified as
@@ -1000,14 +1000,14 @@ class IconsPage {
         Tip <${LightbulbStroke12Icon} /> click on the icon label to copy the
         import to that clipboard.
       </p>
-      <h2>12px icons</h2>
+      <${Heading} level="2">12px icons<//>
       <div class=${columnStyles}>
         <${Grip12Icon} />
         <${IconCopyButton}>Grip12Icon<//>
         <${Paperclip12Icon} />
         <${IconCopyButton}>Paperclip12Icon<//>
       </div>
-      <h2>12px icons (fill)</h2>
+      <${Heading} level="2">12px icons (fill)<//>
       <div class=${columnStyles}>
         <${I123Fill12Icon} />
         <${IconCopyButton}>I123Fill12Icon<//>
@@ -1418,7 +1418,7 @@ class IconsPage {
         <${ZendeskFill12Icon} />
         <${IconCopyButton}>ZendeskFill12Icon<//>
       </div>
-      <h2>12px icons (stroke)</h2>
+      <${Heading} level="2">12px icons (stroke)<//>
       <div class=${columnStyles}>
         <${I123Stroke12Icon} />
         <${IconCopyButton}>I123Stroke12Icon<//>
@@ -1829,14 +1829,14 @@ class IconsPage {
         <${ZendeskStroke12Icon} />
         <${IconCopyButton}>ZendeskStroke12Icon<//>
       </div>
-      <h2>16px icons</h2>
+      <${Heading} level="2">16px icons<//>
       <div class=${columnStyles}>
         <${Grip16Icon} />
         <${IconCopyButton}>Grip16Icon<//>
         <${Paperclip16Icon} />
         <${IconCopyButton}>Paperclip16Icon<//>
       </div>
-      <h2>16px icons (fill)</h2>
+      <${Heading} level="2">16px icons (fill)<//>
       <div class=${columnStyles}>
         <${I123Fill16Icon} />
         <${IconCopyButton}>I123Fill16Icon<//>
@@ -2247,7 +2247,7 @@ class IconsPage {
         <${ZendeskFill16Icon} />
         <${IconCopyButton}>ZendeskFill16Icon<//>
       </div>
-      <h2>16px icons (stroke)</h2>
+      <${Heading} level="2">16px icons (stroke)<//>
       <div class=${columnStyles}>
         <${I123Stroke16Icon} />
         <${IconCopyButton}>I123Stroke16Icon<//>
@@ -2658,7 +2658,7 @@ class IconsPage {
         <${ZendeskStroke16Icon} />
         <${IconCopyButton}>ZendeskStroke16Icon<//>
       </div>
-      <h2>26px icons</h2>
+      <${Heading} level="2">26px icons<//>
       <div class=${columnStyles}>
         <${AnswerBot26Icon} />
         <${IconCopyButton}>AnswerBot26Icon<//>
@@ -2775,7 +2775,7 @@ class IconsPage {
         <${Zendesk26Icon} />
         <${IconCopyButton}>Zendesk26Icon<//>
       </div>
-      <h2>26px icons (fill)</h2>
+      <${Heading} level="2">26px icons (fill)<//>
       <div class=${columnStyles}>
         <${CustomerListsFill26Icon} />
         <${IconCopyButton}>CustomerListsFill26Icon<//>
@@ -2790,7 +2790,7 @@ class IconsPage {
         <${ViewsFill26Icon} />
         <${IconCopyButton}>ViewsFill26Icon<//>
       </div>
-      <h2>26px icons (wordmark)</h2>
+      <${Heading} level="2">26px icons (wordmark)<//>
       <div class=${columnStyles}>
         <${WordmarkBoldSuite26Icon} />
         <${IconCopyButton}>WordmarkBoldSuite26Icon<//>

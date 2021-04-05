@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { css } from "stylewars";
+import { css, classes } from "stylewars";
 
 const styles = css`
   & {
@@ -21,7 +21,9 @@ const styles = css`
 `;
 
 export class Anchor {
-  render({ children, ...other }) {
-    return html` <a class=${styles} ...${other}>${children}</a> `;
+  render({ children, class: className, ...other }) {
+    return html`
+      <a class=${classes(styles, className)} ...${other}>${children}</a>
+    `;
   }
 }

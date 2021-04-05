@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line } from "../../components/Page.js";
+import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultButton from "./DefaultButton.js";
 import ButtonTypes from "./ButtonTypes.js";
@@ -15,18 +15,18 @@ class ButtonPage {
         decisions that are important to a user's workflow.
       <//>
       <${Line} />
-      <h2>How to use it</h2>
-      <h3>Default</h3>
+      <${Heading} level="2">How to use it<//>
+      <${Heading} level="3">Default<//>
       <p>The typical usage of a Button component.</p>
       <${Example} src=${new URL("./DefaultButton.js", import.meta.url)}>
         <${DefaultButton} />
       <//>
-      <h3>Type</h3>
+      <${Heading} level="3">Type<//>
       <p>There are 3 types of Buttons: default, primary, and basic.</p>
       <${Example} src=${new URL("./ButtonTypes.js", import.meta.url)}>
         <${ButtonTypes} />
       <//>
-      <h3>Stretched</h3>
+      <${Heading} level="3">Stretched<//>
       <p>Buttons can stretch to fill the width of their container.</p>
       <${Example}
         stretched
@@ -34,7 +34,7 @@ class ButtonPage {
       >
         <${StretchedButton} />
       <//>
-      <h3>Disabled</h3>
+      <${Heading} level="3">Disabled<//>
       <p>
         A disabled Button prevents user interaction. It doesn’t appear in the
         tab order, can’t receive focus, and may not read aloud by a

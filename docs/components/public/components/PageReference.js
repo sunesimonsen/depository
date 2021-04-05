@@ -45,6 +45,7 @@ export class PageReference {
       <${Link}
         route="page"
         params=${{ id }}
+        hash=""
         class=${classes(styles, isActive && activeStyles)}
         ...${other}
       >

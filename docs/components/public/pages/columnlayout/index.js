@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { Anchor } from "@depository/components";
-import { Title, SubTitle, Line } from "../../components/Page.js";
+import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultColumnLayout from "./DefaultColumnLayout.js";
 import NumberOfColumns from "./NumberOfColumns.js";
@@ -16,8 +16,8 @@ class ColumnLayoutPage {
       <${Title}>Column layout<//>
       <${SubTitle}>A simple grid based column layout.<//>
       <${Line} />
-      <h2>How to use it</h2>
-      <h3>Default</h3>
+      <${Heading} level="2">How to use it<//>
+      <${Heading} level="3">Default<//>
       <p>
         The column layout uses one column by default with a gap of
         <code class="inline">1em</code>.
@@ -25,7 +25,7 @@ class ColumnLayoutPage {
       <${Example} src=${new URL("./DefaultColumnLayout.js", import.meta.url)}>
         <${DefaultColumnLayout} />
       <//>
-      <h3>Columns</h3>
+      <${Heading} level="3">Columns<//>
       <p>
         The number of columns can be specified using the
         <code class="inline">columns</code> property.
@@ -46,7 +46,7 @@ class ColumnLayoutPage {
       <${Example} src=${new URL("./ColumnTemplate.js", import.meta.url)}>
         <${ColumnTemplate} />
       <//>
-      <h3>Gap</h3>
+      <${Heading} level="3">Gap<//>
       <p>
         Control the gap between the children with the
         <code class="inline">gap</code> property.
@@ -54,7 +54,7 @@ class ColumnLayoutPage {
       <${Example} src=${new URL("./Gap.js", import.meta.url)}>
         <${Gap} />
       <//>
-      <h3>Align items</h3>
+      <${Heading} level="3">Align items<//>
       <p>
         You can control <code class="inline">align-items</code> using the
         <code class="inline">alignItems</code> property. The default value is
@@ -63,10 +63,7 @@ class ColumnLayoutPage {
       <${Example} src=${new URL("./AlignItems.js", import.meta.url)}>
         <${AlignItems} />
       <//>
-      <h3>
-        Justify items
-        <h3></h3>
-      </h3>
+      <${Heading} level="3">Justify items<//>
       <p>
         Similarly you can control
         <code class="inline">justify-items</code> using the
@@ -76,7 +73,7 @@ class ColumnLayoutPage {
       <${Example} src=${new URL("./JustifyItems.js", import.meta.url)}>
         <${JustifyItems} />
       <//>
-      <h3>Stretched</h3>
+      <${Heading} level="3">Stretched<//>
       <p>The column layout can stretch to fill the width of their container.</p>
       <${Example} src=${new URL("./Stretched.js", import.meta.url)}>
         <${Stretched} />
