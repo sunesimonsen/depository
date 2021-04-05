@@ -53,7 +53,10 @@ const headingStyles = css`
     position: relative;
   }
 
-  &:hover > .${headingLinkStyles.toString()} {
+  &:focus-within
+    > .${headingLinkStyles.toString()},
+    &:hover
+    > .${headingLinkStyles.toString()} {
     opacity: 1;
   }
 `;
