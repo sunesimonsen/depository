@@ -3,6 +3,7 @@ import { escapePath } from "@depository/path";
 import { css, classes } from "stylewars";
 import { SourceCode } from "./SourceCode.js";
 import { IconButton } from "@depository/components";
+import { JSFiddleButton } from "./JSFiddleButton.js";
 
 import MarkupStroke16Icon from "@depository/components/icons/MarkupStroke16Icon";
 
@@ -90,6 +91,7 @@ export class Example {
           </div>
         </div>
         <div class=${buttonsStyles}>
+          <${JSFiddleButton} src=${src} />
           <${IconButton} basic @click=${this.onToggleSource}>
             <${MarkupStroke16Icon} />
           <//>

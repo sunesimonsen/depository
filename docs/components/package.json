@@ -8,7 +8,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "relivestyle --single --port 5000 public",
-    "build": "rollup -c rollup.config.js",
+    "build": "rm -rf ./dist/* && rollup -c rollup.config.js",
     "deploy": "npm run build && surge dist depository-components.surge.sh"
   },
   "bugs": "https://github.com/sunesimonsen/depository/issues",
