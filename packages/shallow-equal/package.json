@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/shallow-equal",
-  "version": "0.30.0",
+  "version": "0.31.0",
   "description": "Shallow equal",
   "module": "./src/index.js",
   "exports": {
