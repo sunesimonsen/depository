@@ -10,7 +10,8 @@ const styles = css`
   }
 
   & {
-    margin: 60px auto;
+    display: inline-block;
+    overflow: hidden;
     position: relative;
     text-indent: -9999em;
     border-width: var(--dc-spinner-border-size, 0.2em);
