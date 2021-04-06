@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
-import { IconButton, Skeleton, Spinner } from "@depository/components";
+import { IconButton, Skeleton } from "@depository/components";
 import LinkStroke16Icon from "@depository/components/icons/LinkStroke16Icon";
 
 const containerStyles = css`
@@ -142,7 +142,6 @@ export class PageSkeleton {
         <h2><${Skeleton} /></h2>
         <h3><${Skeleton} /></h3>
         <p><${Skeleton} /></p>
-        <${Spinner}/>
       </${Page}>
     `;
   }
