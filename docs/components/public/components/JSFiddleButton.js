@@ -2,6 +2,7 @@ import { html } from "@depository/view";
 import { css } from "stylewars";
 import { IconButton } from "@depository/components";
 import { JSFiddleLogo } from "./JSFiddleLogo.js";
+import { version } from "../version.js";
 
 const formStyles = css`
   & {
@@ -14,10 +15,10 @@ const importmap = `
 {
   "imports": {
     "stylewars": "https://unpkg.com/stylewars@1.9.0/dist/bundle.esm.js",
-    "@depository/store": "https://unpkg.com/@depository/store/dist/store.esm.js",
-    "@depository/view": "https://unpkg.com/@depository/view/dist/view.esm.js",
-    "@depository/components/icons/": "https://unpkg.com/@depository/components/src/icons/",
-    "@depository/components": "https://unpkg.com/@depository/components/dist/components.esm.js"
+    "@depository/store": "https://unpkg.com/@depository/store@${version}/dist/store.esm.js",
+    "@depository/view": "https://unpkg.com/@depository/view@${version}/dist/view.esm.js",
+    "@depository/components/icons/": "https://unpkg.com/@depository/components@${version}/src/icons/",
+    "@depository/components": "https://unpkg.com/@depository/components@${version}/dist/components.esm.js"
   }
 }
 </script>
