@@ -1,8 +1,10 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
+import { Pulse } from "./Pulse.js";
 
 const styles = css`
   & {
+    position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -83,14 +85,35 @@ const stretchedStyles = css`
   }
 `;
 
+const loaderStyles = css`
+  & {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const loadingStyles = css`
+  & {
+    color: transparent;
+  }
+`;
+
 export class Button {
   render({
     basic,
     primary,
     stretched,
     disabled,
+    loading,
     class: className,
     children,
+    "@click": onClick,
     ...other
   }) {
     return html`
@@ -103,9 +126,11 @@ export class Button {
           className
         )}
         disabled=${disabled}
+        @click=${loading ? null : onClick}
         ...${other}
       >
-        ${children}
+        ${loading && html`<div class=${loaderStyles}><${Pulse} /></div>`}
+        <span class=${loading && loadingStyles}>${children}</span>
       </button>
     `;
   }

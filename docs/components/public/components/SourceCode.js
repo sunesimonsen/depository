@@ -3,6 +3,7 @@
 import { html } from "@depository/view";
 import { escapePath } from "@depository/path";
 import { css } from "stylewars";
+import { Center, Spinner } from "@depository/components";
 
 const statusBySrc = (src) => `statuses.code.${escapePath(src)}`;
 
@@ -22,12 +23,10 @@ const codeStyles = css`
 
 const loadingStyles = css`
   & {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background: #23241f;
     height: 200px;
     color: white;
+    font-size: 10px;
   }
 `;
 
@@ -88,7 +87,7 @@ export class SourceCode {
     }
 
     if (status !== "ready") {
-      return html` <div class=${loadingStyles}>Loading...</div> `;
+      return html` <${Center} class=${loadingStyles}><${Spinner} /><//> `;
     }
 
     return html`

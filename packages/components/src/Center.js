@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { css } from "stylewars";
+import { css, classes } from "stylewars";
 
 const styles = css`
   & {
@@ -10,7 +10,9 @@ const styles = css`
 `;
 
 export class Center {
-  render({ children }) {
-    return html`<div class=${styles}>${children}</div>`;
+  render({ class: className, children, ...other }) {
+    return html`<div class=${classes(styles, className)} ...${other}>
+      ${children}
+    </div>`;
   }
 }

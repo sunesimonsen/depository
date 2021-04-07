@@ -3,6 +3,7 @@ import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultButton from "./DefaultButton.js";
 import ButtonTypes from "./ButtonTypes.js";
+import LoadingButton from "./LoadingButton.js";
 import StretchedButton from "./StretchedButton.js";
 import DisabledButton from "./DisabledButton.js";
 
@@ -25,6 +26,14 @@ class ButtonPage {
       <p>There are 3 types of Buttons: default, primary, and basic.</p>
       <${Example} src=${new URL("./ButtonTypes.js", import.meta.url)}>
         <${ButtonTypes} />
+      <//>
+      <${Heading} level="3">Loading<//>
+      <p>
+        You can put the button in a loading state when executing an
+        asynchronious action.
+      </p>
+      <${Example} src=${new URL("./LoadingButton.js", import.meta.url)}>
+        <${LoadingButton} />
       <//>
       <${Heading} level="3">Stretched<//>
       <p>Buttons can stretch to fill the width of their container.</p>
