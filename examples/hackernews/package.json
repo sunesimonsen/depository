@@ -1,7 +1,7 @@
 {
   "name": "hackernews",
   "description": "Hackernews build with @depository",
-  "version": "0.33.0",
+  "version": "0.34.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -11,11 +11,11 @@
     "deploy": "npm run build && surge dist depository-hackernews.surge.sh"
   },
   "dependencies": {
-    "@depository/nano-router-plugin": "^0.33.0",
-    "@depository/promise-middleware": "^0.33.0",
-    "@depository/status-middleware": "^0.33.0",
-    "@depository/store": "^0.33.0",
-    "@depository/view": "^0.33.0",
+    "@depository/nano-router-plugin": "^0.34.0",
+    "@depository/promise-middleware": "^0.34.0",
+    "@depository/status-middleware": "^0.34.0",
+    "@depository/store": "^0.34.0",
+    "@depository/view": "^0.34.0",
     "@nano-router/history": "^2.2.0",
     "@nano-router/router": "^2.6.1",
     "htm": "^3.0.4",
