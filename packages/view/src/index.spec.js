@@ -866,6 +866,32 @@ describe("view", () => {
       );
     });
 
+    describe("when using the createRef method", () => {
+      it("creates a ref on the instance", () => {
+        class TestComponent {
+          didMount() {
+            this.headingRef.setAttribute("id", "title");
+          }
+
+          render() {
+            return html`
+              <section>
+                <h1 ref=${this.createRef("headingRef")}>Title</h1>
+              </section>
+            `;
+          }
+        }
+
+        render(html`<${TestComponent} />`, store, container);
+
+        expect(
+          container,
+          "to satisfy",
+          '<div><section><h1 id="title">Title</h1></section></div>'
+        );
+      });
+    });
+
     describe("when the ref is replaced", () => {
       it("calls the new ref", async () => {
         const store = new Store({ method: "setId" });

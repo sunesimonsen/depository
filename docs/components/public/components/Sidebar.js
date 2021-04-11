@@ -50,6 +50,9 @@ export class Sidebar {
             <${PageReference} id="pulse">Pulse<//>
           </li>
           <li class=${listItemStyles}>
+            <${PageReference} id="popup">Popup<//>
+          </li>
+          <li class=${listItemStyles}>
             <${PageReference} id="icons">Icons<//>
           </li>
         </ul>

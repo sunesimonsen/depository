@@ -3,12 +3,6 @@ import { css, classes } from "stylewars";
 import { IconButton, Skeleton } from "@depository/components";
 import LinkStroke16Icon from "@depository/components/icons/LinkStroke16Icon";
 
-const containerStyles = css`
-  & {
-    overflow: auto;
-  }
-`;
-
 const contentStyles = css`
   & {
     max-width: 800px;
@@ -26,11 +20,7 @@ export class Page {
   }
 
   render({ children }) {
-    return html`
-      <div class=${containerStyles}>
-        <div class=${contentStyles}>${children}</div>
-      </div>
-    `;
+    return html`<div class=${contentStyles}>${children}</div>`;
   }
 }
 
