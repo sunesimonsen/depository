@@ -1131,11 +1131,6 @@
   dependencies:
     "@octokit/openapi-types" "^5.3.2"
 
-"@popperjs/core@^2.9.2":
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
-  integrity sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==
-
 "@rollup/plugin-babel@^5.2.2", "@rollup/plugin-babel@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.0.tgz#9cb1c5146ddd6a4968ad96f209c50c62f92f9879"
@@ -2015,9 +2010,9 @@ bytes@3.1.0:
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
 c8@^7.5.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/c8/-/c8-7.6.0.tgz#0d3b1d01b662beea51a40be33db830a48edd5d3d"
-  integrity sha512-cQYCSepX54npWqOKAmRWwOnmN2XPyShpP3Hnw2VoaB/8fdiIke72tKClHLim4U5kSTFc1vjit0771oe+BL7qHw==
+  version "7.7.1"
+  resolved "https://registry.yarnpkg.com/c8/-/c8-7.7.1.tgz#442c5e175f47c407d8631e8d82f17260f666ad10"
+  integrity sha512-OO9KpDGv1iTd/MBNUForJH7vPKt9XnRPWSBKeRJGma4xfTaKBObA0zWAplFpFRuf/qRmATFqGFrzxqDk51LXsw==
   dependencies:
     "@bcoe/v8-coverage" "^0.2.3"
     "@istanbuljs/schema" "^0.1.2"
@@ -2030,8 +2025,8 @@ c8@^7.5.0:
     rimraf "^3.0.0"
     test-exclude "^6.0.0"
     v8-to-istanbul "^7.1.0"
-    yargs "^16.0.0"
-    yargs-parser "^20.0.0"
+    yargs "^16.2.0"
+    yargs-parser "^20.2.7"
 
 cacache@^15.0.5:
   version "15.0.5"
@@ -10042,10 +10037,10 @@ yargs-parser@^15.0.1:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^20.0.0, yargs-parser@^20.2.2, yargs-parser@^20.2.3:
-  version "20.2.6"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.6.tgz#69f920addf61aafc0b8b89002f5d66e28f2d8b20"
-  integrity sha512-AP1+fQIWSM/sMiET8fyayjx/J+JmTPt2Mr0FkrgqB4todtfa53sOsrSAcIrJRD5XS20bKUwaDIuMkWKCEiQLKA==
+yargs-parser@^20.2.2, yargs-parser@^20.2.3, yargs-parser@^20.2.7:
+  version "20.2.7"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.7.tgz#61df85c113edfb5a7a4e36eb8aa60ef423cbc90a"
+  integrity sha512-FiNkvbeHzB/syOjIUxFDCnhSfzAL8R5vs40MgLFBorXACCOAEaWu0gRZl14vG8MR9AOJIZbmkjhusqBYZ3HTHw==
 
 yargs-unparser@2.0.0:
   version "2.0.0"
@@ -10057,7 +10052,7 @@ yargs-unparser@2.0.0:
     flat "^5.0.2"
     is-plain-obj "^2.1.0"
 
-yargs@16.2.0, yargs@^16.0.0, yargs@^16.2.0:
+yargs@16.2.0, yargs@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-16.2.0.tgz#1c82bf0f6b6a66eafce7ef30e376f49a12477f66"
   integrity sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==
