@@ -81,6 +81,11 @@ class UserComponent {
     this._defaultProps = (Constructor.defaultProps || (() => ({})))();
     const instanceProps = this._createInstanceProps();
     const instance = new Constructor(instanceProps, context);
+
+    instance.createRef = (name) => (ref) => {
+      instance[name] = ref;
+    };
+
     this._instance = instance;
     this._context = context;
     this._errorHandler = errorHandler;

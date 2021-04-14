@@ -2,7 +2,6 @@ import { html } from "@depository/view";
 import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultPulse from "./DefaultPulse.js";
-import { Anchor } from "@depository/components";
 
 class SpinnerPage {
   render() {

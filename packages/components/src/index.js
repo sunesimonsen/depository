@@ -6,3 +6,5 @@ export { Spinner } from "./Spinner.js";
 export { Skeleton } from "./Skeleton.js";
 export { Pulse } from "./Pulse.js";
 export { Center } from "./Center.js";
+export { Popup } from "./Popup.js";
+export { ScrollArea } from "./ScrollArea.js";
