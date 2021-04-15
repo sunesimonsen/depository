@@ -19,8 +19,10 @@ export class Page {
     }
   }
 
-  render({ children }) {
-    return html`<div class=${contentStyles}>${children}</div>`;
+  render({ class: className, children }) {
+    return html`<div class=${classes(contentStyles, className)}>
+      ${children}
+    </div>`;
   }
 }
 
@@ -122,10 +124,16 @@ export class Line {
   }
 }
 
+const skeletonStyles = css`
+  & {
+    width: 800px;
+  }
+`;
+
 export class PageSkeleton {
   render() {
     return html`
-      <${Page}>
+      <${Page} class=${skeletonStyles}>
         <${Title}><${Skeleton} /><//>
         <${SubTitle}><${Skeleton} /><//>
         <${Line}/>
