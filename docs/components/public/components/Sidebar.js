@@ -53,6 +53,9 @@ export class Sidebar {
             <${PageReference} id="popup">Popup<//>
           </li>
           <li class=${listItemStyles}>
+            <${PageReference} id="menu">Menu<//>
+          </li>
+          <li class=${listItemStyles}>
             <${PageReference} id="icons">Icons<//>
           </li>
         </ul>

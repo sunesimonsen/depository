@@ -70,7 +70,7 @@ export default class Example {
       (placement) =>
         html`
           <div
-            #="{placement}"
+            key="{placement}"
             ref=${this.createRef(`${placement}-popup-ref`)}
             class=${popupStyles}
           >

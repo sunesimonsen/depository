@@ -104,6 +104,14 @@ const loadingStyles = css`
   }
 `;
 
+const childrenStyles = css`
+  & {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 export class Button {
   render({
     basic,
@@ -130,7 +138,9 @@ export class Button {
         ...${other}
       >
         ${loading && html`<div class=${loaderStyles}><${Pulse} /></div>`}
-        <span class=${loading && loadingStyles}>${children}</span>
+        <span class=${classes(childrenStyles, loading && loadingStyles)}>
+          ${children}
+        </span>
       </button>
     `;
   }

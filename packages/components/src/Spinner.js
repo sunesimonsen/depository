@@ -34,8 +34,10 @@ const styles = css`
 
 export class Spinner {
   render({ class: className }) {
-    return html`<div class=${classes(styles, className)} role="progressbar">
-      Loading...
-    </div>`;
+    return html`
+      <div class=${classes(styles, className)} role="progressbar">
+        Loading...
+      </div>
+    `;
   }
 }

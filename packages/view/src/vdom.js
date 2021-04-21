@@ -140,14 +140,14 @@ class UserComponent {
     }
   }
 
-  _update(vdom) {
+  _update(tree) {
     const instance = this._instance;
 
-    this._props = vdom._props;
-    this._children = vdom._children;
+    this._props = tree.props;
+    this._children = tree.children;
 
     if (instance.data) {
-      const paths = instance.data(vdom._props);
+      const paths = instance.data(tree.props);
       const observable = this._store.observe(paths);
       if (this._observable !== observable) {
         this._subscription.unsubscribe();
@@ -315,11 +315,11 @@ class PrimitiveComponent {
     this._store = store;
   }
 
-  _update(vdom) {
-    const props = vdom._props;
+  _update(tree) {
+    const props = tree.props;
 
     for (const p in this._props) {
-      if (p !== "#" && p !== "ref" && !(p in props)) {
+      if (p !== "key" && p !== "ref" && !(p in props)) {
         const value = this._props[p];
         if (p[0] === "@") {
           removeEventListener(this._dom, p, value);
@@ -336,7 +336,7 @@ class PrimitiveComponent {
       const prevValue = this._props[p];
       const value = props[p];
 
-      if (p !== "#" && p !== "ref" && prevValue !== value) {
+      if (p !== "key" && p !== "ref" && prevValue !== value) {
         if (p[0] === "@") {
           removeEventListener(this._dom, p, prevValue);
           addEventListener(this._dom, p, value);
@@ -360,7 +360,7 @@ class PrimitiveComponent {
 
     this._props = props;
 
-    const children = vdom._children;
+    const children = tree.children;
 
     if (this._children !== children) {
       if (children === null) {
@@ -400,7 +400,7 @@ class PrimitiveComponent {
     }
 
     for (const p in this._props) {
-      if (p !== "#" && p !== "ref") {
+      if (p !== "key" && p !== "ref") {
         const value = this._props[p];
         if (p[0] === "@") {
           addEventListener(this._dom, p, value);
@@ -504,8 +504,8 @@ class PortalComponent extends Hidden {
     this._store = store;
   }
 
-  _update(vdom) {
-    const target = vdom._props.target || document.body;
+  _update(tree) {
+    const target = tree.props.target || document.body;
     if (this._target !== target) {
       // Move DOM tree
       this._target = target;
@@ -513,7 +513,7 @@ class PortalComponent extends Hidden {
     }
 
     this._children = update(
-      vdom._children,
+      tree.children,
       this._children,
       this._store,
       this._context,
@@ -552,12 +552,12 @@ export const create = (value, store, context, errorHandler, isSvg) => {
     );
   }
 
-  if (typeof value._type === "function") {
+  if (typeof value.type === "function") {
     try {
       return new UserComponent(
-        value._type,
-        value._props,
-        value._children,
+        value.type,
+        value.props,
+        value.children,
         store,
         context,
         errorHandler,
@@ -570,11 +570,11 @@ export const create = (value, store, context, errorHandler, isSvg) => {
   }
 
   if (typeof value === "object") {
-    if (value._type === "portal") {
+    if (value.type === "portal") {
       return new PortalComponent(
-        value._type,
-        value._props,
-        value._children,
+        value.type,
+        value.props,
+        value.children,
         store,
         context,
         errorHandler,
@@ -583,9 +583,9 @@ export const create = (value, store, context, errorHandler, isSvg) => {
     }
 
     return new PrimitiveComponent(
-      value._type,
-      value._props,
-      value._children,
+      value.type,
+      value.props,
+      value.children,
       store,
       context,
       errorHandler,
@@ -596,9 +596,13 @@ export const create = (value, store, context, errorHandler, isSvg) => {
   return new Text(String(value));
 };
 
-const getKey = (value) => value._props["#"];
-const hasKey = (value) => value && value._props && "#" in value._props;
-const similar = (a, b) => a._type === b._type && getKey(a) === getKey(b);
+const getKey = (props) => props && props.key;
+
+const hasKey = (value) =>
+  value && typeof getKey(value.props || value._props) !== "undefined";
+
+const similar = (a, b) =>
+  a._type === b.type && getKey(a._props) === getKey(b.props);
 
 const updateKeyedArray = (
   updatedTree,
@@ -610,11 +614,11 @@ const updateKeyedArray = (
 ) => {
   const updatedByKey = new Map();
   updatedTree.forEach((child) => {
-    updatedByKey.set(getKey(child), child);
+    updatedByKey.set(getKey(child.props), child);
   });
 
   vdom.forEach((oldChild, i) => {
-    const key = getKey(oldChild);
+    const key = getKey(oldChild._props);
     if (updatedByKey.has(key)) {
       const newChild = updatedByKey.get(key);
       update(newChild, oldChild, store, context, errorHandler, isSvg);
@@ -717,7 +721,7 @@ export const update = (
     return vdom;
   }
 
-  if (updatedTree && updatedTree._type && updatedTree._type === vdom._type) {
+  if (updatedTree && updatedTree.type && updatedTree.type === vdom._type) {
     vdom._update(updatedTree);
     return vdom;
   }
@@ -749,10 +753,19 @@ export const render = (
   flush(vdom);
 };
 
+export const clone = (element, { children, ...props }) => ({
+  type: element.type,
+  props: {
+    ...element.props,
+    ...props,
+  },
+  children: children || element.children,
+});
+
 export const h = (type, props, ...children) => {
   return {
-    _type: type,
-    _props: props || {},
-    _children: children.length ? children.flat() : null,
+    type: type,
+    props: props || {},
+    children: children.length ? children.flat() : null,
   };
 };

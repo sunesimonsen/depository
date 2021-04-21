@@ -5,6 +5,7 @@ import LinkStroke16Icon from "@depository/components/icons/LinkStroke16Icon";
 
 const contentStyles = css`
   & {
+    width: 50vw;
     max-width: 800px;
     margin: 30px auto;
   }

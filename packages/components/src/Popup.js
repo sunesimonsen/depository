@@ -7,6 +7,13 @@ const popupStyles = css`
     left: 0;
     top: 0;
     box-sizing: border-box;
+    visibility: hidden;
+  }
+`;
+
+const visibleStyles = css`
+  & {
+    visibility: visible;
   }
 `;
 
@@ -135,6 +142,8 @@ export class Popup {
     this._anchor = anchor;
     this._popup = popup;
 
+    this._popup.classList.add(popupStyles);
+
     this._placement = options.placement || "bottom";
 
     let margins = options.margins;
@@ -203,14 +212,19 @@ export class Popup {
       }
     }
 
-    this._popup.style.transform = `translateX(${position._left}px) translateY(${position._top}px)`;
+    this._popup.style.left = position._left + "px";
+    this._popup.style.top = position._top + "px";
+    this._popup.setAttribute(
+      "data-placement",
+      this._placement.replace("start", "left").replace("end", "right")
+    );
   }
 
   show() {
     window.addEventListener("resize", this._update);
     window.addEventListener("scroll", this._update, true);
 
-    this._popup.classList.add(popupStyles);
+    this._popup.classList.add(visibleStyles);
 
     if (this._placement.includes("stretch")) {
       const anchorRect = this._anchor.getBoundingClientRect();
@@ -223,8 +237,8 @@ export class Popup {
   }
 
   hide() {
-    this._popup.classList.remove(popupStyles);
     window.removeEventListener("resize", this._update);
     window.removeEventListener("scroll", this._update, true);
+    this._popup.classList.remove(visibleStyles);
   }
 }

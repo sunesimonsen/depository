@@ -4,6 +4,7 @@ import { css } from "stylewars";
 import { SourceCode } from "./SourceCode.js";
 import { IconButton } from "@depository/components";
 import { JSFiddleButton } from "./JSFiddleButton.js";
+import { ExamplePreview } from "./ExamplePreview.js";
 
 import MarkupStroke16Icon from "@depository/components/icons/MarkupStroke16Icon";
 
@@ -13,12 +14,6 @@ const styles = css`
     border-radius: 4px;
     overflow: hidden;
     margin: 2em 0;
-  }
-`;
-
-const previewStyles = css`
-  & {
-    padding: 20px;
   }
 `;
 
@@ -58,7 +53,7 @@ export class Example {
   render({ children, sourceVisible, src, columns = 1, stretched }) {
     return html`
       <div class=${styles}>
-        <div class=${previewStyles}>${children}</div>
+        <${ExamplePreview}>${children}<//>
         <div class=${buttonsStyles}>
           <${JSFiddleButton} src=${src} />
           <${IconButton} basic @click=${this.onToggleSource}>

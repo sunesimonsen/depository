@@ -71,7 +71,7 @@ const keyStyles = css`
 
 class JSONEntry {
   render({ id, key, value }) {
-    return html`<div #=${key}>
+    return html`<div key=${key}>
       <span class=${keyStyles}>${key}:</span>
       <${JSONValue} id=${id} value=${value} />
     </div>`;
@@ -142,7 +142,7 @@ class JSONCollectionBody {
             ([key, value]) =>
               html`<${JSONEntry}
                 id=${id + escapePath(key)}
-                #=${key}
+                key=${key}
                 key=${key}
                 value=${value}
               />`
