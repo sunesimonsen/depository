@@ -1,7 +1,7 @@
 {
   "name": "component-docs",
   "description": "Document for @depository/components",
-  "version": "0.35.0",
+  "version": "0.36.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -18,12 +18,12 @@
     "url": "https://github.com/sunesimonsen/depository"
   },
   "dependencies": {
-    "@depository/components": "^0.35.0",
-    "@depository/nano-router-plugin": "^0.35.0",
-    "@depository/promise-middleware": "^0.35.0",
-    "@depository/status-middleware": "^0.35.0",
-    "@depository/store": "^0.35.0",
-    "@depository/view": "^0.35.0",
+    "@depository/components": "^0.36.0",
+    "@depository/nano-router-plugin": "^0.36.0",
+    "@depository/promise-middleware": "^0.36.0",
+    "@depository/status-middleware": "^0.36.0",
+    "@depository/store": "^0.36.0",
+    "@depository/view": "^0.36.0",
     "@nano-router/history": "^2.2.0",
     "@nano-router/router": "^2.6.1",
     "@zendeskgarden/svg-icons": "^6.29.0",

@@ -2,7 +2,7 @@
   "type": "module",
   "name": "todomvc",
   "description": "TodoMVC build with @depository",
-  "version": "0.35.0",
+  "version": "0.36.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -13,9 +13,9 @@
     "deploy": "yarn build && surge dist depository-todomvc.surge.sh"
   },
   "dependencies": {
-    "@depository/promise-middleware": "^0.35.0",
-    "@depository/store": "^0.35.0",
-    "@depository/view": "^0.35.0",
+    "@depository/promise-middleware": "^0.36.0",
+    "@depository/store": "^0.36.0",
+    "@depository/view": "^0.36.0",
     "@rollup/plugin-html": "^0.2.3",
     "htm": "^3.0.4",
     "preact": "^10.5.7"
