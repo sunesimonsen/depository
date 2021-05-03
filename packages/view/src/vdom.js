@@ -469,6 +469,10 @@ class Text {
 }
 
 class Hidden {
+  constructor() {
+    this._type = "hidden";
+  }
+
   _mount() {
     this._dom = document.createComment("hidden");
     return this._dom;
@@ -541,8 +545,11 @@ class PortalComponent extends Hidden {
   }
 }
 
+const isHidden = (value) =>
+  value == null || value === false || (isArray(value) && !value.length);
+
 export const create = (value, store, context, errorHandler, isSvg) => {
-  if (value == null || value === false || (isArray(value) && !value.length)) {
+  if (isHidden(value)) {
     return new Hidden();
   }
 
@@ -713,6 +720,10 @@ export const update = (
   errorHandler,
   isSvg
 ) => {
+  if (vdom._type === "hidden" && isHidden(updatedTree)) {
+    return vdom;
+  }
+
   if (
     vdom._type === "text" &&
     (typeof updatedTree === "string" || typeof updatedTree === "number")
