@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/preact",
-  "version": "0.36.0",
+  "version": "0.37.0",
   "description": "Preact bindings for depository",
   "module": "./src/index.js",
   "exports": {
@@ -27,8 +27,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/promise-middleware": "^0.36.0",
-    "@depository/store": "^0.36.0",
+    "@depository/promise-middleware": "^0.37.0",
+    "@depository/store": "^0.37.0",
     "htm": "^3.0.4",
     "jsdom": "^16.4.0",
     "mocha": "8.3.2",
