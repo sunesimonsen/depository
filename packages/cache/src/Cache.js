@@ -1,6 +1,7 @@
 import { Computed } from "./Computed.js";
 import { PathObserver } from "./PathObserver.js";
 import { shallowEqual } from "@depository/shallow-equal";
+import { ReadonlyCache } from "./ReadonlyCache.js";
 
 import {
   getIn,
@@ -65,6 +66,10 @@ export class Cache {
 
   get data() {
     return this._data;
+  }
+
+  get readonly() {
+    return new ReadonlyCache(this);
   }
 
   get(pathOrComputed) {

@@ -116,11 +116,11 @@ describe("vdom", () => {
         ],
         [
           html`<${Childish}
-            ><span #="0">${"Hello"}</span><span #="1">world</span><//
+            ><span key="0">${"Hello"}</span><span key="1">world</span><//
           >`,
-          html`<${Childish}>${null}<span #="1">world</span><//>`,
+          html`<${Childish}>${null}<span key="1">world</span><//>`,
           html`<${Childish}
-            ><span #="0">${"H3110"}</span><span #="1">world</span><//
+            ><span key="0">${"H3110"}</span><span key="1">world</span><//
           >`,
         ],
         ["Hello", html`<img src="https://example.com" />`],
@@ -222,19 +222,19 @@ describe("vdom", () => {
         [html`<${Childish}><//>`, html`<${Childish}><span>0</span><//>`],
         [html`<${Childish}><span>0</span><//>`, html`<${Childish}><//>`],
         [
-          html`<${Childish}><span #="0">0</span><//>`,
-          html`<${Childish}><span #="0">0</span><span #="1">1</span><//>`,
+          html`<${Childish}><span key="0">0</span><//>`,
+          html`<${Childish}><span key="0">0</span><span key="1">1</span><//>`,
         ],
         [
-          html`<${Childish}><${Title} #="0">0<//><//>`,
-          html`<${Childish}><${Title} #="0">0<//><${Title} #="1">1<//><//>`,
+          html`<${Childish}><${Title} key="0">0<//><//>`,
+          html`<${Childish}><${Title} key="0">0<//><${Title} key="1">1<//><//>`,
         ],
         [
           html`<ul>
-            <${Numbers} #="0" />
+            <${Numbers} key="0" />
           </ul>`,
           html`<ul>
-            <${Numbers} #="0" />
+            <${Numbers} key="0" />
             <${Childish}><li>four</li><//>
           </ul>`,
         ],
@@ -286,9 +286,9 @@ describe("vdom", () => {
         ],
         [
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
           </ul>`,
           html`<ul>
             ${null}
@@ -297,84 +297,84 @@ describe("vdom", () => {
         [
           html`<ul></ul>`,
           html`<ul>
-            <li #="1">1</li>
-            <li #="0">0</li>
+            <li key="1">1</li>
+            <li key="0">0</li>
           </ul>`,
         ],
         [
           html`<ul></ul>`,
           html`<ul>
-            <li #="1">1</li>
-            <li #="0">0</li>
+            <li key="1">1</li>
+            <li key="0">0</li>
           </ul>`,
         ],
         [
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
           </ul>`,
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
-          </ul>`,
-        ],
-        [
-          html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <${Numbers} #3 />
-          </ul>`,
-          html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
-            <${Numbers} #3 />
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
           </ul>`,
         ],
         [
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <${Numbers} key="3" />
           </ul>`,
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-          </ul>`,
-        ],
-        [
-          html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
-          </ul>`,
-          html`<ul>
-            <li #="1">1</li>
-            <li #="0">0</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
+            <${Numbers} key="3" />
           </ul>`,
         ],
         [
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
           </ul>`,
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">one</li>
-            <li #="2">2</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
           </ul>`,
         ],
         [
           html`<ul>
-            <li #="0">0</li>
-            <li #="1">1</li>
-            <li #="2">2</li>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
           </ul>`,
           html`<ul>
-            <li #="4">4</li>
-            <li #="5">5</li>
+            <li key="1">1</li>
+            <li key="0">0</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
+          </ul>`,
+          html`<ul>
+            <li key="0">0</li>
+            <li key="1">one</li>
+            <li key="2">2</li>
+          </ul>`,
+        ],
+        [
+          html`<ul>
+            <li key="0">0</li>
+            <li key="1">1</li>
+            <li key="2">2</li>
+          </ul>`,
+          html`<ul>
+            <li key="4">4</li>
+            <li key="5">5</li>
           </ul>`,
         ],
         [
@@ -495,7 +495,7 @@ describe("vdom", () => {
     it("create(b) === update(b, create(a)) for random updates", () => {
       const leaf = pickone([natural, word, bool]);
 
-      const _type = pickone(["div", "span", "h1", "portal", Childish]);
+      const type = pickone(["div", "span", "h1", "portal", Childish]);
 
       const styles = pickone([
         shape({
@@ -518,7 +518,7 @@ describe("vdom", () => {
         [".myProp", pickone([word, bool, undefined])],
       ]);
 
-      const _props = entries.map((arr) => Object.fromEntries(arr));
+      const props = entries.map((arr) => Object.fromEntries(arr));
 
       const maybeKeyed = (children, chance) => {
         if (chance.bool()) return children;
@@ -527,8 +527,8 @@ describe("vdom", () => {
 
         const result = children.map((c, i) =>
           c && typeof c === "object" && c.type
-            ? { ...c, _props: { ...c._props, "#": indexes[i] } }
-            : { _type: "div", _props: { "#": indexes[i] }, _children: [c] }
+            ? { ...c, props: { ...c.props, key: indexes[i] } }
+            : { type: "div", props: { key: indexes[i] }, children: [c] }
         );
 
         return result;
@@ -543,9 +543,9 @@ describe("vdom", () => {
         [
           tree(leaf, { max: 10 }).map((tree, chance) =>
             mapBranches(tree, (children) => ({
-              _type,
-              _props,
-              _children: maybeKeyed(children, chance),
+              _type: type,
+              props,
+              children: maybeKeyed(children, chance),
             }))
           ),
           5,

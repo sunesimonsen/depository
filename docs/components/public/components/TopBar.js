@@ -1,6 +1,7 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
 import { Link } from "@depository/nano-router-plugin";
+import { DirectionSwitch } from "./DirectionSwitch.js";
 
 const logo = new URL("../images/logo.png", import.meta.url);
 
@@ -36,6 +37,13 @@ const homeStyles = css`
   }
 `;
 
+const buttonsStyles = css`
+  & {
+    justify-self: end;
+    padding: 0 20px;
+  }
+`;
+
 export class TopBar {
   render() {
     return html`
@@ -48,6 +56,9 @@ export class TopBar {
           <img src=${logo} class=${logoStyles} />
           <span class=${brandStyles}>DEPOSITORY</span>
         <//>
+        <div class=${buttonsStyles}>
+          <${DirectionSwitch} />
+        </div>
       </header>
     `;
   }

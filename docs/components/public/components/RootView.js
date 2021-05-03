@@ -4,7 +4,10 @@ import { PageContainer } from "./PageContainer.js";
 
 export class RootView {
   data() {
-    return { route: "routing.route", params: "routing.params" };
+    return {
+      route: "routing.route",
+      params: "routing.params",
+    };
   }
 
   render({ route, params }) {

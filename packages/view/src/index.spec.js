@@ -319,7 +319,7 @@ describe("view", () => {
 
               return html`
                 <ul>
-                  ${items.map((item) => html`<li #=${item}>${item}</li>`)}
+                  ${items.map((item) => html`<li key=${item}>${item}</li>`)}
                 </ul>
               `;
             }
@@ -1352,7 +1352,7 @@ describe("view", () => {
         }
 
         render({ items }) {
-          return items.map((item, i) => html`<span #=${i}>${item}</span>`);
+          return items.map((item, i) => html`<span key=${i}>${item}</span>`);
         }
       }
 

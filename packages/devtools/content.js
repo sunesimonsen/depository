@@ -14,7 +14,7 @@ class ActionStore {
     port.postMessage({
       type: "updates",
       payload: {
-        active: this.active,
+        active: Math.min(this.active, this.updates.length - 1),
         updates: this.updates,
       },
     });

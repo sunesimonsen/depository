@@ -72,7 +72,7 @@ export class Stories {
     return html`
       <div class=${containerStyles}>
         <ol class=${listStyles}>
-          ${topStories.map((id) => html`<${Story} #=${id} id=${id} />`)}
+          ${topStories.map((id) => html`<${Story} key=${id} id=${id} />`)}
         </ol>
         ${loadMoreVisible &&
         html`

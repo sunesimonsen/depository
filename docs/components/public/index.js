@@ -7,7 +7,11 @@ import { RootView } from "./components/RootView.js";
 import { Router, Routes, Route } from "@nano-router/router";
 import { createBrowserHistory } from "@nano-router/history";
 
-const store = new Store();
+const store = new Store({
+  global: {
+    direction: sessionStorage.getItem("direction") || "ltr",
+  },
+});
 
 if (window.__DEPOSITORY__) {
   store.use(window.__DEPOSITORY__.plugin({ name: "HackerNews" }));

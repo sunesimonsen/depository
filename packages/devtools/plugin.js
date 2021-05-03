@@ -63,7 +63,16 @@ window.__DEPOSITORY__.plugin = (options) => (store) => {
     if (action.payload !== null) {
       sendMessage({
         type: "update",
-        payload: { action, state: store.get() },
+        payload: {
+          action:
+            typeof action.payload === "function"
+              ? {
+                  ...action,
+                  payload: action.payload(store.cache.readonly),
+                }
+              : action,
+          state: store.get(),
+        },
       });
     }
 

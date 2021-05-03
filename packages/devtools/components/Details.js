@@ -25,6 +25,8 @@ class ActionPanel {
   }
 
   render({ update }) {
+    if (!update) return null;
+
     return html`
       <section class=${detailsStyles}>
         <${JSONView} id="actionJson" value=${update.action} />
@@ -39,6 +41,8 @@ class StatePanel {
   }
 
   render({ update }) {
+    if (!update) return null;
+
     return html`
       <section class=${detailsStyles}>
         <${JSONView} id="stateJson" value=${update.state} />
@@ -52,13 +56,7 @@ export class Details {
     return { id: "detailsTabs" };
   }
 
-  data() {
-    return { update };
-  }
-
-  render({ id, update }) {
-    if (!update) return null;
-
+  render({ id }) {
     return html`
       <${ErrorBoundary} name="details">
         <${Tabs} id=${id} active="action">
