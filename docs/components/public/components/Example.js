@@ -19,10 +19,13 @@ const styles = css`
 
 const buttonsStyles = css`
   & {
+    display: flex;
+    gap: 2px;
+    justify-content: flex-end;
+    align-items: center;
     background: rgb(248, 249, 249);
     border-top: 1px solid rgb(216, 220, 222);
     border-bottom: 1px solid rgb(216, 220, 222);
-    text-align: right;
     padding: 4px 8px;
   }
 `;
