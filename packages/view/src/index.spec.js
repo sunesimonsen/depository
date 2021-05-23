@@ -1581,6 +1581,50 @@ describe("view", () => {
 
       expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
     });
+
+    describe("with data", () => {
+      class WelcomeFromStore {
+        static defaultProps() {
+          return { greeting: "Hello, " };
+        }
+
+        data() {
+          return { greeting: "greeting" };
+        }
+
+        render({ greeting, name }) {
+          return greeting + name;
+        }
+      }
+
+      it("only overrides undefined values", async () => {
+        const store = new Store();
+
+        render(html`<${WelcomeFromStore} name="Jane Doe" />`, store, container);
+
+        expect(container, "to satisfy", "<div>Hello, Jane Doe</div>");
+
+        await store.dispatch({
+          payload: { greeting: "Welcome, " },
+        });
+
+        expect(container, "to satisfy", "<div>Welcome, Jane Doe</div>");
+      });
+
+      it("is overridable with props", () => {
+        const store = new Store({
+          greeting: "Welcome, ",
+        });
+
+        render(
+          html`<${WelcomeFromStore} greeting="Hi!, " name="Jane Doe" />`,
+          store,
+          container
+        );
+
+        expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
+      });
+    });
   });
 
   describe("context", () => {

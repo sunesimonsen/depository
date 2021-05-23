@@ -100,9 +100,20 @@ class UserComponent {
   }
 
   _createInstanceProps() {
+    const data = {};
+
+    if (this._data) {
+      Object.keys(this._data).forEach((key) => {
+        const value = this._data[key];
+        if (typeof value !== "undefined") {
+          data[key] = value;
+        }
+      });
+    }
+
     return {
       ...this._defaultProps,
-      ...this._data,
+      ...data,
       ...this._props,
       children: this._children,
     };
