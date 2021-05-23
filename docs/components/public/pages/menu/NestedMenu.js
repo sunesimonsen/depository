@@ -7,7 +7,7 @@ import {
   MenuItemNext,
   MenuItemPrevious,
   selectedMenuItemPath,
-  Menu,
+  NestedMenu,
 } from "@depository/components";
 
 const menuPath = "examples.NestedMenu.menu";
@@ -45,49 +45,40 @@ export default class Example {
       ],
     };
 
+    this.onMenuChanged = (e) => {
+      const { menu, selectedItem } = e.detail;
+
+      this.dispatch({
+        name: "showMenu",
+        payload: {
+          [menuPath]: menu,
+          [selectedMenuItemPath(this.props.id)]:
+            selectedItem || this.menus[menu][1].props.key,
+        },
+      });
+    };
+
+    this.onHide = () => {
+      this.dispatch({
+        name: "resetMenu",
+        payload: { [menuPath]: "root" },
+      });
+    };
+
     this.onSelect = (e) => {
       const { key, value } = e.detail;
-
-      const items = this.menus[this.props.menu || "root"];
-      const item = items.find((item) => item.props.key === key);
-
-      if (item.type === MenuItemNext) {
-        const firstItem = this.menus[item.props.key][1];
-        this.showMenu(item.props.key, firstItem && firstItem.props.key);
-        e.preventDefault();
-      } else if (item.type === MenuItemPrevious) {
-        const previousItem = this.menus[item.props.key].find(
-          (item) => item.props.key === this.props.menu
-        );
-        this.showMenu(item.props.key, previousItem && previousItem.props.key);
-        e.preventDefault();
-      } else {
-        alert(`${key}:${value}`);
-      }
+      alert(`${key}:${value}`);
     };
-
-    this.resetMenu = () => {
-      this.showMenu("root");
-    };
-  }
-
-  showMenu(menu, selectedItem) {
-    this.dispatch({
-      name: "showMenu",
-      payload: {
-        [menuPath]: menu,
-        [selectedMenuItemPath(this.props.id)]: selectedItem,
-      },
-    });
   }
 
   render({ id, menu = "root" }) {
     return html`
       <div class=${containerStyles}>
-        <${Menu}
+        <${NestedMenu}
           id=${id}
           placement="end"
-          @hide=${this.resetMenu}
+          @menuChanged=${this.onMenuChanged}
+          @hide=${this.onHide}
           @select=${this.onSelect}
         >
           <${MenuButton}>Fruit<//>
