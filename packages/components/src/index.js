@@ -15,6 +15,7 @@ export { MenuItemPrevious } from "./Menu/MenuItemPrevious.js";
 export { MenuPopup } from "./Menu/MenuPopup.js";
 export { Menu } from "./Menu.js";
 export { NestedMenu } from "./NestedMenu.js";
+export { TextInput } from "./TextInput.js";
 export {
   selectedItemPath as selectedMenuItemPath,
   setSelectedMenuItem,

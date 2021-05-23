@@ -61,6 +61,9 @@ export class Sidebar {
           <li class=${listItemStyles}>
             <${PageReference} id="icons">Icons<//>
           </li>
+          <li class=${listItemStyles}>
+            <${PageReference} id="textinput">TextInput<//>
+          </li>
         </ul>
       </nav>
     `;
