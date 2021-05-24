@@ -26,10 +26,12 @@ export class Menu {
     };
 
     this.hideMenu = () => {
-      this.dispatch(hideMenu({ id: this.props.id }));
+      if (this.props.visible) {
+        this.dispatch(hideMenu({ id: this.props.id }));
 
-      const hideHandler = this.props["@hide"];
-      hideHandler && hideHandler();
+        const hideHandler = this.props["@hide"];
+        hideHandler && hideHandler();
+      }
     };
 
     this.onTriggerClick = () => {
