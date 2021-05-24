@@ -1,5 +1,4 @@
 import { render, html } from "./dependencies/view.esm.js";
-import { promiseMiddleware } from "./dependencies/promise-middleware.esm.js";
 import { Store } from "./dependencies/store.esm.js";
 import { Root } from "./components/Root.js";
 
@@ -26,8 +25,6 @@ store.useMiddleware(({ store, next, action }) => {
     return next(action);
   }
 });
-
-store.useMiddleware(promiseMiddleware());
 
 const port = chrome.runtime.connect({ name: "panel" });
 
