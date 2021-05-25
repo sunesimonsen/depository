@@ -16,6 +16,7 @@ export { MenuPopup } from "./Menu/MenuPopup.js";
 export { Menu } from "./Menu.js";
 export { NestedMenu } from "./NestedMenu.js";
 export { TextInput } from "./TextInput.js";
+export { MediaInput } from "./MediaInput.js";
 export {
   selectedItemPath as selectedMenuItemPath,
   setSelectedMenuItem,

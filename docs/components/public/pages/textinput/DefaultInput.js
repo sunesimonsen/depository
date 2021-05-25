@@ -24,7 +24,6 @@ export default class Example {
   }
 
   render({ value }) {
-    console.log(value);
     return html`
       <${ColumnLayout} columns="auto 300px auto">
         <label for="car-model">Car model</label>

@@ -1,7 +1,7 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
 
-const styles = css`
+export const textInputStyles = css`
   & {
     appearance: none;
     transition: border-color 0.25s ease-in-out 0s,
@@ -25,7 +25,8 @@ const styles = css`
     border-color: rgb(31, 115, 183);
   }
 
-  &:focus {
+  &:focus,
+  &:focus-within {
     outline: none;
     border-color: rgb(31, 115, 183);
     box-shadow: rgb(31 115 183 / 35%) 0px 0px 0px 3px;
@@ -35,7 +36,11 @@ const styles = css`
 export class TextInput {
   render({ class: className, ...other }) {
     return html`
-      <input type="text" class=${classes(className, styles)} ...${other} />
+      <input
+        type="text"
+        class=${classes(className, textInputStyles)}
+        ...${other}
+      />
     `;
   }
 }
