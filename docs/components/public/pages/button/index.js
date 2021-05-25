@@ -3,6 +3,7 @@ import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultButton from "./DefaultButton.js";
 import ButtonTypes from "./ButtonTypes.js";
+import MediaButton from "./MediaButton.js";
 import LoadingButton from "./LoadingButton.js";
 import StretchedButton from "./StretchedButton.js";
 import DisabledButton from "./DisabledButton.js";
@@ -26,6 +27,11 @@ class ButtonPage {
       <p>There are 3 types of Buttons: default, primary, and basic.</p>
       <${Example} src=${new URL("./ButtonTypes.js", import.meta.url)}>
         <${ButtonTypes} />
+      <//>
+      <${Heading} level="3">Media<//>
+      <p>Media elements add even more context to a button.</p>
+      <${Example} src=${new URL("./MediaButton.js", import.meta.url)}>
+        <${MediaButton} />
       <//>
       <${Heading} level="3">Loading<//>
       <p>

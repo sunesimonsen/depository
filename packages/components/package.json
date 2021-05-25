@@ -13,7 +13,8 @@
   "module": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./icons/*": "./src/icons/*.js"
+    "./icons/*": "./src/icons/*.js",
+    "./spacing": "./src/spacing.js"
   },
   "sideEffects": false,
   "scripts": {
