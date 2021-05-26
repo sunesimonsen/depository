@@ -2,7 +2,7 @@ import { html } from "@depository/view";
 import { css } from "stylewars";
 import { IconButton } from "@depository/components";
 import { JSFiddleLogo } from "./JSFiddleLogo.js";
-import { version } from "../version.js";
+import { importmap } from "../importmap.js";
 
 const formStyles = css`
   & {
@@ -10,17 +10,9 @@ const formStyles = css`
   }
 `;
 
-const importmap = `
+const importmapScriptTag = `
 <script type="importmap">
-{
-  "imports": {
-    "stylewars": "https://unpkg.com/stylewars@1.9.0/dist/bundle.esm.js",
-    "@depository/store": "https://unpkg.com/@depository/store@${version}/dist/store.esm.js",
-    "@depository/view": "https://unpkg.com/@depository/view@${version}/dist/view.esm.js",
-    "@depository/components/icons/": "https://unpkg.com/@depository/components@${version}/src/icons/",
-    "@depository/components": "https://unpkg.com/@depository/components@${version}/dist/components.esm.js"
-  }
-}
+${importmap}
 </script>
 `;
 
@@ -61,7 +53,7 @@ export class JSFiddleButton {
         const form = this._formRef;
 
         form.querySelector("input[name=js]").value = template(content);
-        form.querySelector("input[name=html]").value = importmap;
+        form.querySelector("input[name=html]").value = importmapScriptTag;
         form.submit();
       });
     };

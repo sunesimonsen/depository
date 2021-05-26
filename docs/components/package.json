@@ -8,8 +8,8 @@
   "main": "app/main.js",
   "scripts": {
     "start": "relivestyle --always --single --port 5000 public",
-    "update-version-constant": "node scripts/update-version-constant.cjs",
-    "build": "rm -rf ./dist/* && yarn update-version-constant && rollup -c rollup.config.js",
+    "update-importmap": "node scripts/update-importmap.cjs",
+    "build": "rm -rf ./dist/* && yarn update-importmap && rollup -c rollup.config.js",
     "deploy": "yarn build && surge dist depository-components.surge.sh"
   },
   "bugs": "https://github.com/sunesimonsen/depository/issues",
