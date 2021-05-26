@@ -1,7 +1,7 @@
 {
   "name": "component-docs",
   "description": "Document for @depository/components",
-  "version": "0.38.0",
+  "version": "0.38.1",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -18,7 +18,7 @@
     "url": "https://github.com/sunesimonsen/depository"
   },
   "dependencies": {
-    "@depository/components": "^0.38.0",
+    "@depository/components": "^0.38.1",
     "@depository/nano-router-plugin": "^0.38.0",
     "@depository/promise-middleware": "^0.38.0",
     "@depository/status-middleware": "^0.38.0",
