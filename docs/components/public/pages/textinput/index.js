@@ -3,6 +3,8 @@ import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultInput from "./DefaultInput.js";
 import MediaInput from "./MediaInput.js";
+import DisabledInput from "./DisabledInput.js";
+import ReadonlyInput from "./ReadonlyInput.js";
 
 class InputPage {
   render() {
@@ -20,6 +22,19 @@ class InputPage {
       <p>Media elements add even more context to an input.</p>
       <${Example} src=${new URL("./MediaInput.js", import.meta.url)}>
         <${MediaInput} />
+      <//>
+      <${Heading} level="3"> Disabled<//>
+      <p>
+        A disabled Input prevents user interaction. It doesn't appear in the tab
+        order, can't receive focus, and may not read aloud by a screenreader.
+      </p>
+      <${Example} src=${new URL("./DisabledInput.js", import.meta.url)}>
+        <${DisabledInput} />
+      <//>
+      <${Heading} level="3">Read-only<//>
+      <p>A read-only Input prevents user modification but allows selection.</p>
+      <${Example} src=${new URL("./ReadonlyInput.js", import.meta.url)}>
+        <${ReadonlyInput} />
       <//>
     `;
   }

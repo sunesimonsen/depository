@@ -37,6 +37,7 @@ export default class Example {
           <${TextInput}
             id="car-model"
             type="text"
+            readonly
             .value=${value}
             @change=${this.onChange}
           />

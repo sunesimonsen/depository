@@ -16,6 +16,10 @@ const mediaInputStyles = css`
     padding: 0;
     margin: 0;
   }
+
+  & > input:disabled {
+    color: rgb(194, 200, 204);
+  }
 `;
 
 export class MediaInput {
@@ -33,8 +37,12 @@ export class MediaInput {
   }
 
   render({ class: className, children, ...other }) {
+    const input = children.find((c) => c.type === "input");
+
     return html`
       <span
+        aria-readonly=${input && String(input.props.readonly)}
+        aria-disabled=${input && String(input.props.disabled)}
         ref=${this.createRef("ref")}
         class=${classes(className, mediaInputStyles, textInputStyles)}
         @mousedown=${this.focusInput}
