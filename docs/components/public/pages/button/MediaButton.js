@@ -1,6 +1,5 @@
 import { html } from "@depository/view";
-import { Button, Center, ColumnLayout } from "@depository/components";
-import { me2, ms1 } from "@depository/components/spacing";
+import { Button, me2, ms1, Center, ColumnLayout } from "@depository/components";
 import ChevronDownStroke12Icon from "@depository/components/icons/ChevronDownStroke12Icon";
 import LifesaverStroke16Icon from "@depository/components/icons/LifesaverStroke16Icon";
 

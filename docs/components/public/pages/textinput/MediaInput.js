@@ -3,13 +3,14 @@ import { html } from "@depository/view";
 import {
   MediaInput,
   Button,
+  me2,
+  ms2,
   ColumnLayout,
   Center,
 } from "@depository/components";
 
 import SearchStroke16Icon from "@depository/components/icons/SearchStroke16Icon";
 import CarStroke12Icon from "@depository/components/icons/CarStroke12Icon";
-import { me2, ms2 } from "@depository/components/spacing";
 
 export default class Example {
   static defaultProps() {
