@@ -41,6 +41,9 @@ export class Sidebar {
             <${PageReference} id="columnlayout">Column layout<//>
           </li>
           <li class=${listItemStyles}>
+            <${PageReference} id="borderlayout">Border layout<//>
+          </li>
+          <li class=${listItemStyles}>
             <${PageReference} id="center">Center<//>
           </li>
           <li class=${listItemStyles}>

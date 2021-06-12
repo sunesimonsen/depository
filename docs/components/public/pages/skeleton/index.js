@@ -3,7 +3,7 @@ import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
 import { Example } from "../../components/Example.js";
 import DefaultSkeleton from "./DefaultSkeleton.js";
 
-class SpinnerPage {
+class ExamplePage {
   render() {
     return html`
       <${Title}>Spinner<//>
@@ -25,4 +25,4 @@ class SpinnerPage {
   }
 }
 
-export default SpinnerPage;
+export default ExamplePage;
