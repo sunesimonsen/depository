@@ -10,6 +10,7 @@ const styles = ({ gap, stretched, columns, alignItems, justifyItems }) => {
   return css`
     & {
       display: ${stretched ? "grid" : "inline-grid"};
+      ${stretched ? "width: 100%;" : ""}
       gap: ${gap};
       align-items: ${alignItems};
       justify-items: ${justifyItems};
