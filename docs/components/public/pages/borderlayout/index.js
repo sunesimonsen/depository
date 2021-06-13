@@ -21,7 +21,7 @@ class ExamplePage {
         <${DefaultBorderLayout} />
       <//>
       <${Heading} level="3">Stretched<//>
-      <p>The border layout can stretch to fill the width of their container.</p>
+      <p>The border layout can stretch to fill surrouding container.</p>
       <${Example} src=${new URL("./Stretched.js", import.meta.url)}>
         <${Stretched} />
       <//>
