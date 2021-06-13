@@ -4,9 +4,9 @@ import { css, classes } from "stylewars";
 const containerStyles = ({ gap, stretched }) => css`
   & {
     display: ${stretched ? "grid" : "inline-grid"};
-    ${stretched ? "width: 100%;" : ""}
+    ${stretched ? "width: 100%; height: 100%;flex:1;" : ""}
     grid-template-columns: auto 1fr auto;
-    grid-template-rows: auto;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "top top top"
       "start main end"
