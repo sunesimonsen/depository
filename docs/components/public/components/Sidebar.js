@@ -35,7 +35,10 @@ export class ListItem {
 
 const sidebarStyles = css`
   & {
+    grid-area: start;
     padding: 16px;
+    min-width: 300px;
+    background: rgb(246, 244, 244);
   }
 `;
 
