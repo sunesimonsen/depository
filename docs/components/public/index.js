@@ -30,6 +30,18 @@ store.use(nanoRouterPlugin(router));
 store.useMiddleware(promiseMiddleware());
 store.useMiddleware(statusMiddleware());
 
-render(html`<${RootView} />`, store, document.getElementById("app"), {
-  router,
-});
+render(
+  html`
+    <${RootView} />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/monokai-sublime.min.css"
+    />
+  `,
+  store,
+  document.body,
+  {
+    router,
+  }
+);
