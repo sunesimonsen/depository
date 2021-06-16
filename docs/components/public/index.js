@@ -14,7 +14,7 @@ const store = new Store({
 });
 
 if (window.__DEPOSITORY__) {
-  store.use(window.__DEPOSITORY__.plugin({ name: "HackerNews" }));
+  store.use(window.__DEPOSITORY__.plugin({ name: "Styleguide" }));
 }
 
 const history = createBrowserHistory();
