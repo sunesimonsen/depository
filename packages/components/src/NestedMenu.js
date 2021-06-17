@@ -1,6 +1,8 @@
 import { html } from "@depository/view";
 
-import { MenuItemNext, MenuItemPrevious, Menu } from "@depository/components";
+import { Menu } from "./Menu.js";
+import { MenuItemNext } from "./Menu/MenuItemNext.js";
+import { MenuItemPrevious } from "./Menu/MenuItemPrevious.js";
 
 class MenuChangedEvent extends CustomEvent {
   constructor({ menu, selectedItem }) {
