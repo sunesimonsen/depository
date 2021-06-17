@@ -1,6 +1,11 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
-import { Example } from "../../components/Example.js";
+import {
+  Title,
+  SubTitle,
+  Line,
+  Heading,
+  Example,
+} from "@depository/styleguide";
 import DefaultBorderLayout from "./DefaultBorderLayout.js";
 import Stretched from "./Stretched.js";
 import OmitAreas from "./OmitAreas.js";

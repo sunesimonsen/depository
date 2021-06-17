@@ -8,7 +8,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "relivestyle --always --single --port 5000 public",
-    "update-importmap": "node scripts/update-importmap.cjs",
+    "update-importmap": "create-importmap > public/importmap.js",
     "build": "rm -rf ./dist/* && yarn update-importmap && rollup -c rollup.config.js",
     "deploy": "yarn build && surge dist depository-components.surge.sh"
   },
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@depository/components": "^0.40.0",
+    "@depository/styleguide": "^0.40.0",
     "@depository/nano-router-plugin": "^0.40.0",
     "@depository/promise-middleware": "^0.40.0",
     "@depository/status-middleware": "^0.40.0",
@@ -27,7 +28,6 @@
     "@nano-router/history": "^2.2.0",
     "@nano-router/router": "^2.6.1",
     "@zendeskgarden/svg-icons": "^6.29.0",
-    "highlight.js": "^10.7.1",
     "htm": "^3.0.4",
     "stylewars": "^1.9.0"
   },

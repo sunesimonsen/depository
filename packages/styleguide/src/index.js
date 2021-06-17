@@ -6,12 +6,15 @@ import { nanoRouterPlugin } from "@depository/nano-router-plugin";
 import { RootView } from "./components/RootView.js";
 import { Router, Routes, Route } from "@nano-router/router";
 import { createBrowserHistory } from "@nano-router/history";
-export { List, ListItem, Heading } from "./components/Sidebar.js";
 export { PageReference } from "./components/PageReference.js";
+export { Title, SubTitle, Line, Heading } from "./components/Page.js";
+export { Example } from "./components/Example.js";
 
-export const styleguide = ({ navigation, pageMap }) => {
+export const styleguide = ({ logo, title, navigation, pageMap }) => {
   const store = new Store({
     global: {
+      logo,
+      title,
       direction: sessionStorage.getItem("direction") || "ltr",
     },
   });

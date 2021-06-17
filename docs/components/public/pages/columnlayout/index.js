@@ -1,7 +1,12 @@
 import { html } from "@depository/view";
 import { Anchor } from "@depository/components";
-import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
-import { Example } from "../../components/Example.js";
+import {
+  Title,
+  SubTitle,
+  Line,
+  Heading,
+  Example,
+} from "@depository/styleguide";
 import DefaultColumnLayout from "./DefaultColumnLayout.js";
 import NumberOfColumns from "./NumberOfColumns.js";
 import ColumnTemplate from "./ColumnTemplate.js";

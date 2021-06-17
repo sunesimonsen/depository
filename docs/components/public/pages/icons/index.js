@@ -1,6 +1,11 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
-import { Example } from "../../components/Example.js";
+import {
+  Title,
+  SubTitle,
+  Line,
+  Heading,
+  Example,
+} from "@depository/styleguide";
 import { css } from "stylewars";
 import { Anchor } from "@depository/components";
 import IconUsage from "./IconUsage.js";

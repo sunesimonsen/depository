@@ -1,12 +1,17 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
-import { Example } from "../../components/Example.js";
+import {
+  Title,
+  SubTitle,
+  Line,
+  Heading,
+  Example,
+} from "@depository/styleguide";
 import DefaultSkeleton from "./DefaultSkeleton.js";
 
 class ExamplePage {
   render() {
     return html`
-      <${Title}>Spinner<//>
+      <${Title}>Skeleton<//>
       <${SubTitle}>
         A Skeleton loader shows users a blank version of a page or section of a
         page into which content is gradually loaded. It provides a visual

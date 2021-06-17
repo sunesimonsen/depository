@@ -3,8 +3,6 @@ import { css } from "stylewars";
 import { Link } from "@depository/nano-router-plugin";
 import { DirectionSwitch } from "./DirectionSwitch.js";
 
-const logo = new URL("../images/logo.png", import.meta.url);
-
 const logoStyles = css`
   & {
     width: 48px;
@@ -58,7 +56,14 @@ const topBarStyles = css`
 `;
 
 export class TopBar {
-  render() {
+  data() {
+    return {
+      logo: "global.logo",
+      title: "global.title",
+    };
+  }
+
+  render({ logo, title }) {
     return html`
       <header class=${topBarStyles}>
         <${Link}
@@ -67,7 +72,7 @@ export class TopBar {
           class=${homeStyles}
         >
           <img src=${logo} class=${logoStyles} />
-          <span class=${brandStyles}>DEPOSITORY</span>
+          <span class=${brandStyles}>${title}</span>
         <//>
         <div class=${buttonsStyles}>
           <${DirectionSwitch} />

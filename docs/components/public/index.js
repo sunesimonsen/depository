@@ -1,12 +1,5 @@
 import { html } from "@depository/view";
-
-import {
-  styleguide,
-  List,
-  ListItem,
-  Heading,
-  PageReference,
-} from "./styleguide.js";
+import { styleguide, PageReference } from "@depository/styleguide";
 
 const pages = [
   "anchor",
@@ -30,38 +23,40 @@ const pageMap = Object.fromEntries(
 );
 
 styleguide({
+  logo: new URL("./images/logo.png", import.meta.url),
+  title: "DEPOSITORY",
   navigation: html`
-    <${Heading}>Buttons<//>
-    <${List}>
-      <${ListItem}><${PageReference} id="anchor">Anchor<//><//>
-      <${ListItem}><${PageReference} id="button">Button<//><//>
-      <${ListItem}><${PageReference} id="iconbutton">Icon button<//><//>
-    <//>
-    <${Heading}>Inputs<//>
-    <${List}>
-      <${ListItem}><${PageReference} id="textinput">TextInput<//><//>
-    <//>
-    <${Heading}>Popups<//>
-    <${List}>
-      <${ListItem}><${PageReference} id="popup">Popup<//><//>
-      <${ListItem}><${PageReference} id="menu">Menu<//><//>
-    <//>
-    <${Heading}>Loaders<//>
-    <${List}>
-      <${ListItem}><${PageReference} id="spinner">Spinner<//><//>
-      <${ListItem}><${PageReference} id="skeleton">Skeleton<//><//>
-      <${ListItem}><${PageReference} id="pulse">Pulse<//><//>
-    <//>
-    <${Heading}>Layout<//>
-    <${List}>
-      <${ListItem}><${PageReference} id="columnlayout">Column layout<//><//>
-      <${ListItem}><${PageReference} id="borderlayout">Border layout<//><//>
-      <${ListItem}><${PageReference} id="center">Center<//><//>
-    <//>
-    <${Heading}>Icons<//>
-    <${List}>
-      <${ListItem}><${PageReference} id="icons">Icons<//><//>
-    <//>
+    <h1>Buttons</h1>
+    <ul>
+      <li><${PageReference} id="anchor">Anchor<//></li>
+      <li><${PageReference} id="button">Button<//></li>
+      <li><${PageReference} id="iconbutton">Icon button<//></li>
+    </ul>
+    <h1>Inputs</h1>
+    <ul>
+      <li><${PageReference} id="textinput">TextInput<//></li>
+    </ul>
+    <h1>Popups</h1>
+    <ul>
+      <li><${PageReference} id="popup">Popup<//></li>
+      <li><${PageReference} id="menu">Menu<//></li>
+    </ul>
+    <h1>Loaders</h1>
+    <ul>
+      <li><${PageReference} id="spinner">Spinner<//></li>
+      <li><${PageReference} id="skeleton">Skeleton<//></li>
+      <li><${PageReference} id="pulse">Pulse<//></li>
+    </ul>
+    <h1>Layout</h1>
+    <ul>
+      <li><${PageReference} id="columnlayout">Column layout<//></li>
+      <li><${PageReference} id="borderlayout">Border layout<//></li>
+      <li><${PageReference} id="center">Center<//></li>
+    </ul>
+    <h1>Icons</h1>
+    <ul>
+      <li><${PageReference} id="icons">Icons<//></li>
+    </ul>
   `,
   pageMap,
 });
