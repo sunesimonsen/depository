@@ -1,6 +1,5 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
-import { PageReference } from "./PageReference.js";
 
 const listStyles = css`
   & {
@@ -22,7 +21,7 @@ export class List {
 const listItemStyles = css`
   & {
     padding: 0;
-    margin: 0;
+    margin: 4px;
     list-style-type: none;
   }
 `;
@@ -33,35 +32,30 @@ export class ListItem {
   }
 }
 
+const headingStyles = css`
+  & {
+    font-size: 16px;
+  }
+`;
+
+export class Heading {
+  render({ children }) {
+    return html`<h1 class=${headingStyles}>${children}</h1>`;
+  }
+}
+
 const sidebarStyles = css`
   & {
     grid-area: start;
-    padding: 16px;
+    padding: 16px 32px;
     min-width: 300px;
     background: rgb(246, 244, 244);
+    overflow-y: auto;
   }
 `;
 
 export class Sidebar {
-  render() {
-    return html`
-      <nav class=${sidebarStyles}>
-        <${List}>
-          <${ListItem}><${PageReference} id="anchor">Anchor<//><//>
-          <${ListItem}><${PageReference} id="button">Button<//><//>
-          <${ListItem}><${PageReference} id="iconbutton">Icon button<//><//>
-          <${ListItem}><${PageReference} id="columnlayout">Column layout<//><//>
-          <${ListItem}><${PageReference} id="borderlayout">Border layout<//><//>
-          <${ListItem}><${PageReference} id="center">Center<//><//>
-          <${ListItem}><${PageReference} id="spinner">Spinner<//><//>
-          <${ListItem}><${PageReference} id="skeleton">Skeleton<//><//>
-          <${ListItem}><${PageReference} id="pulse">Pulse<//><//>
-          <${ListItem}><${PageReference} id="popup">Popup<//><//>
-          <${ListItem}><${PageReference} id="menu">Menu<//><//>
-          <${ListItem}><${PageReference} id="icons">Icons<//><//>
-          <${ListItem}><${PageReference} id="textinput">TextInput<//><//>
-        <//>
-      </nav>
-    `;
+  render({ children }) {
+    return html`<nav class=${sidebarStyles}>${children}</nav>`;
   }
 }

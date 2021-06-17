@@ -1,47 +1,67 @@
-import { html, render } from "@depository/view";
-import { Store } from "@depository/store";
-import { promiseMiddleware } from "@depository/promise-middleware";
-import { statusMiddleware } from "@depository/status-middleware";
-import { nanoRouterPlugin } from "@depository/nano-router-plugin";
-import { RootView } from "./components/RootView.js";
-import { Router, Routes, Route } from "@nano-router/router";
-import { createBrowserHistory } from "@nano-router/history";
+import { html } from "@depository/view";
 
-const store = new Store({
-  global: {
-    direction: sessionStorage.getItem("direction") || "ltr",
-  },
-});
+import {
+  styleguide,
+  List,
+  ListItem,
+  Heading,
+  PageReference,
+} from "./styleguide.js";
 
-if (window.__DEPOSITORY__) {
-  store.use(window.__DEPOSITORY__.plugin({ name: "Styleguide" }));
-}
+const pages = [
+  "anchor",
+  "borderlayout",
+  "button",
+  "center",
+  "columnlayout",
+  "iconbutton",
+  "icons",
+  "index",
+  "menu",
+  "popup",
+  "pulse",
+  "skeleton",
+  "spinner",
+  "textinput",
+];
 
-const history = createBrowserHistory();
-
-const routes = new Routes(
-  new Route("index", "/"),
-  new Route("page", "/page/:id")
+const pageMap = Object.fromEntries(
+  pages.map((id) => [id, () => import(`./pages/${id}/index.js`)])
 );
 
-const router = new Router({ routes, history });
-
-store.use(nanoRouterPlugin(router));
-store.useMiddleware(promiseMiddleware());
-store.useMiddleware(statusMiddleware());
-
-render(
-  html`
-    <${RootView} />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/monokai-sublime.min.css"
-    />
+styleguide({
+  navigation: html`
+    <${Heading}>Buttons<//>
+    <${List}>
+      <${ListItem}><${PageReference} id="anchor">Anchor<//><//>
+      <${ListItem}><${PageReference} id="button">Button<//><//>
+      <${ListItem}><${PageReference} id="iconbutton">Icon button<//><//>
+    <//>
+    <${Heading}>Inputs<//>
+    <${List}>
+      <${ListItem}><${PageReference} id="textinput">TextInput<//><//>
+    <//>
+    <${Heading}>Popups<//>
+    <${List}>
+      <${ListItem}><${PageReference} id="popup">Popup<//><//>
+      <${ListItem}><${PageReference} id="menu">Menu<//><//>
+    <//>
+    <${Heading}>Loaders<//>
+    <${List}>
+      <${ListItem}><${PageReference} id="spinner">Spinner<//><//>
+      <${ListItem}><${PageReference} id="skeleton">Skeleton<//><//>
+      <${ListItem}><${PageReference} id="pulse">Pulse<//><//>
+    <//>
+    <${Heading}>Layout<//>
+    <${List}>
+      <${ListItem}><${PageReference} id="columnlayout">Column layout<//><//>
+      <${ListItem}><${PageReference} id="borderlayout">Border layout<//><//>
+      <${ListItem}><${PageReference} id="center">Center<//><//>
+    <//>
+    <${Heading}>Icons<//>
+    <${List}>
+      <${ListItem}><${PageReference} id="icons">Icons<//><//>
+    <//>
   `,
-  store,
-  document.body,
-  {
-    router,
-  }
-);
+  pageMap,
+});

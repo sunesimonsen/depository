@@ -30,8 +30,10 @@ const mainStyles = css`
     grid-area: main;
     display: flex;
     flex-direction: column;
-    overflow: auto;
     background: white;
+    position: relative;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   & h2 {
@@ -89,7 +91,7 @@ export class DefaultLayout {
     return html`
       <${BorderLayout} stretched class=${rootStyles}>
         <${TopBar} />
-        <${Sidebar} />
+        <${Sidebar}>${this.context.navigation}<//>
         <main class=${mainStyles} ref=${this.setContentRef}>
           <${ErrorBoundary}>${children}<//>
         </main>

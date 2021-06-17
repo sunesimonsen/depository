@@ -9,7 +9,6 @@ const styles = css`
     padding: 6px 8px;
     border-radius: 4px;
     display: block;
-    margin: 4px;
   }
 
   &:hover {
