@@ -8,7 +8,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "relivestyle --always --single --port 5000 public",
-    "update-importmap": "create-importmap > public/importmap.js",
+    "update-importmap": "create-styleguide-importmap > public/importmap.js",
     "build": "rm -rf ./dist/* && yarn update-importmap && rollup -c rollup.config.js",
     "deploy": "yarn build && surge dist depository-components.surge.sh"
   },

@@ -24,7 +24,7 @@
     "url": "https://github.com/sunesimonsen/depository/issues"
   },
   "bin": {
-    "create-importmap": "./scripts/create-importmap.cjs"
+    "create-styleguide-importmap": "./scripts/create-importmap.cjs"
   },
   "dependencies": {
     "@depository/components": "^0.40.0",
