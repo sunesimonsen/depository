@@ -29,8 +29,7 @@ const main = async () => {
   };
 
   const content = `\
-export const importmap = \`${JSON.stringify(importmap, null, 2)}\`;
-`;
+export const importmap = \`${JSON.stringify(importmap, null, 2)}\`;`;
 
   console.log(content);
 };

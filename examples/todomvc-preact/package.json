@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha",
     "start": "relivestyle --port 5000 public",
-    "build": "rm -rf dist && wmr build",
+    "build": "rm -rf dist && rollup -c node:@depository/rollup-config",
     "deploy": "yarn build && surge dist depository-todomvc-preact.surge.sh"
   },
   "dependencies": {
@@ -20,13 +20,10 @@
     "preact": "^10.5.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@rollup/plugin-babel": "^5.2.2",
-    "babel-plugin-htm": "^3.0.0",
+    "@depository/rollup-config": "^0.41.0",
     "mocha": "^8.2.1",
     "relivestyle": "1.0.0-6",
     "rollup": "^2.35.1",
-    "rollup-plugin-html-minifier": "^1.1.0",
     "surge": "^0.22.1",
     "unexpected": "^12.0.0"
   }

@@ -9,7 +9,7 @@
   "scripts": {
     "start": "relivestyle --always --single --port 5000 public",
     "update-importmap": "create-styleguide-importmap > public/importmap.js",
-    "build": "rm -rf ./dist/* && yarn update-importmap && rollup -c rollup.config.js",
+    "build": "rm -rf ./dist/* && yarn update-importmap && rollup -c node:@depository/rollup-config",
     "deploy": "yarn build && surge dist depository-components.surge.sh"
   },
   "bugs": "https://github.com/sunesimonsen/depository/issues",
@@ -32,19 +32,10 @@
     "stylewars": "^1.9.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-html": "^0.2.3",
-    "@rollup/plugin-node-resolve": "^11.2.0",
-    "@web/rollup-plugin-import-meta-assets": "^1.0.4",
-    "babel-plugin-htm": "^3.0.0",
+    "@depository/rollup-config": "^0.41.0",
     "mocha": "^8.2.1",
     "relivestyle": "^1.0.0-6",
     "rollup": "^2.35.1",
-    "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-dynamic-import-variables": "^1.1.0",
-    "rollup-plugin-import-meta-url": "^5.0.0",
-    "rollup-plugin-terser": "^7.0.2",
     "surge": "^0.21.7"
   }
 }
