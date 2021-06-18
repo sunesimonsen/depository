@@ -1,6 +1,11 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
-import { Example } from "../../components/Example.js";
+import {
+  Title,
+  SubTitle,
+  Line,
+  Heading,
+  Example,
+} from "@depository/styleguide";
 import DefaultIconButton from "./DefaultIconButton.js";
 import IconButtonTypes from "./IconButtonTypes.js";
 import IconButtonShapes from "./IconButtonShapes.js";

@@ -1,0 +1,40 @@
+{
+  "name": "@depository/styleguide",
+  "version": "0.40.0",
+  "description": "Styleguide for @depository/view",
+  "keywords": [
+    "styleguide",
+    "depository",
+    "view",
+    "UI",
+    "components"
+  ],
+  "author": "Sune Simonsen <sune@we-knowhow.dk>",
+  "module": "src/index.js",
+  "homepage": "https://github.com/sunesimonsen/depository#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunesimonsen/depository.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sunesimonsen/depository/issues"
+  },
+  "bin": {
+    "create-styleguide-importmap": "./scripts/create-importmap.cjs"
+  },
+  "dependencies": {
+    "@depository/components": "^0.40.0",
+    "@depository/nano-router-plugin": "^0.40.0",
+    "@depository/promise-middleware": "^0.40.0",
+    "@depository/status-middleware": "^0.40.0",
+    "@depository/store": "^0.40.0",
+    "@depository/view": "^0.40.0",
+    "@nano-router/history": "^2.2.0",
+    "@nano-router/router": "^2.6.1",
+    "stylewars": "^1.9.0"
+  }
+}

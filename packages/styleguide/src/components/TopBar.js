@@ -3,8 +3,6 @@ import { css } from "stylewars";
 import { Link } from "@depository/nano-router-plugin";
 import { DirectionSwitch } from "./DirectionSwitch.js";
 
-const logo = new URL("../images/logo.png", import.meta.url);
-
 const logoStyles = css`
   & {
     width: 48px;
@@ -44,17 +42,37 @@ const buttonsStyles = css`
   }
 `;
 
+const topBarStyles = css`
+  & {
+    grid-area: top;
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 1fr;
+    background: white;
+    position: relative;
+    box-shadow: rgb(47 57 65 / 5%) 0px 16px 24px 0px;
+    z-index: 1;
+  }
+`;
+
 export class TopBar {
-  render() {
+  data() {
+    return {
+      logo: "global.logo",
+      title: "global.title",
+    };
+  }
+
+  render({ logo, title }) {
     return html`
-      <header>
+      <header class=${topBarStyles}>
         <${Link}
           route="index"
           state=${{ scrollToTop: true }}
           class=${homeStyles}
         >
           <img src=${logo} class=${logoStyles} />
-          <span class=${brandStyles}>DEPOSITORY</span>
+          <span class=${brandStyles}>${title}</span>
         <//>
         <div class=${buttonsStyles}>
           <${DirectionSwitch} />

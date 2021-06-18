@@ -1,7 +1,12 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line, Heading } from "../../components/Page.js";
+import {
+  Title,
+  SubTitle,
+  Line,
+  Heading,
+  Example,
+} from "@depository/styleguide";
 import { Anchor } from "@depository/components";
-import { Example } from "../../components/Example.js";
 import DefaultMenu from "./DefaultMenu.js";
 import NestedMenu from "./NestedMenu.js";
 import Placement from "./Placement.js";

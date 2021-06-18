@@ -1,6 +1,5 @@
 import { html } from "@depository/view";
-import { Title, SubTitle, Line } from "../../components/Page.js";
-import { Example } from "../../components/Example.js";
+import { Title, SubTitle, Line, Example } from "@depository/styleguide";
 import DefaultCenter from "./DefaultCenter.js";
 
 class ColumnLayoutPage {

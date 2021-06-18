@@ -9,14 +9,15 @@ export class PageContainer {
   }
 
   loadComponent() {
-    const id = this.props.id;
+    const { id } = this.props;
+    const { pageMap } = this.context;
 
     this.dispatch({
       name: `Loading ${id}`,
       payload: { [statusById(id)]: "loading" },
     });
 
-    return import(`../pages/${id}/index.js`)
+    return pageMap[id]()
       .then((Page) => {
         this.Page = Page.default;
 
