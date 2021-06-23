@@ -5,6 +5,7 @@ import { SourceCode } from "./SourceCode.js";
 import { IconButton } from "@depository/components";
 import { JSFiddleButton } from "./JSFiddleButton.js";
 import { ExamplePreview } from "./ExamplePreview.js";
+import { ErrorBoundary } from "./ErrorBoundary.js";
 
 import MarkupStroke16Icon from "@depository/components/icons/MarkupStroke16Icon";
 
@@ -63,7 +64,9 @@ export class Example {
             <${MarkupStroke16Icon} />
           <//>
         </div>
-        ${sourceVisible && html`<${SourceCode} src=${src} />`}
+        <${ErrorBoundary} name="source-code">
+          ${sourceVisible && html`<${SourceCode} src=${src} />`}
+        <//>
       </div>
     `;
   }

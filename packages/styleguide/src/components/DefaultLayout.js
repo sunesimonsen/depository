@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
-import { BorderLayout } from "@depository/components";
+import { BorderLayout, Center } from "@depository/components";
 import { TopBar } from "./TopBar.js";
 import { Sidebar } from "./Sidebar.js";
 import { ErrorBoundary } from "./ErrorBoundary.js";
@@ -93,7 +93,7 @@ export class DefaultLayout {
         <${TopBar} />
         <${Sidebar}>${this.context.navigation}<//>
         <main class=${mainStyles} ref=${this.setContentRef}>
-          <${ErrorBoundary}>${children}<//>
+          <${ErrorBoundary} name="default-layout">${children}<//>
         </main>
       <//>
     `;

@@ -1,18 +1,25 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
 
-const styles = css`
+const styles = ({ stretched }) => css`
   & {
     display: flex;
+    ${stretched ? "width: 100%; height: 100%; flex:1;" : ""}
     justify-content: center;
     align-items: center;
   }
 `;
 
 export class Center {
-  render({ class: className, children, ...other }) {
-    return html`<div class=${classes(styles, className)} ...${other}>
-      ${children}
-    </div>`;
+  static defaultProps() {
+    return { stretched: false };
+  }
+
+  render({ class: className, children, stretched, ...other }) {
+    return html`
+      <div class=${classes(styles({ stretched }), className)} ...${other}>
+        ${children}
+      </div>
+    `;
   }
 }

@@ -23,6 +23,7 @@ const codeStyles = css`
 
 const loadingStyles = css`
   & {
+    --dc-spinner-background: rgba(255, 255, 255, 0.2);
     background: #23241f;
     height: 200px;
     color: white;

@@ -1,4 +1,7 @@
 import { html } from "@depository/view";
+import { Center } from "@depository/components";
+
+const fallback = html`<${Center} stretched><h2>Crashed</h2><//>`;
 
 export class ErrorBoundary {
   constructor({ name }) {
@@ -13,6 +16,6 @@ export class ErrorBoundary {
   }
 
   render({ children, failed }) {
-    return failed ? html`<h2>Crashed</h2>` : children;
+    return failed ? fallback : children;
   }
 }

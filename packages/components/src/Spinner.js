@@ -5,8 +5,8 @@ const styles = css`
   &,
   &:after {
     border-radius: 50%;
-    width: 3em;
-    height: 3em;
+    width: 50px;
+    height: 50px;
   }
 
   & {
@@ -14,7 +14,7 @@ const styles = css`
     overflow: hidden;
     position: relative;
     text-indent: -9999em;
-    border-width: var(--dc-spinner-border-size, 0.2em);
+    border-width: var(--dc-spinner-border-size, 3px);
     border-style: solid;
     border-color: var(--dc-spinner-background, rgba(0, 0, 0, 0.2));
     border-left-color: var(--dc-spinner-color, #1f73b7);
