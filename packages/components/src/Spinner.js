@@ -5,8 +5,8 @@ const styles = css`
   &,
   &:after {
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: var(--dc-spinner-size, 50px);
+    height: var(--dc-spinner-size, 50px);
   }
 
   & {

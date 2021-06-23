@@ -6,7 +6,9 @@ import {
   Heading,
   Example,
 } from "@depository/styleguide";
+
 import DefaultSpinner from "./DefaultSpinner.js";
+import Flexibility from "./Flexibility.js";
 
 class SpinnerPage {
   render() {
@@ -24,6 +26,14 @@ class SpinnerPage {
       </p>
       <${Example} src=${new URL("./DefaultSpinner.js", import.meta.url)}>
         <${DefaultSpinner} />
+      <//>
+      <${Heading} level="2">Flexibility<//>
+      <p>
+        The spinner component provides a few different style overrides using CSS
+        variables.
+      </p>
+      <${Example} src=${new URL("./Flexibility.js", import.meta.url)}>
+        <${Flexibility} />
       <//>
     `;
   }
