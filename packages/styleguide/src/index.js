@@ -10,10 +10,11 @@ export { PageReference } from "./components/PageReference.js";
 export { Title, SubTitle, Line, Heading } from "./components/Page.js";
 export { Example } from "./components/Example.js";
 
-export const styleguide = ({ logo, title, navigation, pageMap }) => {
+export const styleguide = ({ logo, title, navigation, pageMap, importmap }) => {
   const store = new Store({
     global: {
       logo,
+      importmap,
       title,
       direction: sessionStorage.getItem("direction") || "ltr",
     },

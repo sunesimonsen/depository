@@ -1,5 +1,6 @@
 import { html } from "@depository/view";
 import { styleguide, PageReference } from "@depository/styleguide";
+import { importmap } from "./importmap.js";
 
 const pages = [
   "anchor",
@@ -25,6 +26,7 @@ const pageMap = Object.fromEntries(
 
 styleguide({
   logo: new URL("./images/logo.png", import.meta.url).toString(),
+  importmap,
   title: "DEPOSITORY",
   navigation: html`
     <h1>Buttons</h1>

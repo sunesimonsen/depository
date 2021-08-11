@@ -2,7 +2,6 @@ import { html } from "@depository/view";
 import { css } from "stylewars";
 import { IconButton } from "@depository/components";
 import { JSFiddleLogo } from "./JSFiddleLogo.js";
-import { importmap } from "../importmap.js";
 
 const formStyles = css`
   & {
@@ -10,7 +9,7 @@ const formStyles = css`
   }
 `;
 
-const importmapScriptTag = `
+const importmapScriptTag = (importmap) => `
 <script type="importmap">
 ${importmap}
 </script>
@@ -45,6 +44,10 @@ const fetchContent = (src) =>
     });
 
 export class JSFiddleButton {
+  data() {
+    return { importmap: "global.importmap" };
+  }
+
   constructor() {
     this.onClick = () => {
       const src = this.props.src;
@@ -53,7 +56,9 @@ export class JSFiddleButton {
         const form = this._formRef;
 
         form.querySelector("input[name=js]").value = template(content);
-        form.querySelector("input[name=html]").value = importmapScriptTag;
+        form.querySelector("input[name=html]").value = importmapScriptTag(
+          this.props.importmap
+        );
         form.submit();
       });
     };
