@@ -2,6 +2,7 @@ export { Anchor } from "./Anchor.js";
 export { BorderLayout } from "./BorderLayout.js";
 export { Button } from "./Button.js";
 export { Center } from "./Center.js";
+export { Checkbox } from "./Checkbox.js";
 export { ColumnLayout } from "./ColumnLayout.js";
 export { IconButton } from "./IconButton.js";
 export { MediaInput } from "./MediaInput.js";
