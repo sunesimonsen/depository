@@ -1,7 +1,7 @@
 {
   "name": "component-docs",
   "description": "Document for @depository/components",
-  "version": "0.44.1",
+  "version": "0.44.2",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -23,7 +23,7 @@
     "@depository/promise-middleware": "^0.44.1",
     "@depository/status-middleware": "^0.44.1",
     "@depository/store": "^0.44.1",
-    "@depository/styleguide": "^0.44.1",
+    "@depository/styleguide": "^0.44.2",
     "@depository/view": "^0.44.1",
     "@nano-router/history": "^2.2.0",
     "@nano-router/router": "^2.6.1",
