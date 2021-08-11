@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
-import { BorderLayout, Center } from "@depository/components";
+import { BorderLayout } from "@depository/components";
 import { TopBar } from "./TopBar.js";
 import { Sidebar } from "./Sidebar.js";
 import { ErrorBoundary } from "./ErrorBoundary.js";

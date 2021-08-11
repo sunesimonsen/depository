@@ -6,6 +6,7 @@ const pages = [
   "borderlayout",
   "button",
   "center",
+  "checkbox",
   "columnlayout",
   "iconbutton",
   "icons",
@@ -35,6 +36,7 @@ styleguide({
     <h1>Inputs</h1>
     <ul>
       <li><${PageReference} id="textinput">TextInput<//></li>
+      <li><${PageReference} id="checkbox">Checkbox<//></li>
     </ul>
     <h1>Popups</h1>
     <ul>
