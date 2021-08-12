@@ -1,33 +1,21 @@
+import html from "@web/rollup-plugin-html";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import { importMetaAssets } from "@web/rollup-plugin-import-meta-assets";
 import dynamicImportVariables from "rollup-plugin-dynamic-import-variables";
 import { babel } from "@rollup/plugin-babel";
-import copy from "rollup-plugin-copy";
 
 export default [
   {
-    input: "public/index.js",
+    input: "public/*.html",
     output: {
       dir: "dist",
       format: "esm",
+      entryFileNames: "[name]-[hash].js",
     },
     preserveEntrySignatures: false,
     plugins: [
-      copy({
-        targets: [
-          {
-            src: "public/index.html",
-            dest: "dist",
-          },
-          {
-            src: "public/index.html",
-            dest: "dist",
-            rename: "200.html",
-          },
-          { src: "public/favicon.ico", dest: "dist" },
-        ],
-      }),
+      html({ minify: true }),
       dynamicImportVariables(),
       importMetaAssets(),
       nodeResolve(),
