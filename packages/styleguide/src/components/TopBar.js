@@ -38,6 +38,7 @@ const homeStyles = css`
 const buttonsStyles = css`
   & {
     justify-self: end;
+    align-items: center;
     padding: 0 20px;
   }
 `;
