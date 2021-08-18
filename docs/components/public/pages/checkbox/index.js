@@ -36,7 +36,7 @@ class CheckboxPage {
         <${Disabled} />
       <//>
       <${Heading} level="3">Labels<//>
-      <p>You can associate a label to a checkbox.</p>
+      <p>You can associate a label with a checkbox.</p>
       <${Example} src=${new URL("./Labels.js", import.meta.url)}>
         <${Labels} />
       <//>
