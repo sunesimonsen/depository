@@ -15,7 +15,10 @@ export default [
     },
     preserveEntrySignatures: false,
     plugins: [
-      html({ minify: true }),
+      html({
+        publicPath: "/",
+        minify: true,
+      }),
       dynamicImportVariables(),
       importMetaAssets(),
       nodeResolve(),

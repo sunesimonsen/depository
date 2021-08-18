@@ -18,6 +18,7 @@ export { Pulse } from "./Pulse.js";
 export { ScrollArea } from "./ScrollArea.js";
 export { Skeleton } from "./Skeleton.js";
 export { Spinner } from "./Spinner.js";
+export { Switch } from "./Switch.js";
 export { TextInput } from "./TextInput.js";
 
 export * from "./spacing.js";

@@ -1,4 +1,5 @@
 import { html } from "@depository/view";
+import { Switch, ColumnLayout } from "@depository/components";
 
 export class DirectionSwitch {
   constructor() {
@@ -14,13 +15,14 @@ export class DirectionSwitch {
 
   render({ dir }) {
     return html`
-      <input
-        name="direction-switch"
-        type="checkbox"
-        @change=${this.toggle}
-        .checked=${dir === "rtl"}
-      />
-      <label for="direction-switch">RTL</label>
+      <${ColumnLayout} columns="2" gap="10">
+        <${Switch}
+          id="direction-switch"
+          @change=${this.toggle}
+          .checked=${dir === "rtl"}
+        />
+        <label for="direction-switch">RTL</label>
+      <//>
     `;
   }
 }

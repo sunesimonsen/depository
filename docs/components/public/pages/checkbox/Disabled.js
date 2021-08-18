@@ -5,10 +5,13 @@ export default class Example {
   render() {
     return html`
       <${Center}>
-        <${ColumnLayout} columns="3">
-          <${Checkbox} id="checkbox-disabled-0" disabled />
-          <${Checkbox} id="checkbox-disabled-1" checked disabled />
-          <${Checkbox} id="checkbox-disabled-2" indeterminate disabled />
+        <${ColumnLayout} columns="auto auto" justifyItems="start">
+          <${Checkbox} id="checkbox-default" />
+          <label for="checkbox-default">Default</label>
+          <${Checkbox} id="checkbox-checked" checked />
+          <label for="checkbox-checked">Checked</label>
+          <${Checkbox} id="checkbox-indeterminate" indeterminate />
+          <label for="checkbox-indeterminate">Indeterminate</label>
         <//>
       <//>
     `;
