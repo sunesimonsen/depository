@@ -4052,7 +4052,7 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
 
-fsevents@~2.3.1:
+fsevents@~2.3.1, fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
@@ -4232,6 +4232,11 @@ global-dirs@^0.1.0:
   integrity sha1-sxnA3UYH81PzvpzKTHL8FIxJ9EU=
   dependencies:
     ini "^1.3.4"
+
+global-jsdom@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/global-jsdom/-/global-jsdom-8.1.0.tgz#7e96f86629054e1a27437eda1b0c1b7809782740"
+  integrity sha512-FBi84GT/MrzP+H3aReBSWXGVz2kdPaDrK/DByKrOq16mRexWrcJNpV6SONCKXWQuzxRjA7UXMfIvxmGyQZS+2Q==
 
 global-modules@^1.0.0:
   version "1.0.0"
@@ -5263,11 +5268,6 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdom-global@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/jsdom-global/-/jsdom-global-3.0.2.tgz#6bd299c13b0c4626b2da2c0393cd4385d606acb9"
-  integrity sha1-a9KZwTsMRiay2iwDk81DhdYGrLk=
-
 jsdom@^15.0.0:
   version "15.2.1"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-15.2.1.tgz#d2feb1aef7183f86be521b8c6833ff5296d07ec5"
@@ -6097,12 +6097,12 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mocha-dominate@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mocha-dominate/-/mocha-dominate-1.0.0.tgz#bceda8f479dd60fc98eb310469045a87a28ebd3c"
-  integrity sha512-aWNciMsNNHwu/95M3Xufta4YvzLCPlB3U7/TjpCR4O9f/1uatiBQjEWb2EMbfD2gCmZE2ZiUKlTHu4RXiLZwSw==
+mocha-dominate@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/mocha-dominate/-/mocha-dominate-2.0.0.tgz#0145cdd7725f2eb617880982ee72ada8aea8dc11"
+  integrity sha512-FZR7ruEwHUC8iSefHUJEm/Vy+CITjC8mnRpHbwQv4AR4UHSjlERNmjqOsZs1NJqOExVtwL4hJAnldelFRR5U3g==
   dependencies:
-    jsdom-global "^3.0.2"
+    global-jsdom "^8.1.0"
     pirates "^4.0.1"
 
 mocha@8.3.2, mocha@^8.2.1:
@@ -8042,11 +8042,11 @@ rollup-plugin-terser@^7.0.2:
     terser "^5.0.0"
 
 rollup@^2.27.1, rollup@^2.35.1, rollup@^2.39.0:
-  version "2.44.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.44.0.tgz#8da324d1c4fd12beef9ae6e12f4068265b6d95eb"
-  integrity sha512-rGSF4pLwvuaH/x4nAS+zP6UNn5YUDWf/TeEU5IoXSZKBbKRNTCI3qMnYXKZgrC0D2KzS2baiOZt1OlqhMu5rnQ==
+  version "2.56.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.56.2.tgz#a045ff3f6af53ee009b5f5016ca3da0329e5470f"
+  integrity sha512-s8H00ZsRi29M2/lGdm1u8DJpJ9ML8SUOpVVBd33XNeEeL3NVaTiUcSBHzBdF3eAyR0l7VSpsuoVUGrRHq7aPwQ==
   optionalDependencies:
-    fsevents "~2.3.1"
+    fsevents "~2.3.2"
 
 run-async@^2.2.0, run-async@^2.4.0:
   version "2.4.1"
