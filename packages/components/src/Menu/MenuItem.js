@@ -63,10 +63,12 @@ export class MenuItem {
     return { selected: isItemSelected({ id, key }) };
   }
 
-  render({ selected, children }) {
+  render({ id, key, selected, children }) {
     return html`
       <button
         tabindex="-1"
+        id="${id}-${key}"
+        role="menuitem"
         @mousedown=${this.onMouseDown}
         @mouseenter=${this.onMouseEnter}
         class=${classes(styles, selected && selectedStyles)}
