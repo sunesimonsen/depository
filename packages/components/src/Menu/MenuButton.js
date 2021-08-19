@@ -5,8 +5,10 @@ import { ms1 } from "../spacing.js";
 
 export class MenuButton {
   render({ children, ...other }) {
-    return html`<${Button} ...${other}>
-      ${children}<${ChevronDownStroke12Icon} class=${ms1} />
-    <//>`;
+    return html`
+      <${Button} ...${other}>
+        ${children}<${ChevronDownStroke12Icon} class=${ms1} />
+      <//>
+    `;
   }
 }

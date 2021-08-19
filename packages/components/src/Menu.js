@@ -121,19 +121,28 @@ export class Menu {
     this.popup.hide();
   }
 
-  render({ id, visible, children }) {
-    const [trigger, ...content] = children;
+  render({ id, selected, visible, children }) {
+    const [trigger, content] = children;
 
     return [
       clone(trigger, {
         ref: this.createRef("triggerRef"),
+        "aria-haspopup": "true",
+        "data-toggle": "true",
+        "aria-expanded": visible ? "true" : "false",
+        "aria-controls": `${id}-menu`,
+        "aria-activedescendant": `${id}-${selected}`,
         "@click": this.onTriggerClick,
         "@keydown": this.onKeydown,
         "@blur": this.onBlur,
       }),
       html`
         <div ref=${this.createRef("popupRef")} @select=${this.onSelect}>
-          ${visible && content}
+          ${visible &&
+          clone(content, {
+            id: `${id}-menu`,
+            role: "menu",
+          })}
         </div>
       `,
     ];
