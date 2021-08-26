@@ -18,8 +18,10 @@ export const allTodos = {
   },
   compute: ({ filter, todos }, cache) =>
     (todos || []).filter(createVisibilityFilter(filter)).sort((a, b) => {
-      if (a.createdAt < b.createdAt) return -1;
-      if (a.createdAt > b.createdAt) return 1;
+      const aCreatedAt = new Date(a.createdAt);
+      const bCreatedAt = new Date(b.createdAt);
+      if (aCreatedAt < bCreatedAt) return -1;
+      if (aCreatedAt > bCreatedAt) return 1;
       return 0;
     }),
 };
@@ -57,7 +59,7 @@ export const loadTodos = () => ({
   },
 });
 
-export const createTodo = ({ text, createdAt = new Date() }) => ({
+export const createTodo = ({ text, createdAt = new Date().toISOString() }) => ({
   name: "createTodo",
   payload: async (cache, api) => {
     const response = await api.createTodo({
