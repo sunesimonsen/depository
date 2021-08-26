@@ -1,5 +1,6 @@
 import expect from "unexpected";
 import { promiseMiddleware } from "@depository/promise-middleware";
+import { Store } from "@depository/store";
 
 import {
   allTodos,
@@ -14,9 +15,7 @@ import {
   toggleTodo,
   updateTodo,
   visibilityFilter,
-} from "../public/models/todo.js";
-
-import { Store } from "@depository/store";
+} from "../src/index.js";
 
 class FakeApi {
   constructor({ nextId = 0 } = {}) {

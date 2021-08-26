@@ -1,9 +1,9 @@
 import { html, render } from "@depository/view";
 import { RootView } from "./components/RootView.js";
 import { Store } from "@depository/store";
-import { loadTodos } from "./models/todo.js";
+import { loadTodos } from "@depository/todomvc-model";
 import { promiseMiddleware } from "@depository/promise-middleware";
-import * as api from "./api.js";
+import * as api from "@depository/todomvc-api";
 
 const store = new Store({
   global: {

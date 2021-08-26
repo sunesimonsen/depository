@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import { connect } from "@depository/preact";
-import { activeTodoCount } from "../models/todo.js";
+import { activeTodoCount } from "@depository/todomvc-model";
 
 import { VisibilityFilter } from "./VisibilityFilter.js";
 import { ClearCompletedButton } from "./ClearCompletedButton.js";

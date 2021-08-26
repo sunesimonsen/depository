@@ -10,7 +10,7 @@ import {
   updateTodo,
   startEditingTodo,
   stopEditingTodo,
-} from "../models/todo.js";
+} from "@depository/todomvc-model";
 
 export const TodoItem = connect(
   ({ id }) => ({ todo: todoById(id) }),

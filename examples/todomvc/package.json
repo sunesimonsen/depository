@@ -7,7 +7,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "mocha",
     "start": "relivestyle --port 5000 public",
     "build": "rm -rf dist && rollup -c node:@depository/rollup-config",
     "deploy": "yarn build && surge dist depository-todomvc.surge.sh"
@@ -16,16 +15,16 @@
     "@depository/promise-middleware": "^0.46.0",
     "@depository/store": "^0.46.0",
     "@depository/view": "^0.46.0",
+    "@depository/todomvc-model": "^0.46.0",
+    "@depository/todomvc-api": "^0.46.0",
     "@rollup/plugin-html": "^0.2.3",
     "htm": "^3.0.4",
     "preact": "^10.5.7"
   },
   "devDependencies": {
     "@depository/rollup-config": "^0.46.0",
-    "mocha": "^8.2.1",
     "relivestyle": "1.0.0-6",
     "rollup": "^2.39.0",
-    "surge": "^0.23.0",
-    "unexpected": "^12.0.0"
+    "surge": "^0.23.0"
   }
 }

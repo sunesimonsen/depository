@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "name": "@depository/todomvc-api",
+  "description": "TodoMVC localstorage API",
+  "version": "0.46.0",
+  "author": "Sune Simonsen",
+  "license": "MIT",
+  "private": true,
+  "main": "./src/index.js"
+}

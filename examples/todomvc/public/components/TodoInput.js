@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { createTodo } from "../models/todo.js";
+import { createTodo } from "@depository/todomvc-model";
 
 export class TodoInput {
   constructor() {

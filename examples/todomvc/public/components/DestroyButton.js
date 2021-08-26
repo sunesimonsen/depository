@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { removeTodo } from "../models/todo.js";
+import { removeTodo } from "@depository/todomvc-model";
 
 export class DestroyButton {
   constructor() {

@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { activeTodoCount, toggleAllTodos } from "../models/todo.js";
+import { activeTodoCount, toggleAllTodos } from "@depository/todomvc-model";
 
 export class ToggleAll {
   constructor() {

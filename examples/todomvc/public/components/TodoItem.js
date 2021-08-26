@@ -9,7 +9,7 @@ import {
   updateTodo,
   startEditingTodo,
   stopEditingTodo,
-} from "../models/todo.js";
+} from "@depository/todomvc-model";
 
 const focus = (element) => element && element.focus();
 

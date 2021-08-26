@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import { connect } from "@depository/preact";
-import { allTodos } from "../models/todo.js";
+import { allTodos } from "@depository/todomvc-model";
 import { TodoItem } from "./TodoItem.js";
 
 export const TodoList = connect(

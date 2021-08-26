@@ -2,9 +2,9 @@ import { html } from "htm/preact";
 import { Store } from "@depository/store";
 import { StoreProvider } from "@depository/preact";
 import { RootView } from "./RootView.js";
-import { loadTodos } from "../models/todo.js";
+import { loadTodos } from "@depository/todomvc-model";
 import { promiseMiddleware } from "@depository/promise-middleware";
-import * as api from "../api.js";
+import * as api from "@depository/todomvc-api";
 
 const store = new Store({
   global: {

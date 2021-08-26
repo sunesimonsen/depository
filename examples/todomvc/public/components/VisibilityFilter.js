@@ -1,5 +1,8 @@
 import { html } from "@depository/view";
-import { visibilityFilter, setVisibilityFilter } from "../models/todo.js";
+import {
+  visibilityFilter,
+  setVisibilityFilter,
+} from "@depository/todomvc-model";
 
 export class VisibilityFilter {
   constructor() {
