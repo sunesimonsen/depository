@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { activeTodoCount } from "../models/todo.js";
+import { activeTodoCount } from "@depository/todomvc-model";
 
 import { VisibilityFilter } from "./VisibilityFilter.js";
 import { ClearCompletedButton } from "./ClearCompletedButton.js";

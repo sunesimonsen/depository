@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import { connect } from "@depository/preact";
-import { activeTodoCount, toggleAllTodos } from "../models/todo.js";
+import { activeTodoCount, toggleAllTodos } from "@depository/todomvc-model";
 
 export const ToggleAll = connect(
   { activeTodoCount },

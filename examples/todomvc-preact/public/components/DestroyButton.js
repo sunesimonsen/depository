@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import { connect } from "@depository/preact";
-import { removeTodo } from "../models/todo.js";
+import { removeTodo } from "@depository/todomvc-model";
 
 export const DestroyButton = connect(({ id, dispatch }) => {
   const onClick = () => {

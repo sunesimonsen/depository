@@ -1,6 +1,6 @@
 import { html } from "htm/preact";
 import { connect } from "@depository/preact";
-import { createTodo } from "../models/todo.js";
+import { createTodo } from "@depository/todomvc-model";
 
 export const TodoInput = connect(({ dispatch }) => {
   const onKeyDown = (e) => {

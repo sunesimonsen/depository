@@ -1,6 +1,9 @@
 import { html } from "htm/preact";
 import { connect } from "@depository/preact";
-import { visibilityFilter, setVisibilityFilter } from "../models/todo.js";
+import {
+  visibilityFilter,
+  setVisibilityFilter,
+} from "@depository/todomvc-model";
 
 export const VisibilityFilter = connect(
   { visibilityFilter },

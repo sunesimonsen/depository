@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { clearCompleteTodos } from "../models/todo.js";
+import { clearCompleteTodos } from "@depository/todomvc-model";
 
 export class ClearCompletedButton {
   constructor() {
