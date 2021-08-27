@@ -3,10 +3,10 @@ import { promiseMiddleware } from "@depository/promise-middleware";
 import { Store } from "@depository/store";
 
 import {
+  INITIAL_STATE,
   allTodos,
   clearCompleteTodos,
   createTodo,
-  getInitialState,
   loadTodos,
   removeTodo,
   setVisibilityFilter,
@@ -60,7 +60,7 @@ describe("allTodes", () => {
 
   describe("when the store is empty", () => {
     beforeEach(() => {
-      store = new Store(getInitialState());
+      store = new Store(INITIAL_STATE);
     });
 
     it("returns an empty list", () => {
@@ -214,7 +214,7 @@ describe("allTodes", () => {
 
 describe("createTodo", () => {
   it("adds a new todo to the state", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
@@ -233,7 +233,7 @@ describe("createTodo", () => {
 
 describe("updateTodo", () => {
   it("updates the data of an existing todo", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
@@ -247,7 +247,7 @@ describe("updateTodo", () => {
 
 describe("startEditingTodo", () => {
   it("sets the given todo in editing mode", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
@@ -261,7 +261,7 @@ describe("startEditingTodo", () => {
 
 describe("stopEditingTodo", () => {
   it("sets the given todo in normal mode", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
@@ -276,7 +276,7 @@ describe("stopEditingTodo", () => {
 
 describe("removeTodo", () => {
   it("removes the todo from the store", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
@@ -331,7 +331,7 @@ describe("clearCompleteTodos", () => {
 
 describe("toggleTodo", () => {
   it("toggles the completed state of the todo", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
@@ -367,7 +367,7 @@ describe("toggleAllTodos", () => {
   let store;
 
   beforeEach(async () => {
-    store = new Store(getInitialState());
+    store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ text: "one" }));
@@ -408,7 +408,7 @@ describe("toggleAllTodos", () => {
 
 describe("loadTodos", () => {
   it("reads the todos from the api into the store", async () => {
-    const store = new Store(getInitialState());
+    const store = new Store(INITIAL_STATE);
     store.useMiddleware(promiseMiddleware(new FakeApi()));
 
     await store.dispatch(loadTodos());

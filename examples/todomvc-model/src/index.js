@@ -1,11 +1,11 @@
-export const getInitialState = () => ({
+export const INITIAL_STATE = {
   global: {
     visibilityFilter: "all",
   },
   entities: {
     todo: {},
   },
-});
+};
 
 const createVisibilityFilter = (filter) => {
   switch (filter) {
