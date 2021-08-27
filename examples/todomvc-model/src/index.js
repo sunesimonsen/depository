@@ -20,6 +20,13 @@ const createVisibilityFilter = (filter) => {
 
 export const visibilityFilter = "global.visibilityFilter";
 
+export const isVisibilityFilterSelected = (filter) => ({
+  inputs: {
+    selectedFilter: visibilityFilter,
+  },
+  compute: ({ selectedFilter }) => filter === selectedFilter,
+});
+
 export const allTodos = {
   inputs: {
     filter: visibilityFilter,
