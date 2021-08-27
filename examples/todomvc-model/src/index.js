@@ -7,15 +7,10 @@ export const INITIAL_STATE = {
   },
 };
 
-const createVisibilityFilter = (filter) => {
-  switch (filter) {
-    case "active":
-      return ({ completed }) => !completed;
-    case "completed":
-      return ({ completed }) => completed;
-    default:
-      return () => true;
-  }
+const visibilityFilters = {
+  active: ({ completed }) => !completed,
+  completed: ({ completed }) => completed,
+  all: () => true,
 };
 
 export const visibilityFilter = "global.visibilityFilter";
@@ -33,7 +28,7 @@ export const allTodos = {
     todos: "entities.todo.*",
   },
   compute: ({ filter, todos }, cache) =>
-    (todos || []).filter(createVisibilityFilter(filter)).sort((a, b) => {
+    (todos || []).filter(visibilityFilters[filter]).sort((a, b) => {
       const aCreatedAt = new Date(a.createdAt);
       const bCreatedAt = new Date(b.createdAt);
       if (aCreatedAt < bCreatedAt) return -1;

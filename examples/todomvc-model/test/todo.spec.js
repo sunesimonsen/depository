@@ -72,7 +72,7 @@ describe("allTodes", () => {
     beforeEach(() => {
       store = new Store({
         global: {
-          visibility: "all",
+          visibilityFilter: "all",
         },
         entities: {
           todo: {
