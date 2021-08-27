@@ -13,7 +13,7 @@ export class TodoList {
     }
 
     return html`
-      <ul>
+      <ul aria-label="Todo items">
         ${todos.map(({ id }) => html`<${TodoItem} key=${id} id=${id} />`)}
       </ul>
     `;
