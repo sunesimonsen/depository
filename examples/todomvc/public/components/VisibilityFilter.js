@@ -1,7 +1,7 @@
 import { html } from "@depository/view";
 import {
-  visibilityFilter,
   setVisibilityFilter,
+  isVisibilityFilterSelected,
 } from "@depository/todomvc-model";
 
 export class VisibilityFilter {
@@ -12,18 +12,16 @@ export class VisibilityFilter {
     };
   }
 
-  data() {
-    return { visibilityFilter };
+  data({ value }) {
+    return {
+      isSelected: isVisibilityFilterSelected(value),
+    };
   }
 
-  render({ visibilityFilter, value, children }) {
+  render({ value, isSelected, children }) {
     return html`
       <li>
-        <a
-          class=${visibilityFilter === value && "selected"}
-          href="#"
-          @click=${this.onClick}
-        >
+        <a class=${isSelected && "selected"} href="#" @click=${this.onClick}>
           ${children}
         </a>
       </li>
