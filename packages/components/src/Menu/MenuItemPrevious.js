@@ -55,3 +55,5 @@ export class MenuItemPrevious {
     `;
   }
 }
+
+MenuItemPrevious.isPreviousAction = true;

@@ -1,8 +1,6 @@
 import { html } from "@depository/view";
 
 import { Menu } from "./Menu.js";
-import { MenuItemNext } from "./Menu/MenuItemNext.js";
-import { MenuItemPrevious } from "./Menu/MenuItemPrevious.js";
 
 class MenuChangedEvent extends CustomEvent {
   constructor({ menu, selectedItem }) {
@@ -25,14 +23,14 @@ export class NestedMenu {
 
       const onMenuChanged = this.props["@menuChanged"];
 
-      if (item.type === MenuItemNext) {
+      if (item.type.isNextAction) {
         if (onMenuChanged) {
           this.nextMenuItem = item.props.key;
           onMenuChanged(new MenuChangedEvent({ menu: item.props.key }));
         }
 
         e.preventDefault();
-      } else if (item.type === MenuItemPrevious) {
+      } else if (item.type.isPreviousAction) {
         if (onMenuChanged) {
           onMenuChanged(
             new MenuChangedEvent({
@@ -44,7 +42,7 @@ export class NestedMenu {
 
         e.preventDefault();
       } else {
-        const onSelect = this.props["@select"];
+        const onSelect = this.props["@selectItem"];
         onSelect && onSelect(e);
       }
     };
@@ -52,7 +50,7 @@ export class NestedMenu {
 
   render({ children, ...other }) {
     return html`
-      <${Menu} ...${other} @select=${this.onSelect}>${children}<//>
+      <${Menu} ...${other} @selectItem=${this.onSelect}>${children}<//>
     `;
   }
 }

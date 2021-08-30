@@ -73,6 +73,8 @@ const styles = css`
 
 export class MenuPopup {
   render({ children, ...other }) {
-    return html`<div class=${styles} ...${other}>${children}</div>`;
+    return html`
+      <div role="menu" class=${styles} ...${other}>${children}</div>
+    `;
   }
 }

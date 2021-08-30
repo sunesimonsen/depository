@@ -1,2 +1,2 @@
-export { h, render, clone } from "./vdom.js";
+export { h, render, clone, combineRefs } from "./vdom.js";
 export { html } from "./html.js";

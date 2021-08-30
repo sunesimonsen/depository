@@ -5,9 +5,9 @@ import {
   showMenu,
   hideMenu,
   popupVisiblilityPath,
-  selectNextItem,
-  selectedItemPath,
-  selectPreviousItem,
+  focusNextItem,
+  focusedItemPath,
+  focusPreviousItem,
   getSelectableItems,
   SelectEvent,
 } from "./Menu/model.js";
@@ -47,7 +47,7 @@ export class Menu {
     };
 
     this.onSelect = (e) => {
-      const onSelect = this.props["@select"];
+      const onSelect = this.props["@selectItem"];
       if (onSelect) {
         onSelect(e);
         if (!e.defaultPrevented) this.hideMenu();
@@ -58,20 +58,23 @@ export class Menu {
       ArrowUp: (e, { id, children }) => {
         e.preventDefault();
         const selectable = getSelectableItems(id, children);
-        this.dispatch(selectPreviousItem({ id, selectable }));
+        this.dispatch(focusPreviousItem({ id, selectable }));
       },
       ArrowDown: (e, { id, children }) => {
         e.preventDefault();
         const selectable = getSelectableItems(id, children);
-        this.dispatch(selectNextItem({ id, selectable }));
+        this.dispatch(focusNextItem({ id, selectable }));
       },
-      Enter: (e, { id, selected, visible, children }) => {
-        if (visible && selected) {
+      Enter: (e, { id, focused, visible, children }) => {
+        if (visible && focused) {
           e.preventDefault();
           const selectable = getSelectableItems(id, children);
-          const selectedItem = selectable.find(({ key }) => selected === key);
+          const focusedItem = selectable.find(({ key }) => focused === key);
 
-          this.onSelect(new SelectEvent(selectedItem));
+          this.onSelect(new SelectEvent(focusedItem));
+        } else {
+          e.preventDefault();
+          this.onTriggerClick();
         }
       },
       Escape: (e) => {
@@ -92,7 +95,7 @@ export class Menu {
   data({ id }) {
     return {
       visible: popupVisiblilityPath(id),
-      selected: selectedItemPath(id),
+      focused: focusedItemPath(id),
     };
   }
 
@@ -121,27 +124,26 @@ export class Menu {
     this.popup.hide();
   }
 
-  render({ id, selected, visible, children }) {
+  render({ id, focused, visible, children, placement, margins, ...other }) {
     const [trigger, content] = children;
 
     return [
       clone(trigger, {
+        id,
         ref: this.createRef("triggerRef"),
-        "aria-haspopup": "true",
-        "data-toggle": "true",
+        "aria-haspopup": "listbox",
         "aria-expanded": visible ? "true" : "false",
         "aria-controls": `${id}-menu`,
-        "aria-activedescendant": `${id}-${selected}`,
+        "aria-activedescendant": focused && `${id}-${focused}`,
         "@click": this.onTriggerClick,
         "@keydown": this.onKeydown,
         "@blur": this.onBlur,
       }),
       html`
-        <div ref=${this.createRef("popupRef")} @select=${this.onSelect}>
+        <div ref=${this.createRef("popupRef")} @selectItem=${this.onSelect}>
           ${visible &&
           clone(content, {
             id: `${id}-menu`,
-            role: "menu",
           })}
         </div>
       `,

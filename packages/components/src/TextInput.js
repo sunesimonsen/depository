@@ -38,12 +38,14 @@ export const textInputStyles = css`
     box-shadow: rgb(31 115 183 / 35%) 0px 0px 0px 3px;
   }
 
+  &[disabled],
   &:disabled,
   &[aria-disabled="true"] {
     cursor: default;
     border-color: rgb(233, 235, 237);
     background-color: rgb(248, 249, 249);
     color: rgb(194, 200, 204);
+    pointer-events: none;
   }
 `;
 
