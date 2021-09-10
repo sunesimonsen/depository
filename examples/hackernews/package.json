@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@depository/nano-router-plugin": "^0.46.0",
-    "@depository/promise-middleware": "^0.46.0",
+    "@depository/function-middleware": "^0.46.0",
     "@depository/status-middleware": "^0.46.0",
     "@depository/store": "^0.46.0",
     "@depository/view": "^0.46.0",

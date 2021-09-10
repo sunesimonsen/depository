@@ -1,5 +1,5 @@
 import expect from "unexpected";
-import { promiseMiddleware } from "@depository/promise-middleware";
+import { functionMiddleware } from "@depository/function-middleware";
 import { Store } from "@depository/store";
 
 import {
@@ -101,7 +101,7 @@ describe("allTodes", () => {
         },
       });
 
-      store.useMiddleware(promiseMiddleware(new FakeApi({ nextId: 3 })));
+      store.useMiddleware(functionMiddleware(new FakeApi({ nextId: 3 })));
     });
 
     it("returns the todos in creation order", () => {
@@ -215,7 +215,7 @@ describe("allTodes", () => {
 describe("createTodo", () => {
   it("adds a new todo to the state", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
 
@@ -234,7 +234,7 @@ describe("createTodo", () => {
 describe("updateTodo", () => {
   it("updates the data of an existing todo", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
     await store.dispatch(updateTodo({ id: "0", text: "bar" }));
@@ -248,7 +248,7 @@ describe("updateTodo", () => {
 describe("startEditingTodo", () => {
   it("sets the given todo in editing mode", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
     await store.dispatch(startEditingTodo({ id: "0" }));
@@ -262,7 +262,7 @@ describe("startEditingTodo", () => {
 describe("stopEditingTodo", () => {
   it("sets the given todo in normal mode", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
     await store.dispatch(startEditingTodo({ id: "0" }));
@@ -277,7 +277,7 @@ describe("stopEditingTodo", () => {
 describe("removeTodo", () => {
   it("removes the todo from the store", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
     await store.dispatch(removeTodo({ id: "0" }));
@@ -316,7 +316,7 @@ describe("clearCompleteTodos", () => {
         },
       },
     });
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
   });
 
   it("removes all completed todos from the store", async () => {
@@ -332,7 +332,7 @@ describe("clearCompleteTodos", () => {
 describe("toggleTodo", () => {
   it("toggles the completed state of the todo", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ id: "0", text: "foo", createdAt: 0 }));
     expect(store.get("entities.todo.0"), "to equal", {
@@ -368,7 +368,7 @@ describe("toggleAllTodos", () => {
 
   beforeEach(async () => {
     store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(createTodo({ text: "one" }));
     await store.dispatch(createTodo({ text: "two" }));
@@ -409,7 +409,7 @@ describe("toggleAllTodos", () => {
 describe("loadTodos", () => {
   it("reads the todos from the api into the store", async () => {
     const store = new Store(INITIAL_STATE);
-    store.useMiddleware(promiseMiddleware(new FakeApi()));
+    store.useMiddleware(functionMiddleware(new FakeApi()));
 
     await store.dispatch(loadTodos());
 

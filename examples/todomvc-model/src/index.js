@@ -27,7 +27,7 @@ export const allTodos = {
     filter: visibilityFilter,
     todos: "entities.todo.*",
   },
-  compute: ({ filter, todos }, cache) =>
+  compute: ({ filter, todos }) =>
     (todos || []).filter(visibilityFilters[filter]).sort((a, b) => {
       const aCreatedAt = new Date(a.createdAt);
       const bCreatedAt = new Date(b.createdAt);
@@ -53,8 +53,11 @@ export const activeTodoCount = {
 
 export const loadTodos = () => ({
   name: "loadTodos",
-  payload: async (cache, api) => {
-    if (cache.get("global.initialized")) return null;
+  inputs: {
+    initialized: "global.initialized",
+  },
+  payload: async ({ initialized }, api) => {
+    if (initialized) return null;
 
     const response = await api.loadTodos();
 
@@ -72,7 +75,7 @@ export const loadTodos = () => ({
 
 export const createTodo = ({ text, createdAt = new Date().toISOString() }) => ({
   name: "createTodo",
-  payload: async (cache, api) => {
+  payload: async (api) => {
     const response = await api.createTodo({
       text,
       completed: false,
@@ -86,8 +89,8 @@ export const createTodo = ({ text, createdAt = new Date().toISOString() }) => ({
 
 export const updateTodo = ({ id, ...values }) => ({
   name: "updateTodo",
-  payload: async (cache, api) => {
-    const todo = cache.get(todoById(id));
+  inputs: { todo: todoById(id) },
+  payload: async ({ todo }, api) => {
     const response = api.updateTodo({ ...todo, ...values, id, editing: false });
     return { [todoById(id)]: response };
   },
@@ -95,8 +98,8 @@ export const updateTodo = ({ id, ...values }) => ({
 
 export const toggleTodo = ({ id }) => ({
   name: "toggleTodo",
-  payload: async (cache, api) => {
-    const todo = cache.get(todoById(id));
+  inputs: { todo: todoById(id) },
+  payload: async ({ todo }, api) => {
     const response = await api.updateTodo({
       ...todo,
       completed: !todo.completed,
@@ -107,13 +110,13 @@ export const toggleTodo = ({ id }) => ({
 
 export const toggleAllTodos = () => ({
   name: "toggleAllTodos",
-  payload: async (cache, api) => {
-    const count = cache.get(activeTodoCount);
-
+  inputs: {
+    count: activeTodoCount,
+    todos: "entities.todo.*",
+  },
+  payload: async ({ count, todos }, api) => {
     const response = await Promise.all(
-      cache
-        .get(`entities.todo.*`)
-        .map((todo) => api.updateTodo({ ...todo, completed: count !== 0 }))
+      todos.map((todo) => api.updateTodo({ ...todo, completed: count !== 0 }))
     );
 
     const update = {};
@@ -140,7 +143,7 @@ export const stopEditingTodo = ({ id }) => ({
 
 export const removeTodo = ({ id }) => ({
   name: "removeTodo",
-  payload: async (cache, api) => {
+  payload: async (api) => {
     await api.removeTodos({ ids: [id] });
     return { [todoById(id)]: null };
   },
@@ -148,9 +151,9 @@ export const removeTodo = ({ id }) => ({
 
 export const clearCompleteTodos = () => ({
   name: "clearCompleteTodos",
-  payload: async (cache, api) => {
-    const completed = cache.get(completedTodos);
-    const ids = completed.map(({ id }) => id);
+  inputs: { completedTodos },
+  payload: async ({ completedTodos }, api) => {
+    const ids = completedTodos.map(({ id }) => id);
     const response = await api.removeTodos({ ids });
 
     const update = {};

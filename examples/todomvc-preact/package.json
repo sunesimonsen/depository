@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@depository/preact": "^0.46.0",
-    "@depository/promise-middleware": "^0.46.0",
+    "@depository/function-middleware": "^0.46.0",
     "@depository/todomvc-model": "^0.46.0",
     "@depository/todomvc-api": "^0.46.0",
     "@depository/store": "^0.46.0",

@@ -1,4 +1,5 @@
 import { render, html } from "./dependencies/view.esm.js";
+import { functionMiddleware } from "./dependencies/function-middleware.esm.js";
 import { Store } from "./dependencies/store.esm.js";
 import { Root } from "./components/Root.js";
 
@@ -6,6 +7,8 @@ const store = new Store({
   active: 0,
   selectedUpdate: 0,
 });
+
+store.useMiddleware(functionMiddleware());
 
 store.useMiddleware(({ store, next, action }) => {
   if (action.type === "connect") {

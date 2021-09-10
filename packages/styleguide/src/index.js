@@ -1,6 +1,6 @@
 import { html, render } from "@depository/view";
 import { Store } from "@depository/store";
-import { promiseMiddleware } from "@depository/promise-middleware";
+import { functionMiddleware } from "@depository/function-middleware";
 import { statusMiddleware } from "@depository/status-middleware";
 import { nanoRouterPlugin } from "@depository/nano-router-plugin";
 import { RootView } from "./components/RootView.js";
@@ -34,7 +34,7 @@ export const styleguide = ({ logo, title, navigation, pageMap, importmap }) => {
   const router = new Router({ routes, history });
 
   store.use(nanoRouterPlugin(router));
-  store.useMiddleware(promiseMiddleware());
+  store.useMiddleware(functionMiddleware());
   store.useMiddleware(statusMiddleware());
 
   render(

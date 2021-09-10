@@ -88,8 +88,11 @@ const itemCountStyles = css`
 `;
 
 const toggleAction = (id) => ({
-  payload: (cache) => ({
-    [collapsedById(id)]: !cache.get(collapsedById(id)),
+  inputs: {
+    collapsed: collapsedById(id),
+  },
+  payload: ({ collapsed }) => ({
+    [collapsedById(id)]: !collapsed,
   }),
 });
 
