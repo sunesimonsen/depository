@@ -69,10 +69,11 @@ export const loadTodos = () => ({
 
     const response = await api.loadTodos();
 
-    const todosById = response.reduce(
-      (result, todo) => ({ ...result, [todo.id]: todo }),
-      {}
-    );
+    const todosById = {};
+
+    for (const todo of response) {
+      todosById[todo.id] = todo;
+    }
 
     return {
       [initialized]: true,
@@ -112,6 +113,7 @@ export const toggleTodo = ({ id }) => ({
       ...todo,
       completed: !todo.completed,
     });
+
     return { [todoById(id)]: response };
   },
 });
@@ -130,9 +132,11 @@ export const toggleAllTodos = () => ({
     );
 
     const update = {};
+
     for (const todo of response) {
       update[todoById(todo.id)] = todo;
     }
+
     return update;
   },
 });
@@ -169,9 +173,11 @@ export const clearCompleteTodos = () => ({
     const response = await api.removeTodos({ ids });
 
     const update = {};
+
     for (const id of response.ids) {
       update[todoById(id)] = null;
     }
+
     return update;
   },
 });
