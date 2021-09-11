@@ -4,7 +4,7 @@ import unexpectedReaction from "unexpected-reaction";
 import { Store } from "@depository/store";
 import { functionMiddleware } from "@depository/function-middleware";
 import { StoreProvider, useData, useDispatch } from "./index.js";
-import { html } from "../html.js";
+import { html } from "./html.js";
 
 const simulate = unexpectedReaction.simulate;
 const mount = unexpectedReaction.mount;

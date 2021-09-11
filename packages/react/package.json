@@ -6,7 +6,6 @@
   "module": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./hooks": "./src/hooks/index.js",
     "./html": "./src/html.js"
   },
   "sideEffects": false,
