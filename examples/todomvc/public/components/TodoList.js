@@ -1,10 +1,10 @@
 import { html } from "@depository/view";
-import { allTodos } from "@depository/todomvc-model";
+import { filteredTodos } from "@depository/todomvc-model";
 import { TodoItem } from "./TodoItem.js";
 
 export class TodoList {
   data() {
-    return { todos: allTodos };
+    return { todos: filteredTodos };
   }
 
   render({ todos }) {

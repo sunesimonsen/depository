@@ -1,10 +1,10 @@
-import { html } from "@depository/react/html";
+import { html } from "@depository/react";
 import { useData } from "@depository/react";
-import { allTodos } from "@depository/todomvc-model";
+import { filteredTodos } from "@depository/todomvc-model";
 import { TodoItem } from "./TodoItem.js";
 
 export const TodoList = () => {
-  const todos = useData(allTodos);
+  const todos = useData(filteredTodos);
 
   return html`
     <ul className="todo-list">

@@ -22,13 +22,15 @@ export const isVisibilityFilterSelected = (filter) => ({
   compute: ({ selectedFilter }) => filter === selectedFilter,
 });
 
-export const allTodos = {
+export const allTodos = "entities.todo.*";
+
+export const filteredTodos = {
   inputs: {
     filter: visibilityFilter,
-    todos: "entities.todo.*",
+    allTodos,
   },
-  compute: ({ filter, todos }) =>
-    (todos || []).filter(visibilityFilters[filter]).sort((a, b) => {
+  compute: ({ filter, allTodos }) =>
+    (allTodos || []).filter(visibilityFilters[filter]).sort((a, b) => {
       const aCreatedAt = new Date(a.createdAt);
       const bCreatedAt = new Date(b.createdAt);
       if (aCreatedAt < bCreatedAt) return -1;
@@ -38,8 +40,8 @@ export const allTodos = {
 };
 
 const completedTodos = {
-  inputs: { todos: "entities.todo.*" },
-  compute: ({ todos }) => todos.filter(({ completed }) => completed),
+  inputs: { allTodos },
+  compute: ({ allTodos }) => allTodos.filter(({ completed }) => completed),
 };
 
 export const todoById = (id) => `entities.todo.${id}`;
@@ -51,11 +53,11 @@ export const activeTodoCount = {
   compute: ({ completed }) => completed.filter((c) => !c).length,
 };
 
+const initialized = "global.initialized";
+
 export const loadTodos = () => ({
   name: "loadTodos",
-  inputs: {
-    initialized: "global.initialized",
-  },
+  inputs: { initialized },
   payload: async ({ initialized }, api) => {
     if (initialized) return null;
 
@@ -67,7 +69,7 @@ export const loadTodos = () => ({
     );
 
     return {
-      "global.initialized": true,
+      [initialized]: true,
       "entities.todo": todosById,
     };
   },
@@ -112,11 +114,13 @@ export const toggleAllTodos = () => ({
   name: "toggleAllTodos",
   inputs: {
     count: activeTodoCount,
-    todos: "entities.todo.*",
+    allTodos,
   },
-  payload: async ({ count, todos }, api) => {
+  payload: async ({ count, allTodos }, api) => {
     const response = await Promise.all(
-      todos.map((todo) => api.updateTodo({ ...todo, completed: count !== 0 }))
+      allTodos.map((todo) =>
+        api.updateTodo({ ...todo, completed: count !== 0 })
+      )
     );
 
     const update = {};
@@ -127,17 +131,19 @@ export const toggleAllTodos = () => ({
   },
 });
 
+const editingById = (id) => `${todoById(id)}.editing`;
+
 export const startEditingTodo = ({ id }) => ({
   name: "startEditingTodo",
   payload: {
-    [`entities.todo.${id}.editing`]: true,
+    [editingById(id)]: true,
   },
 });
 
 export const stopEditingTodo = ({ id }) => ({
   name: "stopEditingTodo",
   payload: {
-    [`entities.todo.${id}.editing`]: false,
+    [editingById(id)]: false,
   },
 });
 

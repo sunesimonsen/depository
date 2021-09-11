@@ -4,7 +4,7 @@ import { Store } from "@depository/store";
 
 import {
   INITIAL_STATE,
-  allTodos,
+  filteredTodos,
   clearCompleteTodos,
   createTodo,
   loadTodos,
@@ -64,7 +64,7 @@ describe("allTodes", () => {
     });
 
     it("returns an empty list", () => {
-      expect(store.get(allTodos), "to be empty");
+      expect(store.get(filteredTodos), "to be empty");
     });
   });
 
@@ -105,7 +105,7 @@ describe("allTodes", () => {
     });
 
     it("returns the todos in creation order", () => {
-      expect(store.get(allTodos), "to equal", [
+      expect(store.get(filteredTodos), "to equal", [
         {
           id: "0",
           text: "foo",
@@ -134,7 +134,7 @@ describe("allTodes", () => {
       });
 
       it("returns todos that is not completed", () => {
-        expect(store.get(allTodos), "to equal", [
+        expect(store.get(filteredTodos), "to equal", [
           {
             id: "0",
             text: "foo",
@@ -159,7 +159,7 @@ describe("allTodes", () => {
       });
 
       it("returns todos that is completed", () => {
-        expect(store.get(allTodos), "to equal", [
+        expect(store.get(filteredTodos), "to equal", [
           {
             id: "2",
             text: "baz",
@@ -177,7 +177,7 @@ describe("allTodes", () => {
           createTodo({ id: "3", text: "qux", createdAt: 3 })
         );
 
-        expect(store.get(allTodos), "to equal", [
+        expect(store.get(filteredTodos), "to equal", [
           {
             id: "0",
             text: "foo",
