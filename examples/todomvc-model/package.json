@@ -2,7 +2,7 @@
   "type": "module",
   "name": "@depository/todomvc-model",
   "description": "TodoMVC model",
-  "version": "0.46.0",
+  "version": "0.47.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -11,8 +11,8 @@
     "test": "mocha"
   },
   "devDependencies": {
-    "@depository/function-middleware": "^0.46.0",
-    "@depository/store": "^0.46.0",
+    "@depository/function-middleware": "^0.47.0",
+    "@depository/store": "^0.47.0",
     "mocha": "^8.2.1",
     "unexpected": "^12.0.0"
   }
