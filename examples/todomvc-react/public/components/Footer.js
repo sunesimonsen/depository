@@ -1,16 +1,16 @@
 import { html } from "@depository/react/html";
-import { connect } from "@depository/react";
+import { useData } from "@depository/react";
 import { activeTodoCount } from "@depository/todomvc-model";
 
 import { VisibilityFilter } from "./VisibilityFilter.js";
 import { ClearCompletedButton } from "./ClearCompletedButton.js";
 
-export const Footer = connect({ activeTodoCount }, ({ activeTodoCount }) => {
+export const Footer = () => {
+  const count = useData(activeTodoCount);
+
   return html`
     <footer className="footer">
-      <span className="todo-count"
-        ><strong>${activeTodoCount}</strong> item left</span
-      >
+      <span className="todo-count"><strong>${count}</strong> item left</span>
       <ul className="filters">
         <${VisibilityFilter} value="all">All<//>
         <${VisibilityFilter} value="active">Active<//>
@@ -19,4 +19,4 @@ export const Footer = connect({ activeTodoCount }, ({ activeTodoCount }) => {
       <${ClearCompletedButton} />
     </footer>
   `;
-});
+};

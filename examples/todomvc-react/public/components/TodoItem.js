@@ -1,5 +1,5 @@
 import { html } from "@depository/react/html";
-import { connect } from "@depository/react";
+import { useDispatch, useData } from "@depository/react";
 
 import { classes } from "../utils/classes.js";
 import { DestroyButton } from "./DestroyButton.js";
@@ -12,59 +12,62 @@ import {
   stopEditingTodo,
 } from "@depository/todomvc-model";
 
-export const TodoItem = connect(
-  ({ id }) => ({ todo: todoById(id) }),
-  ({ dispatch, id, todo }) => {
-    const onChange = (e) => {
-      dispatch(toggleTodo({ id }));
-    };
+export const TodoItem = ({ id }) => {
+  const dispatch = useDispatch();
 
-    const onDoubleClick = () => {
-      dispatch(startEditingTodo({ id }));
-    };
+  const { todo } = useData({
+    todo: todoById(id),
+  });
 
-    const onKeyUp = (e) => {
-      if (e.code === "Enter") {
-        dispatch(
-          updateTodo({
-            ...todo,
-            text: e.target.value.trim(),
-          })
-        );
+  const onChange = (e) => {
+    dispatch(toggleTodo({ id }));
+  };
 
-        e.target.value = "";
-      }
-    };
+  const onDoubleClick = () => {
+    dispatch(startEditingTodo({ id }));
+  };
 
-    const onBlur = () => {
-      dispatch(stopEditingTodo({ id }));
-    };
+  const onKeyUp = (e) => {
+    if (e.code === "Enter") {
+      dispatch(
+        updateTodo({
+          ...todo,
+          text: e.target.value.trim(),
+        })
+      );
 
-    return html`
-      <li
-        className=${classes(
-          todo.editing && "editing",
-          todo.completed && "completed"
-        )}
-      >
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            onChange=${onChange}
-            checked=${todo.completed}
-          />
-          <label onDoubleClick=${onDoubleClick}>${todo.text}</label>
-          <${DestroyButton} id=${todo.id} />
-        </div>
+      e.target.value = "";
+    }
+  };
+
+  const onBlur = () => {
+    dispatch(stopEditingTodo({ id }));
+  };
+
+  return html`
+    <li
+      className=${classes(
+        todo.editing && "editing",
+        todo.completed && "completed"
+      )}
+    >
+      <div className="view">
         <input
-          ref=${(element) => element && element.focus()}
-          className="edit"
-          defaultValue=${todo.text}
-          onKeyUp=${onKeyUp}
-          onBlur=${onBlur}
+          className="toggle"
+          type="checkbox"
+          onChange=${onChange}
+          checked=${todo.completed}
         />
-      </li>
-    `;
-  }
-);
+        <label onDoubleClick=${onDoubleClick}>${todo.text}</label>
+        <${DestroyButton} id=${todo.id} />
+      </div>
+      <input
+        ref=${(element) => element && element.focus()}
+        className="edit"
+        defaultValue=${todo.text}
+        onKeyUp=${onKeyUp}
+        onBlur=${onBlur}
+      />
+    </li>
+  `;
+};
