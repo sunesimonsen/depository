@@ -36,8 +36,11 @@ const sourceVisibleByUrl = (url) =>
 
 const toggleSourceVisibility = (url) => ({
   name: "toggleSourceVisibility",
-  payload: (cache) => ({
-    [sourceVisibleByUrl(url)]: !cache.get(sourceVisibleByUrl(url)),
+  inputs: {
+    visible: sourceVisibleByUrl(url),
+  },
+  payload: ({ visible }) => ({
+    [sourceVisibleByUrl(url)]: !visible,
   }),
 });
 

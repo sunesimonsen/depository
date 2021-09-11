@@ -2,7 +2,7 @@ import unexpected from "unexpected";
 import unexpectedSinon from "unexpected-sinon";
 import sinon from "sinon";
 import { statusMiddleware } from "./index.js";
-import { promiseMiddleware } from "@depository/promise-middleware";
+import { functionMiddleware } from "@depository/function-middleware";
 import { Store } from "@depository/store";
 
 const expect = unexpected.clone().use(unexpectedSinon);
@@ -22,14 +22,14 @@ describe("status-middleware", () => {
     store = new Store();
 
     store
-      .useMiddleware(promiseMiddleware(fakeApi))
+      .useMiddleware(functionMiddleware(fakeApi))
       .useMiddleware(statusMiddleware(fakeApi));
   });
 
   it("handles async function payloads", async () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
-      payload: async (cache, api) => {
+      payload: async (api) => {
         const response = await api.getTestValue();
         return { response };
       },
@@ -50,7 +50,7 @@ describe("status-middleware", () => {
   it("handles promise rejections", async () => {
     const dispatchPromise = store.dispatch({
       status: "test-value",
-      payload: (cache, api) => api.deadEnd(),
+      payload: (api) => api.deadEnd(),
     });
 
     expect(store.get(), "to equal", {
@@ -70,7 +70,7 @@ describe("status-middleware", () => {
 
     await store.dispatch({
       status: "test-value",
-      payload: async (cache, api) => {
+      payload: async (api) => {
         const response = await fakeApi.getTestValue();
         return { response };
       },

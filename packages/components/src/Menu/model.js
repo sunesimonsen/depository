@@ -48,8 +48,10 @@ export const setSelectedMenuItem = ({ id, key }) => ({
 export const selectPreviousItem = ({ id, selectable }) => {
   return {
     name: "selectPreviousMenuItem",
-    payload: (cache) => {
-      const selected = cache.get(selectedItemPath(id));
+    inputs: {
+      selected: selectedItemPath(id),
+    },
+    payload: ({ selected }) => {
       const index = selectable.findIndex(({ key }) => key === selected);
       const newIndex =
         index === -1 ? selectable.length - 1 : Math.max(0, index - 1);
@@ -65,8 +67,10 @@ export const selectPreviousItem = ({ id, selectable }) => {
 export const selectNextItem = ({ id, selectable }) => {
   return {
     name: "selectNextMenuItem",
-    payload: (cache) => {
-      const selected = cache.get(selectedItemPath(id));
+    inputs: {
+      selected: selectedItemPath(id),
+    },
+    payload: ({ selected }) => {
       const index = selectable.findIndex(({ key }) => key === selected);
       const newIndex =
         index === -1 ? 0 : Math.min(selectable.length - 1, index + 1);

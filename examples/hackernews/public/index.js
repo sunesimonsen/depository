@@ -1,6 +1,6 @@
 import { html, render } from "@depository/view";
 import { Store } from "@depository/store";
-import { promiseMiddleware } from "@depository/promise-middleware";
+import { functionMiddleware } from "@depository/function-middleware";
 import { statusMiddleware } from "@depository/status-middleware";
 import { nanoRouterPlugin } from "@depository/nano-router-plugin";
 import * as api from "./api.js";
@@ -26,7 +26,7 @@ const routes = new Routes(
 const router = new Router({ routes, history });
 
 store.use(nanoRouterPlugin(router));
-store.useMiddleware(promiseMiddleware(api));
+store.useMiddleware(functionMiddleware(api));
 store.useMiddleware(statusMiddleware(api));
 
 render(html`<${RootView} />`, store, document.body, { router });

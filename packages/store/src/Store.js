@@ -5,12 +5,7 @@ export class Store {
     this.cache = new Cache(data);
     this._apply = (action) => {
       if (action.payload !== null) {
-        const payload =
-          typeof action.payload === "function"
-            ? action.payload(this.cache.readonly)
-            : action.payload;
-
-        Object.entries(payload).forEach(([pathPattern, value]) => {
+        Object.entries(action.payload).forEach(([pathPattern, value]) => {
           this.cache.set(pathPattern, value);
         });
       }

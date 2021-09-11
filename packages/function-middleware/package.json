@@ -1,8 +1,8 @@
 {
   "type": "module",
-  "name": "@depository/promise-middleware",
+  "name": "@depository/function-middleware",
   "version": "0.46.0",
-  "description": "Promise middleware for @depository",
+  "description": "Handle function payloads for @depository",
   "module": "./src/index.js",
   "exports": {
     ".": "./src/index.js"
@@ -14,8 +14,7 @@
     "prepublishOnly": "yarn build"
   },
   "keywords": [
-    "async",
-    "promise",
+    "cache",
     "middleware",
     "depository"
   ],

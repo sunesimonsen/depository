@@ -23,7 +23,7 @@ export class Computed extends Subscribable {
 
     if (force || this._isDirty) {
       const previousValue = this.value;
-      this.value = this._compute(this._inputValues, this._cache);
+      this.value = this._compute(this._inputValues);
       this._isDirty = !this._isEqual(previousValue, this.value);
     }
   }

@@ -12,7 +12,7 @@
     "deploy": "yarn build && surge dist depository-todomvc.surge.sh"
   },
   "dependencies": {
-    "@depository/promise-middleware": "^0.46.0",
+    "@depository/function-middleware": "^0.46.0",
     "@depository/store": "^0.46.0",
     "@depository/view": "^0.46.0",
     "@depository/todomvc-model": "^0.46.0",

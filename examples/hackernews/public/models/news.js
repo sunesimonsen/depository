@@ -10,8 +10,11 @@ export const initialState = {
 export const loadTopStories = () => ({
   name: "loadTopStories",
   status: "topStories",
-  payload: async (cache, api) => {
-    if (cache.get("global.initialized")) return null;
+  inputs: {
+    initialized: "global.initialized",
+  },
+  payload: async ({ initialized }, api) => {
+    if (initialized) return null;
 
     const topStories = await api.loadTopStories();
 
@@ -25,7 +28,7 @@ export const loadTopStories = () => ({
 export const reloadTopStories = () => ({
   name: "reloadTopStories",
   status: "reloadTopStories",
-  payload: async (cache, api) => {
+  payload: async (_, api) => {
     const topStories = await api.loadTopStories();
 
     return {
@@ -37,9 +40,11 @@ export const reloadTopStories = () => ({
 
 export const loadMoreTopStories = () => ({
   name: "loadMoreTopStories",
-  payload: (cache) => ({
-    "searches.topStories.count":
-      cache.get("searches.topStories.count") + pageSize,
+  inputs: {
+    count: "searches.topStories.count",
+  },
+  payload: ({ count }) => ({
+    "searches.topStories.count": count + pageSize,
   }),
 });
 
@@ -62,8 +67,9 @@ export const storyById = (id) => `entities.story.${id}`;
 export const loadStory = (id) => ({
   name: "loadStory",
   status: `story.${id}`,
-  payload: async (cache, api) => {
-    if (cache.has(storyById(id))) return null;
+  inputs: { cachedStory: storyById(id) },
+  payload: async ({ cachedStory }, api) => {
+    if (cachedStory) return null;
     const story = await api.loadStory(id);
     return { [storyById(id)]: story };
   },
@@ -74,8 +80,11 @@ export const commentById = (id) => `entities.comment.${id}`;
 export const loadComment = (id) => ({
   name: "loadComment",
   status: `comment.${id}`,
-  payload: async (cache, api) => {
-    if (cache.has(commentById(id))) return null;
+  inputs: {
+    cachedComment: commentById(id),
+  },
+  payload: async ({ cachedComment }, api) => {
+    if (cachedComment) return null;
     const comment = await api.loadComment(id);
     return { [commentById(id)]: comment };
   },

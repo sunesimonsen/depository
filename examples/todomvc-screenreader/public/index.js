@@ -3,7 +3,7 @@ import { RootView } from "./components/RootView.js";
 import { Store } from "@depository/store";
 import { loadTodos, INITIAL_STATE } from "@depository/todomvc-model";
 import { nanoRouterPlugin } from "@depository/nano-router-plugin";
-import { promiseMiddleware } from "@depository/promise-middleware";
+import { functionMiddleware } from "@depository/function-middleware";
 import { Router, Routes, Route } from "@nano-router/router";
 import { createBrowserHistory } from "@nano-router/history";
 import * as api from "@depository/todomvc-api";
@@ -26,7 +26,7 @@ const routes = new Routes(
 const router = new Router({ routes, history });
 
 store.use(nanoRouterPlugin(router));
-store.useMiddleware(promiseMiddleware(api));
+store.useMiddleware(functionMiddleware(api));
 
 store.dispatch(loadTodos());
 

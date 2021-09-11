@@ -19,7 +19,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/promise-middleware.esm.js",
+      file: "dist/function-middleware.esm.js",
       format: "esm",
     },
     plugins,
@@ -27,7 +27,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/promise-middleware.esm.min.js",
+      file: "dist/function-middleware.esm.min.js",
       format: "esm",
     },
     plugins: plugins.concat(minifyPlugins),
