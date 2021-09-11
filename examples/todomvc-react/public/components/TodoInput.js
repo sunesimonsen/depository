@@ -1,10 +1,12 @@
 import { html } from "@depository/react/html";
-import { connect } from "@depository/react";
+import { useDispatch } from "@depository/react";
 import { createTodo } from "@depository/todomvc-model";
 
 const ENTER = 13;
 
-export const TodoInput = connect(({ dispatch }) => {
+export const TodoInput = () => {
+  const dispatch = useDispatch();
+
   const onKeyDown = (e) => {
     if (e.which === ENTER) {
       dispatch(createTodo({ text: e.target.value.trim() }));
@@ -22,4 +24,4 @@ export const TodoInput = connect(({ dispatch }) => {
       onKeyDown=${onKeyDown}
     />
   `;
-});
+};

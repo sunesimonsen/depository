@@ -1,8 +1,10 @@
 import { html } from "@depository/react/html";
-import { connect } from "@depository/react";
+import { useDispatch } from "@depository/react";
 import { clearCompleteTodos } from "@depository/todomvc-model";
 
-export const ClearCompletedButton = connect(({ dispatch }) => {
+export const ClearCompletedButton = () => {
+  const dispatch = useDispatch();
+
   const onClick = () => {
     dispatch(clearCompleteTodos());
   };
@@ -12,4 +14,4 @@ export const ClearCompletedButton = connect(({ dispatch }) => {
       Clear completed
     </button>
   `;
-});
+};
