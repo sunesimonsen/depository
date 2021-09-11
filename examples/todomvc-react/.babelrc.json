@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    [
+      "htm",
+      {
+        "import": "@depository/react/html",
+        "useBuiltIns": true,
+        "useNativeSpread": true
+      }
+    ]
+  ]
+}
