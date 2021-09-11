@@ -4,8 +4,7 @@ import unexpectedReaction from "unexpected-reaction";
 import { Store } from "@depository/store";
 import { functionMiddleware } from "@depository/function-middleware";
 import { StoreProvider, useData, useDispatch } from "./index.js";
-import { createElement } from "react";
-import htm from "htm";
+import { html } from "../html.js";
 
 const simulate = unexpectedReaction.simulate;
 const mount = unexpectedReaction.mount;
@@ -14,8 +13,6 @@ const delay = (timeout = 0) =>
   new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
-
-const html = htm.bind(createElement);
 
 const expect = unexpected.clone().use(unexpectedDom);
 

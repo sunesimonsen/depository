@@ -6,7 +6,8 @@
   "module": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./hooks": "./src/hooks/index.js"
+    "./hooks": "./src/hooks/index.js",
+    "./html": "./src/html.js"
   },
   "sideEffects": false,
   "scripts": {
@@ -41,7 +42,9 @@
     "unexpected-reaction": "^3.0.0"
   },
   "peerDependencies": {
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "htm": "^3.0.4"
   },
   "engines": {
     "node": ">=12"

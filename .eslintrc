@@ -24,8 +24,7 @@
       {
         "devDependencies": [
           "**/*.spec.{mjs,js}",
-          "**/rollup.config.js",
-          "**/wmr.config.js",
+          "**/*.config.js",
           "scripts/*",
         ],
         "optionalDependencies": false,
