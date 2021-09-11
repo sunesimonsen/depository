@@ -2,16 +2,13 @@ import { html } from "@depository/view";
 
 import { classes } from "../utils/classes.js";
 import { DestroyButton } from "./DestroyButton.js";
+import { EditInput } from "./EditInput.js";
 
 import {
   todoById,
   toggleTodo,
-  updateTodo,
   startEditingTodo,
-  stopEditingTodo,
 } from "@depository/todomvc-model";
-
-const focus = (element) => element && element.focus();
 
 export class TodoItem {
   constructor() {
@@ -23,22 +20,16 @@ export class TodoItem {
     this.onDblClick = () => {
       this.dispatch(startEditingTodo({ id: this.props.id }));
     };
-
-    this.onKeyDown = (e) => {
-      if (e.code === "Enter") {
-        const { todo } = this.props;
-        this.dispatch(updateTodo({ ...todo, text: e.target.value.trim() }));
-        e.target.value = "";
-      }
-    };
-
-    this.onBlur = () => {
-      this.dispatch(stopEditingTodo({ id: this.props.id }));
-    };
   }
 
   data({ id }) {
     return { todo: todoById(id) };
+  }
+
+  renderInput({ todo }) {
+    if (!todo.editing) return null;
+
+    return html`<${EditInput} id=${todo.id} />`;
   }
 
   render({ todo }) {
@@ -59,13 +50,7 @@ export class TodoItem {
           <label @dblclick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />
         </div>
-        <input
-          ref=${focus}
-          class="edit"
-          .value=${todo.text}
-          @keydown=${this.onKeyDown}
-          @blur=${this.onBlur}
-        />
+        ${this.renderInput({ todo })}
       </li>
     `;
   }
