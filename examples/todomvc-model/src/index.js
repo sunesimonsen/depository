@@ -24,19 +24,25 @@ export const isVisibilityFilterSelected = (filter) => ({
 
 export const allTodos = "entities.todo.*";
 
-export const filteredTodos = {
-  inputs: {
-    filter: visibilityFilter,
-    allTodos,
-  },
-  compute: ({ filter, allTodos }) =>
-    (allTodos || []).filter(visibilityFilters[filter]).sort((a, b) => {
+const sortedTodos = {
+  inputs: { allTodos },
+  compute: ({ allTodos }) =>
+    (allTodos || []).sort((a, b) => {
       const aCreatedAt = new Date(a.createdAt);
       const bCreatedAt = new Date(b.createdAt);
       if (aCreatedAt < bCreatedAt) return -1;
       if (aCreatedAt > bCreatedAt) return 1;
       return 0;
     }),
+};
+
+export const filteredTodos = {
+  inputs: {
+    filter: visibilityFilter,
+    sortedTodos,
+  },
+  compute: ({ filter, sortedTodos }) =>
+    sortedTodos.filter(visibilityFilters[filter]),
 };
 
 const completedTodos = {
