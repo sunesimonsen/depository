@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState, useMemo } from "preact/hooks";
 import { useStore } from "./useStore.js";
 
-export const useObservable = (pathOrComputed) => {
+export const useData = (pathOrComputed) => {
   const store = useStore();
   const observable = useMemo(() => store.observe(pathOrComputed), [
     store,

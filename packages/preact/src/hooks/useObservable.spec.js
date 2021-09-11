@@ -3,7 +3,7 @@ import unexpectedDom from "unexpected-dom";
 import simulateEvents from "simulate-events";
 import { Store } from "@depository/store";
 import { functionMiddleware } from "@depository/function-middleware";
-import { StoreProvider, useObservable, useDispatch } from "./index.js";
+import { StoreProvider, useData, useDispatch } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
 
@@ -35,9 +35,7 @@ const increment = () => ({
 
 const Calculator = () => {
   const dispatch = useDispatch();
-  const a = useObservable("a");
-  const b = useObservable("b");
-  const sum = useObservable(computedSum);
+  const { a, b, sum } = useData({ a: "a", b: "b", sum: computedSum });
 
   const onClick = () => {
     dispatch(increment());
@@ -51,7 +49,7 @@ const Calculator = () => {
   `;
 };
 
-describe("useObservable", () => {
+describe("useData", () => {
   let container, store;
 
   beforeEach(() => {
