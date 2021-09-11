@@ -2,7 +2,7 @@
   "type": "module",
   "name": "todomvc-screenreader",
   "description": "TodoMVC for screen readers build with @depository",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -12,12 +12,12 @@
     "deploy": "yarn build && surge dist depository-todomvc-screenreader.surge.sh"
   },
   "dependencies": {
-    "@depository/function-middleware": "^0.47.0",
-    "@depository/nano-router-plugin": "^0.47.0",
-    "@depository/store": "^0.47.0",
-    "@depository/todomvc-api": "^0.47.0",
-    "@depository/todomvc-model": "^0.47.0",
-    "@depository/view": "^0.47.0",
+    "@depository/function-middleware": "^0.48.0",
+    "@depository/nano-router-plugin": "^0.48.0",
+    "@depository/store": "^0.48.0",
+    "@depository/todomvc-api": "^0.48.0",
+    "@depository/todomvc-model": "^0.48.0",
+    "@depository/view": "^0.48.0",
     "@nano-router/history": "^2.2.0",
     "@nano-router/router": "^2.6.1",
     "@rollup/plugin-html": "^0.2.3",
@@ -25,7 +25,7 @@
     "preact": "^10.5.7"
   },
   "devDependencies": {
-    "@depository/rollup-config": "^0.47.0",
+    "@depository/rollup-config": "^0.48.0",
     "relivestyle": "1.0.0-6",
     "rollup": "^2.39.0",
     "surge": "^0.23.0"

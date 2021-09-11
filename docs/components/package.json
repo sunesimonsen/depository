@@ -1,7 +1,7 @@
 {
   "name": "component-docs",
   "description": "Document for @depository/components",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -18,13 +18,13 @@
     "url": "https://github.com/sunesimonsen/depository"
   },
   "dependencies": {
-    "@depository/components": "^0.47.0",
-    "@depository/function-middleware": "^0.47.0",
-    "@depository/nano-router-plugin": "^0.47.0",
-    "@depository/status-middleware": "^0.47.0",
-    "@depository/store": "^0.47.0",
-    "@depository/styleguide": "^0.47.0",
-    "@depository/view": "^0.47.0",
+    "@depository/components": "^0.48.0",
+    "@depository/function-middleware": "^0.48.0",
+    "@depository/nano-router-plugin": "^0.48.0",
+    "@depository/status-middleware": "^0.48.0",
+    "@depository/store": "^0.48.0",
+    "@depository/styleguide": "^0.48.0",
+    "@depository/view": "^0.48.0",
     "@nano-router/history": "^2.2.0",
     "@nano-router/router": "^2.6.1",
     "@zendeskgarden/svg-icons": "^6.29.0",
@@ -32,7 +32,7 @@
     "stylewars": "^1.9.0"
   },
   "devDependencies": {
-    "@depository/rollup-config": "^0.47.0",
+    "@depository/rollup-config": "^0.48.0",
     "mocha": "^8.2.1",
     "relivestyle": "^1.0.0-6",
     "rollup": "^2.35.1",
