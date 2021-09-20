@@ -18,7 +18,7 @@ export class DirectionSwitch {
       <${ColumnLayout} columns="2" gap="10">
         <${Switch}
           id="direction-switch"
-          @change=${this.toggle}
+          onChange=${this.toggle}
           .checked=${dir === "rtl"}
         />
         <label for="direction-switch">RTL</label>

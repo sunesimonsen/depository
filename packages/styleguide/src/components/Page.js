@@ -73,7 +73,7 @@ export class Heading {
       <a name=${name} />
       <${type} class=${classes(headingStyles, className)} ...${other}>
         <div class=${headingLinkStyles}>
-          <${IconButton} pill basic @click=${this.onClick}>
+          <${IconButton} pill basic onClick=${this.onClick}>
             <${LinkStroke16Icon} />
           <//>
         </div>

@@ -47,7 +47,7 @@ export class MediaInput {
     };
 
     this.onBlur = (e) => {
-      const blurHandler = this.props["@blur"];
+      const blurHandler = this.props.onBlur;
       blurHandler && blurHandler(e);
     };
   }
@@ -75,7 +75,7 @@ export class MediaInput {
         ref=${combineRefs(this.createRef("ref"), ref)}
         class=${classes(className, mediaInputStyles, textInputStyles)}
         disabled=${disabled}
-        @mousedown=${this.focusInput}
+        onMouseDown=${this.focusInput}
         ...${other}
       >
         ${children}

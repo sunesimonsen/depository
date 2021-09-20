@@ -6,7 +6,7 @@ import { MediaInput } from "../MediaInput.js";
 const inputProps = [
   "id",
   "role",
-  "@blur",
+  "onBlur",
   "value",
   ".value",
   "disabled",

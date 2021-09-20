@@ -107,7 +107,7 @@ class ItemCount {
     const label = `${count} ${count === 1 ? "item" : "items"}`;
 
     return html`
-      <span @click=${this.toggle} class=${itemCountStyles}>${label}</span>
+      <span onClick=${this.toggle} class=${itemCountStyles}>${label}</span>
     `;
   }
 }
@@ -139,8 +139,8 @@ class JSONCollectionBody {
   render({ id, entries }) {
     return html`
       <${ItemCount} id=${id} count=${entries.length} />
-      <div @click=${this.toggle} class=${jsonCollectionBodyStyles}>
-        <div @click=${stopPropagation} class=${ignoreClickStyles}>
+      <div onClick=${this.toggle} class=${jsonCollectionBodyStyles}>
+        <div onClick=${stopPropagation} class=${ignoreClickStyles}>
           ${entries.map(
             ([key, value]) =>
               html`<${JSONEntry}

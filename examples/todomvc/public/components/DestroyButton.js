@@ -9,6 +9,6 @@ export class DestroyButton {
   }
 
   render() {
-    return html`<button @click=${this.onClick} class="destroy"></button> `;
+    return html`<button onClick=${this.onClick} class="destroy"></button> `;
   }
 }

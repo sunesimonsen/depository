@@ -35,7 +35,7 @@ export class Actions {
     return html`
       <${ErrorBoundary} name="actions">
         <${Sidebar}>
-          <nav class=${navStyles} @keydown=${this.onKeyDown}>
+          <nav class=${navStyles} onKeyDown=${this.onKeyDown}>
             ${updates.map((_, index) => html`<${Action} index=${index} />`)}
           </nav>
         <//>

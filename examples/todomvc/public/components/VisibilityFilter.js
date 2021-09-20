@@ -21,7 +21,7 @@ export class VisibilityFilter {
   render({ value, isSelected, children }) {
     return html`
       <li>
-        <a class=${isSelected && "selected"} href="#" @click=${this.onClick}>
+        <a class=${isSelected && "selected"} href="#" onClick=${this.onClick}>
           ${children}
         </a>
       </li>

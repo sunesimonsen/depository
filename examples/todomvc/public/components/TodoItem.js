@@ -44,10 +44,10 @@ export class TodoItem {
           <input
             class="toggle"
             type="checkbox"
-            @change=${this.onChange}
+            onChange=${this.onChange}
             .checked=${todo.completed}
           />
-          <label @dblclick=${this.onDblClick}>${todo.text}</label>
+          <label onDblClick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />
         </div>
         ${this.renderInput({ todo })}

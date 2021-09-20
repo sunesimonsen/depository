@@ -942,7 +942,7 @@ describe("view", () => {
       const listener = sinon.spy();
 
       render(
-        html`<button @click=${listener}>click me</button>`,
+        html`<button onClick=${listener}>click me</button>`,
         store,
         container
       );
@@ -969,11 +969,11 @@ describe("view", () => {
           }
 
           render({ listener }) {
-            return html`<button
-              @click=${listener === "old" ? oldListener : newListener}
-            >
-              click me
-            </button>`;
+            return html`
+              <button onClick=${listener === "old" ? oldListener : newListener}>
+                click me
+              </button>
+            `;
           }
         }
 
@@ -1006,7 +1006,7 @@ describe("view", () => {
           }
 
           render({ enabled }) {
-            return html`<button @click=${enabled && listener}>
+            return html`<button onClick=${enabled && listener}>
               click me
             </button>`;
           }
@@ -1041,7 +1041,7 @@ describe("view", () => {
 
           render({ enabled }) {
             return enabled
-              ? html`<button @click=${listener}>click me</button>`
+              ? html`<button onClick=${listener}>click me</button>`
               : html`<button>click me</button>`;
           }
         }
@@ -1071,8 +1071,8 @@ describe("view", () => {
       const captureListener = sinon.spy();
 
       render(
-        html`<div @clickCapture=${captureListener}>
-          <button @click=${listener}>click me</button>
+        html`<div onClickCapture=${captureListener}>
+          <button onClick=${listener}>click me</button>
         </div>`,
         store,
         container
@@ -1101,7 +1101,7 @@ describe("view", () => {
 
           render({ listener }) {
             return html`<button
-              @clickCapture=${listener === "old" ? oldListener : newListener}
+              onClickCapture=${listener === "old" ? oldListener : newListener}
             >
               click me
             </button>`;
@@ -1137,7 +1137,7 @@ describe("view", () => {
           }
 
           render({ enabled }) {
-            return html`<button @clickCapture=${enabled && listener}>
+            return html`<button onClickCapture=${enabled && listener}>
               click me
             </button>`;
           }
@@ -1172,7 +1172,7 @@ describe("view", () => {
 
           render({ enabled }) {
             return enabled
-              ? html`<button @clickCapture=${listener}>click me</button>`
+              ? html`<button onClickCapture=${listener}>click me</button>`
               : html`<button>click me</button>`;
           }
         }

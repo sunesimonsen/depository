@@ -71,9 +71,9 @@ export default class Example {
         <${NestedMenu}
           id=${id}
           placement="end"
-          @menuChanged=${this.onMenuChanged}
-          @hide=${this.onHide}
-          @selectItem=${this.onSelect}
+          onMenuChanged=${this.onMenuChanged}
+          onHide=${this.onHide}
+          onSelectItem=${this.onSelect}
         >
           <${MenuButton}>Fruit<//>
           <${MenuPopup}>${menus[menu]}<//>

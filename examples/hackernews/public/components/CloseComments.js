@@ -12,6 +12,6 @@ export class CloseComments {
   }
 
   render() {
-    return html`<${CloseButton} @click=${this.onClick} />`;
+    return html`<${CloseButton} onClick=${this.onClick} />`;
   }
 }

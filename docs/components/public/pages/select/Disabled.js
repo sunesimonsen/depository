@@ -48,7 +48,7 @@ export default class Example {
       <${Center}>
         <${ColumnLayout} columns="auto 300px">
           <label for=${id}>Brand</label>
-          <${Select} id=${id} @selectItem=${this.onSelect}>
+          <${Select} id=${id} onSelectItem=${this.onSelect}>
             <${SelectInput} disabled .value=${labels[selected]}>
               ${labels[selected]}
             <//>

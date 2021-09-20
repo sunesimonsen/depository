@@ -512,7 +512,7 @@ describe("vdom", () => {
       const entries = pickset([
         [word.map((w) => `data-${w}`), word],
         ["style", styles],
-        ["@click", handlers],
+        ["onClick", handlers],
         ["ref", handlers],
         ["disabled", bool],
         [".myProp", pickone([word, bool, undefined])],

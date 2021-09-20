@@ -48,7 +48,7 @@ export class Tab {
   render({ children, isActive, ...other }) {
     return html`<button
       class=${classes(tabStyles, isActive && activeStyles)}
-      @click=${this.activate}
+      onClick=${this.activate}
       ...${other}
     >
       ${children}

@@ -115,9 +115,9 @@ export default class Example {
           <label for=${id}>Fruit</label>
           <${NestedSelect}
             id=${id}
-            @menuChanged=${this.onMenuChanged}
-            @hide=${this.onHide}
-            @selectItem=${this.onSelect}
+            onMenuChanged=${this.onMenuChanged}
+            onHide=${this.onHide}
+            onSelectItem=${this.onSelect}
           >
             <${SelectInput} .value=${fruits[selected].label}>
               ${fruits[selected].label}

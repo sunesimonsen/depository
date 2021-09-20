@@ -48,14 +48,14 @@ export class Link {
           href=${this.href}
           rel="noopener"
           target=${target}
-          @click=${this.onClick}
+          onClick=${this.onClick}
           ...${other}
         >
           ${children}
         </a>
       `;
     } else {
-      return html`<a href=${this.href} @click=${this.onClick} ...${other}
+      return html`<a href=${this.href} onClick=${this.onClick} ...${other}
         >${children}</a
       >`;
     }

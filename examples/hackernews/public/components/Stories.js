@@ -77,7 +77,7 @@ export class Stories {
         ${loadMoreVisible &&
         html`
           <div class=${buttonsStyles}>
-            <button @click=${this.loadMore} class=${loadMoreStyles}>
+            <button onClick=${this.loadMore} class=${loadMoreStyles}>
               Load more
             </button>
           </div>

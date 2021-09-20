@@ -17,7 +17,7 @@ export class TodoInput {
         class="new-todo"
         placeholder="What needs to be done?"
         autofocus
-        @keydown=${this.onKeyDown}
+        onKeyDown=${this.onKeyDown}
       />
     `;
   }

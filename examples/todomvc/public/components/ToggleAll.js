@@ -19,7 +19,7 @@ export class ToggleAll {
         class="toggle-all"
         type="checkbox"
         .checked=${activeTodoCount === 0}
-        @change=${this.onChange}
+        onChange=${this.onChange}
       />
       <label for="toggle-all">Mark all as complete</label>
     `;

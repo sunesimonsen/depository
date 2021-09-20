@@ -121,7 +121,7 @@ export class Button {
     loading,
     class: className,
     children,
-    "@click": onClick,
+    onClick,
     ...other
   }) {
     return html`
@@ -134,7 +134,7 @@ export class Button {
           className
         )}
         disabled=${disabled}
-        @click=${loading ? null : onClick}
+        onClick=${loading ? null : onClick}
         ...${other}
       >
         ${loading && html`<div class=${loaderStyles}><${Pulse} /></div>`}

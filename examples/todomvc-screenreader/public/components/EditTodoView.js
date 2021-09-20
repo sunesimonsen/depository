@@ -39,7 +39,7 @@ export class EditTodoView {
       </header>
       <main>
         <h2>Update todo</h2>
-        <form @submit=${this.onSubmit}>
+        <form onSubmit=${this.onSubmit}>
           <fieldset>
             <legend>Change the text of the todo</legend>
             <label for="todo-text">Todo text</label>

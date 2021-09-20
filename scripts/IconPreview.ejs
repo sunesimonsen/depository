@@ -60,7 +60,7 @@ class IconCopyButton {
 
   render({ children }) {
     return html`
-      <button @click=${this.onClick} class=${copyStyles} title="Click to copy">
+      <button onClick=${this.onClick} class=${copyStyles} title="Click to copy">
         ${children}
       </button>
     `

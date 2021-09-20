@@ -93,8 +93,8 @@ class CustomMenuItem {
     return html`
       <button
         tabindex="-1"
-        @mousedown=${this.onMouseDown}
-        @mouseenter=${this.onMouseEnter}
+        onMouseDown=${this.onMouseDown}
+        onMouseEnter=${this.onMouseEnter}
         class=${classes(
           menuItemStyles(color),
           selected && focusedMenuItemStyles
@@ -128,7 +128,7 @@ export default class Example {
   render({ id }) {
     return html`
       <div class=${containerStyles}>
-        <${Menu} id=${id} placement="bottom" @selectItem=${this.onSelect}>
+        <${Menu} id=${id} placement="bottom" onSelectItem=${this.onSelect}>
           <${CustomMenuButton}>Menu<//>
           <${CustomMenuPopup}>
             <${ColumnLayout} gap="0" stretched columns="2">

@@ -38,7 +38,7 @@ class IngredientCheckbox {
       <${Checkbox}
         id=${id}
         .checked=${checked}
-        @change=${this.updateIngredient}
+        onChange=${this.updateIngredient}
       />
       <label for=${id}>${id}</label>
     `;

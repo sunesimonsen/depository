@@ -54,7 +54,7 @@ export default class Example {
       <${Center} class=${containerStyles}>
         <${ColumnLayout} columns="auto 300px">
           <label for=${id}>Brand</label>
-          <${Select} id=${id} @selectItem=${this.onSelect}>
+          <${Select} id=${id} onSelectItem=${this.onSelect}>
             <${SelectInput} .value=${labels[selected]}>${labels[selected]}<//>
             <${SelectPopup}>
               ${options.map(

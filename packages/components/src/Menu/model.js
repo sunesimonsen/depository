@@ -85,7 +85,7 @@ export const focusNextItem = ({ id, selectable }) => {
 
 export class SelectEvent extends CustomEvent {
   constructor(detail) {
-    super("selectItem", {
+    super("SelectItem", {
       detail,
       bubbles: true,
       cancelable: true,

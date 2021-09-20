@@ -70,7 +70,7 @@ export class JSFiddleButton {
 
   render() {
     return html`
-      <${IconButton} basic @click=${this.onClick}>
+      <${IconButton} basic onClick=${this.onClick}>
         <${JSFiddleLogo} />
       <//>
       <form

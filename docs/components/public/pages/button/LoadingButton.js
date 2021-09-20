@@ -25,7 +25,7 @@ export default class Example {
   render({ loading }) {
     return html`
       <${Center}>
-        <${Button} loading=${loading} @click=${this.startLoading}>Button<//>
+        <${Button} loading=${loading} onClick=${this.startLoading}>Button<//>
       <//>
     `;
   }

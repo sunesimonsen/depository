@@ -10,7 +10,7 @@ export default class Example {
 
   render() {
     return html`
-      <${Center}><${Button} @click=${this.sayHello} disabled>Button<//><//>
+      <${Center}><${Button} onClick=${this.sayHello} disabled>Button<//><//>
     `;
   }
 }

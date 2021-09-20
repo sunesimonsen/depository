@@ -4,7 +4,7 @@ import { Menu } from "./Menu.js";
 
 class MenuChangedEvent extends CustomEvent {
   constructor({ menu, selectedItem }) {
-    super("menuChanged", {
+    super("MenuChanged", {
       detail: { menu, selectedItem },
       bubbles: true,
       cancelable: true,
@@ -21,7 +21,7 @@ export class NestedMenu {
         (item) => item.props.key === key
       );
 
-      const onMenuChanged = this.props["@menuChanged"];
+      const onMenuChanged = this.props.onMenuChanged;
 
       if (item.type.isNextAction) {
         if (onMenuChanged) {
@@ -42,7 +42,7 @@ export class NestedMenu {
 
         e.preventDefault();
       } else {
-        const onSelect = this.props["@selectItem"];
+        const onSelect = this.props.onSelectItem;
         onSelect && onSelect(e);
       }
     };
@@ -50,7 +50,7 @@ export class NestedMenu {
 
   render({ children, ...other }) {
     return html`
-      <${Menu} ...${other} @selectItem=${this.onSelect}>${children}<//>
+      <${Menu} ...${other} onSelectItem=${this.onSelect}>${children}<//>
     `;
   }
 }

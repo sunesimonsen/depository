@@ -121,12 +121,12 @@ export class Action {
     return html`<div
       ref=${this.setRef}
       class=${classes(actionStyles, isSelected && selectedStyles)}
-      @click=${this.onShow}
-      @keydown=${this.onKeyDown}
+      onClick=${this.onShow}
+      onKeyDown=${this.onKeyDown}
       tabindex="0"
     >
       <div class=${labelStyles}>${name}</div>
-      <div class="restore" @click=${this.onRestore}>Restore</div>
+      <div class="restore" onClick=${this.onRestore}>Restore</div>
     </div>`;
   }
 }

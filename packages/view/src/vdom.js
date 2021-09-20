@@ -264,7 +264,7 @@ class UserComponent {
   }
 }
 
-const propWithoutType = (p) => p.slice(1);
+const propWithoutDot = (p) => p.slice(1);
 
 const setStyles = (style, value, prevValue) => {
   if (typeof value === "string") {
@@ -292,14 +292,22 @@ const removeStyles = (style, value) => {
 };
 
 const captureRegex = /Capture$/;
+const eventPropRegex = /^on/;
 
 const isCapturePhase = (name) => captureRegex.test(name);
-const nameWithoutCapture = (name) => name.replace(captureRegex, "");
+const isEventHandlerProp = (name) => eventPropRegex.test(name);
+
+const eventHandlerPropToEventName = (name) => {
+  const eventName = name.replace(eventPropRegex, "").replace(captureRegex, "");
+  const loweredEventName = eventName.toLowerCase();
+
+  return `on${loweredEventName}` in document ? loweredEventName : eventName;
+};
 
 const addEventListener = (dom, name, listener) => {
   if (listener) {
     dom.addEventListener(
-      nameWithoutCapture(propWithoutType(name)),
+      eventHandlerPropToEventName(name),
       listener,
       isCapturePhase(name)
     );
@@ -308,7 +316,7 @@ const addEventListener = (dom, name, listener) => {
 
 const removeEventListener = (dom, name, listener) => {
   dom.removeEventListener(
-    nameWithoutCapture(propWithoutType(name)),
+    eventHandlerPropToEventName(name),
     listener,
     isCapturePhase(name)
   );
@@ -332,7 +340,7 @@ class PrimitiveComponent {
     for (const p in this._props) {
       if (p !== "key" && p !== "ref" && !(p in props)) {
         const value = this._props[p];
-        if (p[0] === "@") {
+        if (isEventHandlerProp(p)) {
           removeEventListener(this._dom, p, value);
         } else if (p[0] !== ".") {
           if (p === "style") {
@@ -348,11 +356,11 @@ class PrimitiveComponent {
       const value = props[p];
 
       if (p !== "key" && p !== "ref" && prevValue !== value) {
-        if (p[0] === "@") {
+        if (isEventHandlerProp(p)) {
           removeEventListener(this._dom, p, prevValue);
           addEventListener(this._dom, p, value);
         } else if (p[0] === ".") {
-          this._dom[propWithoutType(p)] = value;
+          this._dom[propWithoutDot(p)] = value;
         } else if (p === "style") {
           setStyles(this._dom.style, value, prevValue);
         } else if (value === true) {
@@ -413,10 +421,10 @@ class PrimitiveComponent {
     for (const p in this._props) {
       if (p !== "key" && p !== "ref") {
         const value = this._props[p];
-        if (p[0] === "@") {
+        if (isEventHandlerProp(p)) {
           addEventListener(this._dom, p, value);
         } else if (p[0] === ".") {
-          this._dom[propWithoutType(p)] = value;
+          this._dom[propWithoutDot(p)] = value;
         } else if (p === "style") {
           setStyles(this._dom.style, value);
         } else if (value === true) {

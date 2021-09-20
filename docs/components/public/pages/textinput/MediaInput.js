@@ -45,11 +45,11 @@ export default class Example {
               id="car-brand"
               type="text"
               .value=${value}
-              @change=${this.onChange}
+              onChange=${this.onChange}
             />
             <${SearchStroke16Icon} class=${ms2} />
           <//>
-          <${Button} @click=${this.onSubmit}>Search<//>
+          <${Button} onClick=${this.onSubmit}>Search<//>
         <//>
       <//>
     `;
