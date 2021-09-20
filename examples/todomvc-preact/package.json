@@ -2,7 +2,7 @@
   "type": "module",
   "name": "todomvc-preact",
   "description": "TodoMVC build with @depository/preact",
-  "version": "0.50.0",
+  "version": "0.51.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -12,16 +12,16 @@
     "deploy": "yarn build && surge dist depository-todomvc-preact.surge.sh"
   },
   "dependencies": {
-    "@depository/function-middleware": "^0.50.0",
-    "@depository/preact": "^0.50.0",
-    "@depository/store": "^0.50.0",
-    "@depository/todomvc-api": "^0.50.0",
-    "@depository/todomvc-model": "^0.50.0",
+    "@depository/function-middleware": "^0.51.0",
+    "@depository/preact": "^0.51.0",
+    "@depository/store": "^0.51.0",
+    "@depository/todomvc-api": "^0.51.0",
+    "@depository/todomvc-model": "^0.51.0",
     "htm": "^3.0.4",
     "preact": "^10.5.7"
   },
   "devDependencies": {
-    "@depository/rollup-config": "^0.50.0",
+    "@depository/rollup-config": "^0.51.0",
     "relivestyle": "1.0.0-6",
     "rollup": "^2.35.1",
     "surge": "^0.23.0"

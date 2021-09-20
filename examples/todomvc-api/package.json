@@ -2,7 +2,7 @@
   "type": "module",
   "name": "@depository/todomvc-api",
   "description": "TodoMVC localstorage API",
-  "version": "0.50.0",
+  "version": "0.51.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
