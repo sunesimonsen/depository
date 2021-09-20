@@ -304,6 +304,8 @@ const eventHandlerPropToEventName = (name) => {
   return `on${loweredEventName}` in document ? loweredEventName : eventName;
 };
 
+const mapPropName = (name) => (name === "className" ? "class" : name);
+
 const addEventListener = (dom, name, listener) => {
   if (listener) {
     dom.addEventListener(
@@ -368,7 +370,7 @@ class PrimitiveComponent {
         } else if (!value) {
           this._dom.removeAttribute(p);
         } else {
-          this._dom.setAttribute(p, value);
+          this._dom.setAttribute(mapPropName(p), value);
         }
       }
     }
@@ -430,7 +432,7 @@ class PrimitiveComponent {
         } else if (value === true) {
           this._dom.setAttribute(p, "");
         } else if (value) {
-          this._dom.setAttribute(p, value);
+          this._dom.setAttribute(mapPropName(p), value);
         }
       }
     }

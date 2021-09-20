@@ -86,19 +86,19 @@ export class Story {
 
     if (status !== "ready") {
       return html`
-        <li class=${itemStyles} tabindex="0">
-          <div class=${titleStyles}><${Skeleton} /></div>
+        <li className=${itemStyles} tabindex="0">
+          <div className=${titleStyles}><${Skeleton} /></div>
           <div><${Skeleton} /></div>
         </li>
       `;
     }
 
     return html`
-      <li class=${itemStyles} ref=${this.setRef}>
+      <li className=${itemStyles} ref=${this.setRef}>
         <a
           href=${story.url}
           target="_blank"
-          class=${titleStyles}
+          className=${titleStyles}
           title=${story.title}
         >
           ${story.title}

@@ -15,10 +15,10 @@ const containerStyles = ({ gap, stretched }) => css`
 `;
 
 export class BorderLayout {
-  render({ class: className, stretched, gap = "0", children, ...other }) {
+  render({ className, stretched, gap = "0", children, ...other }) {
     return html`
       <div
-        class=${classes(containerStyles({ stretched }), className)}
+        className=${classes(containerStyles({ stretched }), className)}
         ...${other}
       >
         ${children}

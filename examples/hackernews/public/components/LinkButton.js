@@ -16,6 +16,6 @@ const styles = css`
 
 export class LinkButton {
   render({ children, ...other }) {
-    return html`<${Link} class=${styles} ...${other}>${children}<//>`;
+    return html`<${Link} className=${styles} ...${other}>${children}<//>`;
   }
 }

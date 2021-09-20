@@ -12,7 +12,7 @@ export const RootView = () => html`
     <${Title}>todos<//>
     <${TodoInput} />
   <//>
-  <section class="main">
+  <section className="main">
     <${ToggleAll} />
     <${TodoList} />
   </section>

@@ -16,7 +16,7 @@ export class ToggleAll {
     return html`
       <input
         id="toggle-all"
-        class="toggle-all"
+        className="toggle-all"
         type="checkbox"
         .checked=${activeTodoCount === 0}
         onChange=${this.onChange}

@@ -7,11 +7,11 @@ import { ClearCompletedButton } from "./ClearCompletedButton.js";
 
 export const Footer = connect({ activeTodoCount }, ({ activeTodoCount }) => {
   return html`
-    <footer class="footer">
-      <span class="todo-count"
+    <footer className="footer">
+      <span className="todo-count"
         ><strong>${activeTodoCount}</strong> item left</span
       >
-      <ul class="filters">
+      <ul className="filters">
         <${VisibilityFilter} value="all">All<//>
         <${VisibilityFilter} value="active">Active<//>
         <${VisibilityFilter} value="completed">Completed<//>

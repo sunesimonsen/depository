@@ -28,7 +28,7 @@ class ActionPanel {
     if (!update) return null;
 
     return html`
-      <section class=${detailsStyles}>
+      <section className=${detailsStyles}>
         <${JSONView} id="actionJson" value=${update.action} />
       </section>
     `;
@@ -44,7 +44,7 @@ class StatePanel {
     if (!update) return null;
 
     return html`
-      <section class=${detailsStyles}>
+      <section className=${detailsStyles}>
         <${JSONView} id="stateJson" value=${update.state} />
       </section>
     `;

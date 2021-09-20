@@ -13,7 +13,7 @@ const detailsStyles = css`
 export class Details {
   render({ id }) {
     return html`
-      <div class=${detailsStyles}>
+      <div className=${detailsStyles}>
         <${Comments} id=${id} />
         <${CloseComments} id=${id} />
       </div>

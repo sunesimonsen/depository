@@ -23,7 +23,7 @@ export default class Example {
 
   render({ id }) {
     return html`
-      <div class=${containerStyles}>
+      <div className=${containerStyles}>
         <${Menu} id=${id} onSelectItem=${this.onSelect}>
           <${MenuButton}>Options<//>
           <${MenuPopup}>

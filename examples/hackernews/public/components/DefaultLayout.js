@@ -25,7 +25,9 @@ export class DefaultLayout {
     return html`
       <main>
         <${TopBar} />
-        <section ref=${this.setContentRef} class="content">${children}</section>
+        <section ref=${this.setContentRef} className="content">
+          ${children}
+        </section>
       </main>
     `;
   }

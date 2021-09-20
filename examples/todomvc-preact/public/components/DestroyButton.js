@@ -7,5 +7,5 @@ export const DestroyButton = connect(({ id, dispatch }) => {
     dispatch(removeTodo({ id }));
   };
 
-  return html`<button onClick=${onClick} class="destroy"></button> `;
+  return html`<button onClick=${onClick} className="destroy"></button> `;
 });

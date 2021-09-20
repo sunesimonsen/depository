@@ -51,7 +51,7 @@ export default class Example {
 
   render({ selected }) {
     return html`
-      <${Center} class=${containerStyles}>
+      <${Center} className=${containerStyles}>
         <${ColumnLayout} columns="auto 300px">
           <label for=${id}>Brand</label>
           <${Select} id=${id} onSelectItem=${this.onSelect}>

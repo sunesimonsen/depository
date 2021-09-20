@@ -70,14 +70,14 @@ export class Stories {
     if (status !== "ready" || !topStories) return null;
 
     return html`
-      <div class=${containerStyles}>
-        <ol class=${listStyles}>
+      <div className=${containerStyles}>
+        <ol className=${listStyles}>
           ${topStories.map((id) => html`<${Story} key=${id} id=${id} />`)}
         </ol>
         ${loadMoreVisible &&
         html`
-          <div class=${buttonsStyles}>
-            <button onClick=${this.loadMore} class=${loadMoreStyles}>
+          <div className=${buttonsStyles}>
+            <button onClick=${this.loadMore} className=${loadMoreStyles}>
               Load more
             </button>
           </div>

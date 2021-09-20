@@ -66,16 +66,16 @@ export class TopBar {
 
   render({ logo, title }) {
     return html`
-      <header class=${topBarStyles}>
+      <header className=${topBarStyles}>
         <${Link}
           route="index"
           state=${{ scrollToTop: true }}
-          class=${homeStyles}
+          className=${homeStyles}
         >
-          <img src=${logo} class=${logoStyles} />
-          <span class=${brandStyles}>${title}</span>
+          <img src=${logo} className=${logoStyles} />
+          <span className=${brandStyles}>${title}</span>
         <//>
-        <div class=${buttonsStyles}>
+        <div className=${buttonsStyles}>
           <${DirectionSwitch} />
         </div>
       </header>

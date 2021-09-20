@@ -34,7 +34,7 @@ export class Root {
 
     return html`
       <${ErrorBoundary} name="root">
-        <main class=${mainStyles}><${Actions} /><${Details} /></main>
+        <main className=${mainStyles}><${Actions} /><${Details} /></main>
       <//>
     `;
   }

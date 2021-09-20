@@ -75,7 +75,7 @@ export class MenuItem {
         role="menuitem"
         onMouseDown=${this.onMouseDown}
         onMouseEnter=${this.onMouseEnter}
-        class=${classes(styles, focused && focusedStyles)}
+        className=${classes(styles, focused && focusedStyles)}
         ...${other}
       >
         ${children}

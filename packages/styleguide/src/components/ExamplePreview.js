@@ -13,6 +13,6 @@ export class ExamplePreview {
   }
 
   render({ dir, children }) {
-    return html`<div dir=${dir} class=${styles}>${children}</div>`;
+    return html`<div dir=${dir} className=${styles}>${children}</div>`;
   }
 }

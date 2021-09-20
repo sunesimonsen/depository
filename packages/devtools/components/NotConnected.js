@@ -16,7 +16,7 @@ const centeredStyles = css`
 export class NotConnected {
   render() {
     return html`
-      <div class=${centeredStyles}>
+      <div className=${centeredStyles}>
         <h1>Not connected</h1>
       </div>
     `;

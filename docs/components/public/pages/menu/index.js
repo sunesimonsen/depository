@@ -41,8 +41,8 @@ class AnchorPage {
       <p>
         Menu placement can be oriented around a trigger element in different
         positions. The default placement is
-        <code class="inline">bottom-start</code>. This example demonstrates the
-        <code class="inline">top-start</code> placement.
+        <code className="inline">bottom-start</code>. This example demonstrates
+        the <code className="inline">top-start</code> placement.
       </p>
       <${Example} src=${new URL("./Placement.js", import.meta.url)}>
         <${Placement} />

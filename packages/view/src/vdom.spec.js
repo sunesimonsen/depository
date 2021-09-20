@@ -68,9 +68,9 @@ class Title {
 
 class Box {
   render({ title, children }) {
-    return html`<div class="box">
+    return html`<div className="box">
       <${Title}>${title}<//>
-      <div class="body">${children}</div>
+      <div className="body">${children}</div>
     </div>`;
   }
 }

@@ -20,8 +20,8 @@ export class Page {
     }
   }
 
-  render({ class: className, children }) {
-    return html`<div class=${classes(contentStyles, className)}>
+  render({ className, children }) {
+    return html`<div className=${classes(contentStyles, className)}>
       ${children}
     </div>`;
   }
@@ -65,14 +65,14 @@ export class Heading {
     return this.props.children.join("").replace(/\s+/g, "-").toLowerCase();
   }
 
-  render({ children, class: className, level, ...other }) {
+  render({ children, className, level, ...other }) {
     const type = `h${level}`;
     const name = this.name;
 
     return html`
       <a name=${name} />
-      <${type} class=${classes(headingStyles, className)} ...${other}>
-        <div class=${headingLinkStyles}>
+      <${type} className=${classes(headingStyles, className)} ...${other}>
+        <div className=${headingLinkStyles}>
           <${IconButton} pill basic onClick=${this.onClick}>
             <${LinkStroke16Icon} />
           <//>
@@ -95,7 +95,7 @@ const titleStyles = css`
 
 export class Title {
   render({ children }) {
-    return html`<${Heading} level="1" class=${titleStyles}>${children}<//>`;
+    return html`<${Heading} level="1" className=${titleStyles}>${children}<//>`;
   }
 }
 
@@ -108,7 +108,7 @@ const subTitleStyles = css`
 
 export class SubTitle {
   render({ children }) {
-    return html`<p class=${subTitleStyles}>${children}</p>`;
+    return html`<p className=${subTitleStyles}>${children}</p>`;
   }
 }
 
@@ -121,7 +121,7 @@ const lineStyles = css`
 
 export class Line {
   render() {
-    return html`<hr class=${lineStyles} />`;
+    return html`<hr className=${lineStyles} />`;
   }
 }
 
@@ -134,7 +134,7 @@ const skeletonStyles = css`
 export class PageSkeleton {
   render() {
     return html`
-      <${Page} class=${skeletonStyles}>
+      <${Page} className=${skeletonStyles}>
         <${Title}><${Skeleton} /><//>
         <${SubTitle}><${Skeleton} /><//>
         <${Line}/>

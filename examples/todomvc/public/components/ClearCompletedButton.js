@@ -10,7 +10,7 @@ export class ClearCompletedButton {
 
   render() {
     return html`
-      <button class="clear-completed" onClick=${this.onClick}>
+      <button className="clear-completed" onClick=${this.onClick}>
         Clear completed
       </button>
     `;

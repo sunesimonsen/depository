@@ -22,7 +22,7 @@ const iconStyles = css`
 
 export class SelectOption {
   renderIcon() {
-    return html`<div class=${iconStyles}><${CheckLgStroke16Icon} /></div>`;
+    return html`<div className=${iconStyles}><${CheckLgStroke16Icon} /></div>`;
   }
 
   render({ children, selected, ...other }) {

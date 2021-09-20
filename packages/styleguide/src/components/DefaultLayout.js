@@ -89,10 +89,10 @@ export class DefaultLayout {
 
   render({ children }) {
     return html`
-      <${BorderLayout} stretched class=${rootStyles}>
+      <${BorderLayout} stretched className=${rootStyles}>
         <${TopBar} />
         <${Sidebar}>${this.context.navigation}<//>
-        <main class=${mainStyles} ref=${this.setContentRef}>
+        <main className=${mainStyles} ref=${this.setContentRef}>
           <${ErrorBoundary} name="default-layout">${children}<//>
         </main>
       <//>

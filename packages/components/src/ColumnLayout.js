@@ -32,13 +32,13 @@ export class ColumnLayout {
     stretched,
     alignItems = "center",
     justifyItems = "center",
-    class: className,
+    className,
     children,
     ...other
   }) {
     return html`
       <div
-        class=${classes(
+        className=${classes(
           styles({ gap, stretched, columns, alignItems, justifyItems }),
           stretched && stretchedStyles,
           className

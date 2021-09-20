@@ -25,7 +25,7 @@ class ColumnLayoutPage {
       <${Heading} level="3">Default<//>
       <p>
         The column layout uses one column by default with a gap of
-        <code class="inline">1em</code>.
+        <code className="inline">1em</code>.
       </p>
       <${Example} src=${new URL("./DefaultColumnLayout.js", import.meta.url)}>
         <${DefaultColumnLayout} />
@@ -33,7 +33,7 @@ class ColumnLayoutPage {
       <${Heading} level="3">Columns<//>
       <p>
         The number of columns can be specified using the
-        <code class="inline">columns</code> property.
+        <code className="inline">columns</code> property.
       </p>
       <${Example} src=${new URL("./NumberOfColumns.js", import.meta.url)}>
         <${NumberOfColumns} />
@@ -54,16 +54,16 @@ class ColumnLayoutPage {
       <${Heading} level="3">Gap<//>
       <p>
         Control the gap between the children with the
-        <code class="inline">gap</code> property.
+        <code className="inline">gap</code> property.
       </p>
       <${Example} src=${new URL("./Gap.js", import.meta.url)}>
         <${Gap} />
       <//>
       <${Heading} level="3">Align items<//>
       <p>
-        You can control <code class="inline">align-items</code> using the
-        <code class="inline">alignItems</code> property. The default value is
-        <code class="inline">center</code>.
+        You can control <code className="inline">align-items</code> using the
+        <code className="inline">alignItems</code> property. The default value
+        is <code className="inline">center</code>.
       </p>
       <${Example} src=${new URL("./AlignItems.js", import.meta.url)}>
         <${AlignItems} />
@@ -71,9 +71,9 @@ class ColumnLayoutPage {
       <${Heading} level="3">Justify items<//>
       <p>
         Similarly you can control
-        <code class="inline">justify-items</code> using the
-        <code class="inline">justifyItems</code> property. The default value is
-        <code class="inline">center</code>.
+        <code className="inline">justify-items</code> using the
+        <code className="inline">justifyItems</code> property. The default value
+        is <code className="inline">center</code>.
       </p>
       <${Example} src=${new URL("./JustifyItems.js", import.meta.url)}>
         <${JustifyItems} />

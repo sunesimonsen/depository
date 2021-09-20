@@ -16,7 +16,7 @@ export const VisibilityFilter = connect(
     return html`
       <li>
         <a
-          class=${visibilityFilter === value && "selected"}
+          className=${visibilityFilter === value && "selected"}
           href="#"
           onClick=${onClick}
           >${children}</a

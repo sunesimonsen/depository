@@ -110,7 +110,7 @@ export default class Example {
 
   render({ menu = "root", selected }) {
     return html`
-      <${Center} class=${containerStyles}>
+      <${Center} className=${containerStyles}>
         <${ColumnLayout} columns="auto 300px">
           <label for=${id}>Fruit</label>
           <${NestedSelect}

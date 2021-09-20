@@ -13,7 +13,7 @@ export const TodoInput = connect(({ dispatch }) => {
 
   return html`
     <input
-      class="new-todo"
+      className="new-todo"
       placeholder="What needs to be done?"
       autofocus
       onKeyDown=${onKeyDown}

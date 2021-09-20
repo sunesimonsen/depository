@@ -72,7 +72,7 @@ export default class Example {
           <div
             key="{placement}"
             ref=${this.createRef(`${placement}-popup-ref`)}
-            class=${popupStyles}
+            className=${popupStyles}
           >
             ${placement}
           </div>
@@ -82,8 +82,8 @@ export default class Example {
 
   render() {
     return html`
-      <${Center} class=${containerStyles}>
-        <${Center} class=${anchorStyles} ref=${this.createRef("anchorRef")}>
+      <${Center} className=${containerStyles}>
+        <${Center} className=${anchorStyles} ref=${this.createRef("anchorRef")}>
           Anchor
         <//>
         ${this.popupElements()}

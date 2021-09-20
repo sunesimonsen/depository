@@ -14,7 +14,7 @@ export class TodoInput {
   render() {
     return html`
       <input
-        class="new-todo"
+        className="new-todo"
         placeholder="What needs to be done?"
         autofocus
         onKeyDown=${this.onKeyDown}

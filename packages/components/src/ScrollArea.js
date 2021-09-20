@@ -15,10 +15,10 @@ const overflowStyles = (overflow) => css`
 `;
 
 export class ScrollArea {
-  render({ overflow = "hidden auto", class: className, children, ...other }) {
+  render({ overflow = "hidden auto", className, children, ...other }) {
     return html`
       <div
-        class=${classes(styles, overflowStyles(overflow), className)}
+        className=${classes(styles, overflowStyles(overflow), className)}
         ...${other}
       >
         ${children}

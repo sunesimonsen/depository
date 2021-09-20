@@ -17,7 +17,7 @@ class DaylightIcon {
 
   render({ isDay }) {
     const icon = isDay ? "🌔" : "🌘";
-    return html`<span class=${iconStyles}>${icon}</span>`;
+    return html`<span className=${iconStyles}>${icon}</span>`;
   }
 }
 

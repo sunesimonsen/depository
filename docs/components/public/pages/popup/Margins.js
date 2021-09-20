@@ -31,9 +31,9 @@ export default class Example {
 
   render() {
     return html`
-      <div class=${containerStyles}>
+      <div className=${containerStyles}>
         <${Button} ref=${this.createRef("anchorRef")}>Anchor<//>
-        <div ref=${this.createRef("popupRef")} class=${popupStyles}>
+        <div ref=${this.createRef("popupRef")} className=${popupStyles}>
           Popup content
         </div>
       </div>

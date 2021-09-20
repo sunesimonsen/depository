@@ -9,12 +9,12 @@ export default class Example {
       <${Center}>
         <${ColumnLayout} columns="auto auto">
           <${Button}>
-            <${LifesaverStroke16Icon} class=${me2} />
+            <${LifesaverStroke16Icon} className=${me2} />
             Get Help
           <//>
           <${Button}>
             Menu
-            <${ChevronDownStroke12Icon} class=${ms1} />
+            <${ChevronDownStroke12Icon} className=${ms1} />
           <//>
         <//>
       <//>

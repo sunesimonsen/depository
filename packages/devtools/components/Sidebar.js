@@ -11,6 +11,6 @@ const sidebarStyles = css`
 
 export class Sidebar {
   render({ children }) {
-    return html`<div class=${sidebarStyles}>${children}</div>`;
+    return html`<div className=${sidebarStyles}>${children}</div>`;
   }
 }

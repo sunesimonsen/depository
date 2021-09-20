@@ -28,6 +28,6 @@ const sidebarStyles = css`
 
 export class Sidebar {
   render({ children }) {
-    return html`<nav class=${sidebarStyles}>${children}</nav>`;
+    return html`<nav className=${sidebarStyles}>${children}</nav>`;
   }
 }

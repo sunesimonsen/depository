@@ -15,8 +15,8 @@ export default class Example {
   render() {
     return html`
       <${ColumnLayout} columns="2" stretched>
-        <${Center} class=${containerStyles}>Not stretched<//>
-        <${Center} stretched class=${containerStyles}>Stretched<//>
+        <${Center} className=${containerStyles}>Not stretched<//>
+        <${Center} stretched className=${containerStyles}>Stretched<//>
       <//>
     `;
   }

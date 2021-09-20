@@ -21,6 +21,6 @@ const styles = css`
 
 export class CloseButton {
   render(props) {
-    return html` <button class=${styles} ...${props}>X</button> `;
+    return html` <button className=${styles} ...${props}>X</button> `;
   }
 }

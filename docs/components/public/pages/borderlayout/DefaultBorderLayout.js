@@ -15,11 +15,11 @@ export default class Example {
   render() {
     return html`
       <${BorderLayout}>
-        <div class=${areaStyles("top", "#5eae91")}>Top</div>
-        <div class=${areaStyles("start", "#ffb057")}>Start</div>
-        <div class=${areaStyles("main", "#daeded")}>Main</div>
-        <div class=${areaStyles("end", "#ffb057")}>End</div>
-        <div class=${areaStyles("bottom", "#5eae91")}>Bottom</div>
+        <div className=${areaStyles("top", "#5eae91")}>Top</div>
+        <div className=${areaStyles("start", "#ffb057")}>Start</div>
+        <div className=${areaStyles("main", "#daeded")}>Main</div>
+        <div className=${areaStyles("end", "#ffb057")}>End</div>
+        <div className=${areaStyles("bottom", "#5eae91")}>Bottom</div>
       <//>
     `;
   }

@@ -67,7 +67,7 @@ export default class Example {
 
   render({ menu = "root" }) {
     return html`
-      <div class=${containerStyles}>
+      <div className=${containerStyles}>
         <${NestedMenu}
           id=${id}
           placement="end"

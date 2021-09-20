@@ -33,7 +33,7 @@ export class EditInput {
     return html`
       <input
         ref=${this.createRef("input")}
-        class="edit"
+        className="edit"
         .value=${todo.text}
         onKeyDown=${this.onKeyDown}
         onBlur=${this.onBlur}

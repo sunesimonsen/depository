@@ -57,8 +57,8 @@ export class ReloadButton {
 
   render({ status }) {
     return html`
-      <button onClick=${this.reload} class=${reloadStyles} title="refresh">
-        <${ReloadIcon} class=${status === "loading" && loadingStyles} />
+      <button onClick=${this.reload} className=${reloadStyles} title="refresh">
+        <${ReloadIcon} className=${status === "loading" && loadingStyles} />
       </button>
     `;
   }

@@ -47,7 +47,7 @@ export class Tab {
 
   render({ children, isActive, ...other }) {
     return html`<button
-      class=${classes(tabStyles, isActive && activeStyles)}
+      className=${classes(tabStyles, isActive && activeStyles)}
       onClick=${this.activate}
       ...${other}
     >
@@ -77,7 +77,7 @@ const tabListStyles = css`
 
 export class TabList {
   render({ children }) {
-    return html`<div class=${tabListStyles}>${children}</div>`;
+    return html`<div className=${tabListStyles}>${children}</div>`;
   }
 }
 
@@ -99,6 +99,6 @@ export class Tabs {
   }
 
   render({ children }) {
-    return html`<div class=${tabsStyles}>${children}</div>`;
+    return html`<div className=${tabsStyles}>${children}</div>`;
   }
 }

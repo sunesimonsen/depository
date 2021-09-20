@@ -964,7 +964,11 @@ class IconCopyButton {
 
   render({ children }) {
     return html`
-      <button onClick=${this.onClick} class=${copyStyles} title="Click to copy">
+      <button
+        onClick=${this.onClick}
+        className=${copyStyles}
+        title="Click to copy"
+      >
         ${children}
       </button>
     `;
@@ -987,9 +991,9 @@ class IconsPage {
       <p>
         The icons come in two flavors – monochrome and two-tone. The primary
         fill/stroke will always be specified as
-        <code class="inline">currentColor</code> This means CSS text color style
-        will cascade to the icon. Two-tone icons can receive a secondary color
-        via the <code class="inline">fill</code> style property.
+        <code className="inline">currentColor</code> This means CSS text color
+        style will cascade to the icon. Two-tone icons can receive a secondary
+        color via the <code className="inline">fill</code> style property.
       </p>
       <${Example} src=${new URL("./IconUsage.js", import.meta.url)}>
         <${IconUsage} />
@@ -1006,14 +1010,14 @@ class IconsPage {
         import to that clipboard.
       </p>
       <${Heading} level="2">12px icons<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${Grip12Icon} />
         <${IconCopyButton}>Grip12Icon<//>
         <${Paperclip12Icon} />
         <${IconCopyButton}>Paperclip12Icon<//>
       </div>
       <${Heading} level="2">12px icons (fill)<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${I123Fill12Icon} />
         <${IconCopyButton}>I123Fill12Icon<//>
         <${AdjustFill12Icon} />
@@ -1424,7 +1428,7 @@ class IconsPage {
         <${IconCopyButton}>ZendeskFill12Icon<//>
       </div>
       <${Heading} level="2">12px icons (stroke)<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${I123Stroke12Icon} />
         <${IconCopyButton}>I123Stroke12Icon<//>
         <${AdjustStroke12Icon} />
@@ -1835,14 +1839,14 @@ class IconsPage {
         <${IconCopyButton}>ZendeskStroke12Icon<//>
       </div>
       <${Heading} level="2">16px icons<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${Grip16Icon} />
         <${IconCopyButton}>Grip16Icon<//>
         <${Paperclip16Icon} />
         <${IconCopyButton}>Paperclip16Icon<//>
       </div>
       <${Heading} level="2">16px icons (fill)<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${I123Fill16Icon} />
         <${IconCopyButton}>I123Fill16Icon<//>
         <${AdjustFill16Icon} />
@@ -2253,7 +2257,7 @@ class IconsPage {
         <${IconCopyButton}>ZendeskFill16Icon<//>
       </div>
       <${Heading} level="2">16px icons (stroke)<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${I123Stroke16Icon} />
         <${IconCopyButton}>I123Stroke16Icon<//>
         <${AdjustStroke16Icon} />
@@ -2664,7 +2668,7 @@ class IconsPage {
         <${IconCopyButton}>ZendeskStroke16Icon<//>
       </div>
       <${Heading} level="2">26px icons<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${AnswerBot26Icon} />
         <${IconCopyButton}>AnswerBot26Icon<//>
         <${App26Icon} />
@@ -2781,7 +2785,7 @@ class IconsPage {
         <${IconCopyButton}>Zendesk26Icon<//>
       </div>
       <${Heading} level="2">26px icons (fill)<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${CustomerListsFill26Icon} />
         <${IconCopyButton}>CustomerListsFill26Icon<//>
         <${EmailFill26Icon} />
@@ -2796,7 +2800,7 @@ class IconsPage {
         <${IconCopyButton}>ViewsFill26Icon<//>
       </div>
       <${Heading} level="2">26px icons (wordmark)<//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
         <${WordmarkBoldSuite26Icon} />
         <${IconCopyButton}>WordmarkBoldSuite26Icon<//>
         <${WordmarkBoldSupport26Icon} />

@@ -70,9 +70,9 @@ const styles = css`
 `;
 
 export class Pulse {
-  render({ class: className }) {
+  render({ className }) {
     return html`
-      <div class=${classes(styles, className)} role="progressbar">
+      <div className=${classes(styles, className)} role="progressbar">
         <div></div>
         <div></div>
         <div></div>

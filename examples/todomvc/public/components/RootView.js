@@ -14,7 +14,7 @@ export class RootView {
         <${Title}>todos<//>
         <${TodoInput} />
       <//>
-      <section class="main">
+      <section className="main">
         <${ToggleAll} />
         <${TodoList} />
       </section>

@@ -87,14 +87,14 @@ export class Checkbox {
       <input
         type="checkbox"
         id=${id}
-        class=${classes(className, styles)}
+        className=${classes(className, styles)}
         checked=${checked}
         .indeterminate=${indeterminate}
         ...${other}
       />
       <label for=${id}>
-        <${DashFill12Icon} class=${`${styles}-dash-icon`} />
-        <${CheckSmFill12Icon} class=${`${styles}-checked-icon`} />
+        <${DashFill12Icon} className=${`${styles}-dash-icon`} />
+        <${CheckSmFill12Icon} className=${`${styles}-checked-icon`} />
       </label>
     `;
   }

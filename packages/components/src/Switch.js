@@ -86,7 +86,7 @@ export class Switch {
       <input
         type="checkbox"
         id=${id}
-        class=${classes(className, styles)}
+        className=${classes(className, styles)}
         checked=${checked}
         .indeterminate=${indeterminate}
         ...${other}

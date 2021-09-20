@@ -60,7 +60,7 @@ class IconCopyButton {
 
   render({ children }) {
     return html`
-      <button onClick=${this.onClick} class=${copyStyles} title="Click to copy">
+      <button onClick=${this.onClick} className=${copyStyles} title="Click to copy">
         ${children}
       </button>
     `
@@ -82,9 +82,9 @@ class IconsPage {
       <p>
         The icons come in two flavors – monochrome and two-tone. The primary
         fill/stroke will always be specified as
-        <code class="inline">currentColor</code> This means CSS text color style
+        <code className="inline">currentColor</code> This means CSS text color style
         will cascade to the icon. Two-tone icons can receive a secondary color
-        via the <code class="inline">fill</code> style property.
+        via the <code className="inline">fill</code> style property.
       </p>
       <${Example} src=${new URL("./IconUsage.js", import.meta.url)}
       >
@@ -102,7 +102,7 @@ class IconsPage {
       </p>
 <% for(let group of items) { -%>
       <${Heading} level=2><%-group.key%><//>
-      <div class=${columnStyles}>
+      <div className=${columnStyles}>
 <% for(let { name } of group.items) { -%>
          <${<%-name%>} />
          <${IconCopyButton}><%-name%><//>

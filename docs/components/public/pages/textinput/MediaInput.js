@@ -40,14 +40,14 @@ export default class Example {
         <${ColumnLayout} columns="auto 300px auto">
           <label for="car-brand">Find brand</label>
           <${MediaInput}>
-            <${CarStroke12Icon} class=${me2} />
+            <${CarStroke12Icon} className=${me2} />
             <input
               id="car-brand"
               type="text"
               .value=${value}
               onChange=${this.onChange}
             />
-            <${SearchStroke16Icon} class=${ms2} />
+            <${SearchStroke16Icon} className=${ms2} />
           <//>
           <${Button} onClick=${this.onSubmit}>Search<//>
         <//>

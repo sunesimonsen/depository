@@ -7,7 +7,7 @@ export class MenuButton {
   render({ children, ...other }) {
     return html`
       <${Button} ...${other}>
-        ${children}<${ChevronDownStroke12Icon} class=${ms1} />
+        ${children}<${ChevronDownStroke12Icon} className=${ms1} />
       <//>
     `;
   }
