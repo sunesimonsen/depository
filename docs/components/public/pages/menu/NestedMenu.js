@@ -6,11 +6,12 @@ import {
   MenuItem,
   MenuItemNext,
   MenuItemPrevious,
-  selectedMenuItemPath,
+  focusedMenuItemPath,
   NestedMenu,
 } from "@depository/components";
 
-const menuPath = "examples.NestedMenu.menu";
+const id = "NestedMenu";
+const menuPath = `examples.${id}.menu`;
 
 const containerStyles = css`
   & {
@@ -19,32 +20,26 @@ const containerStyles = css`
   }
 `;
 
-export default class Example {
-  static defaultProps() {
-    return { id: "NestedMenu" };
-  }
+const menus = {
+  root: [
+    html`<${MenuItem} id=${id} key="orange" value=${0}>Orange<//>`,
+    html`<${MenuItemNext} id=${id} key="berry">Barry<//>`,
+    html`<${MenuItem} id=${id} key="apple" value=${1}>Apple<//>`,
+  ],
+  berry: [
+    html`<${MenuItemPrevious} id=${id} key="root">Back<//>`,
+    html`<${MenuItem} id=${id} key="strawberry" value=${2}>Strawberry<//>`,
+    html`<${MenuItem} id=${id} key="loganberry" value=${3}>Loganberry<//>`,
+    html`<${MenuItem} id=${id} key="boysenberry" value=${4}> Boysenberry <//>`,
+  ],
+};
 
+export default class Example {
   data() {
     return { menu: menuPath };
   }
 
-  constructor({ id }) {
-    this.menus = {
-      root: [
-        html`<${MenuItem} id=${id} key="orange" value=${0}>Orange<//>`,
-        html`<${MenuItemNext} id=${id} key="berry">Barry<//>`,
-        html`<${MenuItem} id=${id} key="apple" value=${1}>Apple<//>`,
-      ],
-      berry: [
-        html`<${MenuItemPrevious} id=${id} key="root">Back<//>`,
-        html`<${MenuItem} id=${id} key="strawberry" value=${2}>Strawberry<//>`,
-        html`<${MenuItem} id=${id} key="loganberry" value=${3}>Loganberry<//>`,
-        html`<${MenuItem} id=${id} key="boysenberry" value=${4}>
-          Boysenberry
-        <//>`,
-      ],
-    };
-
+  constructor() {
     this.onMenuChanged = (e) => {
       const { menu, selectedItem } = e.detail;
 
@@ -52,8 +47,7 @@ export default class Example {
         name: "showMenu",
         payload: {
           [menuPath]: menu,
-          [selectedMenuItemPath(this.props.id)]:
-            selectedItem || this.menus[menu][1].props.key,
+          [focusedMenuItemPath(id)]: selectedItem || menus[menu][1].props.key,
         },
       });
     };
@@ -71,7 +65,7 @@ export default class Example {
     };
   }
 
-  render({ id, menu = "root" }) {
+  render({ menu = "root" }) {
     return html`
       <div class=${containerStyles}>
         <${NestedMenu}
@@ -79,10 +73,10 @@ export default class Example {
           placement="end"
           @menuChanged=${this.onMenuChanged}
           @hide=${this.onHide}
-          @select=${this.onSelect}
+          @selectItem=${this.onSelect}
         >
           <${MenuButton}>Fruit<//>
-          <${MenuPopup}>${this.menus[menu]}<//>
+          <${MenuPopup}>${menus[menu]}<//>
         <//>
       </div>
     `;

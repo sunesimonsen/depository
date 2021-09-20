@@ -1,7 +1,7 @@
 const menuById = (id) => `components.Menu.${id}`;
 
 export const popupVisiblilityPath = (id) => `${menuById(id)}.visible`;
-export const selectedItemPath = (id) => `${menuById(id)}.selected`;
+export const focusedItemPath = (id) => `${menuById(id)}.focused`;
 
 export const showMenu = ({ id }) => ({
   name: "showMenu",
@@ -14,13 +14,13 @@ export const hideMenu = ({ id }) => ({
   name: "hideMenu",
   payload: {
     [popupVisiblilityPath(id)]: false,
-    [selectedItemPath(id)]: undefined,
+    [focusedItemPath(id)]: undefined,
   },
 });
 
-export const isItemSelected = ({ id, key }) => ({
-  inputs: { selected: selectedItemPath(id) },
-  compute: ({ selected }) => selected === key,
+export const isItemFocused = ({ id, key }) => ({
+  inputs: { focused: focusedItemPath(id) },
+  compute: ({ focused }) => focused === key,
 });
 
 export const getSelectableItems = (id, element) => {
@@ -37,47 +37,47 @@ export const getSelectableItems = (id, element) => {
   return getSelectableItems(id, element.children);
 };
 
-export const setSelectedMenuItem = ({ id, key }) => ({
-  name: "setSelectedMenuItem",
+export const setFocusedMenuItem = ({ id, key }) => ({
+  name: "setFocusedMenuItem",
   payload: {
     [popupVisiblilityPath(id)]: true,
-    [selectedItemPath(id)]: key,
+    [focusedItemPath(id)]: key,
   },
 });
 
-export const selectPreviousItem = ({ id, selectable }) => {
+export const focusPreviousItem = ({ id, selectable }) => {
   return {
-    name: "selectPreviousMenuItem",
+    name: "focusPreviousMenuItem",
     inputs: {
-      selected: selectedItemPath(id),
+      focused: focusedItemPath(id),
     },
-    payload: ({ selected }) => {
-      const index = selectable.findIndex(({ key }) => key === selected);
+    payload: ({ focused }) => {
+      const index = selectable.findIndex(({ key }) => key === focused);
       const newIndex =
         index === -1 ? selectable.length - 1 : Math.max(0, index - 1);
 
       return {
         [popupVisiblilityPath(id)]: true,
-        [selectedItemPath(id)]: selectable[newIndex].key,
+        [focusedItemPath(id)]: selectable[newIndex].key,
       };
     },
   };
 };
 
-export const selectNextItem = ({ id, selectable }) => {
+export const focusNextItem = ({ id, selectable }) => {
   return {
-    name: "selectNextMenuItem",
+    name: "focusNextMenuItem",
     inputs: {
-      selected: selectedItemPath(id),
+      focused: focusedItemPath(id),
     },
-    payload: ({ selected }) => {
-      const index = selectable.findIndex(({ key }) => key === selected);
+    payload: ({ focused }) => {
+      const index = selectable.findIndex(({ key }) => key === focused);
       const newIndex =
         index === -1 ? 0 : Math.min(selectable.length - 1, index + 1);
 
       return {
         [popupVisiblilityPath(id)]: true,
-        [selectedItemPath(id)]: selectable[newIndex].key,
+        [focusedItemPath(id)]: selectable[newIndex].key,
       };
     },
   };
@@ -85,7 +85,7 @@ export const selectNextItem = ({ id, selectable }) => {
 
 export class SelectEvent extends CustomEvent {
   constructor(detail) {
-    super("select", {
+    super("selectItem", {
       detail,
       bubbles: true,
       cancelable: true,

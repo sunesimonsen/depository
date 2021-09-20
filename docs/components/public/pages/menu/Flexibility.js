@@ -3,7 +3,7 @@ import { css, classes } from "stylewars";
 import {
   Menu,
   ColumnLayout,
-  setSelectedMenuItem,
+  setFocusedMenuItem,
   isMenuItemSelected,
   SelectMenuItemEvent,
 } from "@depository/components";
@@ -60,7 +60,7 @@ const menuItemStyles = (color) => css`
   }
 `;
 
-const selectedMenuItemStyles = css`
+const focusedMenuItemStyles = css`
   & {
     opacity: 0.8;
   }
@@ -81,7 +81,7 @@ class CustomMenuItem {
 
     this.onMouseEnter = () => {
       const { id, key } = this.props;
-      this.dispatch(setSelectedMenuItem({ id, key }));
+      this.dispatch(setFocusedMenuItem({ id, key }));
     };
   }
 
@@ -97,7 +97,7 @@ class CustomMenuItem {
         @mouseenter=${this.onMouseEnter}
         class=${classes(
           menuItemStyles(color),
-          selected && selectedMenuItemStyles
+          selected && focusedMenuItemStyles
         )}
       >
         ${children}
@@ -128,7 +128,7 @@ export default class Example {
   render({ id }) {
     return html`
       <div class=${containerStyles}>
-        <${Menu} id=${id} placement="bottom" @select=${this.onSelect}>
+        <${Menu} id=${id} placement="bottom" @selectItem=${this.onSelect}>
           <${CustomMenuButton}>Menu<//>
           <${CustomMenuPopup}>
             <${ColumnLayout} gap="0" stretched columns="2">

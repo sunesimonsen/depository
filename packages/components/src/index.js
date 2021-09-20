@@ -15,6 +15,14 @@ export { MenuPopup } from "./Menu/MenuPopup.js";
 export { NestedMenu } from "./NestedMenu.js";
 export { Popup } from "./Popup.js";
 export { Pulse } from "./Pulse.js";
+export { Select } from "./Select.js";
+export { SelectInput } from "./Select/SelectInput.js";
+export { SelectOption } from "./Select/SelectOption.js";
+export { SelectOptionNext } from "./Select/SelectOptionNext.js";
+export { SelectOptionPrevious } from "./Select/SelectOptionPrevious.js";
+export { SelectPopup } from "./Select/SelectPopup.js";
+export { NestedSelect } from "./NestedSelect.js";
+
 export { ScrollArea } from "./ScrollArea.js";
 export { Skeleton } from "./Skeleton.js";
 export { Spinner } from "./Spinner.js";
@@ -23,8 +31,8 @@ export { TextInput } from "./TextInput.js";
 
 export * from "./spacing.js";
 export {
-  selectedItemPath as selectedMenuItemPath,
-  setSelectedMenuItem,
-  isItemSelected as isMenuItemSelected,
+  focusedItemPath as focusedMenuItemPath,
+  setFocusedMenuItem,
+  isItemFocused as isMenuItemSelected,
   SelectEvent as SelectMenuItemEvent,
 } from "./Menu/model.js";

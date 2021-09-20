@@ -1,10 +1,11 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
-import { isItemSelected, setSelectedMenuItem, SelectEvent } from "./model.js";
+import { isItemFocused, setFocusedMenuItem, SelectEvent } from "./model.js";
 
 const styles = css`
   & {
     cursor: pointer;
+    position: relative;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -19,6 +20,7 @@ const styles = css`
     border: none;
     background: none;
     text-align: start;
+    box-sizing: border-box;
   }
 
   &:first-child {
@@ -34,7 +36,7 @@ const styles = css`
   }
 `;
 
-const selectedStyles = css`
+const focusedStyles = css`
   & {
     background: rgba(31, 115, 183, 0.08);
   }
@@ -43,38 +45,41 @@ const selectedStyles = css`
 export class MenuItem {
   constructor() {
     this.onMouseDown = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.target.dispatchEvent(
-        new SelectEvent({
-          key: this.props.key,
-          value: this.props.value,
-        })
-      );
+      if (!e.shiftKey && !e.metaKey && !e.ctrlKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.target.dispatchEvent(
+          new SelectEvent({
+            key: this.props.key,
+            value: this.props.value,
+          })
+        );
+      }
     };
 
     this.onMouseEnter = () => {
       const { id, key } = this.props;
-      this.dispatch(setSelectedMenuItem({ id, key }));
+      this.dispatch(setFocusedMenuItem({ id, key }));
     };
   }
 
   data({ id, key }) {
-    return { selected: isItemSelected({ id, key }) };
+    return { focused: isItemFocused({ id, key }) };
   }
 
-  render({ id, key, selected, children }) {
+  render({ id, key, focused, children, ...other }) {
     return html`
-      <button
+      <div
         tabindex="-1"
         id="${id}-${key}"
         role="menuitem"
         @mousedown=${this.onMouseDown}
         @mouseenter=${this.onMouseEnter}
-        class=${classes(styles, selected && selectedStyles)}
+        class=${classes(styles, focused && focusedStyles)}
+        ...${other}
       >
         ${children}
-      </button>
+      </div>
     `;
   }
 }

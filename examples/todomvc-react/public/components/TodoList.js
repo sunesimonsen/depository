@@ -1,5 +1,4 @@
-import { html } from "@depository/react";
-import { useData } from "@depository/react";
+import { html, useData } from "@depository/react";
 import { filteredTodos } from "@depository/todomvc-model";
 import { TodoItem } from "./TodoItem.js";
 

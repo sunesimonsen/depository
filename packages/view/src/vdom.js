@@ -791,3 +791,6 @@ export const h = (type, props, ...children) => {
     children: children.length ? children.flat() : null,
   };
 };
+
+export const combineRefs = (...refs) => (node) =>
+  refs.forEach((ref) => ref && ref(node));
