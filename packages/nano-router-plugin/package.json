@@ -35,7 +35,7 @@
     "@depository/store": "^0.51.0",
     "@depository/view": "^0.51.0",
     "@nano-router/history": "^2.2.0",
-    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "htm": "^3.0.4",
     "jsdom": "^16.4.0",
