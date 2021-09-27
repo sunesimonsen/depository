@@ -28,7 +28,7 @@ export const loadTopStories = () => ({
 export const reloadTopStories = () => ({
   name: "reloadTopStories",
   status: "reloadTopStories",
-  payload: async (_, api) => {
+  payload: async (api) => {
     const topStories = await api.loadTopStories();
 
     return {
