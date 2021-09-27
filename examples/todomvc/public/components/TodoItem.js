@@ -35,19 +35,19 @@ export class TodoItem {
   render({ todo }) {
     return html`
       <li
-        class=${classes(
+        className=${classes(
           todo.editing && "editing",
           todo.completed && "completed"
         )}
       >
-        <div class="view">
+        <div className="view">
           <input
-            class="toggle"
+            className="toggle"
             type="checkbox"
-            @change=${this.onChange}
+            onChange=${this.onChange}
             .checked=${todo.completed}
           />
-          <label @dblclick=${this.onDblClick}>${todo.text}</label>
+          <label onDblClick=${this.onDblClick}>${todo.text}</label>
           <${DestroyButton} id=${todo.id} />
         </div>
         ${this.renderInput({ todo })}

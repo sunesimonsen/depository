@@ -8,6 +8,6 @@ const styles = css`
 
 export class Welcome {
   render() {
-    return html` <div class=${styles}>Hello</div> `;
+    return html` <div className=${styles}>Hello</div> `;
   }
 }

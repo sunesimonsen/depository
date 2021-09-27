@@ -48,7 +48,7 @@ const styles = css`
 `;
 
 export class Skeleton {
-  render({ class: className }) {
-    return html`<div class=${classes(styles, className)}>${"\u00A0"}</div>`;
+  render({ className }) {
+    return html`<div className=${classes(styles, className)}>${"\u00A0"}</div>`;
   }
 }

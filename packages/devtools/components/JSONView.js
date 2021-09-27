@@ -10,7 +10,7 @@ const numberStyles = css`
 
 class JSONNumber {
   render({ value }) {
-    return html`<span class=${numberStyles}>${value}</span>`;
+    return html`<span className=${numberStyles}>${value}</span>`;
   }
 }
 
@@ -22,7 +22,7 @@ const stringStyles = css`
 
 class JSONString {
   render({ value }) {
-    return html`<span class=${stringStyles}>"${String(value)}"</span>`;
+    return html`<span className=${stringStyles}>"${String(value)}"</span>`;
   }
 }
 
@@ -34,7 +34,7 @@ const booleanStyles = css`
 
 class JSONBoolean {
   render({ value }) {
-    return html`<span class=${booleanStyles}>${String(value)}</span>`;
+    return html`<span className=${booleanStyles}>${String(value)}</span>`;
   }
 }
 
@@ -46,7 +46,7 @@ const undefinedStyles = css`
 
 class JSONUndefined {
   render({ value }) {
-    return html`<span class=${undefinedStyles}>${String(value)}</span>`;
+    return html`<span className=${undefinedStyles}>${String(value)}</span>`;
   }
 }
 
@@ -58,7 +58,7 @@ const nullStyles = css`
 
 class JSONNull {
   render({ value }) {
-    return html`<span class=${nullStyles}>${String(value)}</span>`;
+    return html`<span className=${nullStyles}>${String(value)}</span>`;
   }
 }
 
@@ -72,7 +72,7 @@ const keyStyles = css`
 class JSONEntry {
   render({ id, key, value }) {
     return html`<div key=${key}>
-      <span class=${keyStyles}>${key}:</span>
+      <span className=${keyStyles}>${key}:</span>
       <${JSONValue} id=${id} value=${value} />
     </div>`;
   }
@@ -107,7 +107,7 @@ class ItemCount {
     const label = `${count} ${count === 1 ? "item" : "items"}`;
 
     return html`
-      <span @click=${this.toggle} class=${itemCountStyles}>${label}</span>
+      <span onClick=${this.toggle} className=${itemCountStyles}>${label}</span>
     `;
   }
 }
@@ -139,8 +139,8 @@ class JSONCollectionBody {
   render({ id, entries }) {
     return html`
       <${ItemCount} id=${id} count=${entries.length} />
-      <div @click=${this.toggle} class=${jsonCollectionBodyStyles}>
-        <div @click=${stopPropagation} class=${ignoreClickStyles}>
+      <div onClick=${this.toggle} className=${jsonCollectionBodyStyles}>
+        <div onClick=${stopPropagation} className=${ignoreClickStyles}>
           ${entries.map(
             ([key, value]) =>
               html`<${JSONEntry}
@@ -241,7 +241,7 @@ const theme = css`
 export class JSONView {
   render({ id, value }) {
     return html`
-      <div class=${classes(theme)}>
+      <div className=${classes(theme)}>
         <${JSONValue} id=${id + ".view"} value=${value} />
       </div>
     `;

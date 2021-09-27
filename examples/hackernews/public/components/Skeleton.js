@@ -17,6 +17,6 @@ const styles = css`
 export class Skeleton {
   render() {
     const width = `${Math.random() * 100 + 500}px`;
-    return html` <div class=${styles} style=${{ width }} /> `;
+    return html` <div className=${styles} style=${{ width }} /> `;
   }
 }

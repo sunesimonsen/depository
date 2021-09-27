@@ -39,9 +39,9 @@ export default class Example {
             type="text"
             .value=${value}
             disabled
-            @change=${this.onChange}
+            onChange=${this.onChange}
           />
-          <${Button} @click=${this.onSubmit}>Submit<//>
+          <${Button} onClick=${this.onSubmit}>Submit<//>
         <//>
       <//>
     `;

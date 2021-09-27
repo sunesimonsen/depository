@@ -30,7 +30,7 @@ export class VisibilityFilters {
       <fieldset>
         <legend>Set the visibility filtering of the todos</legend>
         <label for="visibibility-filter">Visibility filter</label>
-        <select @change=${this.onChange}>
+        <select onChange=${this.onChange}>
           <${VisibilityfilterOption} value="all">All<//>
           <${VisibilityfilterOption} value="active">Active<//>
           <${VisibilityfilterOption} value="completed">Completed<//>

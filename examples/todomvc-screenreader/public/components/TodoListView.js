@@ -23,7 +23,9 @@ export class TodoListView {
         <p>Here is the list of all your todos.</p>
         <${TodoList} />
         <${VisibilityFilters} />
-        <button @click=${this.clearCompleteTodos}>Clear completed todos</button>
+        <button onClick=${this.clearCompleteTodos}>
+          Clear completed todos
+        </button>
       </main>
     `;
   }

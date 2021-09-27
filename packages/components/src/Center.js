@@ -15,9 +15,9 @@ export class Center {
     return { stretched: false };
   }
 
-  render({ class: className, children, stretched, ...other }) {
+  render({ className, children, stretched, ...other }) {
     return html`
-      <div class=${classes(styles({ stretched }), className)} ...${other}>
+      <div className=${classes(styles({ stretched }), className)} ...${other}>
         ${children}
       </div>
     `;

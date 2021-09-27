@@ -72,7 +72,7 @@ export class Comment {
     if (!status) this.dispatch(loadComment(id));
     if (status !== "ready")
       return html`
-        <li class=${styles}>
+        <li className=${styles}>
           <div><${Skeleton} /></div>
           <div><${Skeleton} /></div>
           <div><${Skeleton} /></div>
@@ -82,11 +82,11 @@ export class Comment {
     if (!comment) return null;
 
     return html`
-      <li class=${styles}>
+      <li className=${styles}>
         <div>
           <${Html}>${comment.text}<//>
         </div>
-        <div class=${bylineStyles}>
+        <div className=${bylineStyles}>
           <span>by ${comment.by}</span>
           <span>${formatRelativeHours(comment.time)}</span>
           ${showAnswersLink &&

@@ -23,9 +23,9 @@ const menuButtonStyles = css`
 `;
 
 class CustomMenuButton {
-  render({ children, class: className, ...other }) {
+  render({ children, className, ...other }) {
     return html`
-      <button class=${classes(menuButtonStyles, className)} ...${other}>
+      <button className=${classes(menuButtonStyles, className)} ...${other}>
         ${children}
       </button>
     `;
@@ -40,9 +40,9 @@ const popupStyles = css`
 `;
 
 class CustomMenuPopup {
-  render({ children, class: className, ...other }) {
+  render({ children, className, ...other }) {
     return html`
-      <div class=${classes(popupStyles, className)} ...${other}>
+      <div className=${classes(popupStyles, className)} ...${other}>
         ${children}
       </div>
     `;
@@ -93,9 +93,9 @@ class CustomMenuItem {
     return html`
       <button
         tabindex="-1"
-        @mousedown=${this.onMouseDown}
-        @mouseenter=${this.onMouseEnter}
-        class=${classes(
+        onMouseDown=${this.onMouseDown}
+        onMouseEnter=${this.onMouseEnter}
+        className=${classes(
           menuItemStyles(color),
           selected && focusedMenuItemStyles
         )}
@@ -127,8 +127,8 @@ export default class Example {
 
   render({ id }) {
     return html`
-      <div class=${containerStyles}>
-        <${Menu} id=${id} placement="bottom" @selectItem=${this.onSelect}>
+      <div className=${containerStyles}>
+        <${Menu} id=${id} placement="bottom" onSelectItem=${this.onSelect}>
           <${CustomMenuButton}>Menu<//>
           <${CustomMenuPopup}>
             <${ColumnLayout} gap="0" stretched columns="2">

@@ -44,10 +44,10 @@ export class TopBar {
         <${Link}
           route="topStories"
           state=${{ scrollToTop: true }}
-          class=${homeStyles}
+          className=${homeStyles}
         >
-          <img src=${logo} class=${logoStyles} />
-          <span class=${brandStyles}>Hacker News</span>
+          <img src=${logo} className=${logoStyles} />
+          <span className=${brandStyles}>Hacker News</span>
         <//>
         <${ReloadButton} />
       </header>

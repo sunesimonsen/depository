@@ -68,9 +68,9 @@ class Title {
 
 class Box {
   render({ title, children }) {
-    return html`<div class="box">
+    return html`<div className="box">
       <${Title}>${title}<//>
-      <div class="body">${children}</div>
+      <div className="body">${children}</div>
     </div>`;
   }
 }
@@ -512,7 +512,7 @@ describe("vdom", () => {
       const entries = pickset([
         [word.map((w) => `data-${w}`), word],
         ["style", styles],
-        ["@click", handlers],
+        ["onClick", handlers],
         ["ref", handlers],
         ["disabled", bool],
         [".myProp", pickone([word, bool, undefined])],

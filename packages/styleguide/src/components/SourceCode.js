@@ -88,11 +88,11 @@ export class SourceCode {
     }
 
     if (status !== "ready") {
-      return html` <${Center} class=${loadingStyles}><${Spinner} /><//> `;
+      return html` <${Center} className=${loadingStyles}><${Spinner} /><//> `;
     }
 
     return html`
-      <pre class=${preStyles}><code class=${codeStyles} ref=${this
+      <pre className=${preStyles}><code className=${codeStyles} ref=${this
         ._setCodeRef}>${this._content}</code></pre>
     `;
   }

@@ -7,7 +7,7 @@ export const TodoList = connect(
   { todos: filteredTodos },
   ({ todos }) =>
     html`
-      <ul class="todo-list">
+      <ul className="todo-list">
         ${todos.map(({ id }) => html`<${TodoItem} key=${id} id=${id} />`)}
       </ul>
     `

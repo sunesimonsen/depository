@@ -45,11 +45,11 @@ export class MenuItemNext {
     return html`
       <${MenuItem} ref=${this.createRef("ref")} ...${other}>
         <${ChevronLeftStroke16Icon}
-          class=${classes(iconStyles, leftIconStyles)}
+          className=${classes(iconStyles, leftIconStyles)}
         />
         ${children}
         <${ChevronRightStroke16Icon}
-          class=${classes(iconStyles, rightIconStyles)}
+          className=${classes(iconStyles, rightIconStyles)}
         />
       <//>
     `;

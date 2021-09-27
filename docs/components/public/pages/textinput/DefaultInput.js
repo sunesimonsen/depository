@@ -38,9 +38,9 @@ export default class Example {
             id="car-model"
             type="text"
             .value=${value}
-            @change=${this.onChange}
+            onChange=${this.onChange}
           />
-          <${Button} @click=${this.onSubmit}>Submit<//>
+          <${Button} onClick=${this.onSubmit}>Submit<//>
         <//>
       <//>
     `;

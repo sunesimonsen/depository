@@ -17,7 +17,7 @@ class DaylightIcon {
 
   render({ isDay }) {
     const icon = isDay ? "🌔" : "🌘";
-    return html`<span class=${iconStyles}>${icon}</span>`;
+    return html`<span className=${iconStyles}>${icon}</span>`;
   }
 }
 
@@ -40,7 +40,7 @@ export default class Example {
     return html`
       <${Center}>
         <${ColumnLayout} columns="2">
-          <${Switch} id="switch" .checked=${isDay} @change=${this.toggleDay} />
+          <${Switch} id="switch" .checked=${isDay} onChange=${this.toggleDay} />
           <${DaylightIcon} />
         <//>
       <//>

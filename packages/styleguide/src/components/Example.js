@@ -59,11 +59,11 @@ export class Example {
 
   render({ children, sourceVisible, src, columns = 1, stretched }) {
     return html`
-      <div class=${styles}>
+      <div className=${styles}>
         <${ExamplePreview}>${children}<//>
-        <div class=${buttonsStyles}>
+        <div className=${buttonsStyles}>
           <${JSFiddleButton} src=${src} />
-          <${IconButton} basic @click=${this.onToggleSource}>
+          <${IconButton} basic onClick=${this.onToggleSource}>
             <${MarkupStroke16Icon} />
           <//>
         </div>

@@ -29,7 +29,7 @@ export class Menu {
       if (this.props.visible) {
         this.dispatch(hideMenu({ id: this.props.id }));
 
-        const hideHandler = this.props["@hide"];
+        const hideHandler = this.props.onHide;
         hideHandler && hideHandler();
       }
     };
@@ -47,7 +47,7 @@ export class Menu {
     };
 
     this.onSelect = (e) => {
-      const onSelect = this.props["@selectItem"];
+      const onSelect = this.props.onSelectItem;
       if (onSelect) {
         onSelect(e);
         if (!e.defaultPrevented) this.hideMenu();
@@ -135,12 +135,12 @@ export class Menu {
         "aria-expanded": visible ? "true" : "false",
         "aria-controls": `${id}-menu`,
         "aria-activedescendant": focused && `${id}-${focused}`,
-        "@click": this.onTriggerClick,
-        "@keydown": this.onKeydown,
-        "@blur": this.onBlur,
+        onClick: this.onTriggerClick,
+        onKeyDown: this.onKeydown,
+        onBlur: this.onBlur,
       }),
       html`
-        <div ref=${this.createRef("popupRef")} @selectItem=${this.onSelect}>
+        <div ref=${this.createRef("popupRef")} onSelectItem=${this.onSelect}>
           ${visible &&
           clone(content, {
             id: `${id}-menu`,

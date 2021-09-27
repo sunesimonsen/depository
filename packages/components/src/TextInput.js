@@ -50,11 +50,11 @@ export const textInputStyles = css`
 `;
 
 export class TextInput {
-  render({ class: className, ...other }) {
+  render({ className, ...other }) {
     return html`
       <input
         type="text"
-        class=${classes(className, textInputStyles)}
+        className=${classes(className, textInputStyles)}
         ...${other}
       />
     `;

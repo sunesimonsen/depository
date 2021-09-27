@@ -34,7 +34,7 @@ export class TodoView {
         <dt>Created at</dt>
         <dd>${todo.createdAt}</dd>
       </dl>
-      <button @click=${this.removeTodo}>Delete todo</button>
+      <button onClick=${this.removeTodo}>Delete todo</button>
     `;
   }
 }

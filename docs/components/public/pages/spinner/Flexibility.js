@@ -39,10 +39,10 @@ export default class Example {
     return html`
       <${Center}>
         <${ColumnLayout} columns="auto auto auto auto" >
-          <${Spinner} class=${firstSpinner} />
-          <${Spinner} class=${secondSpinner} />
-          <${Spinner} class=${thirdSpinner}/>
-          <${Spinner} class=${fourthSpinner}/>
+          <${Spinner} className=${firstSpinner} />
+          <${Spinner} className=${secondSpinner} />
+          <${Spinner} className=${thirdSpinner}/>
+          <${Spinner} className=${fourthSpinner}/>
         <//>
       <//
     `;

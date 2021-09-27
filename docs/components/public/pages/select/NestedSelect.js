@@ -110,14 +110,14 @@ export default class Example {
 
   render({ menu = "root", selected }) {
     return html`
-      <${Center} class=${containerStyles}>
+      <${Center} className=${containerStyles}>
         <${ColumnLayout} columns="auto 300px">
           <label for=${id}>Fruit</label>
           <${NestedSelect}
             id=${id}
-            @menuChanged=${this.onMenuChanged}
-            @hide=${this.onHide}
-            @selectItem=${this.onSelect}
+            onMenuChanged=${this.onMenuChanged}
+            onHide=${this.onHide}
+            onSelectItem=${this.onSelect}
           >
             <${SelectInput} .value=${fruits[selected].label}>
               ${fruits[selected].label}

@@ -70,7 +70,7 @@ export class JSFiddleButton {
 
   render() {
     return html`
-      <${IconButton} basic @click=${this.onClick}>
+      <${IconButton} basic onClick=${this.onClick}>
         <${JSFiddleLogo} />
       <//>
       <form
@@ -78,7 +78,7 @@ export class JSFiddleButton {
         method="post"
         target="_blank"
         action="https://jsfiddle.net/api/post/library/pure/"
-        class=${formStyles}
+        className=${formStyles}
       >
         <input type="hidden" name="title" value="@depository/components" />
         <input

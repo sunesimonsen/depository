@@ -8,6 +8,8 @@ export const ClearCompletedButton = connect(({ dispatch }) => {
   };
 
   return html`
-    <button class="clear-completed" onClick=${onClick}>Clear completed</button>
+    <button className="clear-completed" onClick=${onClick}>
+      Clear completed
+    </button>
   `;
 });

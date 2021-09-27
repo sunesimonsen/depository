@@ -26,7 +26,7 @@ export class Answers {
     );
 
     return html`
-      <ul class=${styles}>
+      <ul className=${styles}>
         ${answers}
       </ul>
     `;

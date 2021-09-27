@@ -73,9 +73,9 @@ export class MenuItem {
         tabindex="-1"
         id="${id}-${key}"
         role="menuitem"
-        @mousedown=${this.onMouseDown}
-        @mouseenter=${this.onMouseEnter}
-        class=${classes(styles, focused && focusedStyles)}
+        onMouseDown=${this.onMouseDown}
+        onMouseEnter=${this.onMouseEnter}
+        className=${classes(styles, focused && focusedStyles)}
         ...${other}
       >
         ${children}

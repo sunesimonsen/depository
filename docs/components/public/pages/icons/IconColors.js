@@ -15,7 +15,7 @@ export default class Example {
   render() {
     return html`
       <${Center}>
-        <${AnswerBot26Icon} class=${answerBotStyles} />
+        <${AnswerBot26Icon} className=${answerBotStyles} />
       <//>
     `;
   }

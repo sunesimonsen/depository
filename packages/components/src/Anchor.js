@@ -21,9 +21,9 @@ const styles = css`
 `;
 
 export class Anchor {
-  render({ children, class: className, ...other }) {
+  render({ children, className, ...other }) {
     return html`
-      <a class=${classes(styles, className)} ...${other}>${children}</a>
+      <a className=${classes(styles, className)} ...${other}>${children}</a>
     `;
   }
 }

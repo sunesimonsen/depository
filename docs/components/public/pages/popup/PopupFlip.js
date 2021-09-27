@@ -34,7 +34,7 @@ export default class Example {
 
   render() {
     return html`
-      <${ScrollArea} class=${containerStyles}>
+      <${ScrollArea} className=${containerStyles}>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           placerat nulla molestie eros elementum, id aliquam augue pretium.
@@ -53,7 +53,7 @@ export default class Example {
           interdum at. Duis cursus non ipsum tincidunt rhoncus.
         </p>
         <${Button} ref=${this.createRef("anchorRef")}>Anchor<//>
-        <div ref=${this.createRef("popupRef")} class=${popupStyles}>
+        <div ref=${this.createRef("popupRef")} className=${popupStyles}>
           Popup content
         </div>
         <p>

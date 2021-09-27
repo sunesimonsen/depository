@@ -6,7 +6,7 @@ import { MediaInput } from "../MediaInput.js";
 const inputProps = [
   "id",
   "role",
-  "@blur",
+  "onBlur",
   "value",
   ".value",
   "disabled",
@@ -28,7 +28,7 @@ export class SelectInput {
       <${MediaInput} ...${containerProps}>
         <span data-label>${children}</span>
         <input type="text" ...${inputProps} />
-        <${ChevronDownStroke12Icon} class=${ms1} />
+        <${ChevronDownStroke12Icon} className=${ms1} />
       <//>
     `;
   }

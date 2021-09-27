@@ -119,14 +119,14 @@ export class Button {
     stretched,
     disabled,
     loading,
-    class: className,
+    className,
     children,
-    "@click": onClick,
+    onClick,
     ...other
   }) {
     return html`
       <button
-        class=${classes(
+        className=${classes(
           styles,
           basic && basicStyles,
           primary && primaryStyles,
@@ -134,11 +134,11 @@ export class Button {
           className
         )}
         disabled=${disabled}
-        @click=${loading ? null : onClick}
+        onClick=${loading ? null : onClick}
         ...${other}
       >
-        ${loading && html`<div class=${loaderStyles}><${Pulse} /></div>`}
-        <span class=${classes(childrenStyles, loading && loadingStyles)}>
+        ${loading && html`<div className=${loaderStyles}><${Pulse} /></div>`}
+        <span className=${classes(childrenStyles, loading && loadingStyles)}>
           ${children}
         </span>
       </button>

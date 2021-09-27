@@ -120,13 +120,13 @@ export class Action {
   render({ name, isSelected }) {
     return html`<div
       ref=${this.setRef}
-      class=${classes(actionStyles, isSelected && selectedStyles)}
-      @click=${this.onShow}
-      @keydown=${this.onKeyDown}
+      className=${classes(actionStyles, isSelected && selectedStyles)}
+      onClick=${this.onShow}
+      onKeyDown=${this.onKeyDown}
       tabindex="0"
     >
-      <div class=${labelStyles}>${name}</div>
-      <div class="restore" @click=${this.onRestore}>Restore</div>
+      <div className=${labelStyles}>${name}</div>
+      <div className="restore" onClick=${this.onRestore}>Restore</div>
     </div>`;
   }
 }

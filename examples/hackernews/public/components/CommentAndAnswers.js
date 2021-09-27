@@ -37,10 +37,10 @@ export class CommentAndAnswers {
 
   render({ id }) {
     return html`
-      <div class=${containerStyles}>
-        <div class=${itemStyles}>
+      <div className=${containerStyles}>
+        <div className=${itemStyles}>
           <${Comment} id=${id} />
-          <div class=${answerStyles}>
+          <div className=${answerStyles}>
             <${Answers} id=${id} />
           </div>
           <${CloseAnswers} />

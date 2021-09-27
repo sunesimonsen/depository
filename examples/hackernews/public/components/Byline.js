@@ -38,7 +38,7 @@ export class Byline {
 
   render({ id, story }) {
     return html`
-      <div class=${styles}>
+      <div className=${styles}>
         <span>${story.score} points by ${story.by}</span>
         <span>${formatRelativeHours(story.time)}</span>
         <${CommentsLink} id=${id} />

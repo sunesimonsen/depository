@@ -23,7 +23,7 @@ export class Comments {
     );
 
     return html`
-      <ul class=${styles}>
+      <ul className=${styles}>
         ${comments}
       </ul>
     `;

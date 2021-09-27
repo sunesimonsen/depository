@@ -43,14 +43,14 @@ export const TodoItem = connect(
 
     return html`
       <li
-        class=${classes(
+        className=${classes(
           todo.editing && "editing",
           todo.completed && "completed"
         )}
       >
-        <div class="view">
+        <div className="view">
           <input
-            class="toggle"
+            className="toggle"
             type="checkbox"
             onChange=${onChange}
             checked=${todo.completed}
@@ -60,7 +60,7 @@ export const TodoItem = connect(
         </div>
         <input
           ref=${(element) => element && element.focus()}
-          class="edit"
+          className="edit"
           value=${todo.text}
           onKeyUp=${onKeyUp}
           onBlur=${onBlur}

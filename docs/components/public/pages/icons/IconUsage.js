@@ -18,8 +18,8 @@ export default class Example {
         <${ColumnLayout} columns="2">
           <${StarStroke16Icon} />
           <${StarFill16Icon} />
-          <${StarStroke16Icon} class=${redStyles} />
-          <${StarFill16Icon} class=${redStyles} />
+          <${StarStroke16Icon} className=${redStyles} />
+          <${StarFill16Icon} className=${redStyles} />
         <//>
       <//>
     `;

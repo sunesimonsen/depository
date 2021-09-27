@@ -16,10 +16,10 @@ const pillStyles = css`
 `;
 
 export class IconButton {
-  render({ class: className, pill, children, ...other }) {
+  render({ className, pill, children, ...other }) {
     return html`
       <${Button}
-        class=${classes(styles, pill && pillStyles, className)}
+        className=${classes(styles, pill && pillStyles, className)}
         ...${other}
       >
         ${children}

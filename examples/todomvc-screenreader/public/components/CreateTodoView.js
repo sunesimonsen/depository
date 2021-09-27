@@ -27,7 +27,7 @@ export class CreateTodoView {
       <main>
         <h2>Create todo</h2>
         <p>With this form, you can create new todos</p>
-        <form @submit=${this.onSubmit}>
+        <form onSubmit=${this.onSubmit}>
           <fieldset>
             <legend>Enter the text of the new todo</legend>
             <label for="todo-text">Todo text</label>

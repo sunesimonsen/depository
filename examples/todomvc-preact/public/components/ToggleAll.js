@@ -12,7 +12,7 @@ export const ToggleAll = connect(
     return html`
       <input
         id="toggle-all"
-        class="toggle-all"
+        className="toggle-all"
         type="checkbox"
         checked=${activeTodoCount === 0}
         onChange=${onChange}
