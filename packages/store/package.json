@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/store",
-  "version": "0.51.0",
+  "version": "0.52.0",
   "description": "The foundation store for @depository",
   "module": "./src/index.js",
   "exports": {
@@ -28,7 +28,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@depository/cache": "^0.51.0"
+    "@depository/cache": "^0.52.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
