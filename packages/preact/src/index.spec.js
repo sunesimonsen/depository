@@ -1,13 +1,10 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
-import simulateEvents from "simulate-events";
 import { Store } from "@depository/store";
 import { functionMiddleware } from "@depository/function-middleware";
 import { StoreProvider, connect } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
-
-const simulate = simulateEvents.default;
 
 const delay = (timeout = 0) =>
   new Promise((resolve) => {
@@ -73,7 +70,8 @@ describe("preact", () => {
   });
 
   it("handles dispatching actions", async () => {
-    simulate(container.querySelector("[data-test-id=increment]"), "click");
+    const incrementButton = container.querySelector("[data-test-id=increment]");
+    incrementButton.dispatchEvent(new CustomEvent("click"));
 
     await delay();
 

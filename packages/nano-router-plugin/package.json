@@ -37,13 +37,11 @@
     "@nano-router/history": "^2.2.0",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
-    "htm": "^3.0.4",
     "jsdom": "^16.4.0",
     "mocha": "8.3.2",
     "mocha-dominate": "^2.0.0",
     "rollup": "^2.27.1",
     "rollup-plugin-terser": "^7.0.2",
-    "simulate-events": "^1.0.0",
     "sinon": "^9.2.1",
     "unexpected": "^12.0.0",
     "unexpected-dom": "^5.0.0"
