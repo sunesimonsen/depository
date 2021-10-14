@@ -1,6 +1,5 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
-import simulateEvents from "simulate-events";
 import sinon from "sinon";
 import { html, render } from "@depository/view";
 import { createMemoryHistory } from "@nano-router/history";
@@ -9,9 +8,6 @@ import { nanoRouterPlugin, Link } from "./index.js";
 import { Store } from "@depository/store";
 
 import { Router, Routes, Route, ExternalRoute } from "@nano-router/router";
-
-const simulate = simulateEvents.default;
-const createEvent = simulateEvents.createEvent;
 
 const expect = unexpected.clone().use(unexpectedDom);
 
@@ -110,7 +106,7 @@ describe("Link", () => {
   describe("when navigating", () => {
     beforeEach(async () => {
       const newLink = container.querySelector("[data-test-id=new]");
-      simulate(newLink, "click");
+      newLink.dispatchEvent(new CustomEvent("click"));
 
       await clock.runAllAsync();
     });
@@ -136,10 +132,10 @@ describe("Link", () => {
   describe("when pressing a modifyer key", () => {
     beforeEach(async () => {
       const newLink = container.querySelector("[data-test-id=new]");
-      const event = createEvent("click");
+      const event = new CustomEvent("click");
       event.ctrlKey = true;
       event.button = 1;
-      simulate(newLink, event);
+      newLink.dispatchEvent(event);
 
       await clock.runAllAsync();
     });

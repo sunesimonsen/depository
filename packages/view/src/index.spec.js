@@ -4,9 +4,7 @@ import unexpectedSimon from "unexpected-sinon";
 import { Store } from "@depository/store";
 import { render, html } from "./index.js";
 import sinon from "sinon";
-import simulateEvents from "simulate-events";
 
-const simulate = simulateEvents.default;
 const expect = unexpected.clone().use(unexpectedSimon).use(unexpectedDom);
 
 class ErrorBoundary {
@@ -949,7 +947,7 @@ describe("view", () => {
 
       const button = container.querySelector("button");
 
-      simulate(button, "click");
+      button.dispatchEvent(new CustomEvent("click"));
 
       expect(listener, "to have calls satisfying", () => {
         listener({ type: "click", target: button });
@@ -981,11 +979,11 @@ describe("view", () => {
 
         const button = container.querySelector("button");
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         await store.dispatch({ payload: { listener: "new" } });
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         expect([oldListener, newListener], "to have calls satisfying", () => {
           oldListener({ type: "click", target: button });
@@ -1016,11 +1014,11 @@ describe("view", () => {
 
         const button = container.querySelector("button");
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         await store.dispatch({ payload: { enabled: false } });
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         expect(listener, "to have calls satisfying", () => {
           listener({ type: "click", target: button });
@@ -1050,11 +1048,11 @@ describe("view", () => {
 
         const button = container.querySelector("button");
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         await store.dispatch({ payload: { enabled: false } });
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         expect(listener, "to have calls satisfying", () => {
           listener({ type: "click", target: button });
@@ -1080,7 +1078,7 @@ describe("view", () => {
 
       const button = container.querySelector("button");
 
-      simulate(button, "click", { bubbles: true });
+      button.dispatchEvent(new CustomEvent("click", { bubbles: true }));
 
       expect(captureListener, "to have calls satisfying", () => {
         captureListener({ type: "click", target: button });
@@ -1112,11 +1110,11 @@ describe("view", () => {
 
         const button = container.querySelector("button");
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         await store.dispatch({ payload: { listener: "new" } });
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         expect([oldListener, newListener], "to have calls satisfying", () => {
           oldListener({ type: "click", target: button });
@@ -1147,11 +1145,11 @@ describe("view", () => {
 
         const button = container.querySelector("button");
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         await store.dispatch({ payload: { enabled: false } });
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         expect(listener, "to have calls satisfying", () => {
           listener({ type: "click", target: button });
@@ -1181,11 +1179,11 @@ describe("view", () => {
 
         const button = container.querySelector("button");
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         await store.dispatch({ payload: { enabled: false } });
 
-        simulate(button, "click");
+        button.dispatchEvent(new CustomEvent("click"));
 
         expect(listener, "to have calls satisfying", () => {
           listener({ type: "click", target: button });
