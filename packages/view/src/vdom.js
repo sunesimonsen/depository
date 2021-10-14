@@ -522,7 +522,7 @@ class PortalComponent extends Hidden {
     this._type = type;
     this._context = context;
     this._errorHandler = errorHandler;
-    this._isSvg = isSvg || type === "svg";
+    this._isSvg = isSvg;
     this._children =
       children && create(children, store, context, errorHandler, this._isSvg);
     this._target = target;
@@ -598,7 +598,7 @@ export const create = (value, store, context, errorHandler, isSvg) => {
   }
 
   if (typeof value === "object") {
-    if (value.type === "portal") {
+    if (value.type === "Portal") {
       return new PortalComponent(
         value.type,
         value.props,

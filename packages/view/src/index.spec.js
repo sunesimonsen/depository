@@ -1382,9 +1382,9 @@ describe("view", () => {
         const target = document.createElement("div");
         class TestComponent {
           render() {
-            return html`<portal target=${target}>
+            return html`<Portal target=${target}>
               <h1>Hello from the portal</h1>
-            </portal>`;
+            </Portal>`;
           }
         }
 
@@ -1404,13 +1404,13 @@ describe("view", () => {
           store = new Store({ visible: true });
           class TestComponent {
             render() {
-              return html`<portal>
+              return html`<Portal>
                   <h1>Hello from the portal</h1>
-                </portal>
+                </Portal>
                 <section>
-                  <portal>
+                  <Portal>
                     <p>this is another portal</p>
-                  </portal>
+                  </Portal>
                 </section>`;
             }
           }
@@ -1453,7 +1453,7 @@ describe("view", () => {
           }
 
           render({ message }) {
-            return html`<portal target=${target}>${message}</portal>`;
+            return html`<Portal target=${target}>${message}</Portal>`;
           }
         }
 
@@ -1494,7 +1494,7 @@ describe("view", () => {
           }
 
           render({ message }) {
-            return html`<portal target=${target}>${message}</portal>`;
+            return html`<Portal target=${target}>${message}</Portal>`;
           }
         }
 
@@ -1534,11 +1534,11 @@ describe("view", () => {
           }
 
           render({ target }) {
-            return html`<portal
+            return html`<Portal
               target=${target === "target1" ? target1 : target2}
             >
               This is a portal
-            </portal>`;
+            </Portal>`;
           }
         }
 
