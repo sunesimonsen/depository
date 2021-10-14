@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { TodoList } from "./TodoList.js";
-import { Link } from "@depository/nano-router-plugin";
+import { Link } from "@nano-router/depository-view";
 import { VisibilityFilters } from "./VisibilityFilters.js";
 import { clearCompleteTodos } from "@depository/todomvc-model";
 
