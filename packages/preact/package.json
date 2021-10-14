@@ -34,7 +34,7 @@
     "mocha": "8.3.2",
     "mocha-dominate": "^2.0.0",
     "preact": "^10.5.7",
-    "serve": "^11.3.2",
+    "serve": "^12.0.1",
     "unexpected": "12.0.0",
     "unexpected-dom": "^4.18.0"
   },
