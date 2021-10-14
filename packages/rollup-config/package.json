@@ -1,6 +1,6 @@
 {
   "name": "@depository/rollup-config",
-  "version": "0.53.0",
+  "version": "0.54.0",
   "description": "Opinionated rollup config for @depository/view",
   "keywords": [
     "build",
