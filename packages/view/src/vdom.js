@@ -508,6 +508,31 @@ class Hidden {
   }
 }
 
+class ContextUserComponent {
+  shouldUpdate({ children }) {
+    // TODO warn about prop changes in debug mode
+    return this.children !== children;
+  }
+
+  render({ children }) {
+    return children;
+  }
+}
+
+class ContextComponent extends UserComponent {
+  constructor({ type, props, children }, store, context, errorHandler, isSvg) {
+    super(
+      { type: ContextUserComponent, props, children },
+      store,
+      Object.freeze({ ...context, ...props }),
+      errorHandler,
+      isSvg
+    );
+
+    this._type = type;
+  }
+}
+
 class PortalComponent extends Hidden {
   constructor(
     { type, props: { target = document.body } = {}, children },
@@ -588,6 +613,10 @@ export const create = (value, store, context, errorHandler, isSvg) => {
   }
 
   if (typeof value === "object") {
+    if (value.type === "Context") {
+      return new ContextComponent(value, store, context, errorHandler, isSvg);
+    }
+
     if (value.type === "Portal") {
       return new PortalComponent(value, store, context, errorHandler, isSvg);
     }
