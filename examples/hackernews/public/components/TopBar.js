@@ -1,7 +1,7 @@
 import { html } from "@depository/view";
 import { css } from "stylewars";
 import { ReloadButton } from "./ReloadButton.js";
-import { Link } from "@depository/nano-router-plugin";
+import { Link } from "@nano-router/depository-view";
 
 const logo = new URL("../images/y18.gif", import.meta.url);
 

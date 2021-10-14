@@ -2,10 +2,9 @@ import { html, render } from "@depository/view";
 import { Store } from "@depository/store";
 import { functionMiddleware } from "@depository/function-middleware";
 import { statusMiddleware } from "@depository/status-middleware";
-import { nanoRouterPlugin } from "@depository/nano-router-plugin";
+import { Routing, Router, Routes, Route } from "@nano-router/depository-view";
 import * as api from "./api.js";
 import { RootView } from "./components/RootView.js";
-import { Router, Routes, Route } from "@nano-router/router";
 import { createBrowserHistory } from "@nano-router/history";
 import { initialState } from "./models/news.js";
 
@@ -25,8 +24,11 @@ const routes = new Routes(
 
 const router = new Router({ routes, history });
 
-store.use(nanoRouterPlugin(router));
 store.useMiddleware(functionMiddleware(api));
 store.useMiddleware(statusMiddleware(api));
 
-render(html`<${RootView} />`, store, document.body, { router });
+render(
+  html`<${Routing} router=${router}><${RootView} /><//>`,
+  store,
+  document.body
+);

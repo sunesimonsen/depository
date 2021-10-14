@@ -1117,6 +1117,13 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
+"@nano-router/depository-view@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@nano-router/depository-view/-/depository-view-2.7.0.tgz#7f96e1d788ec353900207d2bcf0bfab26a2b19bc"
+  integrity sha512-ySjETPWgjMXxpOKvYvBPLW637oU2zYvkYHamcDCzrwg4+TlOuy996MnVveY+dbbr8ir3ipWS/dlsnd/balBIFQ==
+  dependencies:
+    "@nano-router/router" "^2.7.0"
+
 "@nano-router/history@^2.2.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@nano-router/history/-/history-2.3.0.tgz#8f532745f65868f71b1647ea4bb48f47365a0b00"
@@ -1136,10 +1143,26 @@
     "@nano-router/url" "^2.5.0"
     querystring "^0.2.0"
 
+"@nano-router/router@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@nano-router/router/-/router-2.7.0.tgz#36553c9679ba4d7d71f48a7e048ac5330f2c4471"
+  integrity sha512-9aOKnEuI4DiTqH5dKkpTGBPJGpDCGkVBwUqUdPMuxWXkZ08yfw15vclRvK45am7GqzlnnWYYPlOsVfiZ+UUl3A==
+  dependencies:
+    "@nano-router/routes" "^2.7.0"
+    "@nano-router/url" "^2.5.0"
+    querystring "^0.2.0"
+
 "@nano-router/routes@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@nano-router/routes/-/routes-2.3.0.tgz#77b7c64faf6d255c2a81aa44683cf7ebeddcfd2f"
   integrity sha512-fdAGg27cr22qrp3Y4mPsfFs21Bo9r4mDzUVZKHAiSXpZEKrHCxgM5NOtCnwoUBgZCKXArvSJYZXYu5TlYfSjbg==
+  dependencies:
+    "@nano-router/path" "^2.3.0"
+
+"@nano-router/routes@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@nano-router/routes/-/routes-2.7.0.tgz#9efd3b66e14e70f02ebdf26d165c4005083b5bc0"
+  integrity sha512-n22V5HiPJvctlua+bbN6/SaYoaFHKjt5+lT/90GkZaT3pfxgWaY4EBp7Gw6fgLWGbBcbuQtozMOyItKbwFRX1Q==
   dependencies:
     "@nano-router/path" "^2.3.0"
 
