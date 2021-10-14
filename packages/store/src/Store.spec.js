@@ -82,6 +82,33 @@ describe("store", () => {
         computedSpy(8);
       });
     });
+
+    describe("when the action payload is a function and the action has inputs", () => {
+      it("calls the payload with the inputs from the store", async () => {
+        const store = new Store({
+          global: { enabled: false },
+        });
+
+        const toggle = (path) => ({
+          inputs: { enabled: path },
+          payload: ({ enabled }) => ({
+            [path]: !enabled,
+          }),
+        });
+
+        await store.dispatch(toggle("global.enabled"));
+
+        expect(store.get(), "to equal", {
+          global: { enabled: true },
+        });
+
+        await store.dispatch(toggle("global.enabled"));
+
+        expect(store.get(), "to equal", {
+          global: { enabled: false },
+        });
+      });
+    });
   });
 
   describe("use", () => {

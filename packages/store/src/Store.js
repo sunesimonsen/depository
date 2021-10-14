@@ -4,8 +4,13 @@ export class Store {
   constructor(data) {
     this.cache = new Cache(data);
     this._apply = (action) => {
-      if (action.payload !== null) {
-        Object.entries(action.payload).forEach(([pathPattern, value]) => {
+      let payload = action.payload;
+      if (payload !== null) {
+        if (typeof payload === "function" && action.inputs) {
+          payload = payload(this.cache.get(action.inputs));
+        }
+
+        Object.entries(payload).forEach(([pathPattern, value]) => {
           this.cache.set(pathPattern, value);
         });
       }
