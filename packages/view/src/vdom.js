@@ -71,7 +71,7 @@ function defaultShouldUpdate(nextProps) {
 }
 
 class UserComponent {
-  constructor(type, props, children, store, context, errorHandler, isSvg) {
+  constructor({ type, props, children }, store, context, errorHandler, isSvg) {
     const Constructor = type;
     this._type = type;
     this._props = props;
@@ -325,7 +325,7 @@ const removeEventListener = (dom, name, listener) => {
 };
 
 class PrimitiveComponent {
-  constructor(type, props, children, store, context, errorHandler, isSvg) {
+  constructor({ type, props, children }, store, context, errorHandler, isSvg) {
     this._type = type;
     this._props = props;
     this._context = context;
@@ -510,9 +510,7 @@ class Hidden {
 
 class PortalComponent extends Hidden {
   constructor(
-    type,
-    { target = document.body },
-    children,
+    { type, props: { target = document.body } = {}, children },
     store,
     context,
     errorHandler,
@@ -522,7 +520,7 @@ class PortalComponent extends Hidden {
     this._type = type;
     this._context = context;
     this._errorHandler = errorHandler;
-    this._isSvg = isSvg || type === "svg";
+    this._isSvg = isSvg;
     this._children =
       children && create(children, store, context, errorHandler, this._isSvg);
     this._target = target;
@@ -582,15 +580,7 @@ export const create = (value, store, context, errorHandler, isSvg) => {
 
   if (typeof value.type === "function") {
     try {
-      return new UserComponent(
-        value.type,
-        value.props,
-        value.children,
-        store,
-        context,
-        errorHandler,
-        isSvg
-      );
+      return new UserComponent(value, store, context, errorHandler, isSvg);
     } catch (e) {
       errorHandler(e);
       return new Hidden();
@@ -598,27 +588,11 @@ export const create = (value, store, context, errorHandler, isSvg) => {
   }
 
   if (typeof value === "object") {
-    if (value.type === "portal") {
-      return new PortalComponent(
-        value.type,
-        value.props,
-        value.children,
-        store,
-        context,
-        errorHandler,
-        isSvg
-      );
+    if (value.type === "Portal") {
+      return new PortalComponent(value, store, context, errorHandler, isSvg);
     }
 
-    return new PrimitiveComponent(
-      value.type,
-      value.props,
-      value.children,
-      store,
-      context,
-      errorHandler,
-      isSvg
-    );
+    return new PrimitiveComponent(value, store, context, errorHandler, isSvg);
   }
 
   return new Text(String(value));
