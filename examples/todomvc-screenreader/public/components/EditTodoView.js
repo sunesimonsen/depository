@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { todoById, updateTodo } from "@depository/todomvc-model";
-import { Link } from "@depository/nano-router-plugin";
+import { Link } from "@nano-router/depository-view";
 
 export class EditTodoView {
   constructor() {

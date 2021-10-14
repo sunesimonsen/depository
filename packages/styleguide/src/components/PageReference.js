@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { css, classes } from "stylewars";
-import { Link } from "@depository/nano-router-plugin";
+import { Link } from "@nano-router/depository-view";
 
 const styles = css`
   & {

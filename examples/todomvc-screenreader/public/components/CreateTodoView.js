@@ -1,6 +1,6 @@
 import { html } from "@depository/view";
 import { createTodo } from "@depository/todomvc-model";
-import { Link } from "@depository/nano-router-plugin";
+import { Link } from "@nano-router/depository-view";
 
 export class CreateTodoView {
   constructor() {

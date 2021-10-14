@@ -1,5 +1,5 @@
 import { html } from "@depository/view";
-import { Link } from "@depository/nano-router-plugin";
+import { Link } from "@nano-router/depository-view";
 import { todoById } from "@depository/todomvc-model";
 
 export class TodoItem {

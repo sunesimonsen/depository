@@ -13,13 +13,12 @@
   },
   "dependencies": {
     "@depository/function-middleware": "^0.54.0",
-    "@depository/nano-router-plugin": "^0.54.0",
     "@depository/store": "^0.54.0",
     "@depository/todomvc-api": "^0.54.0",
     "@depository/todomvc-model": "^0.54.0",
     "@depository/view": "^0.54.0",
+    "@nano-router/depository-view": "^2.7.0",
     "@nano-router/history": "^2.2.0",
-    "@nano-router/router": "^2.6.1",
     "@rollup/plugin-html": "^0.2.3",
     "htm": "^3.0.4",
     "preact": "^10.5.7"
