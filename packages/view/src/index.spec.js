@@ -1656,9 +1656,11 @@ describe("view", () => {
       const fallback = html`<div data-test-id="failed">Failed</div>`;
 
       render(
-        html`<${ErrorBoundary} fallback=${fallback}>
-          <${Welcome} name="Jane Doe" />
-        <//>`,
+        html`
+          <${ErrorBoundary} fallback=${fallback}>
+            <${Welcome} name="Jane Doe" />
+          <//>
+        `,
         store,
         container,
         { greeting: "Hi!, " }
@@ -1667,6 +1669,73 @@ describe("view", () => {
       await clock.runAllAsync();
 
       expect(container, "to contain test id", "failed");
+    });
+
+    it("allows updating the context in sub-trees", () => {
+      class Welcome {
+        render({ name }, { greeting }) {
+          return greeting + name;
+        }
+      }
+
+      render(
+        html`
+          <Context greeting="Hello!, ">
+            <Context greeting="Hi!, ">
+              <${Welcome} name="Jane Doe" />
+            </Context>
+          </Context>
+        `,
+        store,
+        container,
+        { greeting: "Yo!, " }
+      );
+
+      expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
+    });
+
+    it("updating the context doesn't trigger a re-render", async () => {
+      let renderedGreeting;
+
+      const store = new Store({
+        greeting: "Hi!, ",
+      });
+
+      class Container {
+        data() {
+          return { greeting: "greeting" };
+        }
+
+        render({ greeting, children }) {
+          renderedGreeting = greeting;
+          return html`<Context greeting=${greeting}>${children}</Context>`;
+        }
+      }
+
+      class Welcome {
+        render({ name }, { greeting }) {
+          return greeting + name;
+        }
+      }
+
+      render(
+        html`
+          <${Container}>
+            <${Welcome} name="Jane Doe" />
+          <//>
+        `,
+        store,
+        container
+      );
+
+      await store.dispatch({
+        payload: {
+          greeting: "Yo!, ",
+        },
+      });
+
+      expect(renderedGreeting, "to equal", "Yo!, ");
+      expect(container, "to satisfy", "<div>Hi!, Jane Doe</div>");
     });
   });
 });
