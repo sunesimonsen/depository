@@ -57,7 +57,7 @@ const headingStyles = css`
 export class Heading {
   constructor() {
     this.onClick = () => {
-      window.location.assign(`#${this.name}`);
+      window.location.hash = `#${this.name}`;
     };
   }
 

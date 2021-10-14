@@ -2,9 +2,8 @@ import { html, render } from "@depository/view";
 import { Store } from "@depository/store";
 import { functionMiddleware } from "@depository/function-middleware";
 import { statusMiddleware } from "@depository/status-middleware";
-import { nanoRouterPlugin } from "@depository/nano-router-plugin";
+import { Routing, Router, Routes, Route } from "@nano-router/depository-view";
 import { RootView } from "./components/RootView.js";
-import { Router, Routes, Route } from "@nano-router/router";
 import { createBrowserHistory } from "@nano-router/history";
 export { PageReference } from "./components/PageReference.js";
 export { Title, SubTitle, Line, Heading } from "./components/Page.js";
@@ -33,13 +32,12 @@ export const styleguide = ({ logo, title, navigation, pageMap, importmap }) => {
 
   const router = new Router({ routes, history });
 
-  store.use(nanoRouterPlugin(router));
   store.useMiddleware(functionMiddleware());
   store.useMiddleware(statusMiddleware());
 
   render(
     html`
-      <${RootView} />
+      <${Routing} router=${router}><${RootView} /><//>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
       <link
         rel="stylesheet"
@@ -48,10 +46,6 @@ export const styleguide = ({ logo, title, navigation, pageMap, importmap }) => {
     `,
     store,
     document.body,
-    {
-      router,
-      pageMap,
-      navigation,
-    }
+    { pageMap, navigation }
   );
 };
