@@ -35,7 +35,7 @@
     "mocha-dominate": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "serve": "^11.3.2",
+    "serve": "^12.0.1",
     "unexpected": "12.0.0",
     "unexpected-dom": "^4.18.0",
     "unexpected-reaction": "^3.0.0"
