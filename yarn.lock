@@ -5964,10 +5964,10 @@ magicpen-prism@^4.0.0:
   dependencies:
     prismjs "^1.21.0"
 
-magicpen@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/magicpen/-/magicpen-6.2.1.tgz#8ead56fc9550b93b5420342481d803eaecf52e36"
-  integrity sha512-JEkzC2hJmoCRTC8v1lgLIi75aF8pAz72kYZ9l/EorRnBXavPErnBywm/ec3xTDjCPBonsdhNZoRzj+TUfbCYJg==
+magicpen@^6.2.4:
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/magicpen/-/magicpen-6.2.4.tgz#9ee059a48c2ea1f4e224239710be573de9fb4d71"
+  integrity sha512-rT4JcgakSrmR9/qPY/EsDSvKH4+nQuFfSQ34Djnj0Zx9jJ+c3REOz+K3CITvRZcmAcCFM6jJO7wSiHlMEXYy3A==
   dependencies:
     ansi-styles "2.0.0"
     color-diff "0.1.7"
@@ -9575,17 +9575,17 @@ unexpected-snapshot@^1.0.2:
     memoizesync "^1.1.1"
     pretty-maybe "^1.0.0"
 
-unexpected@12.0.0, unexpected@^12.0.0:
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/unexpected/-/unexpected-12.0.0.tgz#23f328dfb6681ed7147bb85a9af7a4856f4b7a9d"
-  integrity sha512-fvfae3tGahPNRp3biVWDVGj/E3XHsD1uOr9/nf9cxV5zaaAtncRu2L2sVOeU2e3BJ7+kfVSyo/vakECBykPA6g==
+unexpected@12.0.3, unexpected@^12.0.0:
+  version "12.0.3"
+  resolved "https://registry.yarnpkg.com/unexpected/-/unexpected-12.0.3.tgz#8bee493314f3d5130c6967994e7a7cf1a1feaae9"
+  integrity sha512-Ty/tdwJSuVji71fM3sxxYSPvEOlYiljwvrTucaOLRw1L752JZXKsTP9bxVLCud793zrofonvl+X+mseRC8wtag==
   dependencies:
     array-changes "3.0.1"
     array-changes-async "3.0.1"
     detect-indent "3.0.1"
     diff "^5.0.0"
     greedy-interval-packer "1.2.0"
-    magicpen "^6.2.1"
+    magicpen "^6.2.4"
     ukkonen "^1.4.0"
     unexpected-bluebird "2.9.34-longstack2"
 
