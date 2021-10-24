@@ -1,4 +1,4 @@
-/* global hljs */
+/* global Prism */
 
 import { html } from "@depository/view";
 import { escapePath } from "@depository/path";
@@ -9,15 +9,9 @@ const statusBySrc = (src) => `statuses.code.${escapePath(src)}`;
 
 const preStyles = css`
   & {
-    padding: 0;
-    margin: 0;
-    background: #23241f;
-  }
-`;
-
-const codeStyles = css`
-  & {
-    padding: 16px !important;
+    background: #272822;
+    margin: 0 !important;
+    border-radius: 0 !important;
   }
 `;
 
@@ -32,12 +26,6 @@ const loadingStyles = css`
 `;
 
 export class SourceCode {
-  constructor() {
-    this._setCodeRef = (ref) => {
-      this._codeRef = ref;
-    };
-  }
-
   data({ src }) {
     return { status: statusBySrc(src) };
   }
@@ -60,7 +48,7 @@ export class SourceCode {
         });
 
         setTimeout(() => {
-          hljs.highlightElement(this._codeRef);
+          Prism.highlightAllUnder(this.preRef);
         }, 0);
       })
       .catch((e) => {
@@ -92,8 +80,10 @@ export class SourceCode {
     }
 
     return html`
-      <pre className=${preStyles}><code className=${codeStyles} ref=${this
-        ._setCodeRef}>${this._content}</code></pre>
+      <pre
+        className=${preStyles}
+        ref=${this.createRef("preRef")}
+      ><code className="language-js">${this._content}</code></pre>
     `;
   }
 }
