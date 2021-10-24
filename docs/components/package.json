@@ -1,7 +1,7 @@
 {
   "name": "component-docs",
   "description": "Document for @depository/components",
-  "version": "0.55.0",
+  "version": "0.56.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -18,18 +18,18 @@
     "url": "https://github.com/sunesimonsen/depository"
   },
   "dependencies": {
-    "@depository/components": "^0.55.0",
-    "@depository/function-middleware": "^0.55.0",
-    "@depository/status-middleware": "^0.55.0",
-    "@depository/store": "^0.55.0",
-    "@depository/styleguide": "^0.55.0",
-    "@depository/view": "^0.55.0",
+    "@depository/components": "^0.56.0",
+    "@depository/function-middleware": "^0.56.0",
+    "@depository/status-middleware": "^0.56.0",
+    "@depository/store": "^0.56.0",
+    "@depository/styleguide": "^0.56.0",
+    "@depository/view": "^0.56.0",
     "@zendeskgarden/svg-icons": "^6.29.0",
     "htm": "^3.0.4",
     "stylewars": "^1.9.0"
   },
   "devDependencies": {
-    "@depository/rollup-config": "^0.55.0",
+    "@depository/rollup-config": "^0.56.0",
     "mocha": "^8.2.1",
     "relivestyle": "^1.0.0-6",
     "rollup": "^2.35.1",
