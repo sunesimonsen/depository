@@ -5,6 +5,7 @@ import { statusMiddleware } from "@depository/status-middleware";
 import { Routing, Router, Routes, Route } from "@nano-router/depository-view";
 import { RootView } from "./components/RootView.js";
 import { createBrowserHistory } from "@nano-router/history";
+import { ScriptLoader } from "./components/ScriptLoader.js";
 export { PageReference } from "./components/PageReference.js";
 export { Title, SubTitle, Line, Heading } from "./components/Page.js";
 export { Example } from "./components/Example.js";
@@ -38,10 +39,15 @@ export const styleguide = ({ logo, title, navigation, pageMap, importmap }) => {
   render(
     html`
       <${Routing} router=${router}><${RootView} /><//>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+      <${ScriptLoader}
+        sources=${[
+          "https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.js",
+          "https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-js-templates.js",
+        ]}
+      />
       <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/monokai-sublime.min.css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css"
       />
     `,
     store,
