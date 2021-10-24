@@ -46,7 +46,7 @@ class IconButtonPage {
         <code>aria-pressed=true</code> is specified to indicate that the button
         is pressed.
       </p>
-      <${Example} src=${new URL("./PressedButton.js", import.meta.url)}>
+      <${Example} src=${new URL("./PressedIconButton.js", import.meta.url)}>
         <${PressedIconButton} />
       <//>
     `;
