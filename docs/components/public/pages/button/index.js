@@ -12,6 +12,7 @@ import MediaButton from "./MediaButton.js";
 import LoadingButton from "./LoadingButton.js";
 import StretchedButton from "./StretchedButton.js";
 import DisabledButton from "./DisabledButton.js";
+import PressedButton from "./PressedButton.js";
 
 class ButtonPage {
   render() {
@@ -62,6 +63,14 @@ class ButtonPage {
       </p>
       <${Example} src=${new URL("./DisabledButton.js", import.meta.url)}>
         <${DisabledButton} />
+      <//>
+      <${Heading} level="3">Pressed<//>
+      <p>
+        A button can be used as a toggle if <code>aria-pressed=true</code> is
+        specified to indicate that the button is pressed.
+      </p>
+      <${Example} src=${new URL("./PressedButton.js", import.meta.url)}>
+        <${PressedButton} />
       <//>
     `;
   }
