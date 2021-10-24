@@ -29,6 +29,7 @@ const styles = css`
     color: rgb(20, 74, 117);
   }
 
+  &[aria-pressed="true"],
   &:active {
     border-color: rgb(15, 53, 84);
     background-color: rgba(31, 115, 183, 0.2);
@@ -53,11 +54,10 @@ const styles = css`
 `;
 
 const basicStyles = css`
-  & {
-    border-color: transparent;
-  }
-
-  &:hover {
+  &,
+  &[aria-pressed="true"],
+  &:hover,
+  &:active {
     border-color: transparent;
   }
 `;
@@ -73,6 +73,7 @@ const primaryStyles = css`
     background-color: rgb(20, 74, 117);
   }
 
+  &[aria-pressed="true"],
   &:active {
     color: white;
     background-color: rgb(15, 53, 84);

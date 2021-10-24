@@ -9,6 +9,7 @@ import {
 import DefaultIconButton from "./DefaultIconButton.js";
 import IconButtonTypes from "./IconButtonTypes.js";
 import IconButtonShapes from "./IconButtonShapes.js";
+import PressedIconButton from "./PressedIconButton.js";
 
 class IconButtonPage {
   render() {
@@ -38,6 +39,15 @@ class IconButtonPage {
       <p>Icon buttons are squares by default, but they can be circular too.</p>
       <${Example} src=${new URL("./IconButtonShapes.js", import.meta.url)}>
         <${IconButtonShapes} />
+      <//>
+      <${Heading} level="3">Pressed<//>
+      <p>
+        An icon button can be used as a toggle if
+        <code>aria-pressed=true</code> is specified to indicate that the button
+        is pressed.
+      </p>
+      <${Example} src=${new URL("./PressedButton.js", import.meta.url)}>
+        <${PressedIconButton} />
       <//>
     `;
   }
