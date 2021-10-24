@@ -958,7 +958,7 @@ class IconCopyButton {
   constructor() {
     this.onClick = () => {
       const name = this.props.children;
-      copy(`import ${name} from "@depository/components/icons/${name}.js";`);
+      copy(`import ${name} from "@depository/components/icons/${name}";`);
     };
   }
 
