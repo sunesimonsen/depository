@@ -63,7 +63,11 @@ export class Example {
         <${ExamplePreview}>${children}<//>
         <div className=${buttonsStyles}>
           <${JSFiddleButton} src=${src} />
-          <${IconButton} basic onClick=${this.onToggleSource}>
+          <${IconButton}
+            basic
+            aria-pressed=${String(sourceVisible)}
+            onClick=${this.onToggleSource}
+          >
             <${MarkupStroke16Icon} />
           <//>
         </div>
