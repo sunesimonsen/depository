@@ -26,10 +26,7 @@ export const styleguide = ({ logo, title, navigation, pageMap, importmap }) => {
 
   const history = createBrowserHistory();
 
-  const routes = new Routes(
-    new Route("index", "/"),
-    new Route("page", "/page/:id")
-  );
+  const routes = new Routes(new Route("index", "/"), new Route("page", "/:id"));
 
   const router = new Router({ routes, history });
 
