@@ -23,7 +23,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/components.esm.js",
+      file: "dist/styleguide.esm.js",
       format: "esm",
     },
     external: ["@depository/view", "stylewars"],
@@ -32,7 +32,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/components.esm.min.js",
+      file: "dist/styleguide.esm.min.js",
       format: "esm",
     },
     external: ["stylewars"],
