@@ -1493,21 +1493,21 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@transformation/core@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@transformation/core/-/core-4.0.0.tgz#b1d97e0eb0d2d24fe604b9ccb043559be60d9166"
-  integrity sha512-IX+r3m7/WJaBZoqgpXhjQ3icTbD6/2DkKoCke8G6sqYSlhBb09Rl8Yd9tJ5o2CrKqf8WhFyN7rlITzraQpIN+w==
+"@transformation/core@^4.0.0", "@transformation/core@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@transformation/core/-/core-4.1.2.tgz#e4e29bf43e9db8b518b800ec74d5fd996a3f3e21"
+  integrity sha512-X5OahJj8ro/bHGb4knv+aMDaIScTt8G6Fd9rRFXwKNvZVJGQ7nG2PwYnN3zTpg0bOsBRHkSUk0Wi057ZQlrR5w==
   dependencies:
-    medium "1.0.2"
-    quick-lru "^5.1.0"
+    lru "^3.1.0"
+    medium "1.1.1"
 
 "@transformation/ejs@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@transformation/ejs/-/ejs-4.0.0.tgz#8c5c88e53161a58727d7041c6d16a237f0fa59ee"
-  integrity sha512-eOXHDnTEOT/PyA62eVgQYgZ+3QsorQYAKBhvoKFKXYFfg2YhW40/ya+EmtWbrTQphu5LfRw9Od2fsVvPkYLpMg==
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@transformation/ejs/-/ejs-4.1.2.tgz#718c1a829aaaa217f1bd8085cacd7d496938c78b"
+  integrity sha512-lThkz4QEsqMHey68Fa+gtVwh28fBeQvnDNiFdl5530aITaQGYVAaTXTFC0bNILB6eTms0ctjVo84Zvzdta3FzQ==
   dependencies:
-    "@transformation/core" "^4.0.0"
-    ejs "3.1.5"
+    "@transformation/core" "^4.1.2"
+    ejs "3.1.6"
 
 "@transformation/file@^4.0.0":
   version "4.0.0"
@@ -3424,10 +3424,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-ejs@3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.5.tgz#aed723844dc20acb4b170cd9ab1017e476a0d93b"
-  integrity sha512-dldq3ZfFtgVTJMLjOe+/3sROTzALlL9E34V4/sDtUd/KlBSS0s6U1/+WPE1B4sj9CXHJpL1M6rhNJnc9Wbal9w==
+ejs@3.1.6:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.6.tgz#5bfd0a0689743bb5268b3550cceeebbc1702822a"
+  integrity sha512-9lt9Zse4hPucPkoP7FHDF0LQAlGyF9JVpnClFLFH3aSSbxmyoqINRpp/9wePWJTUl4KOQwRL72Iw3InHPDkoGw==
   dependencies:
     jake "^10.6.1"
 
@@ -4858,7 +4858,7 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.3:
+inherits@2, inherits@2.0.4, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.3:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
@@ -5811,6 +5811,13 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lru@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/lru/-/lru-3.1.0.tgz#ea7fb8546d83733396a13091d76cfeb4c06837d5"
+  integrity sha1-6n+4VG2DczOWoTCR12z+tMBoN9U=
+  dependencies:
+    inherits "^2.0.1"
+
 magic-string@^0.25.7:
   version "0.25.7"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
@@ -5921,6 +5928,11 @@ medium@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/medium/-/medium-1.0.2.tgz#47bff95ef17913cc0e4a434862171944bbf46818"
   integrity sha512-QgPG/wAKErFC19cAlQPE72xyJ+nFGbmBabubWCUbf9UXRF8MPVJO9BLU8x0rR+YTsxspSsnOY6lMvYyHd7f7XQ==
+
+medium@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/medium/-/medium-1.1.1.tgz#4b857993c824d99ec6988337885d100026bb1d66"
+  integrity sha512-rLvGWrum5CL41HDK90Vuv6NrbvZ81JS744JbY0LVYRVD19F5kEvFxGceVYi7J8vP7+RyxB1K+FYDrWzkLVQDNw==
 
 memoizesync@1.1.1, memoizesync@^1.1.1:
   version "1.1.1"
@@ -7572,11 +7584,6 @@ quick-lru@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
-
-quick-lru@^5.1.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
-  integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
 ramda@^0.27.1:
   version "0.27.1"
