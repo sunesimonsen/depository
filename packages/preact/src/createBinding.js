@@ -1,18 +1,19 @@
 export const createBinding = ({ h, Component, StoreContext }) => {
-  const connect = (functionbindings, ChildComponent) => {
+  const connect = (bindingOrFunction, ChildComponent) => {
     if (!ChildComponent) {
-      ChildComponent = functionbindings;
-      functionbindings = null;
+      ChildComponent = bindingOrFunction;
+      bindingOrFunction = null;
     }
+
+    const isFunctionBindings = typeof bindingOrFunction === "function";
 
     class Connected extends Component {
       constructor(props) {
         super(props);
 
-        const bindings =
-          typeof functionbindings === "function"
-            ? functionbindings(props)
-            : functionbindings;
+        const bindings = isFunctionBindings
+          ? bindingOrFunction(props)
+          : bindingOrFunction;
 
         const store = props.store;
 
@@ -20,21 +21,38 @@ export const createBinding = ({ h, Component, StoreContext }) => {
           return store.dispatch(action);
         };
 
-        this.observer = bindings && store.observe(bindings);
+        this._observable = bindings && store.observe(bindings);
 
-        this.state = this.observer ? this.observer.value : {};
+        this.state = this._observable ? this._observable.value : {};
+      }
+
+      _subscribe() {
+        this._subscription =
+          this._observable &&
+          this._observable.subscribe((data) => {
+            this.setState(data);
+          });
       }
 
       componentDidMount() {
-        if (this.observer) {
-          this.subscription = this.observer.subscribe((value) => {
-            this.setState(value);
-          });
-        }
+        this._subscribe();
       }
 
       componentWillUnmount() {
-        this.subscription && this.subscription.unsubscribe();
+        this._subscription && this._subscription.unsubscribe();
+      }
+
+      componentDidUpdate() {
+        if (this._observable && isFunctionBindings) {
+          const bindings = bindingOrFunction(this.props);
+          const _observable = this.props.store.observe(bindings);
+          if (this._observable !== _observable) {
+            this._subscription.unsubscribe();
+            this._observable = _observable;
+            this._subscribe();
+            this.setState(this._observable.value);
+          }
+        }
       }
 
       render({ children, store, ...other }, state) {

@@ -2,7 +2,6 @@ import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import unexpectedReaction from "unexpected-reaction";
 import { Store } from "@depository/store";
-import { functionMiddleware } from "@depository/function-middleware";
 import { StoreProvider, useData, useDispatch } from "./index.js";
 import { html } from "./html.js";
 
@@ -55,8 +54,6 @@ describe("useData", () => {
       a: 10,
       b: 10,
     });
-
-    store.useMiddleware(functionMiddleware());
 
     component = mount(
       html`<${StoreProvider} value=${store}><${Calculator} /><//>`
