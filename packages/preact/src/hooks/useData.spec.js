@@ -1,7 +1,6 @@
 import unexpected from "unexpected";
 import unexpectedDom from "unexpected-dom";
 import { Store } from "@depository/store";
-import { functionMiddleware } from "@depository/function-middleware";
 import { StoreProvider, useData, useDispatch } from "./index.js";
 import { h, render } from "preact";
 import htm from "htm";
@@ -56,8 +55,6 @@ describe("useData", () => {
       a: 10,
       b: 10,
     });
-
-    store.useMiddleware(functionMiddleware());
 
     render(
       html`<${StoreProvider} value=${store}><${Calculator} /><//>`,
