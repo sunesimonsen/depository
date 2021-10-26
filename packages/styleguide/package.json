@@ -1,6 +1,6 @@
 {
   "name": "@depository/styleguide",
-  "version": "0.58.0",
+  "version": "0.59.0",
   "description": "Styleguide for @depository/view",
   "keywords": [
     "styleguide",
@@ -32,21 +32,21 @@
     "create-styleguide-importmap": "./scripts/create-importmap.cjs"
   },
   "dependencies": {
-    "@depository/components": "^0.58.0",
-    "@depository/function-middleware": "^0.58.0",
-    "@depository/status-middleware": "^0.58.0",
-    "@depository/store": "^0.58.0",
-    "@depository/view": "^0.58.0",
+    "@depository/components": "^0.59.0",
+    "@depository/function-middleware": "^0.59.0",
+    "@depository/status-middleware": "^0.59.0",
+    "@depository/store": "^0.59.0",
+    "@depository/view": "^0.59.0",
     "@nano-router/depository-view": "^2.9.0",
     "@nano-router/history": "^2.2.0",
     "stylewars": "^1.9.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^11.0.0",
-    "rollup": "^2.27.1",
-    "rollup-plugin-terser": "^7.0.2",
     "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
     "babel-plugin-htm": "^3.0.0",
-    "babel-plugin-stylewars": "^0.1.0"
+    "babel-plugin-stylewars": "^0.1.0",
+    "rollup": "^2.27.1",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }
