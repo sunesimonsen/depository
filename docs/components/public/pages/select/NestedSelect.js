@@ -12,7 +12,7 @@ import {
   NestedSelect,
 } from "@depository/components";
 
-const id = "examples.NestedSelect";
+const id = "NestedSelect";
 const selectMenuPath = `${id}.menu`;
 const selectedFruitPath = `${id}.selectedFruit`;
 

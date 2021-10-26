@@ -9,7 +9,7 @@ import {
   SelectPopup,
 } from "@depository/components";
 
-const id = "examples.DisabledSelect";
+const id = "DisabledSelect";
 const seletedPath = `${id}.selected`;
 
 const labels = {

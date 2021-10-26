@@ -15,7 +15,7 @@ const containerStyles = css`
   }
 `;
 
-const id = "examples.DefaultSelect";
+const id = "DefaultSelect";
 const seletedPath = `${id}.selected`;
 
 const labels = {
