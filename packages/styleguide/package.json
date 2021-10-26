@@ -1,6 +1,6 @@
 {
   "name": "@depository/styleguide",
-  "version": "0.57.0",
+  "version": "0.58.0",
   "description": "Styleguide for @depository/view",
   "keywords": [
     "styleguide",
@@ -27,11 +27,11 @@
     "create-styleguide-importmap": "./scripts/create-importmap.cjs"
   },
   "dependencies": {
-    "@depository/components": "^0.57.0",
-    "@depository/function-middleware": "^0.57.0",
-    "@depository/status-middleware": "^0.57.0",
-    "@depository/store": "^0.57.0",
-    "@depository/view": "^0.57.0",
+    "@depository/components": "^0.58.0",
+    "@depository/function-middleware": "^0.58.0",
+    "@depository/status-middleware": "^0.58.0",
+    "@depository/store": "^0.58.0",
+    "@depository/view": "^0.58.0",
     "@nano-router/depository-view": "^2.7.0",
     "@nano-router/history": "^2.2.0",
     "stylewars": "^1.9.0"

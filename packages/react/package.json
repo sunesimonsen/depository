@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@depository/react",
-  "version": "0.57.0",
+  "version": "0.58.0",
   "description": "React bindings for depository",
   "module": "./src/index.js",
   "exports": {
@@ -27,7 +27,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@depository/store": "^0.57.0",
+    "@depository/store": "^0.58.0",
     "htm": "^3.0.4",
     "jsdom": "^16.4.0",
     "mocha": "8.3.2",

@@ -1,7 +1,7 @@
 {
   "name": "hackernews",
   "description": "Hackernews build with @depository",
-  "version": "0.57.0",
+  "version": "0.58.0",
   "author": "Sune Simonsen",
   "license": "MIT",
   "private": true,
@@ -11,17 +11,17 @@
     "deploy": "npm run build && surge dist depository-hackernews.surge.sh"
   },
   "dependencies": {
-    "@depository/function-middleware": "^0.57.0",
-    "@depository/status-middleware": "^0.57.0",
-    "@depository/store": "^0.57.0",
-    "@depository/view": "^0.57.0",
+    "@depository/function-middleware": "^0.58.0",
+    "@depository/status-middleware": "^0.58.0",
+    "@depository/store": "^0.58.0",
+    "@depository/view": "^0.58.0",
     "@nano-router/depository-view": "^2.7.0",
     "@nano-router/history": "^2.2.0",
     "htm": "^3.0.4",
     "stylewars": "^1.9.0"
   },
   "devDependencies": {
-    "@depository/rollup-config": "^0.57.0",
+    "@depository/rollup-config": "^0.58.0",
     "mocha": "^8.2.1",
     "relivestyle": "^1.0.0-6",
     "rollup": "^2.35.1",
