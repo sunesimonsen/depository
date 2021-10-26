@@ -31,7 +31,10 @@ export default [
       importMetaAssets(),
       nodeResolve(),
       commonjs(),
-      babel({ babelHelpers: "bundled" }),
+      babel({
+        rootMode: "upward",
+        babelHelpers: "bundled",
+      }),
       terser({
         compress: false,
         mangle: {
