@@ -1471,12 +1471,12 @@
     ejs "3.1.6"
 
 "@transformation/file@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@transformation/file/-/file-4.0.0.tgz#8a5fe0a6f2ae3b02ae28d686e654db0f4c0363d1"
-  integrity sha512-gT0Ya2fyoZipzB6JobgVyS0YE0DDNU+JXVvz2rDwBZRFFNTd4aGjnjAjJ+JIIPFpbxAUz/L+FzFCm9o2Ftxthw==
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@transformation/file/-/file-4.1.2.tgz#0ea489275de35f6271009120d25352c55f6522ab"
+  integrity sha512-8Gll5zRjoxxhHdo1Sx/3uY1BcP7ERcSeSh3mkm9rjT1edZUUh7jeQY67lBQYrIlWcibWemwDtEgupByXiLU42A==
   dependencies:
-    "@transformation/core" "^4.0.0"
-    medium "1.0.2"
+    "@transformation/core" "^4.1.2"
+    medium "1.1.1"
 
 "@transformation/glob@^4.0.0":
   version "4.0.0"
@@ -6086,11 +6086,6 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
-
-medium@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/medium/-/medium-1.0.2.tgz#47bff95ef17913cc0e4a434862171944bbf46818"
-  integrity sha512-QgPG/wAKErFC19cAlQPE72xyJ+nFGbmBabubWCUbf9UXRF8MPVJO9BLU8x0rR+YTsxspSsnOY6lMvYyHd7f7XQ==
 
 medium@1.1.1:
   version "1.1.1"
