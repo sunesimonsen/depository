@@ -805,5 +805,7 @@ export const h = (type, props, ...children) => {
   };
 };
 
-export const combineRefs = (...refs) => (node) =>
-  refs.forEach((ref) => ref && ref(node));
+export const combineRefs =
+  (...refs) =>
+  (node) =>
+    refs.forEach((ref) => ref && ref(node));

@@ -6,17 +6,8 @@ import unexpectedCheck from "unexpected-check";
 import generators from "chance-generators";
 import { Store } from "@depository/store";
 
-const {
-  natural,
-  word,
-  bool,
-  array,
-  shape,
-  tree,
-  pickone,
-  pickset,
-  weighted,
-} = generators;
+const { natural, word, bool, array, shape, tree, pickone, pickset, weighted } =
+  generators;
 
 const renderIntoContainer = (vdom) => {
   const dom = mount(vdom);

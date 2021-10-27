@@ -3,10 +3,10 @@ import { useStore } from "./useStore.js";
 
 export const useData = (pathOrComputed) => {
   const store = useStore();
-  const observable = useMemo(() => store.observe(pathOrComputed), [
-    store,
-    pathOrComputed,
-  ]);
+  const observable = useMemo(
+    () => store.observe(pathOrComputed),
+    [store, pathOrComputed]
+  );
   const [value, setValue] = useState(observable.value);
 
   useLayoutEffect(() => {
