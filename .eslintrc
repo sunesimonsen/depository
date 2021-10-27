@@ -27,7 +27,7 @@
           "**/*.config.js",
           "scripts/*",
         ],
-        "optionalDependencies": false,
+        "optionalDependencies": true,
         "peerDependencies": true
       }
     ],
