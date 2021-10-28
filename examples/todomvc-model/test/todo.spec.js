@@ -1,6 +1,10 @@
-import expect from "unexpected";
+import unexpected from "unexpected";
+import unexpectedSinon from "unexpected-sinon";
 import { functionMiddleware } from "@depository/function-middleware";
 import { Store } from "@depository/store";
+import sinon from "sinon";
+
+const expect = unexpected.clone().use(unexpectedSinon);
 
 import {
   INITIAL_STATE,
@@ -407,27 +411,70 @@ describe("toggleAllTodos", () => {
 });
 
 describe("loadTodos", () => {
-  it("reads the todos from the api into the store", async () => {
-    const store = new Store(INITIAL_STATE);
-    store.useMiddleware(functionMiddleware(new FakeApi()));
+  let store;
 
-    await store.dispatch(loadTodos());
+  describe("when the todos hasn't been loaded", () => {
+    beforeEach(async () => {
+      store = new Store(INITIAL_STATE);
+      store.useMiddleware(functionMiddleware(new FakeApi()));
 
-    expect(store.get("entities.todo"), "to equal", {
-      0: {
-        id: "0",
-        text: "foo",
-        editing: false,
-        completed: false,
-        createdAt: 0,
-      },
-      1: {
-        id: "1",
-        text: "bar",
-        editing: false,
-        completed: false,
-        createdAt: 1,
-      },
+      await store.dispatch(loadTodos());
+    });
+
+    it("reads the todos from the api into the store", () => {
+      expect(store.get("entities.todo"), "to equal", {
+        0: {
+          id: "0",
+          text: "foo",
+          editing: false,
+          completed: false,
+          createdAt: 0,
+        },
+        1: {
+          id: "1",
+          text: "bar",
+          editing: false,
+          completed: false,
+          createdAt: 1,
+        },
+      });
+    });
+
+    it("sets initialized to true", () => {
+      expect(store.get("global.initialized"), "to be true");
+    });
+  });
+
+  describe("when the store is already initialized", () => {
+    let api;
+
+    beforeEach(async () => {
+      api = {
+        loadTodos: sinon.spy(),
+      };
+
+      store = new Store({
+        global: { initialized: true },
+        entities: {
+          todo: {
+            0: {
+              id: "0",
+              text: "foo",
+              editing: false,
+              completed: false,
+              createdAt: 0,
+            },
+          },
+        },
+      });
+
+      store.useMiddleware(functionMiddleware(api));
+
+      await store.dispatch(loadTodos());
+    });
+
+    it("doesn't call the API", () => {
+      expect(api.loadTodos, "was not called");
     });
   });
 });

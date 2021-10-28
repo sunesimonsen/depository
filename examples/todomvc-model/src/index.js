@@ -59,11 +59,11 @@ export const activeTodoCount = {
   compute: ({ completed }) => completed.filter((c) => !c).length,
 };
 
-const initialized = "global.initialized";
+const initializedPath = "global.initialized";
 
 export const loadTodos = () => ({
   name: "loadTodos",
-  inputs: { initialized },
+  inputs: { initialized: initializedPath },
   payload: async ({ initialized }, api) => {
     if (initialized) return null;
 
@@ -76,7 +76,7 @@ export const loadTodos = () => ({
     }
 
     return {
-      [initialized]: true,
+      [initializedPath]: true,
       "entities.todo": todosById,
     };
   },
