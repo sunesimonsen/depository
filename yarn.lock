@@ -1496,9 +1496,9 @@
   integrity sha512-uUrgZ8AxS+Lio0fZKAipJjAh415JyrOZowliZAzmnJSsf7piVL5w+G0+gFJ0KSu3QRhvui/7zuvpLz03YjXAhg==
 
 "@zendeskgarden/svg-icons@^6.29.0":
-  version "6.29.0"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/svg-icons/-/svg-icons-6.29.0.tgz#c605859f526fde1cde0bca5f8c4d10b74dc9cd96"
-  integrity sha512-P3IneEei9c5F5ygQzRY1eLkvhuqOkM32GKaL33vu3rRRKmEDw5vhcLZlhRrxAqcr9tMgt900eFswf7pubRi5OQ==
+  version "6.30.2"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/svg-icons/-/svg-icons-6.30.2.tgz#4426d76068c6fd8262cfbd0baf721431fff00df4"
+  integrity sha512-Sw0FkrYce8AkROM6gb3oDUDh2CjCA3Fj1/K9GUDEenNDv+w1h6CfSanrbFkTRz2uSHg7CIAgbl/LY873fz8mAg==
 
 JSONStream@^1.0.4:
   version "1.3.5"
