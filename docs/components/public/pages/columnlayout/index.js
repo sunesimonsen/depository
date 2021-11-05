@@ -70,7 +70,7 @@ class ColumnLayoutPage {
       <//>
       <${Heading} level="3">Justify items<//>
       <p>
-        Similarly you can control
+        You can control
         <code className="inline">justify-items</code> using the
         <code className="inline">justifyItems</code> property. The default value
         is <code className="inline">center</code>.

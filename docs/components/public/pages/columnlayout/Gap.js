@@ -5,7 +5,7 @@ export default class Example {
   render() {
     return html`
       <${Center}>
-        <${ColumnLayout} gap="2em" columns="2">
+        <${ColumnLayout} gap="1em 2em" columns="2">
           <${Button}>Button<//>
           <${Button}>Button<//>
           <${Button}>Button<//>
