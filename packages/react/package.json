@@ -29,7 +29,7 @@
   "devDependencies": {
     "@depository/store": "^0.60.0",
     "htm": "^3.0.4",
-    "jsdom": "^16.4.0",
+    "jsdom": "^18.1.0",
     "mocha": "8.3.2",
     "mocha-dominate": "^2.0.0",
     "react": "^17.0.2",
