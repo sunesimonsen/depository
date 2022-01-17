@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@depository/rollup-config": "^0.60.0",
-    "mocha": "^8.2.1",
+    "mocha": "^9.1.4",
     "relivestyle": "1.0.0-11",
     "rollup": "^2.35.1",
     "surge": "^0.23.0",
